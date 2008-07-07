@@ -1,12 +1,14 @@
 # NOTE: NOT a Fedora package.  This contains binaries which are needed
 # just to bootstrap the whole system if you build everything from scratch.
 
+%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+
 %define runtime_version 3.14
 %define w32api_version 3.11
 
 Name:           mingw-bootstrap
 Version:        1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows bootstrap (binary package)
 
 Group:          Development/Libraries
@@ -57,5 +59,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 1-1
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 1-3
 - Initial RPM release.
