@@ -10,4 +10,21 @@ Other useful information:
 
 Build order & package notes:
 
- * mingw-binutils
+ (1) mingw-bootstrap
+
+     This is not a real Fedora package.  Instead it is a binary
+     package which is just needed first time if you are building
+     from scratch.  It contains some Windows binaries and header
+     files which are needed to bootstrap everything, and which
+     would normally be built by the packages below (specifically
+     by mingw-runtime and mingw-w32api).
+
+ (2) mingw-binutils
+
+ (3) mingw-gcc
+
+ (4) mingw-runtime
+ (5) mingw-w32api
+
+     Note that once built and installed, these last two replace the
+     files built from binaries in mingw-bootstrap.
