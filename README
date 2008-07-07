@@ -8,4 +8,6 @@ Other useful information:
 
  * https://fedoraproject.org/wiki/SIGs/MinGW
 
-- RWMJ 2008-07-07
+Build order & package notes:
+
+ * mingw-binutils
