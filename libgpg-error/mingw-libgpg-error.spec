@@ -54,5 +54,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-5
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6-1
 - Initial RPM release, largely based on earlier work from several sources.
