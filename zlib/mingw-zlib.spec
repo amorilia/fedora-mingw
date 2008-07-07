@@ -36,10 +36,6 @@ rm -rf $RPM_BUILD_ROOT
 
 make prefix=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw install
 
-# These files conflict with ordinary binutils.
-rm -rf $RPM_BUILD_ROOT%{_infodir}
-rm -f ${RPM_BUILD_ROOT}%{_libdir}/libiberty*
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
