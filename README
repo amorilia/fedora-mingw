@@ -1,0 +1,11 @@
+This repository contains:
+
+ * MinGW SIG packages _before_ they are accepted into Fedora CVS.
+
+ * Any other tools / scripts we need.
+
+Other useful information:
+
+ * https://fedoraproject.org/wiki/SIGs/MinGW
+
+- RWMJ 2008-07-07
