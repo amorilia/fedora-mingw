@@ -1,6 +1,8 @@
+%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+
 Name:           mingw-runtime
 Version:	3.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -30,6 +32,7 @@ MinGW Windows cross-compiler runtime, base libraries and root filesystem.
 %setup -q
 
 %build
+CFLAGS="-I%{_prefix}/i686-pc-mingw32/sys-root/mingw/include" \
 ./configure \
   --build=%_build \
   --host=i686-pc-mingw32
@@ -40,7 +43,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make DESTDIR=$RPM_BUILD_ROOT install
+make prefix=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw install
 
 
 %clean
@@ -49,13 +52,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/lib/libiberty.a
-%{_libdir}/gcc/i686-pc-mingw32
-%{_libexecdir}/gcc/i686-pc-mingw32
-%{_bindir}/i686-pc-mingw32-*
-%{_mandir}/man1/i686-pc-mingw32-*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/doc/mingw-runtime/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/man/man3/*
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-1
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-2
 - Initial RPM release, largely based on earlier work from several sources.
