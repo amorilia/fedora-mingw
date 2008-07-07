@@ -10,24 +10,32 @@ Other useful information:
 
 Build order & package notes:
 
- (1) mingw-binutils
+ ( 1) mingw-binutils
 
-     This is just a straight cross-compile of binutils.  It has
-     no BuildRequires beyond what is in basic Fedora already.
+      This is just a straight cross-compile of binutils.  It has
+      no BuildRequires beyond what is in basic Fedora already.
 
- (2) mingw-bootstrap
+ ( 2) mingw-bootstrap
 
-     This is NOT a real Fedora package.  Instead it is a BINARY
-     package which is just needed first time if you are building
-     from scratch.  It contains some Windows binaries and header
-     files which are needed to bootstrap everything, and which
-     would normally be built by the packages below (specifically
-     by mingw-runtime and mingw-w32api).
+      This is NOT a real Fedora package.  Instead it is a BINARY
+      package which is just needed first time if you are building
+      from scratch.  It contains some Windows binaries and header
+      files which are needed to bootstrap everything, and which
+      would normally be built by the packages below (specifically
+      by mingw-runtime and mingw-w32api).
 
- (3) mingw-gcc
+ ( 3) mingw-gcc
 
- (4) mingw-runtime
- (5) mingw-w32api
+ ( 4) mingw-runtime
+ ( 5) mingw-w32api
 
-     Note that once built and installed, these last two replace the
-     files built from binaries in mingw-bootstrap.
+      Note that once built and installed, these last two replace the
+      files built from binaries in mingw-bootstrap.
+
+ ( 6) mingw-zlib
+
+ ( 7) mingw-libgpg-error
+
+ ( 8) mingw-libgcrypt
+
+ ( 9) mingw-gnutls
