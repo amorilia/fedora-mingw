@@ -4,7 +4,7 @@
 
 Name:           mingw-binutils
 Version:        %{binutils_version}_%{mingw_binutils_rpmvers}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows binutils
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
@@ -70,5 +70,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-3
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-5
 - Initial RPM release, largely based on earlier work from several sources.
