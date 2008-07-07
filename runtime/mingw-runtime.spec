@@ -16,6 +16,9 @@ BuildArch:	noarch
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-gcc
 
+Requires:       mingw-binutils
+Requires:       mingw-gcc
+
 # Once this is installed, mingw-bootstrap (binary bootstrapper) is no
 # longer needed.
 Obsoletes:      mingw-bootstrap
