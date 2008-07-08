@@ -1,0 +1,9 @@
+The ../gnutls directory contains a full spec file for a separate
+mingw-gnutls package.
+
+In this directory is the original gnutls spec file from Fedora, and
+modified with an extra subpackage for mingw, so you can diff the two
+to find the 'mingw fragment' that the gnutls maintainer would need to
+add.
+
+- RWMJ 2008-07-08
