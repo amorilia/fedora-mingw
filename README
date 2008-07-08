@@ -39,3 +39,9 @@ Build order & package notes:
  ( 8) mingw-libgcrypt
 
  ( 9) mingw-gnutls
+
+ (10) mingw-libxml2
+
+ (11) mingw-portablexdr
+
+ (12) mingw-libvirt
