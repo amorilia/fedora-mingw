@@ -9,6 +9,7 @@ License:        zlib
 Group:          Development/Libraries
 URL:            http://www.zlib.net/
 Source0:        http://www.zlib.net/zlib-%{version}.tar.gz
+Patch1:         zlib-win32.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  mingw-gcc
@@ -22,19 +23,30 @@ MinGW Windows zlib compression library.
 
 %prep
 %setup -q -n zlib-1.2.3
-
+%patch1 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" \
+CFLAGS="-O2 -g -pipe -Wall" \
 CC=i686-pc-mingw32-gcc RANLIB=i686-pc-mingw32-ranlib ./configure
 
-make all
-
+make -f win32/Makefile.gcc \
+  CC=i686-pc-mingw32-gcc \
+  AR=i686-pc-mingw32-ar \
+  RC=i686-pc-mingw32-windres \
+  DLLWRAP=i686-pc-mingw32-dllwrap \
+  STRIP=i686-pc-mingw32-strip \
+  all
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw install
+make -f win32/Makefile.gcc \
+     INCLUDE_PATH=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/include \
+     LIBRARY_PATH=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib \
+     install
+
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3
+%__install zlib.3  $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3
 
 
 %clean
@@ -43,9 +55,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/zconf.h
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/zlib.h
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libz.a
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libzdll.a
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libz.dll
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/zlib.3
 
 
 %changelog

@@ -13,6 +13,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
+BuildRequires:  mingw-zlib
 
 Requires:       mingw-runtime
 
@@ -25,7 +26,7 @@ MinGW Windows libxml2 XML processing library.
 
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -fno-stack-protector" \
+CFLAGS="-O2 -g -Wall -pipe" LDFLAGS="-no-undefined" \
 ./configure \
   --build=%_build \
   --host=i686-pc-mingw32 \
