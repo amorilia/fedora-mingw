@@ -2,7 +2,7 @@
 
 Name:           mingw-libvirt
 Version:        0.4.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -17,6 +17,7 @@ BuildRequires:  mingw-libgpg-error
 BuildRequires:  mingw-libgcrypt
 BuildRequires:  mingw-gnutls
 BuildRequires:  mingw-libxml2
+BuildRequires:  mingw-portablexdr
 
 Requires:       mingw-runtime
 Requires:       mingw-libgpg-error
@@ -33,9 +34,9 @@ MinGW Windows libvirt virtualization library.
 
 
 %build
-# Make sure the true libxml path is available very early ...
-CC="i686-pc-mingw32-gcc -I%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/libxml2" \
-CFLAGS="$RPM_OPT_FLAGS -fno-stack-protector" \
+PKG_CONFIG_PATH="%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/pkgconfig" \
+CC="i686-pc-mingw32-gcc" \
+CFLAGS="-O2 -g -Wall -pipe" \
 ./configure \
   --build=%_build \
   --host=i686-pc-mingw32 \
@@ -69,5 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep  2 2008  <berrange@li15-219.members.linode.com> - 0.4.4-2
+- Add BR on portablexdr, set PKG_CONFIG_PATH for libxml/gnutls, set CFLAGS
+
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.4-1
 - Initial RPM release, largely based on earlier work from several sources.

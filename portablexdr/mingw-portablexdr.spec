@@ -2,7 +2,7 @@
 
 Name:           mingw-portablexdr
 Version:        4.0.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -25,7 +25,7 @@ MinGW Windows PortableXDR XDR / RPC library.
 
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -fno-stack-protector" \
+CFLAGS="-O2 -g -Wall -pipe" \
 ./configure \
   --build=%_build \
   --host=i686-pc-mingw32 \
@@ -46,12 +46,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libportablexdr-0.dll
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.a
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.dll.a
+%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.la
 %{_prefix}/i686-pc-mingw32/sys-root/mingw/include/rpc
 
-
 %changelog
+* Tue Sep  2 2008 Daniel P. Berrange <berrange@redhat.com> - 4.0.10-2
+- List files explicitly and set custom CFLAGS
+
 * Tue Jul  8 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-1
 - New upstream release 4.0.10.
 - No need to manually install header files in this version.
