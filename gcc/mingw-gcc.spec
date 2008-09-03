@@ -1,7 +1,7 @@
 %define __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
 Name:           mingw-gcc
-Version:        4.3.1
+Version:        4.3.2
 Release:        3%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C and C++
 
@@ -10,7 +10,7 @@ Group:          Development/Libraries
 URL:            http://www.mingw.org/
 Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar.bz2
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
-
+Patch1:         %{name}-build.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  texinfo
@@ -33,7 +33,7 @@ MinGW Windows cross-compiler (GCC) for C and C++.
 %prep
 %setup -q -c
 %setup -q -D -T -a1
-
+%patch1 -p1
 
 %build
 cd gcc-%{version}
