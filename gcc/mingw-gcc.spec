@@ -2,7 +2,7 @@
 
 Name:           mingw-gcc
 Version:        4.3.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -14,6 +14,7 @@ Patch1:         %{name}-build.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  texinfo
+BuildRequires:  mingw-filesystem >= 2
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-runtime
 BuildRequires:  mingw-w32api
@@ -21,6 +22,7 @@ BuildRequires:  gmp-devel
 BuildRequires:  mpfr-devel
 BuildRequires:  libgomp
 
+Requires:       mingw-filesystem >= 2
 Requires:       mingw-binutils
 Requires:       mingw-runtime
 Requires:       mingw-w32api
@@ -30,6 +32,7 @@ Requires:       mingw-cpp
 %description
 MinGW Windows cross-compiler (GCC) for C
 
+
 %package -n mingw-cpp
 Summary: MinGW Windows cross-C Preprocessor.
 Group: Development/Languages
@@ -37,13 +40,13 @@ Group: Development/Languages
 %description -n mingw-cpp
 MinGW Windows cross-C Preprocessor
 
+
 %package c++
 Summary: MinGW Windows cross-compiler for C++
 Group: Development/Languages
 
 %description c++
 MinGW Windows cross-compiler for C++
-
 
 
 %prep
@@ -58,8 +61,6 @@ mkdir -p build
 cd build
 
 languages="c,c++"
-#languages="c"
-# XXX C++ disabled for now because of a strange GCC bug.
 
 CC="%{__cc} ${RPM_OPT_FLAGS}" \
 ../configure \
@@ -71,7 +72,7 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
   --infodir=%{_infodir} \
   --datadir=%{_datadir} \
   --build=%_build --host=%_host \
-  --target=i686-pc-mingw32 \
+  --target=%{_mingw_target} \
   --with-gnu-as --with-gnu-ld --verbose \
   --without-newlib \
   --disable-multilib \
@@ -79,7 +80,7 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
   --disable-nls --without-included-gettext \
   --disable-win32-registry \
   --enable-version-specific-runtime-libs \
-  --with-sysroot=%{_prefix}/i686-pc-mingw32/sys-root \
+  --with-sysroot=%{_mingw_sysroot} \
   --enable-languages="$languages" $optargs
 
 make all
@@ -98,7 +99,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libiberty*
 rm -f $RPM_BUILD_ROOT%{_mandir}/man7/*
 
 mkdir -p $RPM_BUILD_ROOT/lib
-ln -sf ..%{_prefix}/bin/i686-pc-mingw-cpp $RPM_BUILD_ROOT/lib/i686-pc-mingw32-cpp
+ln -sf ..%{_prefix}/bin/i686-pc-mingw-cpp \
+  $RPM_BUILD_ROOT/lib/i686-pc-mingw32-cpp
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -136,6 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/i686-pc-mingw32-gcc.1*
 %{_mandir}/man1/i686-pc-mingw32-gcov.1*
 
+
 %files -n mingw-cpp
 %defattr(-,root,root)
 /lib/i686-pc-mingw32-cpp
@@ -144,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/gcc/i686-pc-mingw32
 %dir %{_libdir}/gcc/i686-pc-mingw32/%{version}
 %{_libexecdir}/gcc/i686-pc-mingw32/%{version}/cc1
+
 
 %files c++
 %defattr(-,root,root)
@@ -158,6 +162,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libexecdir}/gcc/i686-pc-mingw32/%{version}/cc1plus
 %{_libexecdir}/gcc/i686-pc-mingw32/%{version}/collect2
 
+
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-4
+- Use RPM macros from mingw-filesystem.
+
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-3
 - Initial RPM release, largely based on earlier work from several sources.
