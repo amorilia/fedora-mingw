@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        2
+Version:        14
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -15,9 +15,16 @@ Source0:        mingw-COPYING
 Source1:        mingw-macros.mingw
 Source2:        mingw.sh
 Source3:        mingw.csh
+Source4:        mingw-find-requires.sh
+Source5:        mingw-find-provides.sh
+Source6:        mingw-defs
 
 Requires:       setup
 Requires:       rpm
+
+# These are actually provided by Windows itself, or Wine.
+Provides:       mingw(msvcrt.dll)
+Provides:       mingw(kernel32.dll)
 
 
 %description
@@ -76,6 +83,10 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man{
 # /usr/i686-pc-mingw32/sys-root/mingw/doc
 # but these are both packaging bugs.
 
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/rpm
+install -m 0755 %{SOURCE4} %{SOURCE5} $RPM_BUILD_ROOT%{_libdir}/rpm
+install -m 0644 %{SOURCE6} $RPM_BUILD_ROOT%{_libdir}/rpm
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,9 +99,28 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/profile.d/mingw.sh
 %config(noreplace) %{_sysconfdir}/profile.d/mingw.csh
 %{_prefix}/i686-pc-mingw32/
+%{_libdir}/rpm/mingw-*
 
 
 %changelog
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 14-1
+- Fix path to mingw-find-requires/provides scripts.
+
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 12-1
+- Put CFLAGS on a single line to avoid problems in some configure scripts.
+
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 10-1
+- Provides certain base Windows DLLs (not literally).
+
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 9-1
+- Include RPM dependency generators and definitions.
+
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4-1
+- Add _mingw_cc/cflags/etc. and _mingw_configure macros.
+
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3-1
+- Add _mingw_host macro.
+
 * Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2-1
 - Add _mingw_sysroot macro.
 - Add _mingw_target macro.
