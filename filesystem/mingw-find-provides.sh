@@ -12,7 +12,7 @@ fi
 
 filelist=`sed "s/['\"]/\\\&/g"`
 
-dlls=$(echo $filelist | tr [:blank:] '\n' | grep '\.dll')
+dlls=$(echo $filelist | tr [:blank:] '\n' | grep '\.dll$')
 
 for f in $dlls; do
     basename=`basename $f | tr [:upper:] [:lower:]`

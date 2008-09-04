@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        17
+Version:        19
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -25,6 +25,7 @@ Requires:       rpm
 # These are actually provided by Windows itself, or Wine.
 Provides:       mingw(msvcrt.dll)
 Provides:       mingw(kernel32.dll)
+Provides:       mingw(user32.dll)
 
 
 %description
@@ -105,6 +106,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 19-1
+- 'user32.dll' is provided by Windows.
+- Allow '-' in DLL names.
+- More accurate detection of DLLs in requires/provides scripts.
+
 * Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 17-1
 - Automatically add mingw-filesystem and mingw-runtime requires.
 - Add --prefix to _mingw_configure macro.
