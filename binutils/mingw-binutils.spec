@@ -4,7 +4,7 @@
 
 Name:           mingw-binutils
 Version:        %{binutils_version}_%{mingw_binutils_rpmvers}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows binutils
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
@@ -16,6 +16,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  texinfo
+BuildRequires:  mingw-filesystem
+
+Requires:       mingw-filesystem
 
 
 %description
@@ -66,9 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %{_bindir}/i686-pc-mingw32-*
 %{_prefix}/i686-pc-mingw32/bin/*
-%{_prefix}/i686-pc-mingw32/lib/ldscripts
+%{_prefix}/i686-pc-mingw32/lib/ldscripts/*
 
 
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-6
+- Use mingw-filesystem.
+
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-5
 - Initial RPM release, largely based on earlier work from several sources.
