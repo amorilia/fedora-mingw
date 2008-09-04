@@ -30,6 +30,9 @@ Build order & package notes:
       would normally be built by the packages below (specifically
       by mingw-runtime and mingw-w32api).
 
+      Note: If you already have mingw packages installed then you
+      should not build this package.
+
  ( 4) mingw-gcc
 
  ( 5) mingw-runtime
