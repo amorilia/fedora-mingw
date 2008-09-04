@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-runtime
 Version:	3.14
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -13,9 +13,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
+BuildRequires:  mingw-filesystem >= 9
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-gcc
 
+Requires:       mingw-filesystem >= 9
 Requires:       mingw-binutils
 Requires:       mingw-gcc
 
@@ -23,22 +25,19 @@ Requires:       mingw-gcc
 # longer needed.
 Obsoletes:      mingw-bootstrap
 
-#%define _use_internal_dependency_generator 0
-#%define __debug_install_post %{nil}
-
 
 %description
-MinGW Windows cross-compiler runtime, base libraries and root filesystem.
+MinGW Windows cross-compiler runtime, base libraries.
 
 
 %prep
 %setup -q
 
 %build
-CFLAGS="-I%{_prefix}/i686-pc-mingw32/sys-root/mingw/include" \
+CFLAGS="-I%{_mingw_includedir}" \
 ./configure \
   --build=%_build \
-  --host=i686-pc-mingw32
+  --host=%{_mingw_host}
 
 make
 
@@ -46,7 +45,13 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw install
+make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
+
+# make install places these in nonstandard locations, so move them.
+mkdir -p $RPM_BUILD_ROOT%{_mingw_docdir}
+mv $RPM_BUILD_ROOT%{_mingw_prefix}/doc/* $RPM_BUILD_ROOT%{_mingw_docdir}/
+mkdir -p $RPM_BUILD_ROOT%{_mingw_mandir}
+mv $RPM_BUILD_ROOT%{_mingw_prefix}/man/* $RPM_BUILD_ROOT%{_mingw_mandir}/
 
 
 %clean
@@ -55,13 +60,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/doc/mingw-runtime/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/man/man3/*
+%{_mingw_bindir}/*
+%{_mingw_docdir}/*
+%{_mingw_includedir}/*
+%{_mingw_libdir}/*
+%{_mingw_mandir}/man3/*
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-2
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-4
+- Use RPM macros from mingw-filesystem.
+
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-2
 - Initial RPM release, largely based on earlier work from several sources.

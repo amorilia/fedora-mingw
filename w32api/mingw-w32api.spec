@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-w32api
 Version:	3.11
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
@@ -13,10 +13,12 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
+BuildRequires:  mingw-filesystem >= 3
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-runtime
 
+Requires:       mingw-filesystem >= 3
 Requires:       mingw-binutils
 Requires:       mingw-gcc
 Requires:       mingw-runtime
@@ -37,11 +39,9 @@ MinGW Windows cross-compiler Win32 header files.
 %setup -q -n w32api-%{version}
 
 %build
-#CFLAGS="-I%{_prefix}/i686-pc-mingw32/sys-root/mingw/include" \
-
 ./configure \
   --build=%_build \
-  --host=i686-pc-mingw32
+  --host=%{_mingw_host}
 
 make
 
@@ -49,7 +49,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw install
+make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
 
 
 %clean
@@ -58,9 +58,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
+%{_mingw_includedir}/*
+%{_mingw_libdir}/*
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-2
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-3
+- Use the RPM macros from mingw-filesystem.
+
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-2
 - Initial RPM release, largely based on earlier work from several sources.
