@@ -11,6 +11,7 @@ URL:            http://www.zlib.net/
 Source0:        http://www.zlib.net/zlib-%{version}.tar.gz
 Patch1:         zlib-win32.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch:      noarch
 
 BuildRequires:  mingw-filesystem >= 12
 BuildRequires:  mingw-gcc
