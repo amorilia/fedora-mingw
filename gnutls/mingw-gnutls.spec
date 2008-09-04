@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        LGPLv2+
@@ -11,14 +11,14 @@ URL:            http://www.gnu.org/software/gnutls/
 Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libgpg-error
 BuildRequires:  mingw-libgcrypt
+BuildRequires:  mingw-iconv
+BuildRequires:  mingw-gettext
 
-Requires:       mingw-runtime
-Requires:       mingw-libgpg-error
-Requires:       mingw-libgcrypt
 
 %description
 MinGW Windows GnuTLS TLS/SSL encryption library.
@@ -29,14 +29,7 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 
 
 %build
-CFLAGS="-O2 -g -Wall -pipe" \
-./configure \
-  --build=%_build \
-  --host=i686-pc-mingw32 \
-  --prefix=%{_prefix}/i686-pc-mingw32/sys-root/mingw \
-  --disable-cxx
-# Disable C++ package until we have a C++ compiler (see mingw-gcc).
-
+%{_mingw_configure} --with-included-libtasn1 --disable-cxx
 make
 
 
@@ -52,47 +45,50 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/certtool.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/gnutls-cli-debug.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/gnutls-cli.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/gnutls-serv.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-26.def
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-26.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-config
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-extra-26.def
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-extra-26.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-extra-config
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-openssl-26.def
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libgnutls-openssl-26.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/psktool.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/srptool.exe
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-extra.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-extra.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-extra.la
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-openssl.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-openssl.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls-openssl.la
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libgnutls.la
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/pkgconfig/gnutls-extra.pc
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/pkgconfig/gnutls.pc
-%dir %{_prefix}/i686-pc-mingw32/sys-root/mingw/include/gnutls
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/gnutls/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/aclocal/libgnutls-extra.m4
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/aclocal/libgnutls.m4
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/info/gnutls-*.png
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/info/gnutls.info*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/certtool.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/gnutls-cli-debug.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/gnutls-cli.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/gnutls-serv.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/psktool.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/srptool.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/gnutls_*.3*
+%{_mingw_bindir}/certtool.exe
+%{_mingw_bindir}/gnutls-cli-debug.exe
+%{_mingw_bindir}/gnutls-cli.exe
+%{_mingw_bindir}/gnutls-serv.exe
+%{_mingw_bindir}/libgnutls-26.def
+%{_mingw_bindir}/libgnutls-26.dll
+%{_mingw_bindir}/libgnutls-config
+%{_mingw_bindir}/libgnutls-extra-26.def
+%{_mingw_bindir}/libgnutls-extra-26.dll
+%{_mingw_bindir}/libgnutls-extra-config
+%{_mingw_bindir}/libgnutls-openssl-26.def
+%{_mingw_bindir}/libgnutls-openssl-26.dll
+%{_mingw_bindir}/psktool.exe
+%{_mingw_bindir}/srptool.exe
+%{_mingw_libdir}/libgnutls-extra.a
+%{_mingw_libdir}/libgnutls-extra.dll.a
+%{_mingw_libdir}/libgnutls-extra.la
+%{_mingw_libdir}/libgnutls-openssl.a
+%{_mingw_libdir}/libgnutls-openssl.dll.a
+%{_mingw_libdir}/libgnutls-openssl.la
+%{_mingw_libdir}/libgnutls.a
+%{_mingw_libdir}/libgnutls.dll.a
+%{_mingw_libdir}/libgnutls.la
+%{_mingw_libdir}/pkgconfig/gnutls-extra.pc
+%{_mingw_libdir}/pkgconfig/gnutls.pc
+%{_mingw_includedir}/gnutls/
+%{_mingw_datadir}/aclocal/libgnutls-extra.m4
+%{_mingw_datadir}/aclocal/libgnutls.m4
+%{_mingw_datadir}/info/gnutls-*.png
+%{_mingw_datadir}/info/gnutls.info*
+%{_mingw_mandir}/man1/certtool.1*
+%{_mingw_mandir}/man1/gnutls-cli-debug.1*
+%{_mingw_mandir}/man1/gnutls-cli.1*
+%{_mingw_mandir}/man1/gnutls-serv.1*
+%{_mingw_mandir}/man1/psktool.1*
+%{_mingw_mandir}/man1/srptool.1*
+%{_mingw_mandir}/man3/gnutls_*.3*
 
 
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-3
+- Use mingw-filesystem RPM macros.
+- Depends on mingw-iconv, mingw-gettext.
+
 * Tue Sep  2 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-2
 - List files explicitly and use custom CFLAGS
 
