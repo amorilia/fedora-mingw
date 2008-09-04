@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-zlib
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -12,9 +12,11 @@ Source0:        http://www.zlib.net/zlib-%{version}.tar.gz
 Patch1:         zlib-win32.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  mingw-filesystem >= 12
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 
+Requires:       mingw-filesystem >= 12
 Requires:       mingw-runtime
 
 %description
@@ -25,28 +27,39 @@ MinGW Windows zlib compression library.
 %setup -q -n zlib-1.2.3
 %patch1 -p1
 
+
 %build
-CFLAGS="-O2 -g -pipe -Wall" \
-CC=i686-pc-mingw32-gcc RANLIB=i686-pc-mingw32-ranlib ./configure
+CC=%{_mingw_cc} \
+CFLAGS="%{_mingw_cflags}" \
+RANLIB=%{_mingw_ranlib} \
+./configure
 
 make -f win32/Makefile.gcc \
-  CC=i686-pc-mingw32-gcc \
-  AR=i686-pc-mingw32-ar \
+  CC=%{_mingw_cc} \
+  AR=%{_mingw_ar} \
   RC=i686-pc-mingw32-windres \
   DLLWRAP=i686-pc-mingw32-dllwrap \
-  STRIP=i686-pc-mingw32-strip \
+  STRIP=%{_mingw_strip} \
   all
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
+mkdir -p $RPM_BUILD_ROOT%{_mingw_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw_includedir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw_libdir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw_mandir}/man3
+
 make -f win32/Makefile.gcc \
-     INCLUDE_PATH=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/include \
-     LIBRARY_PATH=$RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib \
+     INCLUDE_PATH=$RPM_BUILD_ROOT%{_mingw_includedir} \
+     LIBRARY_PATH=$RPM_BUILD_ROOT%{_mingw_libdir} \
      install
 
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3
-%__install zlib.3  $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3
+# DLL needs to do in the bin directory.
+mv $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll $RPM_BUILD_ROOT%{_mingw_bindir}
+
+%__install zlib.3 $RPM_BUILD_ROOT%{_mingw_mandir}/man3
 
 
 %clean
@@ -55,14 +68,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/zconf.h
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/zlib.h
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libz.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libzdll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libz.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/zlib.3
+%{_mingw_includedir}/zconf.h
+%{_mingw_includedir}/zlib.h
+%{_mingw_libdir}/libz.a
+%{_mingw_libdir}/libzdll.a
+%{_mingw_bindir}/libz.dll
+%{_mingw_mandir}/man3/zlib.3
 
 
 %changelog
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-5
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-3
 - Initial RPM release, largely based on earlier work from several sources.
