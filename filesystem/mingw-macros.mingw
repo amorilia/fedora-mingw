@@ -1,6 +1,8 @@
 # RPM macros for Fedora MinGW.
 
-%_mingw_prefix            %{_prefix}/i686-pc-mingw32/sys-root/mingw
+# Paths.
+%_mingw_sysroot           %{_prefix}/i686-pc-mingw32/sys-root
+%_mingw_prefix            %{_mingw_sysroot}/mingw
 %_mingw_bindir            %{_mingw_prefix}/bin
 %_mingw_sbindir           %{_mingw_prefix}/sbin
 %_mingw_libdir            %{_mingw_prefix}/lib
@@ -10,3 +12,6 @@
 %_mingw_mandir            %{_mingw_prefix}/share/man
 %_mingw_sysconfdir        %{_mingw_prefix}/etc
 %_mingw_includedir        %{_mingw_prefix}/include
+
+# Build macros.
+%_mingw_target            i686-pc-mingw32

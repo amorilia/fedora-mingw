@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        1
+Version:        2
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -91,5 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2-1
+- Add _mingw_sysroot macro.
+- Add _mingw_target macro.
+
 * Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 1-1
 - Basic filesystem layout.

@@ -4,7 +4,7 @@
 
 Name:           mingw-binutils
 Version:        %{binutils_version}_%{mingw_binutils_rpmvers}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows binutils
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
@@ -16,9 +16,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  texinfo
-BuildRequires:  mingw-filesystem
+BuildRequires:  mingw-filesystem >= 2
 
-Requires:       mingw-filesystem
+Requires:       mingw-filesystem >= 2
 
 
 %description
@@ -36,12 +36,12 @@ cd build
 CFLAGS="$RPM_OPT_FLAGS" \
 ../configure \
   --build=%_build --host=%_host \
-  --target=i686-pc-mingw32 \
+  --target=%{_mingw_target} \
   --verbose --disable-nls \
   --without-included-gettext \
   --disable-win32-registry \
   --disable-werror \
-  --with-sysroot=%{_prefix}/i686-pc-mingw32/sys-root \
+  --with-sysroot=%{_mingw_sysroot} \
   --prefix=%{_prefix} --bindir=%{_bindir} \
   --includedir=%{_includedir} --libdir=%{_libdir} \
   --mandir=%{_mandir} --infodir=%{_infodir}
@@ -68,12 +68,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_mandir}/man1/*
 %{_bindir}/i686-pc-mingw32-*
-%{_prefix}/i686-pc-mingw32/bin/*
-%{_prefix}/i686-pc-mingw32/lib/ldscripts/*
+%{_prefix}/i686-pc-mingw32/bin
+%{_prefix}/i686-pc-mingw32/lib/ldscripts
 
 
 %changelog
-* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-6
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-7
 - Use mingw-filesystem.
 
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-5
