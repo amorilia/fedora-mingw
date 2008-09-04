@@ -17,8 +17,11 @@
 %_mingw_host              i686-pc-mingw32
 %_mingw_target            i686-pc-mingw32
 
-# Note: all flags must be on a single line.
-%_mingw_cflags            -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -I%{_mingw_includedir}
+%_mingw_cflags            -O2 -g -pipe -Wall \\\
+			  -Wp,-D_FORTIFY_SOURCE=2 \\\
+			  -fexceptions \\\
+			  --param=ssp-buffer-size=4 \\\
+			  -I%{_mingw_includedir}
 
 %_mingw_cc		  i686-pc-mingw32-gcc
 %_mingw_cpp		  i686-pc-mingw32-gcc -E
@@ -28,6 +31,8 @@
 %_mingw_objdump		  i686-pc-mingw32-objdump
 
 %_mingw_configure \
-  CC="%{_mingw_cc}" \
-  CFLAGS="%{_mingw_cflags}" \
-  ./configure --build=%_build --host=%{_mingw_host} --target=%{_mingw_target}
+  CC="%{_mingw_cc}" \\\
+  CFLAGS="%{_mingw_cflags}" \\\
+  ./configure \\\
+    --build=%_build --host=%{_mingw_host} --target=%{_mingw_target} \\\
+    --prefix=%{_mingw_prefix}

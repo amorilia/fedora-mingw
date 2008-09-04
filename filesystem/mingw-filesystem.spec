@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        14
+Version:        17
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -39,6 +39,7 @@ This environment is maintained by the Fedora MinGW SIG at:
 %prep
 %setup -q -c -T
 cp %{SOURCE0} COPYING
+sed 's/@VERSION@/%{version}/' < %{SOURCE4} > mingw-find-requires.sh
 
 
 %build
@@ -84,7 +85,8 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man{
 # but these are both packaging bugs.
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/rpm
-install -m 0755 %{SOURCE4} %{SOURCE5} $RPM_BUILD_ROOT%{_libdir}/rpm
+install -m 0755 mingw-find-requires.sh $RPM_BUILD_ROOT%{_libdir}/rpm
+install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT%{_libdir}/rpm
 install -m 0644 %{SOURCE6} $RPM_BUILD_ROOT%{_libdir}/rpm
 
 
@@ -103,6 +105,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 17-1
+- Automatically add mingw-filesystem and mingw-runtime requires.
+- Add --prefix to _mingw_configure macro.
+- Three backslashes required on each continuation line in RPM macros.
+
 * Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 14-1
 - Fix path to mingw-find-requires/provides scripts.
 
