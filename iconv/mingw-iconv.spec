@@ -1,20 +1,21 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:      mingw-iconv
 Version:   1.12
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
 Group:     Development/Libraries
-URL:       http://www.gnu.org/software/iconv/
-Source0:   http://ftp.gnu.org/pub/gnu/iconv/libiconv-%{version}.tar.gz
+URL:       http://www.gnu.org/software/libiconv/
+Source0:   http://ftp.gnu.org/pub/gnu/libiconv/libiconv-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch: noarch
 
+BuildRequires: mingw-filesystem >= 19
 BuildRequires: mingw-gcc
 BuildRequires: mingw-binutils
 
-Requires:       mingw-runtime
 
 %description
 MinGW Windows Iconv library
@@ -23,12 +24,7 @@ MinGW Windows Iconv library
 %setup -q -n libiconv-%{version}
 
 %build
-CFLAGS="-O2 -g -Wall -pipe" \
-./configure \
-  --build=%_build \
-  --host=i686-pc-mingw32 \
-  --prefix=%{_prefix}/i686-pc-mingw32/sys-root/mingw
-
+%{_mingw_configure}
 make
 
 %install
@@ -41,27 +37,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/iconv
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libcharset-1.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libiconv-2.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/iconv.h
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/libcharset.h
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/localcharset.h
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/charset.alias
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libcharset.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libcharset.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libcharset.la
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libiconv.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libiconv.la
-%dir %{_prefix}/i686-pc-mingw32/sys-root/mingw/share/doc/libiconv/
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/doc/libiconv/*.html
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/iconv.1*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/iconv.3*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/iconv_close.3*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/iconv_open.3*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/iconvctl.3*
+%{_mingw_bindir}/iconv
+%{_mingw_bindir}/libcharset-1.dll
+%{_mingw_bindir}/libiconv-2.dll
+%{_mingw_includedir}/iconv.h
+%{_mingw_includedir}/libcharset.h
+%{_mingw_includedir}/localcharset.h
+%{_mingw_libdir}/charset.alias
+%{_mingw_libdir}/libcharset.a
+%{_mingw_libdir}/libcharset.dll.a
+%{_mingw_libdir}/libcharset.la
+%{_mingw_libdir}/libiconv.dll.a
+%{_mingw_libdir}/libiconv.la
+%{_mingw_docdir}/libiconv/
+%{_mingw_mandir}/man1/iconv.1*
+%{_mingw_mandir}/man3/iconv.3*
+%{_mingw_mandir}/man3/iconv_close.3*
+%{_mingw_mandir}/man3/iconv_open.3*
+%{_mingw_mandir}/man3/iconvctl.3*
 
 
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-2
+- Use RPM macros from mingw-filesystem.
+
 * Tue Sep  2 2008 Daniel P. Berrange <berrange@redhat.com> - 0.17-1
 - Initial RPM release, largely based on earlier work from several sources.
