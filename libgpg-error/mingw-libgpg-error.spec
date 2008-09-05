@@ -2,7 +2,7 @@
 
 Name:           mingw-libgpg-error
 Version:        1.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows GnuPGP error library
 
 License:        LGPLv2+
@@ -15,7 +15,7 @@ BuildArch:      noarch
 BuildRequires:  mingw-filesystem >= 17
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
-
+BuildRequires:  mingw-gettext
 
 %description
 MinGW Windows GnuPGP error library.
@@ -49,10 +49,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/libgpg-error.dll.a
 %{_mingw_libdir}/libgpg-error.la
 %{_mingw_includedir}/gpg-error.h
+%{_mingw_datadir}/locale/*/LC_MESSAGES/libgpg-error.mo
 %{_mingw_datadir}/aclocal/gpg-error.m4
 %{_mingw_datadir}/common-lisp/source/gpg-error/*
 
 %changelog
+* Fri Sep  5 2008 Daniel P. Berrange <berrange@redhat.com> - 1.6-4
+- Add gettext support
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6-3
 - Use mingw-filesystem RPM macros.
 - BuildArch is noarch.
