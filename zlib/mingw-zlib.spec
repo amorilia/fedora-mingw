@@ -2,7 +2,7 @@
 
 Name:           mingw-zlib
 Version:        1.2.3
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -17,8 +17,8 @@ BuildRequires:  mingw-filesystem >= 12
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 
-Requires:       mingw-filesystem >= 12
-Requires:       mingw-runtime
+# For some reason mingw-find-provides doesn't get this.
+Provides:       mingw(zlib1.dll)
 
 %description
 MinGW Windows zlib compression library.
@@ -57,8 +57,13 @@ make -f win32/Makefile.gcc \
      LIBRARY_PATH=$RPM_BUILD_ROOT%{_mingw_libdir} \
      install
 
-# DLL needs to do in the bin directory.
-mv $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll $RPM_BUILD_ROOT%{_mingw_bindir}
+# DLL needs to go in the bin directory.
+mv $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll \
+   $RPM_BUILD_ROOT%{_mingw_bindir}
+
+# .dll.a file is misnamed for some reason - fix that.
+mv $RPM_BUILD_ROOT%{_mingw_libdir}/libzdll.a \
+   $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll.a
 
 %__install zlib.3 $RPM_BUILD_ROOT%{_mingw_mandir}/man3
 
@@ -72,11 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/zconf.h
 %{_mingw_includedir}/zlib.h
 %{_mingw_libdir}/libz.a
-%{_mingw_libdir}/libzdll.a
+%{_mingw_libdir}/libz.dll.a
 %{_mingw_bindir}/libz.dll
 %{_mingw_mandir}/man3/zlib.3
 
 
 %changelog
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-5
+- Fix misnamed file: zlibdll.a -> zlib.dll.a
+- Explicitly provide mingw(zlib1.dll).
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-3
 - Initial RPM release, largely based on earlier work from several sources.
