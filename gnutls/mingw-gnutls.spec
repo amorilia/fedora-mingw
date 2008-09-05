@@ -2,7 +2,7 @@
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        LGPLv2+
@@ -10,6 +10,8 @@ Group:          Development/Libraries
 URL:            http://www.gnu.org/software/gnutls/
 Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildArch:      noarch
 
 Patch0:         gnutls-certtool-build.patch
 
@@ -20,8 +22,7 @@ BuildRequires:  mingw-libgpg-error
 BuildRequires:  mingw-libgcrypt
 BuildRequires:  mingw-iconv
 BuildRequires:  mingw-gettext
-
-BuildConflicts: mingw-zlib
+BuildRequires:  mingw-zlib
 
 
 %description
@@ -91,9 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-4
-- Build conflicts with mingw-zlib.
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-5
 - Add patch to build certtool.exe because of missing dep of gnulib on intl.
+- BuildArch is noarch.
 
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-3
 - Use mingw-filesystem RPM macros.
