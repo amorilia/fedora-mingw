@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-portablexdr
 Version:        4.0.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -11,10 +11,12 @@ URL:            http://et.redhat.com/~rjones/portablexdr/
 Source0:        http://et.redhat.com/~rjones/portablexdr/portablexdr-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildArch:      noarch
+
+BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 
-Requires:       mingw-runtime
 
 %description
 MinGW Windows PortableXDR XDR / RPC library.
@@ -25,12 +27,7 @@ MinGW Windows PortableXDR XDR / RPC library.
 
 
 %build
-CFLAGS="-O2 -g -Wall -pipe" \
-./configure \
-  --build=%_build \
-  --host=i686-pc-mingw32 \
-  --prefix=%{_prefix}/i686-pc-mingw32/sys-root/mingw
-
+%{_mingw_configure}
 make
 
 
@@ -46,13 +43,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/libportablexdr-0.dll
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.dll.a
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/libportablexdr.la
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/rpc
+%{_mingw_bindir}/libportablexdr-0.dll
+%{_mingw_libdir}/libportablexdr.a
+%{_mingw_libdir}/libportablexdr.dll.a
+%{_mingw_libdir}/libportablexdr.la
+%{_mingw_includedir}/rpc
+
 
 %changelog
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-3
+- Use RPM macros from mingw-filesystem.
+
 * Tue Sep  2 2008 Daniel P. Berrange <berrange@redhat.com> - 4.0.10-2
 - List files explicitly and set custom CFLAGS
 
