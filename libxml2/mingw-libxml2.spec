@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include /usr/lib/rpm/mingw-defs
 
 Name:           mingw-libxml2
 Version:        2.6.32
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        LGPLv2+
@@ -11,11 +11,14 @@ URL:            http://www.xmlsoft.org/
 Source0:        ftp://xmlsoft.org/libxml2/libxml2-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildArch:      noarch
+
+BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-zlib
+BuildRequires:  mingw-gettext
 
-Requires:       mingw-runtime
 
 %description
 MinGW Windows libxml2 XML processing library.
@@ -26,13 +29,7 @@ MinGW Windows libxml2 XML processing library.
 
 
 %build
-CFLAGS="-O2 -g -Wall -pipe" LDFLAGS="-no-undefined" \
-./configure \
-  --build=%_build \
-  --host=i686-pc-mingw32 \
-  --prefix=%{_prefix}/i686-pc-mingw32/sys-root/mingw \
-  --without-python
-
+LDFLAGS="-no-undefined" %{_mingw_configure} --without-python
 make
 
 
@@ -48,16 +45,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/aclocal/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/doc/libxml2-%{version}/
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/gtk-doc/html/libxml2/
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/*
+%{_mingw_bindir}/libxml2-2.dll
+%{_mingw_bindir}/xml2-config
+%{_mingw_bindir}/xmlcatalog.exe
+%{_mingw_bindir}/xmllint.exe
+%{_mingw_libdir}/*
+%{_mingw_includedir}/*
+%{_mingw_datadir}/aclocal/*
+%{_mingw_docdir}/libxml2-%{version}/
+%{_mingw_datadir}/gtk-doc/html/libxml2/
+%{_mingw_mandir}/man1/*
+%{_mingw_mandir}/man3/*
 
 
 %changelog
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.32-3
+- Use RPM macros from mingw-filesystem.
+- BuildArch is noarch.
+
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.32-1
 - Initial RPM release, largely based on earlier work from several sources.
