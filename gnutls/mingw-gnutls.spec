@@ -11,6 +11,8 @@ URL:            http://www.gnu.org/software/gnutls/
 Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+Patch0:         gnutls-certtool-build.patch
+
 BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
@@ -19,6 +21,8 @@ BuildRequires:  mingw-libgcrypt
 BuildRequires:  mingw-iconv
 BuildRequires:  mingw-gettext
 
+BuildConflicts: mingw-zlib
+
 
 %description
 MinGW Windows GnuTLS TLS/SSL encryption library.
@@ -26,6 +30,7 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 
 %prep
 %setup -q -n gnutls-%{version}
+%patch0 -p1
 
 
 %build
@@ -82,9 +87,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/psktool.1*
 %{_mingw_mandir}/man1/srptool.1*
 %{_mingw_mandir}/man3/gnutls_*.3*
+%{_mingw_datadir}/locale/*/LC_MESSAGES/gnutls.mo
 
 
 %changelog
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-4
+- Build conflicts with mingw-zlib.
+- Add patch to build certtool.exe because of missing dep of gnulib on intl.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-3
 - Use mingw-filesystem RPM macros.
 - Depends on mingw-iconv, mingw-gettext.
