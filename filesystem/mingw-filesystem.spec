@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        19
+Version:        20
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -85,10 +85,11 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man{
 # /usr/i686-pc-mingw32/sys-root/mingw/doc
 # but these are both packaging bugs.
 
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/rpm
-install -m 0755 mingw-find-requires.sh $RPM_BUILD_ROOT%{_libdir}/rpm
-install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT%{_libdir}/rpm
-install -m 0644 %{SOURCE6} $RPM_BUILD_ROOT%{_libdir}/rpm
+# NB. NOT libdir
+mkdir -p $RPM_BUILD_ROOT/usr/lib/rpm
+install -m 0755 mingw-find-requires.sh $RPM_BUILD_ROOT/usr/lib/rpm
+install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT/usr/lib/rpm
+install -m 0644 %{SOURCE6} $RPM_BUILD_ROOT/usr/lib/rpm
 
 
 %clean
@@ -102,11 +103,14 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/profile.d/mingw.sh
 %config(noreplace) %{_sysconfdir}/profile.d/mingw.csh
 %{_prefix}/i686-pc-mingw32/
-%{_libdir}/rpm/mingw-*
+/usr/lib/rpm/mingw-*
 
 
 %changelog
-* Mon Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 19-1
+* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 20-1
+- On 64 bit install in /usr/lib/rpm always.
+
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 19-1
 - 'user32.dll' is provided by Windows.
 - Allow '-' in DLL names.
 - More accurate detection of DLLs in requires/provides scripts.
