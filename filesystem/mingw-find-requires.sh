@@ -22,7 +22,7 @@ echo 'mingw-runtime'
 dlls=$(echo $filelist | tr [:blank:] '\n' | grep '\.dll$')
 
 for f in $dlls; do
-    $OBJDUMP -p $f | grep 'DLL Name' | grep -Eo '[-_[:alnum:]]+\.dll' |
+    $OBJDUMP -p $f | grep 'DLL Name' | grep -Eo '[-._[:alnum:]]+\.dll' |
         tr [:upper:] [:lower:] |
         sed 's/\(.*\)/mingw(\1)/'
 done | sort -u
