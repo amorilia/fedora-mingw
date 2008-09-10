@@ -26,7 +26,7 @@ BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires: mingw-libpng
 BuildRequires: mingw-zlib
-BuildRequires: autoconf libtool
+BuildRequires: autoconf, libtool
 
 %description
 MinGW Windows Libjpeg library.
