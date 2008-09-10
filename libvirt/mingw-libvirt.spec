@@ -1,8 +1,8 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%include        /usr/lib/rpm/mingw-defs
 
 Name:           mingw-libvirt
-Version:        0.4.4
-Release:        2%{?dist}
+Version:        0.4.5
+Release:        1%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -11,19 +11,15 @@ URL:            http://www.libvirt.org/
 Source0:        ftp://libvirt.org/libvirt/libvirt-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libgpg-error
 BuildRequires:  mingw-libgcrypt
 BuildRequires:  mingw-gnutls
+BuildRequires:  mingw-gettext
 BuildRequires:  mingw-libxml2
 BuildRequires:  mingw-portablexdr
-
-Requires:       mingw-runtime
-Requires:       mingw-libgpg-error
-Requires:       mingw-libgcrypt
-Requires:       mingw-gnutls
-Requires:       mingw-libxml2
 
 %description
 MinGW Windows libvirt virtualization library.
@@ -34,17 +30,17 @@ MinGW Windows libvirt virtualization library.
 
 
 %build
-PKG_CONFIG_PATH="%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/pkgconfig" \
-CC="i686-pc-mingw32-gcc" \
-CFLAGS="-O2 -g -Wall -pipe" \
-./configure \
-  --build=%_build \
-  --host=i686-pc-mingw32 \
-  --prefix=%{_prefix}/i686-pc-mingw32/sys-root/mingw \
-  --without-xen --without-qemu --without-libvirtd \
-  --without-sasl
-# XXX Should include SASL, and maybe polkit?
-
+# XXX enable SASL in future
+%{_mingw_configure} \
+  --without-sasl \
+  --without-avahi \
+  --without-polkit \
+  --without-python \
+  --without-xen \
+  --without-qemu \
+  --without-lxc \
+  --without-openvz \
+  --without-libvirtd
 make
 
 
@@ -53,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm -rf $RPM_BUILD_ROOT/%{_mingw_sysconfdir}/libvirt
+rm -rf $RPM_BUILD_ROOT/%{_mingw_datadir}/doc/*
+rm -rf $RPM_BUILD_ROOT/%{_mingw_datadir}/gtk-doc/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,18 +59,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/bin/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/aclocal/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/info/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man1/*
-%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man3/*
+%{_mingw_bindir}/libvirt-0.dll
+%{_mingw_bindir}/virsh.exe
+
+%{_mingw_libdir}/libvirt.a
+%{_mingw_libdir}/libvirt.dll.a
+%{_mingw_libdir}/libvirt.la
+%{_mingw_libdir}/pkgconfig/libvirt.pc
+
+%{_mingw_datadir}/locale/*/LC_MESSAGES/libvirt.mo
+
+%dir %{_mingw_includedir}/libvirt
+%{_mingw_includedir}/libvirt/libvirt.h
+%{_mingw_includedir}/libvirt/virterror.h
+
+%{_mingw_mandir}/man1/virsh.1*
 
 
 %changelog
-* Tue Sep  2 2008  <berrange@li15-219.members.linode.com> - 0.4.4-2
-- Add BR on portablexdr, set PKG_CONFIG_PATH for libxml/gnutls, set CFLAGS
-
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.4-1
+* Tue Sep  2 2008 Daniel P. Berrange <berrange@redhat.com> - 0.4.4-1
 - Initial RPM release, largely based on earlier work from several sources.

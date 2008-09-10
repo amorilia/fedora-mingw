@@ -30,7 +30,6 @@ MinGW Windows Cairo library.
 %setup -q -n cairo-%{version}
 
 %build
-PKG_CONFIG_PATH=%{_mingw_libdir}/pkgconfig \
 %{_mingw_configure} --disable-xlib --disable-xcb --enable-win32 --enable-png --enable-freetype
 make
 

@@ -30,7 +30,6 @@ MinGW Windows Atk library.
 %patch1 -p1
 
 %build
-PKG_CONFIG_PATH="%{_mingw_libdir}/pkgconfig" \
 %{_mingw_configure}
 make
 

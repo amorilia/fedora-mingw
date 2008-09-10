@@ -33,6 +33,7 @@ Obsoletes:      mingw-bootstrap
 # Fake provides, because wine/windows provides this, we don't have
 # a real dep we can use
 Provides: mingw(gdi32.dll)
+Provides: mingw(ole32.dll)
 
 %description
 MinGW Windows cross-compiler Win32 header files.

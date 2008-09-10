@@ -40,6 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/locale/locale.alias
 rm -f $RPM_BUILD_ROOT%{_mingw_libdir}/charset.alias
+rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/info/dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT

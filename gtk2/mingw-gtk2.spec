@@ -36,7 +36,6 @@ MinGW Windows Gtk2 library.
 
 %build
 # XXX fix jasper dlls
-PKG_CONFIG_PATH=%{_mingw_libdir}/pkgconfig \
 %{_mingw_configure} --without-jasper
 make
 
