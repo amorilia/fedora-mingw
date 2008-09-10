@@ -56,6 +56,7 @@ sub main {
     delete $br{"mingw-cyrus-sasl"};
     delete $br{"mingw-nsis"};
     delete $br{"mingw-wix"};
+    delete $br{"mingw-example"};
 
     # There is a dependency loop (gcc -> runtime/w32api -> gcc)
     # which has to be manually resolved below.  Break that loop.
@@ -84,6 +85,8 @@ sub main {
 	unlink "/tmp/tsort2.tmp";
     }
 
+    my %installed;
+
     while (<PACKAGES>) {
 	chomp;
 	if (/^mingw-(.*)/) {
@@ -97,8 +100,9 @@ sub main {
 	    # Are all BR RPMs installed?
 	    my $br;
 	    foreach $br (@brs) {
-		if (! rpm_installed ($br)) {
+		if (! rpm_installed ($br) && !exists $installed{$br}) {
 		    print "as root # rpm -Uvh $br*.rpm\n";
+		    $installed{$br} = 1;
 		}
 	    }
 
@@ -107,7 +111,8 @@ sub main {
 		(!rpm_installed ("mingw-runtime") ||
 		 !rpm_installed ("mingw-w32api"))) {
 		print "rpmbuild -ba bootstrap/mingw-bootstrap.spec\n";
-	        print "as root # rpm -Uvh mingw-bootstrap*.rpm\n"
+	        print "as root # rpm -Uvh mingw-bootstrap*.rpm\n";
+		$installed{"mingw-bootstrap"} = 1;
 	    }
 
 	    # Spec file.
