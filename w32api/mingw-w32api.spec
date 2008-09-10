@@ -2,7 +2,7 @@
 
 Name:           mingw-w32api
 Version:	3.11
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
@@ -59,10 +59,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw_includedir}/*
-%{_mingw_libdir}/*
+%{_mingw_libdir}/*.a
+
 
 %changelog
-* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-4
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-6
 - Moved ole provides to mingw-filesystem package.
 
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-3
