@@ -55,11 +55,8 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw_mandir}/man3
 make -f win32/Makefile.gcc \
      INCLUDE_PATH=$RPM_BUILD_ROOT%{_mingw_includedir} \
      LIBRARY_PATH=$RPM_BUILD_ROOT%{_mingw_libdir} \
+     BINARY_PATH=$RPM_BUILD_ROOT%{_mingw_bindir} \
      install
-
-# DLL needs to go in the bin directory.
-mv $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll \
-   $RPM_BUILD_ROOT%{_mingw_bindir}
 
 # .dll.a file is misnamed for some reason - fix that.
 mv $RPM_BUILD_ROOT%{_mingw_libdir}/libzdll.a \
@@ -80,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/zconf.h
 %{_mingw_includedir}/zlib.h
 %{_mingw_libdir}/libz.dll.a
-%{_mingw_bindir}/libz.dll
+%{_mingw_bindir}/zlib1.dll
 %{_mingw_mandir}/man3/zlib.3
 
 
