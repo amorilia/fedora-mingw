@@ -8,6 +8,10 @@ Other useful information:
 
  * https://fedoraproject.org/wiki/SIGs/MinGW
 
+./BUILD.pl is a script which works out the correct order to build
+packages and will display the list of commands that you have to invoke
+to do this.
+
 Build order & package notes:
 
  ( 1) mingw-filesystem
@@ -40,21 +44,3 @@ Build order & package notes:
 
       Note that once built and installed, these last two replace the
       files built from binaries in mingw-bootstrap.
-
- ( 7) mingw-zlib
-
- ( 8) mingw-libgpg-error
-
- ( 9) mingw-libgcrypt
-
- (10) mingw-iconv
-
- (11) mingw-gettext
-
- (12) mingw-gnutls
-
- (13) mingw-libxml2
-
- (14) mingw-portablexdr
-
- (15) mingw-libvirt
