@@ -2,7 +2,7 @@
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        LGPLv2+
@@ -35,6 +35,7 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 
 
 %build
+autoreconf
 %{_mingw_configure} --with-included-libtasn1 --disable-cxx
 make
 
@@ -44,6 +45,11 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/info/dir
+
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-extra.a
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-openssl.a
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls.a
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,13 +71,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_bindir}/libgnutls-openssl-26.dll
 %{_mingw_bindir}/psktool.exe
 %{_mingw_bindir}/srptool.exe
-%{_mingw_libdir}/libgnutls-extra.a
 %{_mingw_libdir}/libgnutls-extra.dll.a
 %{_mingw_libdir}/libgnutls-extra.la
-%{_mingw_libdir}/libgnutls-openssl.a
 %{_mingw_libdir}/libgnutls-openssl.dll.a
 %{_mingw_libdir}/libgnutls-openssl.la
-%{_mingw_libdir}/libgnutls.a
 %{_mingw_libdir}/libgnutls.dll.a
 %{_mingw_libdir}/libgnutls.la
 %{_mingw_libdir}/pkgconfig/gnutls-extra.pc
@@ -92,6 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-6
+- Need to run autoreconf after patching src/Makefile.am.
+- Remove static libs.
+
 * Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-5
 - Add patch to build certtool.exe because of missing dep of gnulib on intl.
 - BuildArch is noarch.
