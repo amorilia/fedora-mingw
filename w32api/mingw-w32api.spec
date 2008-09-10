@@ -2,7 +2,7 @@
 
 Name:           mingw-w32api
 Version:	3.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
@@ -30,10 +30,6 @@ Obsoletes:      mingw-bootstrap
 #%define _use_internal_dependency_generator 0
 #%define __debug_install_post %{nil}
 
-# Fake provides, because wine/windows provides this, we don't have
-# a real dep we can use
-Provides: mingw(gdi32.dll)
-Provides: mingw(ole32.dll)
 
 %description
 MinGW Windows cross-compiler Win32 header files.
@@ -66,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/*
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-4
+- Moved ole provides to mingw-filesystem package.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-3
 - Use the RPM macros from mingw-filesystem.
 
