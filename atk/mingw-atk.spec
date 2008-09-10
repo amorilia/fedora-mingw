@@ -5,10 +5,10 @@ Version:        1.23.5
 Release:        1%{?dist}
 Summary:        MinGW Windows Atk library
 
-License: LGPLv2+
+License:        LGPLv2+
 Group:          Development/Libraries
-URL: http://developer.gnome.org/projects/gap/
-Source: http://download.gnome.org/sources/atk/1.23/atk-%{version}.tar.bz2 
+URL:            http://developer.gnome.org/projects/gap/
+Source:         http://download.gnome.org/sources/atk/1.23/atk-%{version}.tar.bz2 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Patch1: atk-%{version}-mingw.patch
 

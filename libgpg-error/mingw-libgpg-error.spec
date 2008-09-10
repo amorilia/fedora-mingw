@@ -2,7 +2,7 @@
 
 Name:           mingw-libgpg-error
 Version:        1.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows GnuPGP error library
 
 License:        LGPLv2+
@@ -35,6 +35,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgpg-error.a
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -45,7 +47,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_bindir}/gpg-error-config
 %{_mingw_bindir}/gpg-error.exe
 %{_mingw_bindir}/libgpg-error-0.dll
-%{_mingw_libdir}/libgpg-error.a
 %{_mingw_libdir}/libgpg-error.dll.a
 %{_mingw_libdir}/libgpg-error.la
 %{_mingw_includedir}/gpg-error.h
@@ -54,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/common-lisp/source/gpg-error/*
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6-5
+- Remove static libraries.
+
 * Fri Sep  5 2008 Daniel P. Berrange <berrange@redhat.com> - 1.6-4
 - Add gettext support
 
