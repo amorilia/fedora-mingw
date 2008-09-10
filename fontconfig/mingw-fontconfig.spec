@@ -16,6 +16,7 @@ BuildArch:      noarch
 BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
+BuildRequires:  mingw-freetype
 
 %description
 MinGW Windows Fontconfig library.
@@ -25,13 +26,7 @@ MinGW Windows Fontconfig library.
 %setup -q -n fontconfig-%{version}
 
 %build
-PKG_CONFIG_PATH=%{_mingw_libdir}/pkgconfig \
-#{_mingw_configure} --with-arch=i686
-  CC="%{_mingw_cc}" \
-  CFLAGS="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2  -fexceptions  --param=ssp-buffer-size=4" \
-  ./configure \
-    --build=%_build --host=%{_mingw_host} --target=%{_mingw_target} \
-    --prefix=%{_mingw_prefix} --with-arch=i686
+%{_mingw_configure} --with-arch=i686
 make
 
 

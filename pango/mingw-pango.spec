@@ -30,7 +30,6 @@ MinGW Windows Pango library.
 %setup -q -n pango-%{version}
 
 %build
-PKG_CONFIG_PATH=%{_mingw_libdir}/pkgconfig \
 %{_mingw_configure}
 make
 
