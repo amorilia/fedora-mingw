@@ -60,5 +60,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man5/png.5*
 
 %changelog
-* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
+* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 1.2.31-1
 - Initial RPM release
