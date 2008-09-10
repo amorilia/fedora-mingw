@@ -35,7 +35,7 @@ diff -rup zlib-1.2.3.orig/win32/Makefile.gcc zlib-1.2.3.new/win32/Makefile.gcc
  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
  	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
-+	-$(INSTALL) $(SHAREDLIB) $(LIBRARY_PATH)/libz.dll
++	-$(INSTALL) $(SHAREDLIB) $(BINARY_PATH)
  
  uninstall:
  	-$(RM) $(INCLUDE_PATH)/zlib.h
