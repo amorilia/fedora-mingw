@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        20
+Version:        21
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -26,6 +26,7 @@ Requires:       rpm
 Provides:       mingw(msvcrt.dll)
 Provides:       mingw(kernel32.dll)
 Provides:       mingw(user32.dll)
+Provides:       mingw(gdi32.dll)
 
 
 %description
@@ -107,6 +108,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 21-1
+- Allow '.' in dll names for find-requires
+- Windows provides GDI32.DLL.
+
 * Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 20-1
 - On 64 bit install in /usr/lib/rpm always.
 
