@@ -30,6 +30,9 @@ Obsoletes:      mingw-bootstrap
 #%define _use_internal_dependency_generator 0
 #%define __debug_install_post %{nil}
 
+# Fake provides, because wine/windows provides this, we don't have
+# a real dep we can use
+Provides: mingw(gdi32.dll)
 
 %description
 MinGW Windows cross-compiler Win32 header files.
