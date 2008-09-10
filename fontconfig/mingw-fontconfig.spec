@@ -17,6 +17,7 @@ BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-freetype
+BuildRequires:  mingw-libxml2
 
 %description
 MinGW Windows Fontconfig library.
@@ -68,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-2
 - Remove static library.
+- +BR mingw-libxml2.
 
 * Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.6.0-1
 - Initial RPM release
