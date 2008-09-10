@@ -2,13 +2,13 @@
 
 Name:           mingw-gtk2
 Version:        2.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk/2.14/gtk+-%{version}.tar.bz2
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -35,8 +35,10 @@ MinGW Windows Gtk2 library.
 
 
 %build
-# XXX fix jasper dlls
-%{_mingw_configure} --without-jasper
+# Need to run the correct version of glib-mkenums.
+PATH=%{_mingw_bindir}:$PATH
+
+%{_mingw_configure}
 make
 
 
@@ -100,5 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/gtk-update-icon-cache.1*
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-2
+- Jasper DLLs now fixed.
+- Fix source URL.
+- Run the correct glib-mkenums.
+
 * Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.14.0-1
 - Initial RPM release
