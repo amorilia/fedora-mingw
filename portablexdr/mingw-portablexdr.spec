@@ -2,7 +2,7 @@
 
 Name:           mingw-portablexdr
 Version:        4.0.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+# Remove static library.
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libportablexdr.a
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -44,13 +47,15 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw_bindir}/libportablexdr-0.dll
-%{_mingw_libdir}/libportablexdr.a
 %{_mingw_libdir}/libportablexdr.dll.a
 %{_mingw_libdir}/libportablexdr.la
 %{_mingw_includedir}/rpc
 
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-4
+- Remove static library.
+
 * Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-3
 - Use RPM macros from mingw-filesystem.
 
