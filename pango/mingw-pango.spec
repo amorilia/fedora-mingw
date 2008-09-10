@@ -2,7 +2,7 @@
 
 Name:           mingw-pango
 Version:        1.21.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -30,6 +30,9 @@ MinGW Windows Pango library.
 %setup -q -n pango-%{version}
 
 %build
+# Need to run the correct version of glib-mkenums.
+PATH=%{_mingw_bindir}:$PATH
+
 %{_mingw_configure}
 make
 
@@ -74,5 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/pango-querymodules.1*
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.21.6-2
+- Run the correct glib-mkenums.
+
 * Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-1
 - Initial RPM release
