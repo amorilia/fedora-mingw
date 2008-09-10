@@ -20,8 +20,7 @@
 %_mingw_cflags            -O2 -g -pipe -Wall \\\
 			  -Wp,-D_FORTIFY_SOURCE=2 \\\
 			  -fexceptions \\\
-			  --param=ssp-buffer-size=4 \\\
-			  -I%{_mingw_includedir}
+			  --param=ssp-buffer-size=4
 
 %_mingw_cc		  i686-pc-mingw32-gcc
 %_mingw_cpp		  i686-pc-mingw32-gcc -E
@@ -31,6 +30,7 @@
 %_mingw_objdump		  i686-pc-mingw32-objdump
 
 %_mingw_configure \
+  PKG_CONFIG_PATH="%{_mingw_libdir}/pkgconfig" \\\
   CC="%{_mingw_cc}" \\\
   CFLAGS="%{_mingw_cflags}" \\\
   ./configure \\\
