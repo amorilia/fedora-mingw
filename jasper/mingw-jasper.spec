@@ -2,14 +2,15 @@
 
 Name:           mingw-jasper
 Version:        1.900.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Jasper library
 
-License: JasPer
-URL:     http://www.ece.uvic.ca/~mdadams/jasper/
-Source0: http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-%{version}.zip
-Patch1: jasper-%{version}-sleep.patch
-Patch2: jasper-%{version}-mingw.patch
+License:        JasPer
+URL:            http://www.ece.uvic.ca/~mdadams/jasper/
+Source0:        http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-%{version}.zip
+Patch1:         jasper-1.900.1-sleep.patch
+Patch2:         jasper-1.900.1-mingw.patch
+Patch3:         jasper-1.900.1-enable-shared.patch
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -28,6 +29,8 @@ MinGW Windows Jasper library.
 %setup -q -n jasper-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+
 
 %build
 %{_mingw_configure} --disable-opengl --enable-libjpeg
@@ -38,6 +41,8 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install mandir=%{_mingw_mandir}
+
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libjasper.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -50,14 +55,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_bindir}/i686-pc-mingw32-imginfo.exe
 %{_mingw_bindir}/i686-pc-mingw32-jasper.exe
 %{_mingw_bindir}/i686-pc-mingw32-tmrdemo.exe
-%{_mingw_includedir}/jasper/
-%{_mingw_libdir}/libjasper.a
+%{_mingw_bindir}/libjasper-1.dll
+%{_mingw_libdir}/libjasper.dll.a
 %{_mingw_libdir}/libjasper.la
+%{_mingw_includedir}/jasper/
 %{_mingw_mandir}/man1/i686-pc-mingw32-imgcmp.1*
 %{_mingw_mandir}/man1/i686-pc-mingw32-imginfo.1*
 %{_mingw_mandir}/man1/i686-pc-mingw32-jasper.1*
 %{_mingw_mandir}/man1/i686-pc-mingw32-jiv.1*
 
 %changelog
-* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-2
+- Enable DLLs.
+- Remove static libraries.
+
+* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 1.900.1-1
 - Initial RPM release
