@@ -2,7 +2,7 @@
 
 Name:      mingw-gettext
 Version:   0.17
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
@@ -42,6 +42,12 @@ rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/locale/locale.alias
 rm -f $RPM_BUILD_ROOT%{_mingw_libdir}/charset.alias
 rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/info/dir
 
+# Remove static libraries.
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libasprintf.a
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgettextpo.a
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libintl.a
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -68,21 +74,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_mingw_libdir}/gettext
 
-%{_mingw_libdir}/libasprintf.a
 %{_mingw_libdir}/libasprintf.dll.a
 %{_mingw_libdir}/libasprintf.la
 
 %{_mingw_libdir}/libgettextlib.dll.a
 %{_mingw_libdir}/libgettextlib.la
 
-%{_mingw_libdir}/libgettextpo.a
 %{_mingw_libdir}/libgettextpo.dll.a
 %{_mingw_libdir}/libgettextpo.la
 
 %{_mingw_libdir}/libgettextsrc.dll.a
 %{_mingw_libdir}/libgettextsrc.la
 
-%{_mingw_libdir}/libintl.a
 %{_mingw_libdir}/libintl.dll.a
 %{_mingw_libdir}/libintl.la
 
@@ -121,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-3
+- Remove static libraries.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-2
 - Use RPM macros from mingw-filesystem.
 

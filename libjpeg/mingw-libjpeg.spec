@@ -2,31 +2,31 @@
 
 Name:           mingw-libjpeg
 Version:        6b
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
-License: IJG
-URL: http://www.ijg.org/
+License:        IJG
+URL:            http://www.ijg.org/
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.bz2
-Source1: configure.in
+Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.gz
+Source1:        libjpeg-configure.in
 
-Patch1: jpeg-c++.patch
-Patch4: libjpeg-cflags.patch
-Patch5: libjpeg-buf-oflo.patch
-Patch6: libjpeg-autoconf.patch
+Patch1:         jpeg-c++.patch
+Patch4:         libjpeg-cflags.patch
+Patch5:         libjpeg-buf-oflo.patch
+Patch6:         libjpeg-autoconf.patch
 
-Patch100: jpeg-mingw.patch
+Patch100:       jpeg-mingw.patch
 
 BuildArch:      noarch
 
 BuildRequires:  mingw-filesystem >= 19
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
-BuildRequires: mingw-libpng
-BuildRequires: mingw-zlib
-BuildRequires: autoconf, libtool
+BuildRequires:  mingw-libpng
+BuildRequires:  mingw-zlib
+BuildRequires:  autoconf, libtool
 
 %description
 MinGW Windows Libjpeg library.
@@ -73,6 +73,9 @@ make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
 # Work around the broken makefiles...
 mv $RPM_BUILD_ROOT%{_mingw_prefix}/man/man1/*.1 $RPM_BUILD_ROOT%{_mingw_mandir}/man1
 
+# Remove static library.
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libjpeg.a
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -90,7 +93,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/jerror.h
 %{_mingw_includedir}/jmorecfg.h
 %{_mingw_includedir}/jpeglib.h
-%{_mingw_libdir}/libjpeg.a
 %{_mingw_libdir}/libjpeg.dll.a
 %{_mingw_libdir}/libjpeg.la
 %{_mingw_mandir}/man1/cjpeg.1*
@@ -100,5 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/wrjpgcom.1*
 
 %changelog
-* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
+* Wed Sep 10 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-2
+- Rename configure.in with a prefix.
+- Remove static library.
+
+* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-1
 - Initial RPM release

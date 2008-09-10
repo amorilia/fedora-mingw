@@ -2,7 +2,7 @@
 
 Name:           mingw-zlib
 Version:        1.2.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -65,6 +65,9 @@ mv $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll \
 mv $RPM_BUILD_ROOT%{_mingw_libdir}/libzdll.a \
    $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll.a
 
+# Remove static library.
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libz.a
+
 %__install zlib.3 $RPM_BUILD_ROOT%{_mingw_mandir}/man3
 
 
@@ -76,13 +79,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_mingw_includedir}/zconf.h
 %{_mingw_includedir}/zlib.h
-%{_mingw_libdir}/libz.a
 %{_mingw_libdir}/libz.dll.a
 %{_mingw_bindir}/libz.dll
 %{_mingw_mandir}/man3/zlib.3
 
 
 %changelog
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-6
+- Remove static library.
+
 * Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-5
 - Fix misnamed file: zlibdll.a -> zlib.dll.a
 - Explicitly provide mingw(zlib1.dll).

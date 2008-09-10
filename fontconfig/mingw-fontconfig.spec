@@ -2,12 +2,12 @@
 
 Name:           mingw-fontconfig
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
-License: MIT
-URL: http://fontconfig.org
-Source0: http://fontconfig.org/release/fontconfig-%{version}.tar.gz
+License:        MIT
+URL:            http://fontconfig.org
+Source0:        http://fontconfig.org/release/fontconfig-%{version}.tar.gz
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -37,6 +37,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
 
+# Remove static library.
+rm $RPM_BUILD_ROOT%{_mingw_libdir}/libfontconfig.a
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -49,7 +52,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_bindir}/fc-match.exe
 %{_mingw_bindir}/libfontconfig-1.dll
 %{_mingw_libdir}/fontconfig.def
-%{_mingw_libdir}/libfontconfig.a
 %{_mingw_libdir}/libfontconfig.dll.a
 %{_mingw_libdir}/libfontconfig.la
 %{_mingw_libdir}/pkgconfig/fontconfig.pc
@@ -64,5 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/doc/fontconfig
 
 %changelog
-* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-2
+- Remove static library.
+
+* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.6.0-1
 - Initial RPM release

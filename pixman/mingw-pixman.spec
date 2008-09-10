@@ -2,7 +2,7 @@
 
 Name:           mingw-pixman
 Version:        0.11.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Pixman library
 
 License:        MIT
@@ -36,6 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm $RPM_BUILD_ROOT/%{_mingw_libdir}/libpixman-1.a
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -44,11 +46,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_mingw_bindir}/libpixman-1-0.dll
 %{_mingw_includedir}/pixman-1
-%{_mingw_libdir}/libpixman-1.a
 %{_mingw_libdir}/libpixman-1.dll.a
 %{_mingw_libdir}/libpixman-1.la
 %{_mingw_libdir}/pkgconfig/pixman-1.pc
 
 %changelog
-* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11.10-2
+- Remove static library.
+
+* Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 0.11.10-1
 - Initial RPM release
