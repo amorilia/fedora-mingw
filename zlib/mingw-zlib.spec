@@ -7,7 +7,7 @@
 
 Name:           mingw-zlib
 Version:        1.2.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-6
+* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-7
 - Remove static library.
 
 * Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-5
