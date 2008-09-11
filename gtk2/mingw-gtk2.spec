@@ -6,7 +6,7 @@
 
 Name:           mingw-gtk2
 Version:        2.14.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -29,6 +29,15 @@ BuildRequires:  mingw-libpng
 BuildRequires:  mingw-libjpeg
 BuildRequires:  mingw-pango
 BuildRequires:  mingw-atk
+BuildRequires:  pkgconfig
+# Native one for msgfmt
+BuildRequires:  gettext
+# Native one for glib-genmarsjal
+BuildRequires:  glib2-devel
+# Native one for gtk-update-icon-cache
+BuildRequires:  gtk2
+# Native one for gdk-pixbuf-csource
+BuildRequires:  gtk2-devel
 
 Requires(post): wine
 
@@ -118,6 +127,9 @@ rm -f %{_mingw_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.14.0-4
+- Added dep on pkgconfig, gettext and glib2 (native)
+
 * Thu Sep 11 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-3
 - post/preun scripts to update the gdk-pixbuf.loaders list.
 

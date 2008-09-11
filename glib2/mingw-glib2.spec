@@ -6,7 +6,7 @@
 
 Name:           mingw-glib2
 Version:        2.18.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -24,7 +24,11 @@ BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-iconv
 BuildRequires:  mingw-gettext
-
+BuildRequires:  pkgconfig
+# Native version required for msgfmt use in build
+BuildRequires:  gettext
+# Native version required for glib-genmarshal
+BuildRequires:  glib2-devel
 
 %description
 MinGW Windows Glib2 library.
@@ -106,5 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-2
+- Add BR on pkgconfig, gettext and glib2 (native)
+
 * Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-1
 - Initial RPM release

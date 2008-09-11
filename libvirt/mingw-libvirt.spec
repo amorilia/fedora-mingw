@@ -6,7 +6,7 @@
 
 Name:           mingw-libvirt
 Version:        0.4.5
-Release:        2%{?dist}%{?extra_release}
+Release:        3%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -24,7 +24,9 @@ BuildRequires:  mingw-gnutls
 BuildRequires:  mingw-gettext
 BuildRequires:  mingw-libxml2
 BuildRequires:  mingw-portablexdr
-
+BuildRequires:  pkgconfig
+# Need native version for msgfmt
+BuildRequires:  gettext
 
 %description
 MinGW Windows libvirt virtualization library.
@@ -84,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 0.4.5-3%{?extra_release}
+- Add dep on gettext & pkgconfig
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.5-2
 - Remove static lib.
 

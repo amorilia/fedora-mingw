@@ -6,7 +6,7 @@
 
 Name:           mingw-pango
 Version:        1.21.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -25,6 +25,8 @@ BuildRequires:  mingw-gettext
 BuildRequires:  mingw-cairo
 BuildRequires:  mingw-freetype
 BuildRequires:  mingw-fontconfig
+BuildRequires:  mingw-glib2
+BuildRequires:  pkgconfig
 
 Requires(post): wine
 
@@ -38,8 +40,7 @@ MinGW Windows Pango library.
 
 %build
 # Need to run the correct version of glib-mkenums.
-PATH=%{_mingw_bindir}:$PATH
-
+PATH=%{_mingw_bindir}:$PATH \
 %{_mingw_configure}
 make
 
@@ -97,6 +98,9 @@ rm -f %{_mingw_sysconfdir}/pango/pango.modules
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-4
+- Add dep on pkgconfig
+
 * Thu Sep 11 2008 Richard W.M. Jones <rjones@redhat.com> - 1.21.6-3
 - post/preun scripts to update the pango.modules list.
 

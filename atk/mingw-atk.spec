@@ -6,7 +6,7 @@
 
 Name:           mingw-atk
 Version:        1.23.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
@@ -24,6 +24,11 @@ BuildRequires:  mingw-binutils
 BuildRequires:  mingw-iconv
 BuildRequires:  mingw-gettext
 BuildRequires:  mingw-glib2
+BuildRequires:  pkgconfig
+# Need native one too for msgfmt
+BuildRequires:  gettext
+# Need native one too for  glib-genmarshal
+BuildRequires:  glib2-devel
 
 %description
 MinGW Windows Atk library.
@@ -61,5 +66,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/locale/*/LC_MESSAGES/atk10.mo
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.23.5-2
+- Added dep on pkgconfig and glib2-devel (native)
+
 * Tue Sep  9 2008 Daniel P. Berrange <berrange@redhat.com> - 1.23.5-1
 - Initial RPM release

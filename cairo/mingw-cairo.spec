@@ -6,7 +6,7 @@
 
 Name:           mingw-cairo
 Version:        1.7.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:	LGPLv2 or MPLv1.1
@@ -25,7 +25,7 @@ BuildRequires:  mingw-pixman
 BuildRequires:  mingw-freetype
 BuildRequires:  mingw-libpng
 BuildRequires:  mingw-fontconfig
-
+BuildRequires:  pkgconfig
 
 %description
 MinGW Windows Cairo library.
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.7.4-3
+- Added dep on pkgconfig
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.7.4-2
 - Remove static libraries.
 - Fix source URL.
