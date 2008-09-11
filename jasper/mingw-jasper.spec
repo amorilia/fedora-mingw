@@ -6,7 +6,7 @@
 
 Name:           mingw-jasper
 Version:        1.900.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -24,6 +24,7 @@ BuildRequires:  mingw-filesystem >= 23
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libjpeg
+BuildRequires:  autoconf automake libtool
 
 %description
 MinGW Windows Jasper library.
@@ -37,6 +38,7 @@ MinGW Windows Jasper library.
 
 
 %build
+autoreconf
 %{_mingw_configure} --disable-opengl --enable-libjpeg
 make
 
@@ -69,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/i686-pc-mingw32-jiv.1*
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.900.1-3
+- Run autoreconf after changing configure.ac script and add BRs for autotools
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-2
 - Enable DLLs.
 - Remove static libraries.
