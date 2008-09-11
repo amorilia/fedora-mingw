@@ -6,7 +6,7 @@
 
 Name:           mingw-libgcrypt
 Version:        1.4.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows gcrypt encryption library
 
 License:        LGPLv2+
@@ -32,6 +32,7 @@ MinGW Windows gcrypt encryption library.
 
 
 %build
+PATH="%{_mingw_bindir}:$PATH" \
 %{_mingw_configure}
 make
 
@@ -64,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/info/gcrypt.info
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.4.1-5
+- Set PATH so it finds gpg-error-config
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.4.1-4
 - Remove static library.
 
