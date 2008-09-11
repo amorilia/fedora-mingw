@@ -33,17 +33,7 @@ executables.
 
 
 %build
-CC="%{__cc} ${RPM_OPT_FLAGS}" \
-./configure \
-  --prefix=%{_prefix} \
-  --bindir=%{_bindir} \
-  --includedir=%{_includedir} \
-  --libdir=%{_libdir} \
-  --mandir=%{_mandir} \
-  --infodir=%{_infodir} \
-  --datadir=%{_datadir} \
-  --build=%_build --host=%_host \
-  --target=%{_mingw_target}
+%{_mingw_configure}
 make
 
 
