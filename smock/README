@@ -1,0 +1,25 @@
+ SMOCK - Simpler Mock
+ ====================
+
+Smock is a thin wrapper around mock to let you build up a whole
+set of dependant RPMs against an external distro.
+
+ - Copy smock.httpd.conf to /etc/httpd/conf.d/smock.conf, changing the
+   /home/[USERNAME]/ to your user
+ - Start httpd
+ - Add  smock.mock.conf to all your repos in /etc/mock/ changing the
+   arch and distro name to match
+ - Create  $HOME/smock
+
+ - Edit smock.sh to set which arch(es) you want to build on
+
+Now you can run
+
+    ./smock.sh fedora-9 /path/to/srpm
+
+And it'll build  the RPM against the fedora-9-XXX distro for each 'XXX' 
+arch you listed.
+
+The resulting src RPMs, binary RPMs and build logs wil be put into
+$HOME/smock, and a YUM repo created. Further RPMs you build using
+smock will resolve the BuildRequires against this local repo
