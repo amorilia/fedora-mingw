@@ -55,9 +55,14 @@ do
 
     mock -r $DIST-$ARCH --resultdir $LOCALREPO/scratch $SRPM
 
+    if [ $? != 0 ]; then
+       echo "Build failed, leaving logs in $LOCALREPO/scratch"
+       exit $?
+    fi
     mv $LOCALREPO/scratch/*.src.rpm $LOCALREPO/$DIST/src/SRPMS
     mv $LOCALREPO/scratch/*.rpm $LOCALREPO/$DIST/$ARCH/RPMS
     mv $LOCALREPO/scratch/*.log $LOCALREPO/$DIST/$ARCH/logs/$SRPM/
 done
 
 createrepos
+
