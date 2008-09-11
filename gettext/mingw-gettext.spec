@@ -6,7 +6,7 @@
 
 Name:      mingw-gettext
 Version:   0.17
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
@@ -35,7 +35,8 @@ MinGW Windows Gettext library
   --disable-java \
   --disable-native-java \
   --disable-csharp \
-  --enable-threads=win32
+  --enable-threads=win32 \
+  --without-emacs
 
 make
 
@@ -97,8 +98,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_docdir}/gettext
 %{_mingw_docdir}/libasprintf/autosprintf_all.html
 
-%{_mingw_datadir}/emacs/site-lisp/*
-
 %{_mingw_datadir}/gettext/
 
 %{_mingw_datadir}/aclocal/*m4
@@ -129,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 0.17-4
+- Disable emacs lisp file install
+
 * Thu Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-3
 - Remove static libraries.
 
