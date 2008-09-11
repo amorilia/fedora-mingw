@@ -6,7 +6,7 @@
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        LGPLv2+
@@ -27,7 +27,7 @@ BuildRequires:  mingw-libgcrypt
 BuildRequires:  mingw-iconv
 BuildRequires:  mingw-gettext
 BuildRequires:  mingw-zlib
-
+BuildRequires:  autoconf automake libtool
 
 %description
 MinGW Windows GnuTLS TLS/SSL encryption library.
@@ -40,6 +40,7 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 
 %build
 autoreconf
+PATH="%{_mingw_bindir}:$PATH" \
 %{_mingw_configure} --with-included-libtasn1 --disable-cxx
 make
 
@@ -99,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-7
+- Add BR on autoconf, automake and libtool
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-6
 - Need to run autoreconf after patching src/Makefile.am.
 - Remove static libs.
