@@ -6,7 +6,7 @@
 
 Name:           mingw-fontconfig
 Version:        2.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
@@ -22,6 +22,7 @@ BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-freetype
 BuildRequires:  mingw-libxml2
+BuildRequires:  pkgconfig
 
 %description
 MinGW Windows Fontconfig library.
@@ -31,6 +32,7 @@ MinGW Windows Fontconfig library.
 %setup -q -n fontconfig-%{version}
 
 %build
+PATH="%{_mingw_bindir}:$PATH" \
 %{_mingw_configure} --with-arch=i686
 make
 
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/doc/fontconfig
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.6.0-3
+- Add mingw_bindir to $PATH for freetype-config script
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-2
 - Remove static library.
 - +BR mingw-libxml2.
