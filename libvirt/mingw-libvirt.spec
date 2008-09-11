@@ -1,4 +1,8 @@
-%include        /usr/lib/rpm/mingw-defs
+%define __strip %{_mingw_strip}
+%define __objdump %{_mingw_objdump}
+%define _use_internal_dependency_generator 0
+%define __find_requires %{_mingw_findrequires}
+%define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-libvirt
 Version:        0.4.5
@@ -11,7 +15,7 @@ URL:            http://www.libvirt.org/
 Source0:        ftp://libvirt.org/libvirt/libvirt-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  mingw-filesystem >= 19
+BuildRequires:  mingw-filesystem >= 23
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libgpg-error

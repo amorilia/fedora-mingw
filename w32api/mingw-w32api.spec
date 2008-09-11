@@ -1,4 +1,9 @@
-%include /usr/lib/rpm/mingw-defs
+
+%define __strip %{_mingw_strip}
+%define __objdump %{_mingw_objdump}
+%define _use_internal_dependency_generator 0
+%define __find_requires %{_mingw_findrequires}
+%define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-w32api
 Version:	3.11
@@ -13,19 +18,19 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-BuildRequires:  mingw-filesystem >= 3
+BuildRequires:  mingw-filesystem >= 23
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-runtime
 
-Requires:       mingw-filesystem >= 3
+Requires:       mingw-filesystem >= 23
 Requires:       mingw-binutils
 Requires:       mingw-gcc
 Requires:       mingw-runtime
 
 # Once this is installed, mingw-bootstrap (binary bootstrapper) is no
 # longer needed.
-Obsoletes:      mingw-bootstrap
+Obsoletes:      mingw-w32api-bootstrap
 
 #%define _use_internal_dependency_generator 0
 #%define __debug_install_post %{nil}

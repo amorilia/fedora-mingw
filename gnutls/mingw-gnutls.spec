@@ -1,4 +1,8 @@
-%include /usr/lib/rpm/mingw-defs
+%define __strip %{_mingw_strip}
+%define __objdump %{_mingw_objdump}
+%define _use_internal_dependency_generator 0
+%define __find_requires %{_mingw_findrequires}
+%define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-gnutls
 Version:        2.4.1
@@ -15,7 +19,7 @@ BuildArch:      noarch
 
 Patch0:         gnutls-certtool-build.patch
 
-BuildRequires:  mingw-filesystem >= 19
+BuildRequires:  mingw-filesystem >= 23
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libgpg-error

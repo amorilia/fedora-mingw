@@ -4,9 +4,8 @@
 %define __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
 %define runtime_version 3.14
-%define w32api_version 3.11
 
-Name:           mingw-bootstrap
+Name:           mingw-runtime-bootstrap
 Version:        1
 Release:        3%{?dist}
 Summary:        MinGW Windows bootstrap (binary package)
@@ -16,12 +15,10 @@ License:        Public Domain
 URL:            http://www.mingw.org/
 
 Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingw-runtime-%{runtime_version}.tar.gz
-Source1:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{w32api_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Provides:       mingw-runtime = %{runtime_version}
-Provides:       mingw-w32api = %{w32api_version}
 
 
 %description
@@ -30,8 +27,6 @@ MinGW bootstrap (binary package).
 
 %prep
 %setup -q -c
-%setup -q -D -T -a1
-
 
 %build
 rm -rf i686-pc-mingw32

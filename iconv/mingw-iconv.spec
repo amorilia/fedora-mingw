@@ -1,4 +1,8 @@
-%include /usr/lib/rpm/mingw-defs
+%define __strip %{_mingw_strip}
+%define __objdump %{_mingw_objdump}
+%define _use_internal_dependency_generator 0
+%define __find_requires %{_mingw_findrequires}
+%define __find_provides %{_mingw_findprovides}
 
 Name:      mingw-iconv
 Version:   1.12
@@ -12,7 +16,7 @@ Source0:   http://ftp.gnu.org/pub/gnu/libiconv/libiconv-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: noarch
 
-BuildRequires: mingw-filesystem >= 19
+BuildRequires: mingw-filesystem >= 23
 BuildRequires: mingw-gcc
 BuildRequires: mingw-binutils
 
