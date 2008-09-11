@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        22
+Version:        23
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 23-1
+- Add macros for find-provides/requires scripts
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 22-1
 - Windows provides OLE32.DLL.
 

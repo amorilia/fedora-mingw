@@ -28,6 +28,8 @@
 %_mingw_ranlib		  i686-pc-mingw32-ranlib
 %_mingw_strip		  i686-pc-mingw32-strip
 %_mingw_objdump		  i686-pc-mingw32-objdump
+%_mingw_findprovides      /usr/lib/rpm/mingw-find-provides.sh
+%_mingw_findrequires      /usr/lib/rpm/mingw-find-requires.sh
 
 %_mingw_configure \
   PKG_CONFIG_PATH="%{_mingw_libdir}/pkgconfig" \\\
