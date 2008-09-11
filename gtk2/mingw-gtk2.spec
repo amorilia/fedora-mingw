@@ -6,7 +6,7 @@
 
 Name:           mingw-gtk2
 Version:        2.14.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -29,6 +29,9 @@ BuildRequires:  mingw-libpng
 BuildRequires:  mingw-libjpeg
 BuildRequires:  mingw-pango
 BuildRequires:  mingw-atk
+
+Requires(post): wine
+
 
 %description
 MinGW Windows Gtk2 library.
@@ -55,6 +58,14 @@ rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+
+%post
+wine %{_mingw_bindir}/gdk-pixbuf-query-loaders.exe \
+  > %{_mingw_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
+
+%preun
+rm -f %{_mingw_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %files
@@ -105,7 +116,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/gtk-query-immodules-2.0.1*
 %{_mingw_mandir}/man1/gtk-update-icon-cache.1*
 
+
 %changelog
+* Thu Sep 11 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-3
+- post/preun scripts to update the gdk-pixbuf.loaders list.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-2
 - Jasper DLLs now fixed.
 - Fix source URL.
