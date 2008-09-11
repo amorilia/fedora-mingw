@@ -1,8 +1,6 @@
-%define __os_install_post /usr/lib/rpm/brp-compress %{nil}
-
 Name:           mingw-gcc
 Version:        4.3.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -164,6 +162,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-5
+- Remove __os_install_post, I think it's just left over from earlier.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-4
 - Use RPM macros from mingw-filesystem.
 
