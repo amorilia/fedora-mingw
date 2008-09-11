@@ -1,0 +1,143 @@
+diff -ur gdb-6.8.orig/gdb/cli/cli-cmds.c gdb-6.8/gdb/cli/cli-cmds.c
+--- gdb-6.8.orig/gdb/cli/cli-cmds.c	2008-01-01 22:53:14.000000000 +0000
++++ gdb-6.8/gdb/cli/cli-cmds.c	2008-09-11 15:37:27.000000000 +0100
+@@ -318,9 +318,10 @@
+ static void
+ pwd_command (char *args, int from_tty)
+ {
++  char * r;
+   if (args)
+     error (_("The \"pwd\" command does not take an argument: %s"), args);
+-  getcwd (gdb_dirbuf, sizeof (gdb_dirbuf));
++  r = getcwd (gdb_dirbuf, sizeof (gdb_dirbuf)); (void) r;
+ 
+   if (strcmp (gdb_dirbuf, current_directory) != 0)
+     printf_unfiltered (_("Working directory %s\n (canonically %s).\n"),
+diff -ur gdb-6.8.orig/gdb/inflow.c gdb-6.8/gdb/inflow.c
+--- gdb-6.8.orig/gdb/inflow.c	2008-01-01 22:53:11.000000000 +0000
++++ gdb-6.8/gdb/inflow.c	2008-09-11 15:41:47.000000000 +0100
+@@ -513,6 +513,7 @@
+ new_tty (void)
+ {
+   int tty;
++  int r;
+ 
+   if (inferior_thisrun_terminal == 0)
+     return;
+@@ -545,17 +546,17 @@
+   if (tty != 0)
+     {
+       close (0);
+-      dup (tty);
++      r = dup (tty); (void) r;
+     }
+   if (tty != 1)
+     {
+       close (1);
+-      dup (tty);
++      r = dup (tty); (void) r;
+     }
+   if (tty != 2)
+     {
+       close (2);
+-      dup (tty);
++      r = dup (tty); (void) r;
+     }
+   if (tty > 2)
+     close (tty);
+diff -ur gdb-6.8.orig/gdb/main.c gdb-6.8/gdb/main.c
+--- gdb-6.8.orig/gdb/main.c	2008-01-05 16:49:53.000000000 +0000
++++ gdb-6.8/gdb/main.c	2008-09-11 15:38:55.000000000 +0100
+@@ -116,6 +116,7 @@
+ static int
+ captured_main (void *data)
+ {
++  char *__r;
+   struct captured_main_args *context = data;
+   int argc = context->argc;
+   char **argv = context->argv;
+@@ -188,7 +189,7 @@
+   line[0] = '\0';		/* Terminate saved (now empty) cmd line */
+   instream = stdin;
+ 
+-  getcwd (gdb_dirbuf, sizeof (gdb_dirbuf));
++  __r = getcwd (gdb_dirbuf, sizeof (gdb_dirbuf)); (void) __r;
+   current_directory = gdb_dirbuf;
+ 
+   gdb_stdout = stdio_fileopen (stdout);
+diff -ur gdb-6.8.orig/gdb/mi/mi-cmd-env.c gdb-6.8/gdb/mi/mi-cmd-env.c
+--- gdb-6.8.orig/gdb/mi/mi-cmd-env.c	2008-01-01 22:53:14.000000000 +0000
++++ gdb-6.8/gdb/mi/mi-cmd-env.c	2008-09-11 15:37:54.000000000 +0100
+@@ -67,6 +67,7 @@
+ enum mi_cmd_result
+ mi_cmd_env_pwd (char *command, char **argv, int argc)
+ {
++  char *r;
+   if (argc > 0)
+     error (_("mi_cmd_env_pwd: No arguments required"));
+           
+@@ -78,7 +79,7 @@
+      
+   /* Otherwise the mi level is 2 or higher.  */
+ 
+-  getcwd (gdb_dirbuf, sizeof (gdb_dirbuf));
++  r = getcwd (gdb_dirbuf, sizeof (gdb_dirbuf)); (void) r;
+   ui_out_field_string (uiout, "cwd", gdb_dirbuf);
+ 
+   return MI_CMD_DONE;
+Only in gdb-6.8/gdb: observer.inc
+diff -ur gdb-6.8.orig/gdb/top.c gdb-6.8/gdb/top.c
+--- gdb-6.8.orig/gdb/top.c	2008-01-01 22:53:13.000000000 +0000
++++ gdb-6.8/gdb/top.c	2008-09-11 15:40:08.000000000 +0100
+@@ -1623,12 +1623,13 @@
+ void
+ gdb_init (char *argv0)
+ {
++  char *r;
+   if (pre_init_ui_hook)
+     pre_init_ui_hook ();
+ 
+   /* Run the init function of each source file */
+ 
+-  getcwd (gdb_dirbuf, sizeof (gdb_dirbuf));
++  r = getcwd (gdb_dirbuf, sizeof (gdb_dirbuf)); (void) r;
+   current_directory = gdb_dirbuf;
+ 
+ #ifdef __MSDOS__
+diff -ur gdb-6.8.orig/gdb/ui-file.c gdb-6.8/gdb/ui-file.c
+--- gdb-6.8.orig/gdb/ui-file.c	2008-01-01 22:53:13.000000000 +0000
++++ gdb-6.8/gdb/ui-file.c	2008-09-11 15:41:05.000000000 +0100
+@@ -477,11 +477,12 @@
+ static void
+ stdio_file_write (struct ui_file *file, const char *buf, long length_buf)
+ {
++  int r;
+   struct stdio_file *stdio = ui_file_data (file);
+   if (stdio->magic != &stdio_file_magic)
+     internal_error (__FILE__, __LINE__,
+ 		    _("stdio_file_write: bad magic number"));
+-  fwrite (buf, length_buf, 1, stdio->file);
++  r = fwrite (buf, length_buf, 1, stdio->file); (void) r;
+ }
+ 
+ static void
+diff -ur gdb-6.8.orig/gdb/utils.c gdb-6.8/gdb/utils.c
+--- gdb-6.8.orig/gdb/utils.c	2008-01-01 22:53:13.000000000 +0000
++++ gdb-6.8/gdb/utils.c	2008-09-11 15:40:43.000000000 +0100
+@@ -689,6 +689,7 @@
+   int quit_p;
+   int dump_core_p;
+   char *reason;
++  int r;
+ 
+   /* Don't allow infinite error/warning recursion.  */
+   {
+@@ -704,7 +705,7 @@
+ 	abort ();	/* NOTE: GDB has only three calls to abort().  */
+       default:
+ 	dejavu = 3;
+-	write (STDERR_FILENO, msg, sizeof (msg));
++	r = write (STDERR_FILENO, msg, sizeof (msg)); (void) r;
+ 	exit (1);
+       }
+   }
