@@ -6,7 +6,7 @@ Summary:        MinGW port of the GNU debugger (gdb)
 License:        GPLv2+
 Group:          Development/Libraries
 URL:            http://www.mingw.org/MinGWiki/index.php/gdb
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/gdb-%{version}-mingw-src.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/gdb-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0:         mingw-gdb-6.8-no-getcwd-error.patch

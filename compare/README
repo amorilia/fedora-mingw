@@ -1,0 +1,17 @@
+
+
+A tool to compare mingw specfiles against the native specfiles
+and report on meaningful details that we should fix to keep
+mingw in sync with native builds.
+
+It expects that $HOME/src/fedora/ contains a checkout of all
+matching Fedora modules
+
+There are some bogus warnings due to mingw specific things
+but need to be filtered / surpressed on a case by case basis
+cf valgrind's  --suppression arg
+
+NB, this requires a patched rpm-python
+
+https://bugzilla.redhat.com/show_bug.cgi?id=462726
+
