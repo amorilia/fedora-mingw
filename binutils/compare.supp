@@ -1,0 +1,4 @@
+different version: 'binutils': '2.18.50.0.9' != 'mingw-binutils': '2.18.50_20080109_2'
+different URL: 'binutils': 'http://sources.redhat.com/binutils' != 'mingw-binutils': 'http://www.mingw.org/'
+missing source: 'binutils-2.18.50.0.9.tar.bz2'
+extra source: 'binutils-2.18.50-20080109-2-src.tar.gz'

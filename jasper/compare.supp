@@ -1,0 +1,3 @@
+extra patch 'jasper-1.900.1-enable-shared.patch'
+extra patch 'jasper-1.900.1-mingw.patch'
+extra patch 'jasper-1.900.1-sleep.patch'

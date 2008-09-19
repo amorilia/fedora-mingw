@@ -3,10 +3,13 @@
 import sys
 from tempfile import mkdtemp
 from os import mkdir, system
+import os.path
 import rpm
 
 
 def compare_header(refspec, altspec):
+    warnings = []
+
     refhdr = refspec.packages()[0].header()
     althdr = altspec.packages()[0].header()
 
@@ -23,15 +26,18 @@ def compare_header(refspec, altspec):
     alturl = althdr[rpm.RPMTAG_URL]
 
     if refver != altver:
-        print "WARNING: different version: '%s': '%s' != '%s': '%s'" % (refname, refver, altname, altver)
+        warnings.append("different version: '%s': '%s' != '%s': '%s'" % (refname, refver, altname, altver))
 
     if refver != altver:
-        print "WARNING: different license: '%s': '%s' != '%s': '%s'" % (refname, reflic, altname, altlic)
+        warnings.append("different license: '%s': '%s' != '%s': '%s'" % (refname, reflic, altname, altlic))
 
     if refver != altver:
-        print "WARNING: different URL: '%s': '%s' != '%s': '%s'" % (refname, refurl, altname, alturl)
+        warnings.append("different URL: '%s': '%s' != '%s': '%s'" % (refname, refurl, altname, alturl))
+
+    return warnings
 
 def compare_sources(refspec, altspec):
+    warnings = []
     refsrc = []
     altsrc = []
     refsrcname = []
@@ -65,20 +71,23 @@ def compare_sources(refspec, altspec):
 
     for s in refsrc:
         if not s[1] in altsrcname:
-            print "WARNING: missing source: '%s'" % s[1]
+            warnings.append("missing source: '%s'" % s[1])
     for s in altsrc:
         if not s[1] in refsrcname:
-            print "WARNING: extra source: '%s'" % s[1]
+            warnings.append("extra source: '%s'" % s[1])
 
     for s1 in refsrc:
         for s2 in altsrc:
             if s1[1] != s2[1]:
                 continue
             if s1[0] != s2[0]:
-                print "WARNING: different base URI for source '%s': '%s' != '%s'" % (s1[1], s1[0], s2[0])
+                warnings.append("different base URI for source '%s': '%s' != '%s'" % (s1[1], s1[0], s2[0]))
+
+    return warnings
 
 
 def compare_patches(refspec, altspec):
+    warnings = []
     refpatch = []
     altpatch = []
     for src in refspec.sources():
@@ -90,27 +99,68 @@ def compare_patches(refspec, altspec):
 
     for p in refpatch:
         if not p in altpatch:
-            print "WARNING missing patch '%s'" % p
+            warnings.append("missing patch '%s'" % p)
 
     for p in altpatch:
         if not p in refpatch:
-            print "WARNING extra patch '%s'" % p
+            warnings.append("extra patch '%s'" % p)
+
+    return warnings
+
+
+def compare_specs(refspec, altspec):
+    warnings = []
+
+    for w in compare_header(refspec, altspec):
+        warnings.append(w)
+    for w in compare_sources(refspec, altspec):
+        warnings.append(w)
+    for w in compare_patches(refspec, altspec):
+        warnings.append(w)
+
+    return warnings
+
+def load_suppressions(file):
+    if not os.path.exists(file):
+        return []
+
+    supp = []
+    s = open(suppressionfile)
+    try:
+        while 1:
+            line = s.readline()
+            if not line:
+                break;
+
+            line = line[0:-1]
+            supp.append(line)
+    finally:
+        s.close()
+
+    return supp
+
+
 
 scratchdir = mkdtemp("rpm-source-compare")
 
-if len(sys.argv) != 3:
-    print "syntax: %s REFERENCE-SPEC ALTERNATE-SPEC" % sys.argv[0]
+if len(sys.argv) != 4:
+    print "syntax: %s REFERENCE-SPEC ALTERNATE-SPEC SUPPRESSIONS" % sys.argv[0]
     sys.exit(1)
 
 refspecfile = sys.argv[1]
 altspecfile = sys.argv[2]
+suppressionfile = sys.argv[3]
 
 ts = rpm.ts()
 
 refspec = ts.parseSpec(refspecfile)
 altspec = ts.parseSpec(altspecfile)
+suppressions = load_suppressions(suppressionfile)
 
-compare_header(refspec, altspec)
-compare_sources(refspec, altspec)
-compare_patches(refspec, altspec)
 
+warnings = compare_specs(refspec, altspec)
+
+
+for w in warnings:
+    if not w in suppressions:
+        print "WARNING %s" % w
