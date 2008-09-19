@@ -158,9 +158,13 @@ altspec = ts.parseSpec(altspecfile)
 suppressions = load_suppressions(suppressionfile)
 
 
-warnings = compare_specs(refspec, altspec)
-
-
-for w in warnings:
+warnings = []
+for w in compare_specs(refspec, altspec):
     if not w in suppressions:
+        warnings.append(w)
+
+if len(warnings) == 0:
+    print "PASS"
+else:
+    for w in warnings:
         print "WARNING %s" % w
