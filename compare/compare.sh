@@ -12,7 +12,7 @@ do
   then
       echo "Missing reference module $reference"
   else
-    python compare.py $reference $i
+    python compare/compare.py $reference $i
   fi
   echo
 done
