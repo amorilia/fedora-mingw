@@ -18,6 +18,8 @@ Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingw-runtime-%{runt
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildArch:	noarch
+
 Provides:       mingw-runtime = %{runtime_version}
 
 

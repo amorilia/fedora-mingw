@@ -18,6 +18,8 @@ Source0:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{w32api_vers
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildArch:	noarch
+
 Provides:       mingw-w32api = %{w32api_version}
 
 
