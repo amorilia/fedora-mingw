@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw-filesystem
-Version:        24
+Version:        25
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -76,6 +76,8 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/include/sys
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/lib/pkgconfig
 
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/aclocal
+
 # We don't normally package manual pages and info files, except
 # where those are not supplied by a Fedora native package.  So we
 # need to create the directories.
@@ -111,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 25-1
+- Add shared aclocal directory.
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 24-1
 - Remove mingw-defs, since no longer used.
 - Add _mingw_infodir.
