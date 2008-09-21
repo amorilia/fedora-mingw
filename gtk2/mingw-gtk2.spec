@@ -6,7 +6,7 @@
 
 Name:           mingw-gtk2
 Version:        2.14.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -65,6 +65,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
 
+# Remove manpages which duplicate those in Fedora native.
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -119,14 +123,12 @@ rm -f %{_mingw_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 %{_mingw_sysconfdir}/gtk-2.0/
 %{_mingw_datadir}/aclocal/gtk-2.0.m4
 %{_mingw_datadir}/gtk-2.0/
-%{_mingw_mandir}/man1/gdk-pixbuf-csource.1*
-%{_mingw_mandir}/man1/gdk-pixbuf-query-loaders.1*
-%{_mingw_mandir}/man1/gtk-builder-convert.1*
-%{_mingw_mandir}/man1/gtk-query-immodules-2.0.1*
-%{_mingw_mandir}/man1/gtk-update-icon-cache.1*
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-5
+- Remove manpages duplicating those in Fedora native packages.
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.14.0-4
 - Added dep on pkgconfig, gettext and glib2 (native)
 
