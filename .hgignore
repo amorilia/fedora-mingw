@@ -1,2 +1,9 @@
 syntax: glob
 *~
+binutils/binutils-2.18.50-20080109-2-src.tar.gz
+gcc/gcc-core-4.3.2.tar.bz2
+gcc/gcc-g++-4.3.2.tar.bz2
+runtime-bootstrap/mingw-runtime-3.14.tar.gz
+runtime/mingw-runtime-3.14-src.tar.gz
+w32api-bootstrap/w32api-3.11.tar.gz
+w32api/w32api-3.11-src.tar.gz
