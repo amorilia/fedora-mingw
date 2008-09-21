@@ -1,9 +1,21 @@
 syntax: glob
 *~
 binutils/binutils-2.18.50-20080109-2-src.tar.gz
+freetype/freetype-2.3.7.tar.bz2
 gcc/gcc-core-4.3.2.tar.bz2
 gcc/gcc-g++-4.3.2.tar.bz2
+gettext/gettext-0.17.tar.gz
+glib2/glib-2.18.0.tar.bz2
+iconv/libiconv-1.12.tar.gz
+jasper/jasper-1.900.1.zip
+libgpg-error/libgpg-error-1.6.tar.bz2
+libjpeg/jpegsrc.v6b.tar.gz
+libpng/libpng-1.2.31.tar.bz2
+libxml2/libxml2-2.6.32.tar.gz
+pixman/pixman-0.11.10.tar.gz
+portablexdr/portablexdr-4.0.10.tar.gz
 runtime-bootstrap/mingw-runtime-3.14.tar.gz
 runtime/mingw-runtime-3.14-src.tar.gz
 w32api-bootstrap/w32api-3.11.tar.gz
 w32api/w32api-3.11-src.tar.gz
+zlib/zlib-1.2.3.tar.gz
