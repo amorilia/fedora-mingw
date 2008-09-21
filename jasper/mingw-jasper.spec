@@ -50,6 +50,7 @@ make DESTDIR=$RPM_BUILD_ROOT install mandir=%{_mingw_mandir}
 
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libjasper.a
 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -69,6 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_mandir}/man1/i686-pc-mingw32-imginfo.1*
 %{_mingw_mandir}/man1/i686-pc-mingw32-jasper.1*
 %{_mingw_mandir}/man1/i686-pc-mingw32-jiv.1*
+
 
 %changelog
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.900.1-3
