@@ -1,11 +1,12 @@
 #!/usr/bin/perl -w
 #
-# Build Fedora MinGW spec files in correct order.
+# Show the order to build Fedora MinGW spec files.
 # By Richard Jones <rjones@redhat.com>
 
 use strict;
 
 my $debug = 0;
+chomp (my $pwd = `pwd`);
 
 sub main {
     my %br;
@@ -110,16 +111,22 @@ sub main {
 	    if ($packagename eq "mingw-gcc" &&
 		(!rpm_installed ("mingw-runtime") ||
 		 !rpm_installed ("mingw-w32api"))) {
-		print "rpmbuild -ba bootstrap/mingw-bootstrap.spec\n";
-	        print "as root # rpm -Uvh mingw-bootstrap*.rpm\n";
-		$installed{"mingw-bootstrap"} = 1;
+		print "rpmbuild -ba --define \"_sourcedir $pwd/runtime-bootstrap\" runtime-bootstrap/mingw-runtime-bootstrap.spec\n";
+	        print "as root # rpm -Uvh mingw-runtime-bootstrap*.rpm\n";
+		$installed{"mingw-runtime-bootstrap"} = 1;
+
+		print "rpmbuild -ba --define \"_sourcedir $pwd/w32api-bootstrap\" w32api-bootstrap/mingw-w32api-bootstrap.spec\n";
+	        print "as root # rpm -Uvh mingw-w32api-bootstrap*.rpm\n";
+		$installed{"mingw-w32api-bootstrap"} = 1;
 	    }
 
 	    # Spec file.
 	    my $specfile = "$dirname/$packagename.spec";
 	    die "$specfile: file missing" unless -f $specfile;
 
-	    print "rpmbuild -ba $specfile\n";
+	    my $rpmbuild =
+		"rpmbuild -ba --define \"_sourcedir $pwd/$dirname\"";
+	    print "$rpmbuild $specfile\n";
 	}
     }
 }
