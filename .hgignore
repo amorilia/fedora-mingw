@@ -1,18 +1,25 @@
 syntax: glob
 *~
+atk/atk-1.23.5.tar.bz2
 binutils/binutils-2.18.50-20080109-2-src.tar.gz
+cairo/cairo-1.7.4.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
 gcc/gcc-core-4.3.2.tar.bz2
 gcc/gcc-g++-4.3.2.tar.bz2
 gettext/gettext-0.17.tar.gz
 glib2/glib-2.18.0.tar.bz2
+gnutls/gnutls-2.4.1.tar.bz2
+gtk2/gtk+-2.14.0.tar.bz2
 iconv/libiconv-1.12.tar.gz
 jasper/jasper-1.900.1.zip
+libgcrypt/libgcrypt-1.4.1.tar.bz2
 libgpg-error/libgpg-error-1.6.tar.bz2
 libjpeg/jpegsrc.v6b.tar.gz
 libpng/libpng-1.2.31.tar.bz2
+libvirt/libvirt-0.4.5.tar.gz
 libxml2/libxml2-2.6.32.tar.gz
+pango/pango-1.21.6.tar.bz2
 pixman/pixman-0.11.10.tar.gz
 portablexdr/portablexdr-4.0.10.tar.gz
 runtime-bootstrap/mingw-runtime-3.14.tar.gz
