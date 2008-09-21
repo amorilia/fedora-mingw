@@ -6,7 +6,7 @@
 
 Name:           mingw-libxml2
 Version:        2.6.32
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        LGPLv2+
@@ -44,6 +44,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libxml2.a
 
+# Remove manpages which duplicate Fedora native.
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,11 +67,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/aclocal/*
 %{_mingw_docdir}/libxml2-%{version}/
 %{_mingw_datadir}/gtk-doc/html/libxml2/
-%{_mingw_mandir}/man1/*
-%{_mingw_mandir}/man3/*
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.32-5
+- Remove manpages which duplicate Fedora native.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.32-4
 - Remove static libraries.
 - List libdir files explicitly.

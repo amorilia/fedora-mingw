@@ -6,7 +6,7 @@
 
 Name:           mingw-freetype
 Version:        2.3.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Freetype library
 
 License:        FTL or GPLv2+
@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw-filesystem >= 23
+BuildRequires:  mingw-filesystem >= 25
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-zlib
@@ -57,7 +57,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/pkgconfig/freetype2.pc
 %{_mingw_datadir}/aclocal/freetype2.m4
 
+
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.3.7-3
+- Depends on filesystem >= 25.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.3.7-2
 - Fix source URL.
 - Remove static libraries.

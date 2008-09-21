@@ -6,7 +6,7 @@
 
 Name:           mingw-glib2
 Version:        2.18.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
+
+# Remove manpages which duplicate Fedora native.
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -100,16 +104,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/gtk-doc/html/glib/
 %{_mingw_datadir}/gtk-doc/html/gobject/
 %{_mingw_datadir}/locale/*/LC_MESSAGES/glib20.mo
-%{_mingw_mandir}/man1/glib-genmarshal.1*
-%{_mingw_mandir}/man1/glib-gettextize.1*
-%{_mingw_mandir}/man1/glib-mkenums.1*
-%{_mingw_mandir}/man1/gobject-query.1*
-%{_mingw_mandir}/man1/gtester-report.1*
-%{_mingw_mandir}/man1/gtester.1*
-
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.0-3
+- Remove manpages which duplicate Fedora native.
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.0-2
 - Add BR on pkgconfig, gettext and glib2 (native)
 

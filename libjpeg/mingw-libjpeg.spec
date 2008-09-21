@@ -6,14 +6,14 @@
 
 Name:           mingw-libjpeg
 Version:        6b
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
 License:        IJG
 URL:            http://www.ijg.org/
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.bz2
+Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.gz
 Source1:        libjpeg-configure.in
 
 Patch1:         jpeg-c++.patch
@@ -69,16 +69,15 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_mingw_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw_includedir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw_libdir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_mandir}/man1
 mkdir -p $RPM_BUILD_ROOT%{_mingw_prefix}/man/man1
 
 make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
 
-# Work around the broken makefiles...
-mv $RPM_BUILD_ROOT%{_mingw_prefix}/man/man1/*.1 $RPM_BUILD_ROOT%{_mingw_mandir}/man1
-
 # Remove static library.
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libjpeg.a
+
+# Remove manual pages which duplicate Fedora native.
+rm -rf $RPM_BUILD_ROOT%{_mingw_prefix}/man
 
 
 %clean
@@ -99,13 +98,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/jpeglib.h
 %{_mingw_libdir}/libjpeg.dll.a
 %{_mingw_libdir}/libjpeg.la
-%{_mingw_mandir}/man1/cjpeg.1*
-%{_mingw_mandir}/man1/djpeg.1*
-%{_mingw_mandir}/man1/jpegtran.1*
-%{_mingw_mandir}/man1/rdjpgcom.1*
-%{_mingw_mandir}/man1/wrjpgcom.1*
+
 
 %changelog
+* Sun Sep 21 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-3
+- Fix URL.
+- Remove manpages which duplicate Fedora native.
+
 * Wed Sep 10 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-2
 - Rename configure.in with a prefix.
 - Remove static library.

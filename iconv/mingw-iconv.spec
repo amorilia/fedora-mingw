@@ -6,7 +6,7 @@
 
 Name:      mingw-iconv
 Version:   1.12
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
@@ -24,20 +24,30 @@ BuildRequires: mingw-binutils
 %description
 MinGW Windows Iconv library
 
+
 %prep
 %setup -q -n libiconv-%{version}
+
 
 %build
 %{_mingw_configure}
 make
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+# Remove documentation which duplicates what is already in
+# Fedora native packages.
+rm -rf $RPM_BUILD_ROOT%{_mingw_docdir}/libiconv/
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
 
 %files
 %defattr(-,root,root)
@@ -53,15 +63,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/libcharset.la
 %{_mingw_libdir}/libiconv.dll.a
 %{_mingw_libdir}/libiconv.la
-%{_mingw_docdir}/libiconv/
-%{_mingw_mandir}/man1/iconv.1*
-%{_mingw_mandir}/man3/iconv.3*
-%{_mingw_mandir}/man3/iconv_close.3*
-%{_mingw_mandir}/man3/iconv_open.3*
-%{_mingw_mandir}/man3/iconvctl.3*
 
 
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-3
+- Remove documentation which duplicates what is in Fedora native packages.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-2
 - Use RPM macros from mingw-filesystem.
 

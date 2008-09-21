@@ -7,7 +7,7 @@
 
 Name:           mingw-zlib
 Version:        1.2.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -55,7 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_mingw_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw_includedir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw_libdir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_mandir}/man3
 
 make -f win32/Makefile.gcc \
      INCLUDE_PATH=$RPM_BUILD_ROOT%{_mingw_includedir} \
@@ -70,8 +69,6 @@ mv $RPM_BUILD_ROOT%{_mingw_libdir}/libzdll.a \
 # Remove static library.
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libz.a
 
-%__install zlib.3 $RPM_BUILD_ROOT%{_mingw_mandir}/man3
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,10 +80,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/zlib.h
 %{_mingw_libdir}/libz.dll.a
 %{_mingw_bindir}/zlib1.dll
-%{_mingw_mandir}/man3/zlib.3
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-8
+- Remove manpage.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-7
 - Remove static library.
 

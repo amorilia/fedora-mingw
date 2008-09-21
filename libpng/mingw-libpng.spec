@@ -6,7 +6,7 @@
 
 Name:           mingw-libpng
 Version:        1.2.31
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Libpng library
 
 License:        zlib
@@ -41,6 +41,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libpng.a
 
+# No need to distribute manpages which appear in the Fedora
+# native packages already.
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -62,11 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/libpng12.la
 %{_mingw_libdir}/pkgconfig/libpng.pc
 %{_mingw_libdir}/pkgconfig/libpng12.pc
-%{_mingw_mandir}/man3/libpng.3*
-%{_mingw_mandir}/man3/libpngpf.3*
-%{_mingw_mandir}/man5/png.5*
+
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.31-3
+- Don't duplicate Fedora native manpages.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.31-2
 - Remove static library.
 
