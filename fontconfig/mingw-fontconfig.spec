@@ -6,7 +6,7 @@
 
 Name:           mingw-fontconfig
 Version:        2.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
@@ -14,6 +14,8 @@ URL:            http://fontconfig.org
 Source0:        http://fontconfig.org/release/fontconfig-%{version}.tar.gz
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0:         mingw-fontconfig-2.6.0-remove-logfile.patch
 
 BuildArch:      noarch
 
@@ -23,6 +25,8 @@ BuildRequires:  mingw-binutils
 BuildRequires:  mingw-freetype
 BuildRequires:  mingw-libxml2
 BuildRequires:  pkgconfig
+BuildRequires:  docbook-utils
+
 
 %description
 MinGW Windows Fontconfig library.
@@ -30,6 +34,9 @@ MinGW Windows Fontconfig library.
 
 %prep
 %setup -q -n fontconfig-%{version}
+%patch0 -p1
+autoreconf
+
 
 %build
 PATH="%{_mingw_bindir}:$PATH" \
@@ -46,6 +53,10 @@ rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
 
 # Remove static library.
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libfontconfig.a
+
+# Remove duplicate manpages.
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,15 +75,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/pkgconfig/fontconfig.pc
 %{_mingw_includedir}/fontconfig/
 %{_mingw_sysconfdir}/fonts/
-%{_mingw_mandir}/man1/fc-cache.1*
-%{_mingw_mandir}/man1/fc-cat.1*
-%{_mingw_mandir}/man1/fc-list.1*
-%{_mingw_mandir}/man1/fc-match.1*
-%{_mingw_mandir}/man3/Fc*.3*
-%{_mingw_mandir}/man5/fonts-conf.5*
 %{_mingw_datadir}/doc/fontconfig
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-4
+- Remove duplicate manpages.
+- Patch to delete logfile left when building (unused) manpages.
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.6.0-3
 - Add mingw_bindir to $PATH for freetype-config script
 

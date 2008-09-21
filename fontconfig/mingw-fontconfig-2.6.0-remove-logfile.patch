@@ -1,0 +1,11 @@
+--- fontconfig-2.6.0.orig/doc/Makefile.am	2007-11-06 00:05:37.000000000 +0000
++++ fontconfig-2.6.0/doc/Makefile.am	2008-09-21 13:50:38.000000000 +0100
+@@ -121,7 +121,7 @@
+ 	$(DOC2MAN) -o devel-man local-fontconfig-devel.sgml && \
+ 	mv devel-man/manpage.refs func.refs && \
+ 	mv devel-man/*.3 . && \
+-	$(RM) devel-man/manpage.links && \
++	$(RM) devel-man/manpage.links devel-man/manpage.log && \
+ 	rmdir devel-man
+ 
+ local-fontconfig-devel.sgml: fontconfig-devel.sgml
