@@ -1,6 +1,12 @@
+%define __strip %{_mingw_strip}
+%define __objdump %{_mingw_objdump}
+%define _use_internal_dependency_generator 0
+%define __find_requires %{_mingw_findrequires}
+%define __find_provides %{_mingw_findprovides}
+
 Name:           mingw-gdb
 Version:        6.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW port of the GNU debugger (gdb)
 
 License:        GPLv2+
@@ -13,11 +19,6 @@ Patch0:         mingw-gdb-6.8-no-getcwd-error.patch
 
 BuildRequires:  mingw-filesystem >= 23
 BuildRequires:  flex
-BuildRequires:  chrpath
-
-Requires:       mingw-filesystem >= 23
-Requires:       mingw-binutils
-Requires:       mingw-runtime
 
 
 %description
@@ -33,21 +34,22 @@ executables.
 
 
 %build
-%{_mingw_configure}
+# Using echo normalizes spaces between the flags.
+PKG_CONFIG_PATH="%{_mingw_libdir}/pkgconfig" \
+CC="%{_mingw_cc}" \
+CFLAGS=`echo %{_mingw_cflags}` \
+./configure \
+  --build=%_build --host=%{_mingw_host} --target=%{_mingw_target} \
+  --prefix=%{_mingw_prefix} \
+  --infodir=%{_mingw_datadir}/info \
+  --mandir=%{_mingw_mandir}
+
 make
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Remove files that clash with other installed stuff.
-rm -f $RPM_BUILD_ROOT%{_libdir}/libiberty.a
-rm -rf $RPM_BUILD_ROOT%{_infodir}/*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
-
-# Remove rpaths
-chrpath --delete $RPM_BUILD_ROOT%{_bindir}/*
 
 
 %clean
@@ -56,11 +58,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/i686-pc-mingw32-gdb
-%{_bindir}/i686-pc-mingw32-gdbtui
-%{_mandir}/man1/*.1*
+%{_mingw_bindir}/gdb.exe
+%{_mingw_bindir}/gdbserver.exe
+%{_mingw_libdir}/libbfd.a
+%{_mingw_libdir}/libbfd.la
+%{_mingw_libdir}/libiberty.a
+%{_mingw_libdir}/libopcodes.a
+%{_mingw_libdir}/libopcodes.la
+%{_mingw_includedir}/*
+%{_mingw_datadir}/info/*
+%{_mingw_mandir}/man1/*.1*
+%{_mingw_datadir}/locale/*/LC_MESSAGES/*
 
 
 %changelog
-* Thu Sep 11 2008 Richard W.M. Jones <rjones@redhat.com> - 6.8-1
+* Fri Sep 12 2008 Richard W.M. Jones <rjones@redhat.com> - 6.8-2
 - Initial RPM release.
