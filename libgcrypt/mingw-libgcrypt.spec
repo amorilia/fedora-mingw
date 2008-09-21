@@ -6,7 +6,7 @@
 
 Name:           mingw-libgcrypt
 Version:        1.4.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows gcrypt encryption library
 
 License:        LGPLv2+
@@ -42,9 +42,11 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
-rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/info/dir
-
+# Remove the static library.
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgcrypt.a
+
+# Remove info pages which duplicate what is in Fedora natively.
+rm -rf $RPM_BUILD_ROOT%{_mingw_infodir}
 
 
 %clean
@@ -62,9 +64,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/gcrypt-module.h
 %{_mingw_includedir}/gcrypt.h
 %{_mingw_datadir}/aclocal/libgcrypt.m4
-%{_mingw_datadir}/info/gcrypt.info
+
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.4.1-6
+- Remove info pages.
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.4.1-5
 - Set PATH so it finds gpg-error-config
 
