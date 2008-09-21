@@ -9,6 +9,7 @@
 %_mingw_libexecdir        %{_mingw_prefix}/libexec
 %_mingw_datadir           %{_mingw_prefix}/share
 %_mingw_docdir            %{_mingw_prefix}/share/doc
+%_mingw_infodir           %{_mingw_prefix}/share/info
 %_mingw_mandir            %{_mingw_prefix}/share/man
 %_mingw_sysconfdir        %{_mingw_prefix}/etc
 %_mingw_includedir        %{_mingw_prefix}/include

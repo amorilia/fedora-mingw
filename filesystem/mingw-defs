@@ -1,8 +1,0 @@
-# Some standard definitions %-included at the top of most
-# of the MinGW RPM spec files.
-
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
-%define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
