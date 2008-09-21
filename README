@@ -21,10 +21,11 @@ Build order & package notes:
       This is just a straight cross-compile of binutils.  It has
       no BuildRequires beyond what is in basic Fedora already.
 
- ( 3) mingw-bootstrap
+ ( 3) mingw-runtime-bootstrap
+ ( 4) mingw-w32api-bootstrap
 
-      This is NOT a real Fedora package.  Instead it is a BINARY
-      package which is just needed first time if you are building
+      These are NOT real Fedora packages.  Instead they are BINARY
+      packages which is just needed first time if you are building
       from scratch.  It contains some Windows binaries and header
       files which are needed to bootstrap everything, and which
       would normally be built by the packages below (specifically
@@ -33,17 +34,17 @@ Build order & package notes:
       Note: If you already have mingw packages installed then you
       should not build this package.
 
- ( 4) mingw-gcc
+ ( 5) mingw-gcc
 
- ( 5) mingw-runtime
- ( 6) mingw-w32api
+ ( 6) mingw-runtime
+ ( 7) mingw-w32api
 
       Note that once built and installed, these last two replace the
-      files built from binaries in mingw-bootstrap.
+      files built from binaries in mingw-{runtime,w32api}-bootstrap.
 
-Then for the rest, use ./BUILD.pl which is a script which works out
-the correct order to build packages and will display the list of
-commands that you have to invoke to do this.
+Then for the rest, use ./show-build-order.pl which is a script which
+works out the correct order to build packages and will display the
+list of commands that you have to invoke to do this.
 
-(Note that BUILD.pl doesn't actually build anything - it just prints
-suggested commands).
+(Note that show-build-order.pl doesn't actually build anything - it
+just prints suggested commands).
