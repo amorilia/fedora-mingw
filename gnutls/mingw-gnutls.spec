@@ -6,7 +6,7 @@
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        LGPLv2+
@@ -19,7 +19,7 @@ BuildArch:      noarch
 
 Patch0:         gnutls-certtool-build.patch
 
-BuildRequires:  mingw-filesystem >= 23
+BuildRequires:  mingw-filesystem >= 25
 BuildRequires:  mingw-gcc
 BuildRequires:  mingw-binutils
 BuildRequires:  mingw-libgpg-error
@@ -55,6 +55,10 @@ rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-extra.a
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-openssl.a
 rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls.a
 
+# Remove info and man pages which duplicate stuff in Fedora already.
+rm -rf $RPM_BUILD_ROOT%{_mingw_infodir}
+rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -87,19 +91,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_includedir}/gnutls/
 %{_mingw_datadir}/aclocal/libgnutls-extra.m4
 %{_mingw_datadir}/aclocal/libgnutls.m4
-%{_mingw_datadir}/info/gnutls-*.png
-%{_mingw_datadir}/info/gnutls.info*
-%{_mingw_mandir}/man1/certtool.1*
-%{_mingw_mandir}/man1/gnutls-cli-debug.1*
-%{_mingw_mandir}/man1/gnutls-cli.1*
-%{_mingw_mandir}/man1/gnutls-serv.1*
-%{_mingw_mandir}/man1/psktool.1*
-%{_mingw_mandir}/man1/srptool.1*
-%{_mingw_mandir}/man3/gnutls_*.3*
 %{_mingw_datadir}/locale/*/LC_MESSAGES/gnutls.mo
 
 
 %changelog
+* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-8
+- Remove duplicate manpages and info files.
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-7
 - Add BR on autoconf, automake and libtool
 
