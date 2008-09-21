@@ -1,4 +1,3 @@
-
 %define __strip %{_mingw_strip}
 %define __objdump %{_mingw_objdump}
 %define _use_internal_dependency_generator 0
