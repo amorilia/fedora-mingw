@@ -1,3 +1,5 @@
+%define sconsopts VERSION=%{version} PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir} SKIPPLUGINS=System DEBUG_SYMBOLS=1 OPTS=1
+
 Name:           mingw-nsis
 Version:        2.39
 Release:        1%{?dist}
@@ -9,7 +11,12 @@ URL:            http://nsis.sourceforge.net/
 Source0:        http://dl.sourceforge.net/sourceforge/nsis/nsis-%{version}-src.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Patch0:         nsis-2.39-mingw-search.patch
+# Patches from Debian (mainly by Paul Wise).
+Patch0:         nsis-2.39-debian-64bit-fixes.patch
+Patch1:         nsis-2.39-debian-debug-opt.patch
+
+# This patch is required for NSIS to find the correct cross-compiler.
+Patch2:         nsis-2.39-mingw-search.patch
 
 BuildRequires:  mingw-filesystem >= 20
 BuildRequires:  mingw-gcc
@@ -23,48 +30,30 @@ BuildRequires:  wxGTK-devel
 NSIS, the Nullsoft Scriptable Install System, is a script-driven
 Windows installation system.
 
-This package includes native Fedora binaries of makensis (etc.)  There
-are no native NSIS plugins available.  Complete Windows binaries and
-plugins are in the mingw-nsis-win package, but you must run those
-either on a Windows machine or under Wine.
-
-
-%package win
-Summary:        Windows binaries for %{name}
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-BuildArch:      noarch
-
-
-%description win
-This package includes complete Windows binaries and plugins for
-%{name}.
+This package includes native Fedora binaries of makensis (etc.) and
+all plugins except for System.dll.  The System.dll plugin cannot be
+built natively at this time since it includes inline Microsoft
+assembler code.
 
 
 %prep
 %setup -q -n nsis-%{version}-src
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 
 %build
-scons \
-  PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir}
+scons %{sconsopts}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 mkdir $RPM_BUILD_ROOT
-scons \
-  PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir} \
-  PREFIX_DEST=$RPM_BUILD_ROOT \
-  install
+scons %{sconsopts} PREFIX_DEST=$RPM_BUILD_ROOT install
 
 mv $RPM_BUILD_ROOT%{_docdir}/nsis $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-
-# It's not clear if we should move the Windows binaries
-# to %{_mingw_sysroot} or leave them where they are.
 
 
 %clean
@@ -78,11 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/nsis
 %doc %{_docdir}/%{name}-%{version}
 
-%files win
-%defattr(-,root,root)
-%{_datadir}/nsis
-
 
 %changelog
-* Fri Sep  5 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-1
+* Mon Sep 22 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-1
 - Initial RPM release.

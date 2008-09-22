@@ -19,6 +19,8 @@ libjpeg/jpegsrc.v6b.tar.gz
 libpng/libpng-1.2.31.tar.bz2
 libvirt/libvirt-0.4.5.tar.gz
 libxml2/libxml2-2.6.32.tar.gz
+nsis/nsis-2.19-src.tar.bz2
+nsis/nsis-2.39-src.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pixman/pixman-0.11.10.tar.gz
 portablexdr/portablexdr-4.0.10.tar.gz
