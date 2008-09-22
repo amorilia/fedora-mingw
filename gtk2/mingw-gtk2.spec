@@ -5,14 +5,17 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-gtk2
-Version:        2.14.0
-Release:        5%{?dist}
+Version:        2.14.2
+Release:        1%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
+Source0:        http://download.gnome.org/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
+Patch1:         gtk+-2.11.1-set-invisible-char-to-bullet.patch
+Patch2:         gail-leaks.patch
+Patch3:         info-leak.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -48,7 +51,9 @@ MinGW Windows Gtk2 library.
 
 %prep
 %setup -q -n gtk+-%{version}
-
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 # Need to run the correct version of glib-mkenums.
@@ -126,6 +131,9 @@ rm -f %{_mingw_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.14.2-1
+- Update to 2.14.2 release
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-5
 - Remove manpages duplicating those in Fedora native packages.
 

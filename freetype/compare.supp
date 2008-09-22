@@ -1,0 +1,6 @@
+# Applications not required for mingw
+missing source: 'ft2demos-2.3.7.tar.bz2'
+# Mingw does not have multilib
+missing patch 'freetype-multilib.patch'
+# Not including demos in mingw
+missing patch 'ft2demos-2.1.9-mathlib.patch'

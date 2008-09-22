@@ -1,0 +1,33 @@
+diff -up gnutls-2.4.0/lib/gnutlsxx.cpp.nosrp gnutls-2.4.0/lib/gnutlsxx.cpp
+--- gnutls-2.4.0/lib/gnutlsxx.cpp.nosrp	2008-05-19 10:01:43.000000000 +0200
++++ gnutls-2.4.0/lib/gnutlsxx.cpp	2008-06-23 20:11:26.000000000 +0200
+@@ -398,7 +398,11 @@ void session::set_credentials( credentia
+ 
+ const char* server_session::get_srp_username() const
+ {
++#ifdef ENABLE_SRP
+     return gnutls_srp_server_get_username( s);
++#else
++    return NULL;
++#endif
+ }
+ 
+ const char* server_session::get_psk_username() const
+@@ -677,7 +681,7 @@ void certificate_client_credentials::set
+ }
+ 
+ // SRP
+-
++#ifdef ENABLE_SRP
+ srp_server_credentials::srp_server_credentials() : credentials(GNUTLS_CRD_SRP)
+ { 
+     RETWRAP(gnutls_srp_allocate_server_credentials( &cred));
+@@ -721,7 +725,7 @@ void srp_client_credentials::set_credent
+ {
+     gnutls_srp_set_client_credentials_function( cred, func);
+ }
+-
++#endif
+ // PSK
+ 
+ psk_server_credentials::psk_server_credentials() : credentials(GNUTLS_CRD_PSK)

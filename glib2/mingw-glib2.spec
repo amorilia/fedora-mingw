@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-glib2
-Version:        2.18.0
-Release:        3%{?dist}
+Version:        2.18.1
+Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -107,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.1-1
+- Update to 2.18.1 release
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.0-3
 - Remove manpages which duplicate Fedora native.
 

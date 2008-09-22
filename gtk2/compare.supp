@@ -1,2 +1,4 @@
 missing source: 'update-gtk-immodules'
 missing source: 'update-gdk-pixbuf-loaders'
+missing patch 'workaround.patch'
+missing patch 'gtk+-2.13.5-lib64.patch'

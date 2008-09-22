@@ -6,14 +6,21 @@
 
 Name:           mingw-freetype
 Version:        2.3.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Freetype library
 
 License:        FTL or GPLv2+
 URL:            http://www.freetype.org
 Source:         http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
+Source1:         http://download.savannah.gnu.org/releases/freetype/freetype-doc-%{version}.tar.bz2
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch1:  freetype-2.1.10-enable-ft2-bci.patch
+Patch2:  freetype-2.3.0-enable-spr.patch
+Patch3:  freetype-2.2.1-enable-valid.patch
+Patch4:  freetype-2.2.1-memcpy-fix.patch
+
 
 BuildArch:      noarch
 
@@ -27,7 +34,7 @@ MinGW Windows Freetype library.
 
 
 %prep
-%setup -q -n freetype-%{version}
+%setup -q -n freetype-%{version} -b 1 -a 1
 
 %build
 %{_mingw_configure}
@@ -59,6 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.3.7-4
+- Import patches from rawhide  & add docs
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.3.7-3
 - Depends on filesystem >= 25.
 

@@ -5,16 +5,15 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-atk
-Version:        1.23.5
-Release:        2%{?dist}
+Version:        1.24.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://developer.gnome.org/projects/gap/
-Source:         http://download.gnome.org/sources/atk/1.23/atk-%{version}.tar.bz2 
+Source:         http://download.gnome.org/sources/atk/1.24/atk-%{version}.tar.bz2 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Patch1: atk-%{version}-mingw.patch
 
 BuildArch:      noarch
 
@@ -36,7 +35,6 @@ MinGW Windows Atk library.
 
 %prep
 %setup -q -n atk-%{version}
-%patch1 -p1
 
 %build
 %{_mingw_configure}
@@ -66,6 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/locale/*/LC_MESSAGES/atk10.mo
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.24.0-1
+- Update to 1.24.0 release
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.23.5-2
 - Added dep on pkgconfig and glib2-devel (native)
 

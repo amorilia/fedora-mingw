@@ -6,7 +6,7 @@
 
 Name:           mingw-jasper
 Version:        1.900.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -15,6 +15,7 @@ Source0:        http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-%{version
 Patch1:         jasper-1.900.1-sleep.patch
 Patch2:         jasper-1.900.1-mingw.patch
 Patch3:         jasper-1.900.1-enable-shared.patch
+Patch4:         patch-libjasper-stepsizes-overflow.diff
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -35,6 +36,7 @@ MinGW Windows Jasper library.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 
 %build
@@ -73,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.900.1-4
+- Add overflow patch from rawhide
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.900.1-3
 - Run autoreconf after changing configure.ac script and add BRs for autotools
 

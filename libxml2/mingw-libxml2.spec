@@ -5,13 +5,13 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-libxml2
-Version:        2.6.32
-Release:        5%{?dist}
+Version:        2.7.1
+Release:        1%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
-License:        LGPLv2+
+License:        MIT
 Group:          Development/Libraries
-URL:            http://www.xmlsoft.org/
+URL:            http://xmlsoft.org/
 Source0:        ftp://xmlsoft.org/libxml2/libxml2-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -70,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.7.1-1
+- Update to 2.7.1 release
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.32-5
 - Remove manpages which duplicate Fedora native.
 

@@ -26,6 +26,7 @@ BuildRequires:  mingw-freetype
 BuildRequires:  mingw-libxml2
 BuildRequires:  pkgconfig
 BuildRequires:  docbook-utils
+BuildRequires:  autoconf automake libtool
 
 
 %description
