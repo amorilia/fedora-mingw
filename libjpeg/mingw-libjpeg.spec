@@ -6,15 +6,15 @@
 
 Name:           mingw-libjpeg
 Version:        6b
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
 License:        IJG
 URL:            http://www.ijg.org/
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.gz
-Source1:        libjpeg-configure.in
+Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.bz2
+Source1:        configure.in
 
 Patch1:         jpeg-c++.patch
 Patch4:         libjpeg-cflags.patch
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-4
+- Switch to tar.bz2 source, and rename configure.in
+
 * Sun Sep 21 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-3
 - Fix URL.
 - Remove manpages which duplicate Fedora native.
