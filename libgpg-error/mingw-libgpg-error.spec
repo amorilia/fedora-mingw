@@ -6,13 +6,15 @@
 
 Name:           mingw-libgpg-error
 Version:        1.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows GnuPGP error library
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            ftp://ftp.gnupg.org/GnuPG/libgpg-error
-Source0:        ftp://ftp.gnupg.org/GnuPG/libgpg-error/libgpg-error-%{version}.tar.bz2
+URL:            ftp://ftp.gnupg.org/gcrypt/libgpg-error/
+Source0:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2
+Source1:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2.sig
+Source2:        wk@g10code.com
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -59,6 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_datadir}/common-lisp/source/gpg-error/*
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.6-6
+- Added signature source file & correct URLs
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6-5
 - Remove static libraries.
 

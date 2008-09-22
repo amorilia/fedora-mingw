@@ -5,14 +5,16 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-libgcrypt
-Version:        1.4.1
-Release:        6%{?dist}
+Version:        1.4.3
+Release:        1%{?dist}
 Summary:        MinGW Windows gcrypt encryption library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            ftp://ftp.gnupg.org/gcrypt/libgcrypt/
 Source0:        ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-%{version}.tar.bz2
+Source1:        ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-%{version}.tar.bz2.sig
+Source2:        wk@g10code.com
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -56,6 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw_bindir}/dumpsexp.exe
+%{_mingw_bindir}/hmac256.exe
 %{_mingw_bindir}/libgcrypt-11.dll
 %{_mingw_bindir}/libgcrypt-config
 %{_mingw_libdir}/libgcrypt.def
@@ -67,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.4.3-1
+- Update to 1.4.3 release
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.4.1-6
 - Remove info pages.
 
