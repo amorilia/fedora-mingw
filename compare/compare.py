@@ -28,10 +28,10 @@ def compare_header(refspec, altspec):
     if refver != altver:
         warnings.append("different version: '%s': '%s' != '%s': '%s'" % (refname, refver, altname, altver))
 
-    if refver != altver:
+    if reflic != altlic:
         warnings.append("different license: '%s': '%s' != '%s': '%s'" % (refname, reflic, altname, altlic))
 
-    if refver != altver:
+    if refurl != alturl:
         warnings.append("different URL: '%s': '%s' != '%s': '%s'" % (refname, refurl, altname, alturl))
 
     return warnings
