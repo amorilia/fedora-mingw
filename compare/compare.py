@@ -131,6 +131,8 @@ def load_suppressions(file):
             line = s.readline()
             if not line:
                 break;
+            if line[0] == '#':
+                continue
 
             line = line[0:-1]
             supp.append(line)
