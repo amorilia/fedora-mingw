@@ -6,12 +6,15 @@
 
 Name:           mingw-libpng
 Version:        1.2.31
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Libpng library
 
 License:        zlib
 URL:            http://www.libpng.org/pub/png/
 Source0:        ftp://ftp.simplesystems.org/pub/png/src/libpng-%{version}.tar.bz2
+Patch1: libpng-pngconf.patch
+Patch2: libpng-ztxt-bug.patch
+
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -28,6 +31,8 @@ MinGW Windows Libpng library.
 
 %prep
 %setup -q -n libpng-%{version}
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{_mingw_configure}
@@ -68,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.2.31-4
+- Add patches from rawhide RPM
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.31-3
 - Don't duplicate Fedora native manpages.
 

@@ -1,0 +1,17 @@
+Patch for CVE-2008-3964
+
+
+diff -ru4NwbB libpng-1.2.31/pngpread.c libpng-1.2.32beta01/pngpread.c
+--- libpng-1.2.31/pngpread.c	2008-08-21 05:54:13.254898477 -0500
++++ libpng-1.2.32beta01/pngpread.c	2008-09-06 07:03:43.043602194 -0500
+@@ -1278,9 +1278,9 @@
+ 
+                tmp = text;
+                text = (png_charp)png_malloc(png_ptr, text_size +
+                   (png_uint_32)(png_ptr->zbuf_size 
+-                  - png_ptr->zstream.avail_out));
++                  - png_ptr->zstream.avail_out + 1));
+                png_memcpy(text, tmp, text_size);
+                png_free(png_ptr, tmp);
+                png_memcpy(text + text_size, png_ptr->zbuf,
+                   png_ptr->zbuf_size - png_ptr->zstream.avail_out);
