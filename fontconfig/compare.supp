@@ -1,0 +1,4 @@
+# Not relevant for mingw
+missing source: '25-no-bitmap-fedora.conf'
+# Mingw specific
+extra patch 'mingw-fontconfig-2.6.0-remove-logfile.patch'
