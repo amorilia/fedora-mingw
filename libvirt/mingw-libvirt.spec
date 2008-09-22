@@ -6,13 +6,14 @@
 
 Name:           mingw-libvirt
 Version:        0.4.5
-Release:        3%{?dist}%{?extra_release}
+Release:        4%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            http://www.libvirt.org/
+URL:            http://libvirt.org/
 Source0:        ftp://libvirt.org/libvirt/libvirt-%{version}.tar.gz
+Patch1:         libvirt-%{version}-no-emulator-segfault.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  mingw-filesystem >= 23
@@ -34,7 +35,7 @@ MinGW Windows libvirt virtualization library.
 
 %prep
 %setup -q -n libvirt-%{version}
-
+%patch1 -p1
 
 %build
 # XXX enable SASL in future
@@ -86,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 0.4.5-4%{?extra_release}
+- Import crash fix from rawhide
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 0.4.5-3%{?extra_release}
 - Add dep on gettext & pkgconfig
 
