@@ -6,18 +6,21 @@
 
 Name:           mingw-gnutls
 Version:        2.4.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
-License:        LGPLv2+
+License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://www.gnu.org/software/gnutls/
-Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
+URL:            http://www.gnutls.org/
+#Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
+# XXX patent tainted SRP code removed.
+Source0:        gnutls-%{version}-nosrp.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
 Patch0:         gnutls-certtool-build.patch
+Patch1:         gnutls-2.4.0-nosrp.patch
 
 BuildRequires:  mingw-filesystem >= 25
 BuildRequires:  mingw-gcc
@@ -36,12 +39,14 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 %prep
 %setup -q -n gnutls-%{version}
 %patch0 -p1
+%patch1 -p1
 
 
 %build
 autoreconf
 PATH="%{_mingw_bindir}:$PATH" \
-%{_mingw_configure} --with-included-libtasn1 --disable-cxx
+%{_mingw_configure} --with-included-libtasn1 --disable-cxx \
+           --disable-srp-authentication
 make
 
 
@@ -95,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-9
+- Switch to source tar.bz2 with SRP stuff removed
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-8
 - Remove duplicate manpages and info files.
 
