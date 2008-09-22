@@ -5,12 +5,12 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-pixman
-Version:        0.11.10
-Release:        2%{?dist}
+Version:        0.12.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Pixman library
 
 License:        MIT
-URL:            http://xorg.freedesktop.org
+URL:            http://xorg.freedesktop.org/
 Source0:        http://xorg.freedesktop.org/archive/individual/lib/pixman-%{version}.tar.gz
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_libdir}/pkgconfig/pixman-1.pc
 
 %changelog
+* Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 0.12.0-1
+- Update to 0.12.0 release
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11.10-2
 - Remove static library.
 
