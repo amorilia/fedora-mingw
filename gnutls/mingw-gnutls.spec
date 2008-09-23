@@ -41,6 +41,9 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 %patch0 -p1
 %patch1 -p1
 
+for i in auth_srp_rsa.c auth_srp_sb64.c auth_srp_passwd.c auth_srp.c gnutls_srp.c ext_srp.c; do
+    touch lib/$i
+done
 
 %build
 autoreconf
@@ -84,7 +87,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw_bindir}/libgnutls-openssl-26.def
 %{_mingw_bindir}/libgnutls-openssl-26.dll
 %{_mingw_bindir}/psktool.exe
-%{_mingw_bindir}/srptool.exe
 %{_mingw_libdir}/libgnutls-extra.dll.a
 %{_mingw_libdir}/libgnutls-extra.la
 %{_mingw_libdir}/libgnutls-openssl.dll.a
