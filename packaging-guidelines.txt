@@ -1,0 +1,309 @@
+= Packaging Guidelines for MinGW Windows cross-compiler =
+
+= Introduction =
+
+The Fedora MinGW project's mission is to provide an excellent
+development environment for Fedora users who wish to cross-compile
+their programs to run on Windows, minimizing the need to use Windows
+at all.  In the past developers have had to port and compile all of
+the libraries and tools they have needed, and this huge effort has
+happened independently many times over.  We aim to eliminate
+duplication of work for application developers by providing a range of
+libraries and development tools which have already been ported to the
+cross-compiler environment.  This means that developers will not need
+to recompile the application stack themselves, but can concentrate
+just on the changes needed to their own application.
+
+Note that when deciding to contribute a new library to the Fedora
+MinGW project, it is advisable to start with our example specfile:
+http://hg.et.redhat.com/misc/fedora-mingw--devel/?fl=c010b6ca7d68;file=example/mingw-example.spec
+
+= Track Fedora native package versions =
+
+In general terms, MinGW packages which provide cross-compiled versions
+of packages already natively available in Fedora, should follow the
+native Fedora package as closely as possible.  This means they should
+stay at the same version, include all the same patches as the native
+Fedora package, and be built with the same configuration options.
+
+The MinGW SIG have written an RPM comparison tool which makes it
+possible to compare MinGW packages with the Fedora native packages, in
+order to determine whether versions, patches and configuration are
+aligned.
+
+= Follow Fedora policy =
+
+MinGW packages must follow Fedora policy, except where noted in this
+document.  MinGW packages go through the same review process, CVS
+admin process etc as other Fedora packages.
+
+= Package naming =
+
+Packages should be named by prefixing the upstream package name
+with <code>mingw32-</code>
+
+= Base packages =
+
+The base packages provide a root filesystem, base libraries, binutils
+(basic programs like 'strip', 'ld' etc), the compiler (gcc) and the
+Win32 API.  Packages may need to depend on one or more of these.  In
+particular, almost any conceivable package should depend on
+<code>mingw32-filesystem</code> and <code>mingw32-runtime</code>.
+
+{|
+| <code>mingw32-filesystem</code> || Core filesystem directory layout, and RPM macros for spec files.  Equivalent to 'filesystem' RPM
+|-
+| <code>mingw32-runtime</code> || Base libraries for core MinGW runtime & development environment.  Equivalent to glibc & glibc-devel RPMs
+|-
+| <code>mingw32-binutils</code> || Cross-compiled binutils (utilities like 'strip', 'as', 'ld') which understand Windows executables and DLLs.  Equivalent to 'binutils' RPM
+|-
+| <code>mingw32-w32api</code> || Win32 API.  A [http://www.mingw.org/MinGWiki/index.php/w32api free (public domain) reimplementation] of the header files required to link to the Win32 API.  No direct equivalent in base Fedora - glibc-devel is closest
+|-
+| <code>mingw32-gcc</code> || GNU compiler collection.  Compilers for C and C++ which cross-compile to a Windows target.  Equivalent to gcc RPM
+|}
+
+= Filesystem layout =
+
+ [root]
+   |
+   +- etc
+   |   |
+   |   +- rpm
+   |       |
+   |       +- macros.mingw32
+   |
+   +- usr
+       |
+       +- bin   - Links to cross compiler toolchain
+       |   |
+       |   +- i686-pc-mingw32-cpp
+       |   +- i686-pc-mingw32-gcc
+       |   +- i686-pc-mingw32-g++
+       |   +- ... etc..
+       |
+       +- lib
+       |   |
+       |   +- rpm
+       |       |
+       |       +- mingw32-defs   - custom helper scripts for auto-requires, binary stripping, etc
+       |       +- mingw32-find-provides.sh - extra DLL names
+       |       +- mingw32-find-requires.sh - discover required DLL names
+       |
+       +- i686-pc-mingw32  - root of mingw toolchain and binaries - see next diagram
+
+
+ /usr/i686-pc-mingw32
+   |
+   +- bin  - Cross compiler toolchain  
+   |   |
+   |   +- cpp
+   |   +- gcc
+   |   +- g++
+   |   +- ... etc ...
+   |
+   +- lib  - Cross compiler toolchain support libraries / files
+   |
+   +- sys-root  - root for cross compiled binaries
+       |
+       +- mingw
+           |
+           +- bin     - cross-compiled binaries & runtime DLL parts
+           +- doc     - documentation
+           +- include - include files for cross compiled libs
+           +- lib     - cross-compiled static libraries & linktime DLL parts
+           |   |
+           |   +- pkgconfig  - pkg-config definitions for libraries
+           |
+           +- share
+               |
+               +- man
+
+= Filenames of the cross-compilers and binutils =
+
+The cross-compilers and binutils are Fedora binaries and are therefore
+placed in <code>%{_bindir}</code> (ie. <code>/usr/bin</code>)
+according to the FHS and Fedora guidelines.
+
+The cross-compilers and binutils which generate i686 binaries for Windows are named:
+
+ %{_bindir}/i686-pc-mingw32-gcc
+ %{_bindir}/i686-pc-mingw32-g++
+ %{_bindir}/i686-pc-mingw32-ld
+ %{_bindir}/i686-pc-mingw32-as
+ %{_bindir}/i686-pc-mingw32-strip
+ etc.
+
+The same binaries are present in
+<code>%{_prefix}/i686-pc-mingw32/bin</code> without any prefix in the
+name, ie:
+
+ %{_prefix}/i686-pc-mingw32/bin/gcc
+ %{_prefix}/i686-pc-mingw32/bin/g++
+ %{_prefix}/i686-pc-mingw32/bin/ld
+ %{_prefix}/i686-pc-mingw32/bin/as
+ %{_prefix}/i686-pc-mingw32/bin/strip
+ etc.
+
+= Naming of the root filesystem =
+
+The root filesystem contains Windows executables and DLLs and any other Windows-only
+files.  It is necessary both because we need to store Windows libraries in order to
+link further libraries which depend on them, and also because MinGW requires a
+root filesystem location.  The location (for i686 target) is provided by the macro:
+
+ %{_mingw32_sysroot}   %{_prefix}/i686-pc-mingw32/sys-root
+
+= Standard mingw RPM macros =
+
+The <code>mingw32-filesystem</code> package provides a number of
+convenience macros for the cross compiled sysroot directories, and
+toolchain. It is mandatory to use these macros in all MinGW packages
+submitted to Fedora.
+
+== Toolchain macros ==
+
+The following macros are for the %build and %install section of the spec
+
+{|
+| _mingw32_ar	|| i686-pc-mingw32-ar || cross compiler 'ar' binary
+|-
+| _mingw32_cc	|| i686-pc-mingw32-gcc || cross compiler 'gcc' binary
+|-
+| _mingw32_cflags	|| -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 ||
+|-
+| _mingw32_configure || CC="%{_mingw32_cc}"  CFLAGS="%{_mingw32_cflags}"  ./configure  --build=%_build --host=%{_mingw32_host} --target=%{_mingw32_target}  --prefix=%{_mingw32_prefix} || standard invocation for autotools 'configure' scripts
+|-
+| _mingw32_cpp	|| i686-pc-mingw32-gcc -E || cross compiler 'cpp' binary
+|-
+| _mingw32_host	|| i686-pc-mingw32  || Host platform for build
+|-
+| _mingw32_objdump ||	i686-pc-mingw32-objdump || cross compiler 'objdump' binary
+|-
+| _mingw32_ranlib	|| i686-pc-mingw32-ranlib || cross compiler 'ranlib' binary
+|-
+| _mingw32_strip	|| i686-pc-mingw32-strip || cross compiler 'strip' binary 
+|-
+| _mingw32_target	|| i686-pc-mingw32 || Target platform for build
+|}
+
+== Filesystem location macros ==
+
+The following macros are for use in %build, %install and %files sections of the RPM spec
+
+{|
+|_mingw32_bindir	|| %{_mingw32_prefix}/bin || Location of Windows executables.
+|-
+|_mingw32_datadir	|| %{_mingw32_prefix}/share || Shared data used under Windows.
+|-
+|_mingw32_docdir	|| %{_mingw32_prefix}/share/doc || Documentation.
+|-
+|_mingw32_infodir	|| %{_mingw32_prefix}/share/info || Info files (see note below).
+|-
+|_mingw32_includedir	|| %{_mingw32_prefix}/include || Header files used when cross-compiling for Windows.
+|-
+|_mingw32_libdir	|| %{_mingw32_prefix}/lib || Windows libraries (see sections below).
+|-
+|_mingw32_libexecdir || %{_mingw32_prefix}/libexec ||
+|-
+|_mingw32_mandir	|| %{_mingw32_prefix}/share/man || Man pages (see note below).
+|-
+|_mingw32_prefix	|| %{_mingw32_sysroot}/mingw || Windows equivalent of %{_prefix}, required by MinGW.
+|-
+|_mingw32_sbindir	|| %{_mingw32_prefix}/sbin ||
+|-
+|_mingw32_sysconfdir	|| %{_mingw32_prefix}/etc || Configuration files used when running under Windows.
+|-
+|_mingw32_sysroot	|| %{_prefix}/i686-pc-mingw32/sys-root || Windows system root.
+|}
+
+= Dependencies =
+
+If a package contains binaries which depend on a DLL provided by
+another package, these dependencies should be expressed in the form:
+
+ mingw32(foo.dll)
+
+where <code>foo.dll</code> is the name of the DLL.  The name must be
+converted to lowercase because Windows binaries contain case
+insensitive dependencies.
+
+All packages should depend on <code>mingw32-filesystem</code>.
+
+Correct dependency generation is done automatically.  Packagers should
+include these lines in all library packages:
+
+ %define _use_internal_dependency_generator 0
+ %define __find_requires %{_mingw32_findrequires}
+ %define __find_provides %{_mingw32_findprovides}
+
+All specfiles should BuildRequire at least:
+
+ BuildRequires:  mingw32-filesystem >= minimum-version
+
+and any other BuildRequires that they need.
+
+= Build architecture =
+
+All packages should have:
+
+ BuildArch: noarch
+
+unless they contain Fedora native executables.
+
+= Libraries (DLLs) =
+
+All libraries must be built as DLLs.
+
+Because of the peculiarity of Windows, DLLs are stored in the
+<code>%{_mingw32_bindir}</code> directory, along with a control file in
+the <code>%{_mingw32_libdir}</code> directory.  For example, for a
+library called <code>foo</code> there would be:
+
+ %{_mingw32_bindir}/foo.dll
+ %{_mingw32_bindir}/foo.def
+ %{_mingw32_libdir}/foo.dll.a
+ %{_mingw32_libdir}/foo.la
+
+All files are required in those locations in order to link
+successfully, except that the <code>.def</code> file is not always
+built by libtool for reasons unknown, and the <code>.dll</code> may
+contain a version number although not always
+(eg. <code>foo-0.dll</code>).
+
+== Do not use %{_mingw32_bindir}/* or %{_mingw32_libdir}/* in %files section ==
+
+The <code>%files</code> section must list DLLs separately.  Packages
+must NOT use <code>%{_mingw32_bindir}/*</code> or
+<code>%{_mingw32_libdir}/*</code>
+
+The reason for this is that libtool is very fragile and will give up
+on building a DLL very easily.  Therefore we force the name of the DLL
+to be listed explicitly in the <code>%files</code> section in order to
+catch this during RPM builds.
+
+== Manpages and info files ==
+
+If manpages or info files are simply duplicates of equivalent
+documentation found in Fedora native packages, then they should not be
+packaged in the MinGW package.
+
+== Static libraries ==
+
+In accordance with ordinary Fedora policy, static libraries should not
+be built, and if they are then they should be placed in a
+<code>-static</code> subpackage.
+
+The exception is the base package <code>mingw32-w32api</code> which
+contains static libraries that are required for GCC to create
+executables.
+
+== Stripping ==
+
+Libraries and executables should be stripped.  This is done correctly
+and automatically if the spec file includes these lines:
+
+ %define __strip %{_mingw32_strip}
+ %define __objdump %{_mingw32_objdump}
+
+(Note that if __strip and __objdump are not overridden in the specfile
+then this can sometimes cause Windows binaries to be corrupted).
