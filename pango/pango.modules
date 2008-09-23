@@ -1,0 +1,35 @@
+# Pango Modules file
+# Automatically generated file, do not edit
+#
+# ModulesPath = Z:\usr\i686-pc-mingw32\sys-root\mingw\lib\pango\1.6.0\modules
+#
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-thai-fc.dll" ThaiScriptEngineFc PangoEngineShape PangoRenderFc thai:* lao:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-basic-win32.dll" BasicScriptEngineWin32 PangoEngineShape PangoRenderWin32 common:
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" devaScriptEngineFc PangoEngineShape PangoRenderFc devanagari:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" bengScriptEngineFc PangoEngineShape PangoRenderFc bengali:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" guruScriptEngineFc PangoEngineShape PangoRenderFc gurmukhi:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" gujrScriptEngineFc PangoEngineShape PangoRenderFc gujarati:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" oryaScriptEngineFc PangoEngineShape PangoRenderFc oriya:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" tamlScriptEngineFc PangoEngineShape PangoRenderFc tamil:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" teluScriptEngineFc PangoEngineShape PangoRenderFc telugu:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" kndaScriptEngineFc PangoEngineShape PangoRenderFc kannada:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" mlymScriptEngineFc PangoEngineShape PangoRenderFc malayalam:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-fc.dll" sinhScriptEngineFc PangoEngineShape PangoRenderFc sinhala:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-syriac-fc.dll" SyriacScriptEngineFc PangoEngineShape PangoRenderFc syriac:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-khmer-fc.dll" KhmerScriptEngineFc PangoEngineShape PangoRenderFc khmer:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-arabic-lang.dll" ArabicScriptEngineLang PangoEngineLang PangoRenderNone arabic:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-basic-fc.dll" BasicScriptEngineFc PangoEngineShape PangoRenderFc latin:* cyrillic:* greek:* armenian:* georgian:* runic:* ogham:* bopomofo:* cherokee:* coptic:* deseret:* ethiopic:* gothic:* han:* hiragana:* katakana:* old-italic:* canadian-aboriginal:* yi:* braille:* cypriot:* limbu:* osmanya:* shavian:* linear-b:* ugaritic:* glagolitic:* cuneiform:* phoenician:* common:
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-arabic-fc.dll" ArabicScriptEngineFc PangoEngineShape PangoRenderFc arabic:* nko:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" devaIndicScriptEngineLang PangoEngineLang PangoRenderNone devanagari:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" bengIndicScriptEngineLang PangoEngineLang PangoRenderNone bengali:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" guruIndicScriptEngineLang PangoEngineLang PangoRenderNone gurmukhi:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" gujrIndicScriptEngineLang PangoEngineLang PangoRenderNone gujarati:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" oryaIndicScriptEngineLang PangoEngineLang PangoRenderNone oriya:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" tamlIndicScriptEngineLang PangoEngineLang PangoRenderNone tamil:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" teluIndicScriptEngineLang PangoEngineLang PangoRenderNone telugu:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" kndaIndicScriptEngineLang PangoEngineLang PangoRenderNone kannada:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" mlymIndicScriptEngineLang PangoEngineLang PangoRenderNone malayalam:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-indic-lang.dll" sinhIndicScriptEngineLang PangoEngineLang PangoRenderNone sinhala:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-hebrew-fc.dll" HebrewScriptEngineFc PangoEngineShape PangoRenderFc hebrew:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-tibetan-fc.dll" TibetanScriptEngineFc PangoEngineShape PangoRenderFc tibetan:*
+"Z:\\usr\\i686-pc-mingw32\\sys-root\\mingw\\lib\\pango\\1.6.0\\modules\\pango-hangul-fc.dll" HangulScriptEngineFc PangoEngineShape PangoRenderFc hangul:*

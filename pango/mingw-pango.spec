@@ -6,13 +6,18 @@
 
 Name:           mingw-pango
 Version:        1.21.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
 Source0:        http://download.gnome.org/sources/pango/1.21/pango-%{version}.tar.bz2
+# Native pango uses a %post script to generate this, but the pango-querymodules.exe
+# binary is not something we can easily run on a Linux host. We could use wine by
+# wine isn't happy in a mock environment. So we just include a pre-generated copy
+# on basis that it won't ever change much
+Source1:        pango.modules
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -27,9 +32,6 @@ BuildRequires:  mingw-freetype
 BuildRequires:  mingw-fontconfig
 BuildRequires:  mingw-glib2
 BuildRequires:  pkgconfig
-
-Requires(post): wine
-
 
 %description
 MinGW Windows Pango library.
@@ -51,21 +53,13 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 mkdir -p $RPM_BUILD_ROOT%{_mingw_sysconfdir}/pango/
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_mingw_sysconfdir}/pango/
 
 rm -f $RPM_BUILD_ROOT/%{_mingw_libdir}/charset.alias
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-
-%post
-wine %{_mingw_bindir}/pango-querymodules.exe \
-  > %{_mingw_sysconfdir}/pango/pango.modules
-
-%preun
-rm -f %{_mingw_sysconfdir}/pango/pango.modules
-
 
 %files
 %defattr(-,root,root)
@@ -98,6 +92,9 @@ rm -f %{_mingw_sysconfdir}/pango/pango.modules
 
 
 %changelog
+* Tue Sep 23 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-5
+- Remove use of wine in %post
+
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-4
 - Add dep on pkgconfig
 
