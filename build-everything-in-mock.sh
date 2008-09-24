@@ -36,7 +36,6 @@ do
 	    fi
 	done
     fi
-    echo result of skip = $skip
 
     if [ $skip ]; then
 	echo "skipping $srcrpm"
