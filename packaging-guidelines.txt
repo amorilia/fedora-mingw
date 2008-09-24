@@ -16,7 +16,7 @@ just on the changes needed to their own application.
 
 Note that when deciding to contribute a new library to the Fedora
 MinGW project, it is advisable to start with our example specfile:
-http://hg.et.redhat.com/misc/fedora-mingw--devel/?fl=c010b6ca7d68;file=example/mingw-example.spec
+http://hg.et.redhat.com/misc/fedora-mingw--devel/?fl=7e95a9b24e2d;file=example/mingw32-example.spec
 
 = Track Fedora native package versions =
 
