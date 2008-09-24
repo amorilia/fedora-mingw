@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw_findprovides}
 
 Name:           mingw-gnutls
-Version:        2.4.1
-Release:        9%{?dist}
+Version:        2.4.2
+Release:        1%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 24 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.2-1
+- New native version.
+
 * Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-9
 - Switch to source tar.bz2 with SRP stuff removed
 

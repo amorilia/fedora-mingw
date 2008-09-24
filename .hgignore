@@ -16,6 +16,7 @@ gettext/gettext-0.17.tar.gz
 glib2/glib-2.18.0.tar.bz2
 glib2/glib-2.18.1.tar.bz2
 gnutls/gnutls-2.4.1.tar.bz2
+gnutls/gnutls-2.4.2-nosrp.tar.bz2
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2
 iconv/libiconv-1.12.tar.gz
