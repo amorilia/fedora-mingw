@@ -58,6 +58,7 @@ sub main {
     delete $br{"mingw-nsis"};
     delete $br{"mingw-wix"};
     delete $br{"mingw-example"};
+    delete $br{"mingw-gdb"};
 
     # There is a dependency loop (gcc -> runtime/w32api -> gcc)
     # which has to be manually resolved below.  Break that loop.
@@ -102,7 +103,7 @@ sub main {
 	    my $br;
 	    foreach $br (@brs) {
 		if (! rpm_installed ($br) && !exists $installed{$br}) {
-		    print "as root # rpm -Uvh $br*.rpm\n";
+		    print "# as root: rpm -Uvh $br*.rpm\n";
 		    $installed{$br} = 1;
 		}
 	    }
@@ -112,11 +113,11 @@ sub main {
 		(!rpm_installed ("mingw-runtime") ||
 		 !rpm_installed ("mingw-w32api"))) {
 		print "rpmbuild -ba --define \"_sourcedir $pwd/runtime-bootstrap\" runtime-bootstrap/mingw-runtime-bootstrap.spec\n";
-	        print "as root # rpm -Uvh mingw-runtime-bootstrap*.rpm\n";
+	        print "# as root: rpm -Uvh mingw-runtime-bootstrap*.rpm\n";
 		$installed{"mingw-runtime-bootstrap"} = 1;
 
 		print "rpmbuild -ba --define \"_sourcedir $pwd/w32api-bootstrap\" w32api-bootstrap/mingw-w32api-bootstrap.spec\n";
-	        print "as root # rpm -Uvh mingw-w32api-bootstrap*.rpm\n";
+	        print "# as root: rpm -Uvh mingw-w32api-bootstrap*.rpm\n";
 		$installed{"mingw-w32api-bootstrap"} = 1;
 	    }
 

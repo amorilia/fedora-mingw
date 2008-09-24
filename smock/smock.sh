@@ -1,9 +1,9 @@
 #!/bin/sh
 
 
-LOCALREPO=$HOME/smock/yum
-#ARCHES="i386 x86_64"
-ARCHES=i386
+LOCALREPO=$HOME/public_html/smock/yum
+ARCHES="i386 x86_64"
+#ARCHES="i386"
 
 help() {
     echo "syntax: $0 DIST SRPM"

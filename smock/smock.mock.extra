@@ -1,0 +1,8 @@
+# Change USERNAME and if necessary the distribution name and
+# architecture, and INSERT this file to the relevant distributions
+# in /etc/mock (eg. to /etc/mock/fedora-9-i386.cfg etc.)
+
+[smock]
+name=smock
+baseurl=http://127.0.0.1/USERNAME-smock/yum/fedora-9/i386
+enabled=1

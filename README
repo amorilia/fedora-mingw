@@ -8,7 +8,22 @@ Other useful information:
 
  * https://fedoraproject.org/wiki/SIGs/MinGW
 
-Build order & package notes:
+Build everything
+----------------------------------------------------------------------
+
+ * Install mock
+
+ * Install smock (read smock/README)
+
+ * Download source tarballs and put them in each package directory
+   (see .hgignore and the specfiles for a list).
+
+ * Run ./build-everything-in-mock.sh
+
+ * Build logs are printed to the screen and saved in 'buildall.log'
+
+Package notes
+----------------------------------------------------------------------
 
  ( 1) mingw-filesystem
 
