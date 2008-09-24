@@ -1,9 +1,10 @@
 #!/bin/sh
 
-
-LOCALREPO=$HOME/public_html/smock/yum
-ARCHES="i386 x86_64"
-#ARCHES="i386"
+if [ -z "$LOCALREPO" -o -z "$ARCHES" ]; then
+    echo '$LOCALREPO must point to local repository'
+    echo '$ARCHES must contain list of architectures to build'
+    exit 1
+fi
 
 help() {
     echo "syntax: $0 DIST SRPM"
@@ -57,7 +58,7 @@ do
 
     if [ $? != 0 ]; then
        echo "Build failed, leaving logs in $LOCALREPO/scratch"
-       exit $?
+       exit 1
     fi
     mv $LOCALREPO/scratch/*.src.rpm $LOCALREPO/$DIST/src/SRPMS
     mv $LOCALREPO/scratch/*.rpm $LOCALREPO/$DIST/$ARCH/RPMS

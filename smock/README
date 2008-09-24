@@ -14,8 +14,6 @@ set of dependant RPMs against an external distro.
  - Insert smock.mock.extra to all your repos in /etc/mock/ changing the
    USERNAME, arch and distro name to match
 
- - Copy smock.sh to smock and edit which arch(es) you want to build on
-
  - Disable SELinux (/usr/sbin/setenforce Permissive) and you may
    need to do 'chmod 0755 ~' to allow the web server to access your
    home directory.
