@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-libpng
+Name:           mingw32-libpng
 Version:        1.2.31
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Libpng library
 
 License:        zlib
@@ -20,10 +20,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw-filesystem >= 23
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
-BuildRequires:  mingw-zlib
+BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-zlib
 
 %description
 MinGW Windows Libpng library.
@@ -35,7 +35,7 @@ MinGW Windows Libpng library.
 %patch2 -p1
 
 %build
-%{_mingw_configure}
+%{_mingw32_configure}
 make
 
 
@@ -44,11 +44,11 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libpng.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libpng.a
 
 # No need to distribute manpages which appear in the Fedora
 # native packages already.
-rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,23 +56,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_bindir}/libpng-3.dll
-%{_mingw_bindir}/libpng-config
-%{_mingw_bindir}/libpng12-0.dll
-%{_mingw_bindir}/libpng12-config
-%{_mingw_includedir}/libpng12
-%{_mingw_includedir}/png.h
-%{_mingw_includedir}/pngconf.h
-%{_mingw_libdir}/libpng.dll.a
-%{_mingw_libdir}/libpng.la
-%{_mingw_libdir}/libpng12.a
-%{_mingw_libdir}/libpng12.dll.a
-%{_mingw_libdir}/libpng12.la
-%{_mingw_libdir}/pkgconfig/libpng.pc
-%{_mingw_libdir}/pkgconfig/libpng12.pc
+%{_mingw32_bindir}/libpng-3.dll
+%{_mingw32_bindir}/libpng-config
+%{_mingw32_bindir}/libpng12-0.dll
+%{_mingw32_bindir}/libpng12-config
+%{_mingw32_includedir}/libpng12
+%{_mingw32_includedir}/png.h
+%{_mingw32_includedir}/pngconf.h
+%{_mingw32_libdir}/libpng.dll.a
+%{_mingw32_libdir}/libpng.la
+%{_mingw32_libdir}/libpng12.a
+%{_mingw32_libdir}/libpng12.dll.a
+%{_mingw32_libdir}/libpng12.la
+%{_mingw32_libdir}/pkgconfig/libpng.pc
+%{_mingw32_libdir}/pkgconfig/libpng12.pc
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.31-5
+- Rename mingw -> mingw32.
+
 * Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 1.2.31-4
 - Add patches from rawhide RPM
 

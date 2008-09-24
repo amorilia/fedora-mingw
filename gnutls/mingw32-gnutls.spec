@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-gnutls
+Name:           mingw32-gnutls
 Version:        2.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -22,14 +22,14 @@ BuildArch:      noarch
 Patch0:         gnutls-certtool-build.patch
 Patch1:         gnutls-2.4.0-nosrp.patch
 
-BuildRequires:  mingw-filesystem >= 25
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
-BuildRequires:  mingw-libgpg-error
-BuildRequires:  mingw-libgcrypt
-BuildRequires:  mingw-iconv
-BuildRequires:  mingw-gettext
-BuildRequires:  mingw-zlib
+BuildRequires:  mingw32-filesystem >= 25
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-libgpg-error
+BuildRequires:  mingw32-libgcrypt
+BuildRequires:  mingw32-iconv
+BuildRequires:  mingw32-gettext
+BuildRequires:  mingw32-zlib
 BuildRequires:  autoconf automake libtool
 
 %description
@@ -47,8 +47,8 @@ done
 
 %build
 autoreconf
-PATH="%{_mingw_bindir}:$PATH" \
-%{_mingw_configure} --with-included-libtasn1 --disable-cxx \
+PATH="%{_mingw32_bindir}:$PATH" \
+%{_mingw32_configure} --with-included-libtasn1 --disable-cxx \
            --disable-srp-authentication
 make
 
@@ -57,15 +57,15 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
-rm -f $RPM_BUILD_ROOT%{_mingw_datadir}/info/dir
+rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/info/dir
 
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-extra.a
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls-openssl.a
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libgnutls.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls-extra.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls-openssl.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls.a
 
 # Remove info and man pages which duplicate stuff in Fedora already.
-rm -rf $RPM_BUILD_ROOT%{_mingw_infodir}
-rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
 
 %clean
@@ -74,35 +74,38 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_bindir}/certtool.exe
-%{_mingw_bindir}/gnutls-cli-debug.exe
-%{_mingw_bindir}/gnutls-cli.exe
-%{_mingw_bindir}/gnutls-serv.exe
-%{_mingw_bindir}/libgnutls-26.def
-%{_mingw_bindir}/libgnutls-26.dll
-%{_mingw_bindir}/libgnutls-config
-%{_mingw_bindir}/libgnutls-extra-26.def
-%{_mingw_bindir}/libgnutls-extra-26.dll
-%{_mingw_bindir}/libgnutls-extra-config
-%{_mingw_bindir}/libgnutls-openssl-26.def
-%{_mingw_bindir}/libgnutls-openssl-26.dll
-%{_mingw_bindir}/psktool.exe
-%{_mingw_libdir}/libgnutls-extra.dll.a
-%{_mingw_libdir}/libgnutls-extra.la
-%{_mingw_libdir}/libgnutls-openssl.dll.a
-%{_mingw_libdir}/libgnutls-openssl.la
-%{_mingw_libdir}/libgnutls.dll.a
-%{_mingw_libdir}/libgnutls.la
-%{_mingw_libdir}/pkgconfig/gnutls-extra.pc
-%{_mingw_libdir}/pkgconfig/gnutls.pc
-%{_mingw_includedir}/gnutls/
-%{_mingw_datadir}/aclocal/libgnutls-extra.m4
-%{_mingw_datadir}/aclocal/libgnutls.m4
-%{_mingw_datadir}/locale/*/LC_MESSAGES/gnutls.mo
+%{_mingw32_bindir}/certtool.exe
+%{_mingw32_bindir}/gnutls-cli-debug.exe
+%{_mingw32_bindir}/gnutls-cli.exe
+%{_mingw32_bindir}/gnutls-serv.exe
+%{_mingw32_bindir}/libgnutls-26.def
+%{_mingw32_bindir}/libgnutls-26.dll
+%{_mingw32_bindir}/libgnutls-config
+%{_mingw32_bindir}/libgnutls-extra-26.def
+%{_mingw32_bindir}/libgnutls-extra-26.dll
+%{_mingw32_bindir}/libgnutls-extra-config
+%{_mingw32_bindir}/libgnutls-openssl-26.def
+%{_mingw32_bindir}/libgnutls-openssl-26.dll
+%{_mingw32_bindir}/psktool.exe
+%{_mingw32_libdir}/libgnutls-extra.dll.a
+%{_mingw32_libdir}/libgnutls-extra.la
+%{_mingw32_libdir}/libgnutls-openssl.dll.a
+%{_mingw32_libdir}/libgnutls-openssl.la
+%{_mingw32_libdir}/libgnutls.dll.a
+%{_mingw32_libdir}/libgnutls.la
+%{_mingw32_libdir}/pkgconfig/gnutls-extra.pc
+%{_mingw32_libdir}/pkgconfig/gnutls.pc
+%{_mingw32_includedir}/gnutls/
+%{_mingw32_datadir}/aclocal/libgnutls-extra.m4
+%{_mingw32_datadir}/aclocal/libgnutls.m4
+%{_mingw32_datadir}/locale/*/LC_MESSAGES/gnutls.mo
 
 
 %changelog
-* Wed Sep 24 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.2-1
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-2
+- Rename mingw -> mingw32.
+
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-1
 - New native version.
 
 * Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.4.1-9

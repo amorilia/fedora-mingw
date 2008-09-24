@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        26
+Version:        27
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -22,11 +22,12 @@ Requires:       setup
 Requires:       rpm
 
 # These are actually provided by Windows itself, or Wine.
-Provides:       mingw32(msvcrt.dll)
-Provides:       mingw32(kernel32.dll)
-Provides:       mingw32(user32.dll)
 Provides:       mingw32(gdi32.dll)
+Provides:       mingw32(kernel32.dll)
 Provides:       mingw32(ole32.dll)
+Provides:       mingw32(mscoree.dll)
+Provides:       mingw32(msvcrt.dll)
+Provides:       mingw32(user32.dll)
 
 Obsoletes:      mingw-filesystem = %{version}-%{release}
 Provides:       mingw-filesystem < 26
@@ -116,8 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 26-1
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 27-1
 - Begin the grand renaming of mingw -> mingw32.
+- Added mingw32(mscoree.dll).
 
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 25-1
 - Add shared aclocal directory.

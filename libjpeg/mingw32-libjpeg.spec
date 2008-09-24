@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-libjpeg
+Name:           mingw32-libjpeg
 Version:        6b
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
 License:        IJG
@@ -21,15 +21,15 @@ Patch4:         libjpeg-cflags.patch
 Patch5:         libjpeg-buf-oflo.patch
 Patch6:         libjpeg-autoconf.patch
 
-Patch100:       jpeg-mingw.patch
+Patch100:       jpeg-mingw32.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw-filesystem >= 23
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
-BuildRequires:  mingw-libpng
-BuildRequires:  mingw-zlib
+BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-libpng
+BuildRequires:  mingw32-zlib
 BuildRequires:  autoconf, libtool
 
 %description
@@ -59,25 +59,25 @@ libtoolize
 autoconf
 
 %build
-%{_mingw_configure} --enable-shared --enable-static
-make libdir=%{_mingw_libdir}
+%{_mingw32_configure} --enable-shared --enable-static
+make libdir=%{_mingw32_libdir}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_mingw_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_includedir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_libdir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_prefix}/man/man1
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_prefix}/man/man1
 
-make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
+make prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} install
 
 # Remove static library.
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libjpeg.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libjpeg.a
 
 # Remove manual pages which duplicate Fedora native.
-rm -rf $RPM_BUILD_ROOT%{_mingw_prefix}/man
+rm -rf $RPM_BUILD_ROOT%{_mingw32_prefix}/man
 
 
 %clean
@@ -86,21 +86,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_bindir}/cjpeg
-%{_mingw_bindir}/djpeg
-%{_mingw_bindir}/jpegtran
-%{_mingw_bindir}/rdjpgcom
-%{_mingw_bindir}/wrjpgcom
-%{_mingw_bindir}/libjpeg-62.dll
-%{_mingw_includedir}/jconfig.h
-%{_mingw_includedir}/jerror.h
-%{_mingw_includedir}/jmorecfg.h
-%{_mingw_includedir}/jpeglib.h
-%{_mingw_libdir}/libjpeg.dll.a
-%{_mingw_libdir}/libjpeg.la
+%{_mingw32_bindir}/cjpeg
+%{_mingw32_bindir}/djpeg
+%{_mingw32_bindir}/jpegtran
+%{_mingw32_bindir}/rdjpgcom
+%{_mingw32_bindir}/wrjpgcom
+%{_mingw32_bindir}/libjpeg-62.dll
+%{_mingw32_includedir}/jconfig.h
+%{_mingw32_includedir}/jerror.h
+%{_mingw32_includedir}/jmorecfg.h
+%{_mingw32_includedir}/jpeglib.h
+%{_mingw32_libdir}/libjpeg.dll.a
+%{_mingw32_libdir}/libjpeg.la
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 6b-5
+- Rename mingw -> mingw32.
+
 * Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 6b-4
 - Switch to tar.bz2 source, and rename configure.in
 

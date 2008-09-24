@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-portablexdr
+Name:           mingw32-portablexdr
 Version:        4.0.10
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -17,9 +17,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw-filesystem >= 23
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
+BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
 
 
 %description
@@ -31,7 +31,7 @@ MinGW Windows PortableXDR XDR / RPC library.
 
 
 %build
-%{_mingw_configure}
+%{_mingw32_configure}
 make
 
 
@@ -41,7 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 # Remove static library.
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libportablexdr.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libportablexdr.a
 
 
 %clean
@@ -50,13 +50,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_bindir}/libportablexdr-0.dll
-%{_mingw_libdir}/libportablexdr.dll.a
-%{_mingw_libdir}/libportablexdr.la
-%{_mingw_includedir}/rpc
+%{_mingw32_bindir}/libportablexdr-0.dll
+%{_mingw32_libdir}/libportablexdr.dll.a
+%{_mingw32_libdir}/libportablexdr.la
+%{_mingw32_includedir}/rpc
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-5
+- Rename mingw -> mingw32.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-4
 - Remove static library.
 

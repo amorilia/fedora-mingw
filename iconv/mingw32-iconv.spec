@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:      mingw-iconv
+Name:      mingw32-iconv
 Version:   1.12
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
@@ -16,9 +16,9 @@ Source0:   http://ftp.gnu.org/pub/gnu/libiconv/libiconv-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: noarch
 
-BuildRequires: mingw-filesystem >= 23
-BuildRequires: mingw-gcc
-BuildRequires: mingw-binutils
+BuildRequires: mingw32-filesystem >= 23
+BuildRequires: mingw32-gcc
+BuildRequires: mingw32-binutils
 
 
 %description
@@ -30,7 +30,7 @@ MinGW Windows Iconv library
 
 
 %build
-%{_mingw_configure}
+%{_mingw32_configure}
 make
 
 
@@ -41,8 +41,8 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 # Remove documentation which duplicates what is already in
 # Fedora native packages.
-rm -rf $RPM_BUILD_ROOT%{_mingw_docdir}/libiconv/
-rm -rf $RPM_BUILD_ROOT%{_mingw_mandir}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_docdir}/libiconv/
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
 
 %clean
@@ -51,21 +51,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_bindir}/iconv
-%{_mingw_bindir}/libcharset-1.dll
-%{_mingw_bindir}/libiconv-2.dll
-%{_mingw_includedir}/iconv.h
-%{_mingw_includedir}/libcharset.h
-%{_mingw_includedir}/localcharset.h
-%{_mingw_libdir}/charset.alias
-%{_mingw_libdir}/libcharset.a
-%{_mingw_libdir}/libcharset.dll.a
-%{_mingw_libdir}/libcharset.la
-%{_mingw_libdir}/libiconv.dll.a
-%{_mingw_libdir}/libiconv.la
+%{_mingw32_bindir}/iconv
+%{_mingw32_bindir}/libcharset-1.dll
+%{_mingw32_bindir}/libiconv-2.dll
+%{_mingw32_includedir}/iconv.h
+%{_mingw32_includedir}/libcharset.h
+%{_mingw32_includedir}/localcharset.h
+%{_mingw32_libdir}/charset.alias
+%{_mingw32_libdir}/libcharset.a
+%{_mingw32_libdir}/libcharset.dll.a
+%{_mingw32_libdir}/libcharset.la
+%{_mingw32_libdir}/libiconv.dll.a
+%{_mingw32_libdir}/libiconv.la
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-4
+- Rename mingw -> mingw32.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-3
 - Remove documentation which duplicates what is in Fedora native packages.
 

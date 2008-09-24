@@ -1,6 +1,6 @@
 %define sconsopts VERSION=%{version} PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir} SKIPPLUGINS=System DEBUG_SYMBOLS=1 OPTS=1
 
-Name:           mingw-nsis
+Name:           mingw32-nsis
 Version:        2.39
 Release:        1%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
@@ -16,11 +16,11 @@ Patch0:         nsis-2.39-debian-64bit-fixes.patch
 Patch1:         nsis-2.39-debian-debug-opt.patch
 
 # This patch is required for NSIS to find the correct cross-compiler.
-Patch2:         nsis-2.39-mingw-search.patch
+Patch2:         nsis-2.39-mingw32-search.patch
 
-BuildRequires:  mingw-filesystem >= 20
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
+BuildRequires:  mingw32-filesystem >= 20
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
 BuildRequires:  python
 BuildRequires:  scons >= 0.96.93
 BuildRequires:  wxGTK-devel

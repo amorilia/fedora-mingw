@@ -1,13 +1,12 @@
-
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-zlib
+Name:           mingw32-zlib
 Version:        1.2.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -18,12 +17,12 @@ Patch1:         zlib-win32.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw-filesystem >= 23
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-binutils
+BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-binutils
 
-# For some reason mingw-find-provides doesn't get this.
-Provides:       mingw(zlib1.dll)
+## For some reason mingw32-find-provides doesn't get this.
+#Provides:       mingw32(zlib1.dll)
 
 %description
 MinGW Windows zlib compression library.
@@ -35,39 +34,39 @@ MinGW Windows zlib compression library.
 
 
 %build
-CC=%{_mingw_cc} \
-CFLAGS="%{_mingw_cflags}" \
-RANLIB=%{_mingw_ranlib} \
+CC=%{_mingw32_cc} \
+CFLAGS="%{_mingw32_cflags}" \
+RANLIB=%{_mingw32_ranlib} \
 ./configure
 
 make -f win32/Makefile.gcc \
-  CC=%{_mingw_cc} \
-  AR=%{_mingw_ar} \
+  CC=%{_mingw32_cc} \
+  AR=%{_mingw32_ar} \
   RC=i686-pc-mingw32-windres \
   DLLWRAP=i686-pc-mingw32-dllwrap \
-  STRIP=%{_mingw_strip} \
+  STRIP=%{_mingw32_strip} \
   all
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_mingw_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_includedir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw_libdir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
 
 make -f win32/Makefile.gcc \
-     INCLUDE_PATH=$RPM_BUILD_ROOT%{_mingw_includedir} \
-     LIBRARY_PATH=$RPM_BUILD_ROOT%{_mingw_libdir} \
-     BINARY_PATH=$RPM_BUILD_ROOT%{_mingw_bindir} \
+     INCLUDE_PATH=$RPM_BUILD_ROOT%{_mingw32_includedir} \
+     LIBRARY_PATH=$RPM_BUILD_ROOT%{_mingw32_libdir} \
+     BINARY_PATH=$RPM_BUILD_ROOT%{_mingw32_bindir} \
      install
 
 # .dll.a file is misnamed for some reason - fix that.
-mv $RPM_BUILD_ROOT%{_mingw_libdir}/libzdll.a \
-   $RPM_BUILD_ROOT%{_mingw_libdir}/libz.dll.a
+mv $RPM_BUILD_ROOT%{_mingw32_libdir}/libzdll.a \
+   $RPM_BUILD_ROOT%{_mingw32_libdir}/libz.dll.a
 
 # Remove static library.
-rm $RPM_BUILD_ROOT%{_mingw_libdir}/libz.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libz.a
 
 
 %clean
@@ -76,13 +75,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_includedir}/zconf.h
-%{_mingw_includedir}/zlib.h
-%{_mingw_libdir}/libz.dll.a
-%{_mingw_bindir}/zlib1.dll
+%{_mingw32_includedir}/zconf.h
+%{_mingw32_includedir}/zlib.h
+%{_mingw32_libdir}/libz.dll.a
+%{_mingw32_bindir}/zlib1.dll
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-9
+- Rename mingw -> mingw32.
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-8
 - Remove manpage.
 
