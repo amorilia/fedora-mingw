@@ -1,24 +1,27 @@
 %define binutils_version 2.18.50
-%define mingw_binutils_version 20080109-2
-%define mingw_binutils_rpmvers %{expand:%(echo %{mingw_binutils_version} | tr - _)} 
+%define mingw32_binutils_version 20080109-2
+%define mingw32_binutils_rpmvers %{expand:%(echo %{mingw32_binutils_version} | tr - _)} 
 
-Name:           mingw-binutils
-Version:        %{binutils_version}_%{mingw_binutils_rpmvers}
-Release:        7%{?dist}
+Name:           mingw32-binutils
+Version:        %{binutils_version}_%{mingw32_binutils_rpmvers}
+Release:        8%{?dist}
 Summary:        MinGW Windows binutils
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
 Group:          Development/Libraries
 URL:            http://www.mingw.org/
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/binutils-%{binutils_version}-%{mingw_binutils_version}-src.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/binutils-%{binutils_version}-%{mingw32_binutils_version}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  texinfo
-BuildRequires:  mingw-filesystem >= 2
+BuildRequires:  mingw32-filesystem >= 26
 
-Requires:       mingw-filesystem >= 2
+Requires:       mingw32-filesystem >= 26
+
+Provides:       mingw-binutils = %{version}-%{release}
+Obsoletes:      mingw-binutils < 2.18.50_20080109_2-8
 
 
 %description
@@ -36,12 +39,12 @@ cd build
 CFLAGS="$RPM_OPT_FLAGS" \
 ../configure \
   --build=%_build --host=%_host \
-  --target=%{_mingw_target} \
+  --target=%{_mingw32_target} \
   --verbose --disable-nls \
   --without-included-gettext \
   --disable-win32-registry \
   --disable-werror \
-  --with-sysroot=%{_mingw_sysroot} \
+  --with-sysroot=%{_mingw32_sysroot} \
   --prefix=%{_prefix} --bindir=%{_bindir} \
   --includedir=%{_includedir} --libdir=%{_libdir} \
   --mandir=%{_mandir} --infodir=%{_infodir}
@@ -73,6 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-8
+- Rename mingw -> mingw32.
+- BR mingw32-filesystem >= 26.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.50_20080109_2-7
 - Use mingw-filesystem.
 

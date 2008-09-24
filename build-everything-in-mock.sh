@@ -10,7 +10,7 @@ export DIST SKIP_BUILT_SRPMS LOCALREPO ARCHES
 
 specs=`perl show-build-order.pl |
        grep -v '^#' |
-       grep -Eo '[^[:space:]]+/mingw-[^[:space:]]+\.spec'`
+       grep -Eo '[^[:space:]]+/mingw32-[^[:space:]]+\.spec'`
 
 rm -f buildall.log
 echo -e "Specfiles in build order:\n$specs\n\n" >> buildall.log

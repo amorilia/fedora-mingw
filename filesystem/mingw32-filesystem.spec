@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
-Name:           mingw-filesystem
-Version:        25
+Name:           mingw32-filesystem
+Version:        26
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -11,22 +11,25 @@ URL:            http://hg.et.redhat.com/misc/fedora-mingw--devel/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-Source0:        mingw-COPYING
-Source1:        mingw-macros.mingw
-Source2:        mingw.sh
-Source3:        mingw.csh
-Source4:        mingw-find-requires.sh
-Source5:        mingw-find-provides.sh
+Source0:        mingw32-COPYING
+Source1:        mingw32-macros.mingw32
+Source2:        mingw32.sh
+Source3:        mingw32.csh
+Source4:        mingw32-find-requires.sh
+Source5:        mingw32-find-provides.sh
 
 Requires:       setup
 Requires:       rpm
 
 # These are actually provided by Windows itself, or Wine.
-Provides:       mingw(msvcrt.dll)
-Provides:       mingw(kernel32.dll)
-Provides:       mingw(user32.dll)
-Provides:       mingw(gdi32.dll)
-Provides:       mingw(ole32.dll)
+Provides:       mingw32(msvcrt.dll)
+Provides:       mingw32(kernel32.dll)
+Provides:       mingw32(user32.dll)
+Provides:       mingw32(gdi32.dll)
+Provides:       mingw32(ole32.dll)
+
+Obsoletes:      mingw-filesystem = %{version}-%{release}
+Provides:       mingw-filesystem < 26
 
 
 %description
@@ -41,7 +44,7 @@ This environment is maintained by the Fedora MinGW SIG at:
 %prep
 %setup -q -c -T
 cp %{SOURCE0} COPYING
-sed 's/@VERSION@/%{version}/' < %{SOURCE4} > mingw-find-requires.sh
+sed 's/@VERSION@/%{version}/' < %{SOURCE4} > mingw32-find-requires.sh
 
 
 %build
@@ -57,7 +60,7 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 install -m 644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.mingw
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.mingw32
 
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32
 
@@ -94,7 +97,7 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/i686-pc-mingw32/sys-root/mingw/share/man/man{
 
 # NB. NOT _libdir
 mkdir -p $RPM_BUILD_ROOT/usr/lib/rpm
-install -m 0755 mingw-find-requires.sh $RPM_BUILD_ROOT/usr/lib/rpm
+install -m 0755 mingw32-find-requires.sh $RPM_BUILD_ROOT/usr/lib/rpm
 install -m 0755 %{SOURCE5} $RPM_BUILD_ROOT/usr/lib/rpm
 
 
@@ -105,14 +108,17 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING
-%config(noreplace) %{_sysconfdir}/rpm/macros.mingw
-%config(noreplace) %{_sysconfdir}/profile.d/mingw.sh
-%config(noreplace) %{_sysconfdir}/profile.d/mingw.csh
+%config(noreplace) %{_sysconfdir}/rpm/macros.mingw32
+%config(noreplace) %{_sysconfdir}/profile.d/mingw32.sh
+%config(noreplace) %{_sysconfdir}/profile.d/mingw32.csh
 %{_prefix}/i686-pc-mingw32/
-/usr/lib/rpm/mingw-*
+/usr/lib/rpm/mingw32-*
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 26-1
+- Begin the grand renaming of mingw -> mingw32.
+
 * Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 25-1
 - Add shared aclocal directory.
 

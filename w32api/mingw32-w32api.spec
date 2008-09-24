@@ -1,12 +1,12 @@
-%define __strip %{_mingw_strip}
-%define __objdump %{_mingw_objdump}
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
 %define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw_findrequires}
-%define __find_provides %{_mingw_findprovides}
+%define __find_requires %{_mingw32_findrequires}
+%define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw-w32api
+Name:           mingw32-w32api
 Version:	3.11
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
@@ -17,22 +17,23 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-BuildRequires:  mingw-filesystem >= 23
-BuildRequires:  mingw-binutils
-BuildRequires:  mingw-gcc
-BuildRequires:  mingw-runtime
+BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-runtime
 
-Requires:       mingw-filesystem >= 23
-Requires:       mingw-binutils
-Requires:       mingw-gcc
-Requires:       mingw-runtime
+Requires:       mingw32-filesystem >= 23
+Requires:       mingw32-binutils
+Requires:       mingw32-gcc
+Requires:       mingw32-runtime
 
-# Once this is installed, mingw-bootstrap (binary bootstrapper) is no
+# Once this is installed, mingw32-bootstrap (binary bootstrapper) is no
 # longer needed.
+Obsoletes:      mingw32-w32api-bootstrap
 Obsoletes:      mingw-w32api-bootstrap
 
-#%define _use_internal_dependency_generator 0
-#%define __debug_install_post %{nil}
+Provides:       mingw-w32api = %{version}-%{release}
+Obsoletes:      mingw-w32api < 3.11-7
 
 
 %description
@@ -45,7 +46,7 @@ MinGW Windows cross-compiler Win32 header files.
 %build
 ./configure \
   --build=%_build \
-  --host=%{_mingw_host}
+  --host=%{_mingw32_host}
 
 make
 
@@ -53,7 +54,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_mingw_prefix} install
+make prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} install
 
 
 %clean
@@ -62,11 +63,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw_includedir}/*
-%{_mingw_libdir}/*.a
+%{_mingw32_includedir}/*
+%{_mingw32_libdir}/*.a
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-7
+- Rename mingw -> mingw32.
+
 * Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-6
 - Moved ole provides to mingw-filesystem package.
 

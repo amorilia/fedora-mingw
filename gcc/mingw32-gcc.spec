@@ -1,8 +1,8 @@
 %define __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-Name:           mingw-gcc
+Name:           mingw32-gcc
 Version:        4.3.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -14,30 +14,33 @@ Patch1:         %{name}-build.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  texinfo
-BuildRequires:  mingw-filesystem >= 2
-BuildRequires:  mingw-binutils
-BuildRequires:  mingw-runtime
-BuildRequires:  mingw-w32api
+BuildRequires:  mingw32-filesystem >= 26
+BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-runtime
+BuildRequires:  mingw32-w32api
 BuildRequires:  gmp-devel
 BuildRequires:  mpfr-devel
 BuildRequires:  libgomp
 
-Requires:       mingw-filesystem >= 2
-Requires:       mingw-binutils
-Requires:       mingw-runtime
-Requires:       mingw-w32api
-Requires:       mingw-cpp
+Requires:       mingw32-filesystem >= 26
+Requires:       mingw32-binutils
+Requires:       mingw32-runtime
+Requires:       mingw32-w32api
+Requires:       mingw32-cpp
+
+Provides:       mingw-gcc = %{version}-%{release}
+Obsoletes:      mingw-gcc < 4.3.2-7
 
 
 %description
 MinGW Windows cross-compiler (GCC) for C
 
 
-%package -n mingw-cpp
+%package -n mingw32-cpp
 Summary: MinGW Windows cross-C Preprocessor.
 Group: Development/Languages
 
-%description -n mingw-cpp
+%description -n mingw32-cpp
 MinGW Windows cross-C Preprocessor
 
 
@@ -72,7 +75,7 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
   --infodir=%{_infodir} \
   --datadir=%{_datadir} \
   --build=%_build --host=%_host \
-  --target=%{_mingw_target} \
+  --target=%{_mingw32_target} \
   --with-gnu-as --with-gnu-ld --verbose \
   --without-newlib \
   --disable-multilib \
@@ -80,7 +83,7 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
   --disable-nls --without-included-gettext \
   --disable-win32-registry \
   --enable-version-specific-runtime-libs \
-  --with-sysroot=%{_mingw_sysroot} \
+  --with-sysroot=%{_mingw32_sysroot} \
   --enable-languages="$languages" $optargs
 
 make all
@@ -99,7 +102,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libiberty*
 rm -f $RPM_BUILD_ROOT%{_mandir}/man7/*
 
 mkdir -p $RPM_BUILD_ROOT/lib
-ln -sf ..%{_prefix}/bin/i686-pc-mingw-cpp \
+ln -sf ..%{_prefix}/bin/i686-pc-mingw32-cpp \
   $RPM_BUILD_ROOT/lib/i686-pc-mingw32-cpp
 
 %clean
@@ -139,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/i686-pc-mingw32-gcov.1*
 
 
-%files -n mingw-cpp
+%files -n mingw32-cpp
 %defattr(-,root,root)
 /lib/i686-pc-mingw32-cpp
 %{_bindir}/i686-pc-mingw32-cpp
@@ -164,6 +167,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-7
+- Rename mingw -> mingw32.
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-6
 - Use RPM macros from mingw-filesystem.
 

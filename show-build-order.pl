@@ -54,17 +54,17 @@ sub main {
     }
 
     # Some packages we want to ignore for now.
-    delete $br{"mingw-cyrus-sasl"};
-    delete $br{"mingw-nsis"};
-    delete $br{"mingw-wix"};
-    delete $br{"mingw-example"};
-    delete $br{"mingw-gdb"};
+    delete $br{"mingw32-cyrus-sasl"};
+    delete $br{"mingw32-nsis"};
+    delete $br{"mingw32-wix"};
+    delete $br{"mingw32-example"};
+    delete $br{"mingw32-gdb"};
 
     # There is a dependency loop (gcc -> runtime/w32api -> gcc)
     # which has to be manually resolved below.  Break that loop.
-    my @gcc_brs = @{$br{"mingw-gcc"}};
-    @gcc_brs = grep { $_ ne "mingw-runtime" && $_ ne "mingw-w32api" } @gcc_brs;
-    $br{"mingw-gcc"} = \@gcc_brs;
+    my @gcc_brs = @{$br{"mingw32-gcc"}};
+    @gcc_brs = grep { $_ ne "mingw32-runtime" && $_ ne "mingw32-w32api" } @gcc_brs;
+    $br{"mingw32-gcc"} = \@gcc_brs;
 
     # Use tsort to generate a topological ordering.
     open TSORT,">/tmp/tsort.tmp" or die "/tmp/tsort.tmp: $!";
@@ -91,7 +91,7 @@ sub main {
 
     while (<PACKAGES>) {
 	chomp;
-	if (/^mingw-(.*)/) {
+	if (/^mingw32-(.*)/) {
 	    $packagename = $_;
 	    my $dirname = $1;
 
@@ -108,17 +108,17 @@ sub main {
 		}
 	    }
 
-	    # Special case for mingw-gcc deps.
-	    if ($packagename eq "mingw-gcc" &&
-		(!rpm_installed ("mingw-runtime") ||
-		 !rpm_installed ("mingw-w32api"))) {
-		print "rpmbuild -ba --define \"_sourcedir $pwd/runtime-bootstrap\" runtime-bootstrap/mingw-runtime-bootstrap.spec\n";
-	        print "# as root: rpm -Uvh mingw-runtime-bootstrap*.rpm\n";
-		$installed{"mingw-runtime-bootstrap"} = 1;
+	    # Special case for mingw32-gcc deps.
+	    if ($packagename eq "mingw32-gcc" &&
+		(!rpm_installed ("mingw32-runtime") ||
+		 !rpm_installed ("mingw32-w32api"))) {
+		print "rpmbuild -ba --define \"_sourcedir $pwd/runtime-bootstrap\" runtime-bootstrap/mingw32-runtime-bootstrap.spec\n";
+	        print "# as root: rpm -Uvh mingw32-runtime-bootstrap*.rpm\n";
+		$installed{"mingw32-runtime-bootstrap"} = 1;
 
-		print "rpmbuild -ba --define \"_sourcedir $pwd/w32api-bootstrap\" w32api-bootstrap/mingw-w32api-bootstrap.spec\n";
-	        print "# as root: rpm -Uvh mingw-w32api-bootstrap*.rpm\n";
-		$installed{"mingw-w32api-bootstrap"} = 1;
+		print "rpmbuild -ba --define \"_sourcedir $pwd/w32api-bootstrap\" w32api-bootstrap/mingw32-w32api-bootstrap.spec\n";
+	        print "# as root: rpm -Uvh mingw32-w32api-bootstrap*.rpm\n";
+		$installed{"mingw32-w32api-bootstrap"} = 1;
 	    }
 
 	    # Spec file.
@@ -163,8 +163,8 @@ sub remove_trailers {
     s/-devel$//;
     s/-doc$//;
 
-    # mingw-gcc-c++ etc.
-    s/^mingw-gcc-.*/mingw-gcc/;
+    # mingw32-gcc-c++ etc.
+    s/^mingw32-gcc-.*/mingw32-gcc/;
 
     return $_;
 }

@@ -3,24 +3,25 @@
 
 %define __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-%define w32api_version 3.11
+%define runtime_version 3.14
 
-Name:           mingw-w32api-bootstrap
+Name:           mingw32-runtime-bootstrap
 Version:        1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows bootstrap (binary package)
 
 Group:          Development/Libraries
 License:        Public Domain
 URL:            http://www.mingw.org/
 
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{w32api_version}.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingw-runtime-%{runtime_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-Provides:       mingw-w32api = %{w32api_version}
+Provides:       mingw32-runtime = %{runtime_version}
+Provides:       mingw-runtime = %{runtime_version}
 
 
 %description
@@ -56,5 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1-4
+- Rename mingw -> mingw32.
+
 * Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 1-3
 - Initial RPM release.
