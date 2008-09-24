@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        1%{?dist}%{?extra_release}
+Release:        2%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -56,9 +56,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
-rm -rf $RPM_BUILD_ROOT/%{_mingw32_sysconfdir}/libvirt
-rm -rf $RPM_BUILD_ROOT/%{_mingw32_datadir}/doc/*
-rm -rf $RPM_BUILD_ROOT/%{_mingw32_datadir}/gtk-doc/*
+rm -rf $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/libvirt
+rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/doc/*
+rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/gtk-doc/*
 
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libvirt.a
 
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.6-2
+- Whitespace removal.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.6-1
 - New upstream release 0.4.6.
 - Rename mingw -> mingw32.
