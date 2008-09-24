@@ -4,6 +4,7 @@ syntax: glob
 buildall.log
 
 atk/atk-1.23.5.tar.bz2
+atk/atk-1.24.0.tar.bz2
 binutils/binutils-2.18.50-20080109-2-src.tar.gz
 cairo/cairo-1.7.4.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
@@ -20,7 +21,10 @@ gtk2/gtk+-2.14.2.tar.bz2
 iconv/libiconv-1.12.tar.gz
 jasper/jasper-1.900.1.zip
 libgcrypt/libgcrypt-1.4.1.tar.bz2
+libgcrypt/libgcrypt-1.4.3.tar.bz2
+libgcrypt/libgcrypt-1.4.3.tar.bz2.sig
 libgpg-error/libgpg-error-1.6.tar.bz2
+libgpg-error/libgpg-error-1.6.tar.bz2.sig
 libjpeg/jpegsrc.v6b.tar.gz
 libpng/libpng-1.2.31.tar.bz2
 libvirt/libvirt-0.4.5.tar.gz
