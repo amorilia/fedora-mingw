@@ -13,7 +13,7 @@ License:        IJG
 URL:            http://www.ijg.org/
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.bz2
+Source0:        ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v%{version}.tar.gz
 Source1:        configure.in
 
 Patch1:         jpeg-c++.patch
