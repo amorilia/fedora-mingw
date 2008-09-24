@@ -1,7 +1,6 @@
 syntax: glob
 
 *~
-smock/smock
 buildall.log
 
 atk/atk-1.23.5.tar.bz2
@@ -9,6 +8,7 @@ binutils/binutils-2.18.50-20080109-2-src.tar.gz
 cairo/cairo-1.7.4.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
+freetype/freetype-doc-2.3.7.tar.bz2
 gcc/gcc-core-4.3.2.tar.bz2
 gcc/gcc-g++-4.3.2.tar.bz2
 gettext/gettext-0.17.tar.gz
@@ -27,6 +27,7 @@ nsis/nsis-2.19-src.tar.bz2
 nsis/nsis-2.39-src.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pixman/pixman-0.11.10.tar.gz
+pixman/pixman-0.12.0.tar.gz
 portablexdr/portablexdr-4.0.10.tar.gz
 runtime-bootstrap/mingw-runtime-3.14.tar.gz
 runtime/mingw-runtime-3.14-src.tar.gz
