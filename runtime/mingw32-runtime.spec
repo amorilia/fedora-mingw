@@ -6,7 +6,7 @@
 
 Name:           mingw32-runtime
 Version:        3.14
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -39,7 +39,8 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 
 %prep
-%setup -q
+%setup -q -n mingw-runtime-%{version}
+
 
 %build
 CFLAGS="-I%{_mingw32_includedir}" \
@@ -76,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-5
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-6
 - Rename mingw -> mingw32.
 
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-4
