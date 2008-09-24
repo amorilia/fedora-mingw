@@ -107,7 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Sep 21 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-2
+* Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-2
 - Rename mingw -> mingw32.
 
 * Mon Sep 22 2008 Daniel P. Berrange <berrange@redhat.com> - 2.18.1-1
