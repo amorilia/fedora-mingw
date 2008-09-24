@@ -41,6 +41,6 @@ do
     if [ $skip ]; then
 	echo "skipping $srcrpm"
     else
-	echo smock/smock.sh $DIST $srcrpm
+	smock/smock.sh $DIST $srcrpm
     fi
 done 2>&1 | tee -a buildall.log
