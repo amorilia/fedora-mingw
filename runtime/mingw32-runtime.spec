@@ -12,7 +12,7 @@ Summary:        MinGW Windows cross-compiler runtime and root filesystem
 License:        Public Domain
 Group:          Development/Libraries
 URL:            http://www.mingw.org/
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/%{name}-%{version}-src.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingw-runtime-%{version}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
