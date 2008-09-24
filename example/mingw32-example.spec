@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 26
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 # Any additional BuildRequires.
@@ -56,5 +56,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 10 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-1
+* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
 - Initial RPM release.
