@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        2%{?dist}%{?extra_release}
+Release:        3%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -27,6 +27,9 @@ BuildRequires:  mingw32-portablexdr
 BuildRequires:  pkgconfig
 # Need native version for msgfmt
 BuildRequires:  gettext
+
+BuildArch:      noarch
+
 
 %description
 MinGW Windows libvirt virtualization library.
@@ -86,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 0.4.6-3
+- BuildArch should be noarch
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.6-2
 - Whitespace removal.
 
