@@ -26,9 +26,12 @@
 %_mingw32_cc		  i686-pc-mingw32-gcc
 %_mingw32_cpp		  i686-pc-mingw32-gcc -E
 %_mingw32_ar		  i686-pc-mingw32-ar
+%_mingw32_as		  i686-pc-mingw32-as
+%_mingw32_dlltool	  i686-pc-mingw32-dlltool
 %_mingw32_ranlib	  i686-pc-mingw32-ranlib
 %_mingw32_strip		  i686-pc-mingw32-strip
 %_mingw32_objdump	  i686-pc-mingw32-objdump
+%_mingw32_windres	  i686-pc-mingw32-windres
 %_mingw32_findprovides    /usr/lib/rpm/mingw32-find-provides.sh
 %_mingw32_findrequires    /usr/lib/rpm/mingw32-find-requires.sh
 

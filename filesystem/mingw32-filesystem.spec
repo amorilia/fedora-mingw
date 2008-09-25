@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        27
+Version:        29
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 29-1
+- Added _mingw32_as, _mingw32_dlltool, _mingw32_windres.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 27-1
 - Begin the grand renaming of mingw -> mingw32.
 - Added mingw32(mscoree.dll).

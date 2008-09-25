@@ -40,8 +40,10 @@ pdcurses/PDCurses-3.4.tar.gz
 pixman/pixman-0.11.10.tar.gz
 pixman/pixman-0.12.0.tar.gz
 portablexdr/portablexdr-4.0.10.tar.gz
+readline/readline-5.2.tar.gz
 runtime-bootstrap/mingw-runtime-3.14.tar.gz
 runtime/mingw-runtime-3.14-src.tar.gz
+termcap/termcap-1.3.1.tar.gz
 w32api-bootstrap/w32api-3.11.tar.gz
 w32api/w32api-3.11-src.tar.gz
 zlib/zlib-1.2.3.tar.gz
