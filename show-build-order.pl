@@ -59,6 +59,7 @@ sub main {
     delete $br{"mingw32-wix"};
     delete $br{"mingw32-example"};
     delete $br{"mingw32-gdb"};
+    delete $br("mingw32-sqlite");
 
     # There is a dependency loop (gcc -> runtime/w32api -> gcc)
     # which has to be manually resolved below.  Break that loop.
