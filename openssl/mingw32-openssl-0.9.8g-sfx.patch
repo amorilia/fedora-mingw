@@ -1,0 +1,14 @@
+--- openssl-0.9.8g.orig/engines/Makefile	2006-02-04 01:49:34.000000000 +0000
++++ openssl-0.9.8g.mingw/engines/Makefile	2008-09-30 20:05:30.000000000 +0100
+@@ -91,7 +91,10 @@
+ 		set -e; \
+ 		for l in $(LIBNAMES); do \
+ 			( echo installing $$l; \
+-			  if [ "$(PLATFORM)" != "Cygwin" ]; then \
++			  if [ "$(PLATFORM)" = "mingw" ]; then \
++				sfx=dll; \
++				cp lib$$l.$$sfx $(INSTALL_PREFIX)$(INSTALLTOP)/lib/engines/lib$$l.$$sfx.new; \
++			  elif [ "$(PLATFORM)" != "Cygwin" ]; then \
+ 				case "$(CFLAGS)" in \
+ 				*DSO_DLFCN*)	sfx="so";;	\
+ 				*DSO_DL*)	sfx="sl";;	\

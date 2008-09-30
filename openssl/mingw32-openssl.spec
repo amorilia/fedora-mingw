@@ -4,6 +4,12 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+# Enable the tests.
+# These only work some of the time, but fail randomly at other times
+# (although I have had them complete a few times, so I don't think
+# there is any actual problem with the binaries).
+%define with_tests 0
+
 Name:           mingw32-openssl
 Version:        0.9.8g
 Release:        1%{?dist}
@@ -53,6 +59,7 @@ Patch100:       mingw32-openssl-0.9.8g-header-files.patch
 Patch101:       mingw32-openssl-0.9.8g-configure.patch
 Patch102:       mingw32-openssl-0.9.8g-shared.patch
 Patch103:       mingw32-openssl-0.9.8g-global.patch
+Patch104:       mingw32-openssl-0.9.8g-sfx.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -71,9 +78,13 @@ BuildRequires:  sed
 BuildRequires:  /usr/bin/cmp
 BuildRequires:  /usr/bin/rename
 
-# Required to run the tests.
+# Required both to build, and to run the tests.
 BuildRequires:  wine
+
+%if %{with_tests}
+# Required to run the tests.
 BuildRequires:  xorg-x11-server-Xvfb
+%endif
 
 #Requires:       ca-certificates >= 2008-5
 Requires:       pkgconfig
@@ -122,6 +133,7 @@ This package contains Windows (MinGW) libraries and development tools.
 %patch101 -p1 -b .mingw-configure
 %patch102 -p1 -b .mingw-shared
 %patch103 -p1 -b .mingw-global
+%patch104 -p1 -b .mingw-sfx
 
 # Modify the various perl scripts to reference perl in the right location.
 perl util/perlpath.pl `dirname %{__perl}`
@@ -142,6 +154,7 @@ export PATH=.:$PATH
 # NB: 'no-hw' is vital.  MinGW cannot build the hardware drivers
 # and if you don't have this you'll get an obscure link error.
 ./Configure \
+  --prefix=%{_mingw32_prefix} \
   --openssldir=%{_mingw32_sysconfdir}/pki/tls \
   zlib enable-camellia enable-seed enable-tlsext enable-rfc3779 \
   no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa no-hw shared \
@@ -153,6 +166,7 @@ make depend
 make all build-shared
 make rehash build-shared
 
+%if %{with_tests}
 #----------------------------------------------------------------------
 # Run some tests.  I don't know why this isn't in a %-check section
 # but this is how it is in the native RPM.
@@ -199,6 +213,9 @@ make LDCMD=%{_mingw32_cc} -C test apps tests
 #
 #./openssl-thread-test --threads %{thread_test_threads}
 
+#----------------------------------------------------------------------
+%endif
+
 # Patch33 must be patched after tests otherwise they will fail
 patch -p1 -b -z .ca-dir < %{PATCH33}
 
@@ -210,11 +227,28 @@ fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
-exit 1
-make DESTDIR=$RPM_BUILD_ROOT install
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}/openssl
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_mandir}
+make INSTALL_PREFIX=$RPM_BUILD_ROOT install build-shared
+
+# Install the actual DLLs.
+install libcrypto-7.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
+install libssl-7.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
 
 # Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libfoo.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libcrypto.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libssl.a
+
+# I have no idea why it installs the manpages in /etc, but
+# we remove them anyway.
+rm -r $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/man
+
+# Set permissions on lib*.dll.a so that strip works.
+chmod 0755 $RPM_BUILD_ROOT%{_mingw32_libdir}/libcrypto.dll.a
+chmod 0755 $RPM_BUILD_ROOT%{_mingw32_libdir}/libssl.dll.a
 
 
 %clean
@@ -223,11 +257,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/foo.dll
-%{_mingw32_libdir}/foo.dll.a
-# etc.
+%{_mingw32_bindir}/openssl.exe
+%{_mingw32_bindir}/c_rehash
+%{_mingw32_bindir}/libcrypto-7.dll
+%{_mingw32_bindir}/libssl-7.dll
+%{_mingw32_libdir}/libcrypto.dll.a
+%{_mingw32_libdir}/libssl.dll.a
+%{_mingw32_libdir}/engines
+%{_mingw32_libdir}/pkgconfig/*.pc
+%{_mingw32_includedir}/openssl
+%config(noreplace) %{_mingw32_sysconfdir}/pki
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Tue Sep 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.9.8g-1
 - Initial RPM release.
