@@ -1,0 +1,157 @@
+Fix the location of certain header files.
+
+  - RWMJ 2008-09-30
+
+diff -ur openssl-0.9.8g.orig/apps/speed.c openssl-0.9.8g.mingw/apps/speed.c
+--- openssl-0.9.8g.orig/apps/speed.c	2008-09-30 14:16:16.000000000 +0100
++++ openssl-0.9.8g.mingw/apps/speed.c	2008-09-30 14:53:25.000000000 +0100
+@@ -165,7 +165,7 @@
+ #include <openssl/aes.h>
+ #endif
+ #ifndef OPENSSL_NO_CAMELLIA
+-#include <openssl/camellia.h>
++#include "../crypto/camellia/camellia.h"
+ #endif
+ #ifndef OPENSSL_NO_MD2
+ #include <openssl/md2.h>
+@@ -202,7 +202,7 @@
+ #include <openssl/idea.h>
+ #endif
+ #ifndef OPENSSL_NO_SEED
+-#include <openssl/seed.h>
++#include "../crypto/seed/seed.h"
+ #endif
+ #ifndef OPENSSL_NO_BF
+ #include <openssl/blowfish.h>
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_cbc.c openssl-0.9.8g.mingw/crypto/camellia/cmll_cbc.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_cbc.c	2006-12-02 12:00:27.000000000 +0000
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_cbc.c	2008-09-30 14:29:02.000000000 +0100
+@@ -58,7 +58,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ 
+ void Camellia_cbc_encrypt(const unsigned char *in, unsigned char *out,
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_cfb.c openssl-0.9.8g.mingw/crypto/camellia/cmll_cfb.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_cfb.c	2006-06-09 23:31:05.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_cfb.c	2008-09-30 14:29:25.000000000 +0100
+@@ -113,7 +113,7 @@
+ #include <assert.h>
+ #include <string.h>
+ 
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ #include "e_os.h"
+ 
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_ctr.c openssl-0.9.8g.mingw/crypto/camellia/cmll_ctr.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_ctr.c	2006-06-09 23:31:05.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_ctr.c	2008-09-30 14:29:36.000000000 +0100
+@@ -56,7 +56,7 @@
+ #endif
+ #include <assert.h>
+ 
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ 
+ /* NOTE: the IV/counter CTR mode is big-endian.  The rest of the Camellia code
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_ecb.c openssl-0.9.8g.mingw/crypto/camellia/cmll_ecb.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_ecb.c	2006-06-09 23:31:05.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_ecb.c	2008-09-30 14:28:50.000000000 +0100
+@@ -56,7 +56,7 @@
+ #endif
+ #include <assert.h>
+ 
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ 
+ void Camellia_ecb_encrypt(const unsigned char *in, unsigned char *out,
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_misc.c openssl-0.9.8g.mingw/crypto/camellia/cmll_misc.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_misc.c	2007-01-21 13:16:21.000000000 +0000
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_misc.c	2008-09-30 14:28:37.000000000 +0100
+@@ -50,7 +50,7 @@
+  */
+  
+ #include <openssl/opensslv.h>
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ 
+ const char CAMELLIA_version[]="CAMELLIA" OPENSSL_VERSION_PTEXT;
+diff -ur openssl-0.9.8g.orig/crypto/camellia/cmll_ofb.c openssl-0.9.8g.mingw/crypto/camellia/cmll_ofb.c
+--- openssl-0.9.8g.orig/crypto/camellia/cmll_ofb.c	2006-06-09 23:31:05.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/camellia/cmll_ofb.c	2008-09-30 14:29:14.000000000 +0100
+@@ -111,7 +111,7 @@
+ # endif
+ #endif
+ #include <assert.h>
+-#include <openssl/camellia.h>
++#include "camellia.h"
+ #include "cmll_locl.h"
+ 
+ /* The input and output encrypted as though 128bit ofb mode is being
+diff -ur openssl-0.9.8g.orig/crypto/evp/e_camellia.c openssl-0.9.8g.mingw/crypto/evp/e_camellia.c
+--- openssl-0.9.8g.orig/crypto/evp/e_camellia.c	2006-08-31 21:56:52.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/evp/e_camellia.c	2008-09-30 14:31:31.000000000 +0100
+@@ -59,7 +59,7 @@
+ #include <openssl/err.h>
+ #include <string.h>
+ #include <assert.h>
+-#include <openssl/camellia.h>
++#include "../camellia/camellia.h"
+ #include "evp_locl.h"
+ 
+ static int camellia_init_key(EVP_CIPHER_CTX *ctx, const unsigned char *key,
+diff -ur openssl-0.9.8g.orig/crypto/evp/e_seed.c openssl-0.9.8g.mingw/crypto/evp/e_seed.c
+--- openssl-0.9.8g.orig/crypto/evp/e_seed.c	2007-07-04 13:56:32.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/evp/e_seed.c	2008-09-30 14:31:46.000000000 +0100
+@@ -59,7 +59,7 @@
+ #include <string.h>
+ #include <assert.h>
+ #ifndef OPENSSL_NO_SEED
+-#include <openssl/seed.h>
++#include "../seed/seed.h"
+ #include "evp_locl.h"
+ 
+ static int seed_init_key(EVP_CIPHER_CTX *ctx, const unsigned char *key,	const unsigned char *iv, int enc);
+diff -ur openssl-0.9.8g.orig/crypto/seed/seed.c openssl-0.9.8g.mingw/crypto/seed/seed.c
+--- openssl-0.9.8g.orig/crypto/seed/seed.c	2007-04-24 00:50:10.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/seed/seed.c	2008-09-30 14:29:58.000000000 +0100
+@@ -32,7 +32,7 @@
+ #include <memory.h>
+ #endif
+ 
+-#include <openssl/seed.h>
++#include "seed.h"
+ #include "seed_locl.h"
+ 
+ static seed_word SS[4][256] = {	{
+diff -ur openssl-0.9.8g.orig/crypto/seed/seed_ecb.c openssl-0.9.8g.mingw/crypto/seed/seed_ecb.c
+--- openssl-0.9.8g.orig/crypto/seed/seed_ecb.c	2007-04-24 00:50:10.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/seed/seed_ecb.c	2008-09-30 14:30:21.000000000 +0100
+@@ -49,7 +49,7 @@
+  *
+  */
+ 
+-#include <openssl/seed.h>
++#include "seed.h"
+ 
+ void SEED_ecb_encrypt(const unsigned char *in, unsigned char *out, const SEED_KEY_SCHEDULE *ks, int enc) 
+ 	{
+diff -ur openssl-0.9.8g.orig/crypto/seed/seed_locl.h openssl-0.9.8g.mingw/crypto/seed/seed_locl.h
+--- openssl-0.9.8g.orig/crypto/seed/seed_locl.h	2008-09-30 14:16:15.000000000 +0100
++++ openssl-0.9.8g.mingw/crypto/seed/seed_locl.h	2008-09-30 14:30:10.000000000 +0100
+@@ -27,7 +27,7 @@
+ #define HEADER_SEED_LOCL_H
+ 
+ #include "openssl/e_os2.h"
+-#include <openssl/seed.h>
++#include "seed.h"
+ 
+ 
+ #ifdef SEED_LONG /* need 32-bit type */

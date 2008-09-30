@@ -1,0 +1,34 @@
+Fix build of shared libraries on MinGW cross-compilation target.
+
+  - RWMJ 2008-09-30
+
+diff -ur openssl-0.9.8g.orig/Makefile.shared openssl-0.9.8g.mingw/Makefile.shared
+--- openssl-0.9.8g.orig/Makefile.shared	2008-09-30 14:16:16.000000000 +0100
++++ openssl-0.9.8g.mingw/Makefile.shared	2008-09-30 15:19:51.000000000 +0100
+@@ -101,7 +101,7 @@
+     LIBDEPS="$${LIBDEPS:-$(LIBDEPS)}"; \
+     SHAREDCMD="$${SHAREDCMD:-$(CC)}"; \
+     SHAREDFLAGS="$${SHAREDFLAGS:-$(CFLAGS) $(SHARED_LDFLAGS)}"; \
+-    nm -Pg $$SHOBJECTS | grep ' [BDT] ' | cut -f1 -d' ' > lib$(LIBNAME).exp; \
++    i686-pc-mingw32-nm -Pg $$SHOBJECTS | grep ' [BDT] ' | cut -f1 -d' ' > lib$(LIBNAME).exp; \
+     LIBPATH=`for x in $$LIBDEPS; do if echo $$x | grep '^ *-L' > /dev/null 2>&1; then echo $$x | sed -e 's/^ *-L//'; fi; done | uniq`; \
+     LIBPATH=`echo $$LIBPATH | sed -e 's/ /:/g'`; \
+     LD_LIBRARY_PATH=$$LIBPATH:$$LD_LIBRARY_PATH \
+@@ -238,7 +238,7 @@
+ 	SHLIB=cyg$(LIBNAME); \
+ 	base=-Wl,--enable-auto-image-base; \
+ 	if expr $(PLATFORM) : 'mingw' > /dev/null; then \
+-		SHLIB=$(LIBNAME)eay32; base=; \
++		SHLIB=lib$(LIBNAME); base=; \
+ 	fi; \
+ 	SHLIB_SUFFIX=.dll; \
+ 	LIBVERSION="$(LIBVERSION)"; \
+@@ -253,7 +253,7 @@
+ 	SHLIB=cyg$(LIBNAME); \
+ 	base=-Wl,--enable-auto-image-base; \
+ 	if expr $(PLATFORM) : 'mingw' > /dev/null; then \
+-		SHLIB=$(LIBNAME)eay32; \
++		SHLIB=lib$(LIBNAME); \
+ 		base=;  [ $(LIBNAME) = "crypto" ] && base=-Wl,--image-base,0x63000000; \
+ 	fi; \
+ 	SHLIB_SUFFIX=.dll; \

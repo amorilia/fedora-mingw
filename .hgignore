@@ -35,6 +35,7 @@ libxml2/libxml2-2.6.32.tar.gz
 libxml2/libxml2-2.7.1.tar.gz
 nsis/nsis-2.19-src.tar.bz2
 nsis/nsis-2.39-src.tar.bz2
+openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pdcurses/PDCurses-3.4.tar.gz
 pixman/pixman-0.11.10.tar.gz
