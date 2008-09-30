@@ -78,6 +78,10 @@ BuildRequires:  sed
 BuildRequires:  /usr/bin/cmp
 BuildRequires:  /usr/bin/rename
 
+# XXX Not really sure about this one.  The build script uses
+# /usr/bin/makedepend which comes from imake.
+BuildRequires:  imake
+
 # Required both to build, and to run the tests.
 BuildRequires:  wine
 
