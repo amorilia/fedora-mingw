@@ -41,7 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 # Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{mingw32_libdir}/libfoo.a
+rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libfoo.a
 
 
 %clean
