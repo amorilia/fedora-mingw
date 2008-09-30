@@ -175,8 +175,9 @@ export WINEDLLPATH
 # it).  Therefore we create a virtual framebuffer for the duration of
 # the tests.
 # XXX There is no good way to choose a random, unused display.
+unset DISPLAY
 display=:21
-Xvfb $display & xpid=$!
+Xvfb $display -ac -noreset & xpid=$!
 trap "kill -TERM $xpid ||:" EXIT
 sleep 3
 DISPLAY=$display
@@ -185,10 +186,10 @@ export DISPLAY
 make LDCMD=%{_mingw32_cc} -C test apps tests
 
 # Disable this thread test, because we don't have pthread on Windows.
-#%{_mingw32_cc} -o openssl-thread-test \
+#%-{_mingw32_cc} -o openssl-thread-test \
 #  -I./include \
-#  %{_mingw32_cflags} \
-#  %{SOURCE8} \
+#  %-{_mingw32_cflags} \
+#  %-{SOURCE8} \
 #  -L. \
 #  -lssl -lcrypto \
 #  -lpthread -lz -ldl
