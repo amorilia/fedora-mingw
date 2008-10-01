@@ -83,6 +83,8 @@ BuildRequires:  /usr/bin/rename
 BuildRequires:  imake
 
 # Required both to build, and to run the tests.
+# XXX This needs to be fixed - cross-compilation should not
+# require running executables.
 BuildRequires:  wine
 
 %if %{with_tests}
@@ -193,9 +195,10 @@ export WINEDLLPATH
 # it).  Therefore we create a virtual framebuffer for the duration of
 # the tests.
 # XXX There is no good way to choose a random, unused display.
+# XXX Setting depth to 24 bits avoids bug 458219.
 unset DISPLAY
 display=:21
-Xvfb $display -ac -noreset & xpid=$!
+Xvfb $display -screen 0 1024x768x24 -ac -noreset & xpid=$!
 trap "kill -TERM $xpid ||:" EXIT
 sleep 3
 DISPLAY=$display
