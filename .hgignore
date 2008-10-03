@@ -13,6 +13,7 @@ freetype/freetype-2.3.7.tar.bz2
 freetype/freetype-doc-2.3.7.tar.bz2
 gcc/gcc-core-4.3.2.tar.bz2
 gcc/gcc-g++-4.3.2.tar.bz2
+gdbm/gdbm-1.8.0.tar.gz
 gettext/gettext-0.17.tar.gz
 glib2/glib-2.18.0.tar.bz2
 glib2/glib-2.18.1.tar.bz2

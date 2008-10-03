@@ -1,0 +1,490 @@
+diff -urN gdbm-1.8.0.orig/configure.in gdbm-1.8.0.flock/configure.in
+--- gdbm-1.8.0.orig/configure.in	1999-05-19 01:17:02.000000000 +0100
++++ gdbm-1.8.0.flock/configure.in	2008-10-03 16:55:30.000000000 +0100
+@@ -5,6 +5,7 @@
+ AC_PROG_CC
+ AC_PROG_CPP
+ AC_PROG_INSTALL
++AC_LIBTOOL_WIN32_DLL
+ AM_PROG_LIBTOOL
+ dnl AC_PROG_RANLIB
+ dnl AC_WORDS_BIGENDIAN
+@@ -13,8 +14,8 @@
+ AC_HAVE_HEADERS(memory.h)
+ AC_CHECK_LIB(dbm, main)
+ AC_CHECK_LIB(ndbm, main)
+-AC_HAVE_FUNCS(rename ftruncate flock bcopy fsync)
+-AC_REPLACE_FUNCS(getopt)
++AC_HAVE_FUNCS(rename ftruncate bcopy)
++AC_REPLACE_FUNCS(flock fsync getopt)
+ AC_OFF_T
+ AC_ST_BLKSIZE
+ AC_OUTPUT(Makefile)
+diff -urN gdbm-1.8.0.orig/dbminit.c gdbm-1.8.0.flock/dbminit.c
+--- gdbm-1.8.0.orig/dbminit.c	1999-05-19 01:16:05.000000000 +0100
++++ gdbm-1.8.0.flock/dbminit.c	2008-10-03 17:07:20.000000000 +0100
+@@ -91,6 +91,7 @@
+ 	}
+     }
+ 
++#if (!defined _WIN32 && !defined __WIN32__) || defined __CYGWIN__
+   /* If the database is new, link "file.dir" to "file.pag". This is done
+      so the time stamp on both files is the same. */
+   if (stat (dir_file, &dir_stat) == 0)
+@@ -116,6 +117,7 @@
+ 	  goto done;
+ 	}
+     }
++#endif
+ 
+   ret = 0;
+ 
+diff -urN gdbm-1.8.0.orig/dbmopen.c gdbm-1.8.0.flock/dbmopen.c
+--- gdbm-1.8.0.orig/dbmopen.c	1999-05-19 01:16:05.000000000 +0100
++++ gdbm-1.8.0.flock/dbmopen.c	2008-10-03 17:07:33.000000000 +0100
+@@ -105,6 +105,7 @@
+       goto done;
+     }
+ 
++#if (!defined _WIN32 && !defined __WIN32__) || defined __CYGWIN__
+   /* If the database is new, link "file.dir" to "file.pag". This is done
+      so the time stamp on both files is the same. */
+   if (stat (dir_file, &dir_stat) == 0)
+@@ -130,6 +131,7 @@
+ 	  goto done;
+ 	}
+     }
++#endif
+ 
+ done:
+   free (pag_file);
+diff -urN gdbm-1.8.0.orig/flock.c gdbm-1.8.0.flock/flock.c
+--- gdbm-1.8.0.orig/flock.c	1970-01-01 01:00:00.000000000 +0100
++++ gdbm-1.8.0.flock/flock.c	2008-10-03 17:02:01.000000000 +0100
+@@ -0,0 +1,212 @@
++/* Emulate flock on platforms that lack it, primarily Windows and MinGW.
++
++   This is derived from sqlite3 sources.
++   http://www.sqlite.org/cvstrac/rlog?f=sqlite/src/os_win.c
++   http://www.sqlite.org/copyright.html
++
++   Written by Richard W.M. Jones <rjones.at.redhat.com>
++
++   Copyright (C) 2008 Free Software Foundation, Inc.
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
++
++#include <autoconf.h>
++#include "systems.h"
++
++#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
++
++/* _get_osfhandle */
++#include <io.h>
++
++/* LockFileEx */
++#define WIN32_LEAN_AND_MEAN
++#include <windows.h>
++
++#include <errno.h>
++
++/* Determine the current size of a file.  Because the other braindead
++ * APIs we'll call need lower/upper 32 bit pairs, keep the file size
++ * like that too.
++ */
++static BOOL
++file_size (HANDLE h, DWORD * lower, DWORD * upper)
++{
++  *lower = GetFileSize (h, upper);
++  return 1;
++}
++
++/* LOCKFILE_FAIL_IMMEDIATELY is undefined on some Windows systems. */
++#ifndef LOCKFILE_FAIL_IMMEDIATELY
++# define LOCKFILE_FAIL_IMMEDIATELY 1
++#endif
++
++/* Acquire a lock. */
++static BOOL
++do_lock (HANDLE h, int non_blocking, int exclusive)
++{
++  BOOL res;
++  DWORD size_lower, size_upper;
++  OVERLAPPED ovlp;
++  int flags = 0;
++
++  /* We're going to lock the whole file, so get the file size. */
++  res = file_size (h, &size_lower, &size_upper);
++  if (!res)
++    return 0;
++
++  /* Start offset is 0, and also zero the remaining members of this struct. */
++  memset (&ovlp, 0, sizeof ovlp);
++
++  if (non_blocking)
++    flags |= LOCKFILE_FAIL_IMMEDIATELY;
++  if (exclusive)
++    flags |= LOCKFILE_EXCLUSIVE_LOCK;
++
++  return LockFileEx (h, flags, 0, size_lower, size_upper, &ovlp);
++}
++
++/* Unlock reader or exclusive lock. */
++static BOOL
++do_unlock (HANDLE h)
++{
++  int res;
++  DWORD size_lower, size_upper;
++
++  res = file_size (h, &size_lower, &size_upper);
++  if (!res)
++    return 0;
++
++  return UnlockFile (h, 0, 0, size_lower, size_upper);
++}
++
++/* Now our BSD-like flock operation. */
++int
++flock (int fd, int operation)
++{
++  HANDLE h = (HANDLE) _get_osfhandle (fd);
++  DWORD res;
++  int non_blocking;
++
++  if (h == INVALID_HANDLE_VALUE)
++    {
++      errno = EBADF;
++      return -1;
++    }
++
++  non_blocking = operation & LOCK_NB;
++  operation &= ~LOCK_NB;
++
++  switch (operation)
++    {
++    case LOCK_SH:
++      res = do_lock (h, non_blocking, 0);
++      break;
++    case LOCK_EX:
++      res = do_lock (h, non_blocking, 1);
++      break;
++    case LOCK_UN:
++      res = do_unlock (h);
++      break;
++    default:
++      errno = EINVAL;
++      return -1;
++    }
++
++  /* Map Windows errors into Unix errnos.  As usual MSDN fails to
++   * document the permissible error codes.
++   */
++  if (!res)
++    {
++      DWORD err = GetLastError ();
++      switch (err)
++	{
++	  /* This means someone else is holding a lock. */
++	case ERROR_LOCK_VIOLATION:
++	  errno = EAGAIN;
++	  break;
++
++	  /* Out of memory. */
++	case ERROR_NOT_ENOUGH_MEMORY:
++	  errno = ENOMEM;
++	  break;
++
++	case ERROR_BAD_COMMAND:
++	  errno = EINVAL;
++	  break;
++
++	  /* Unlikely to be other errors, but at least don't lose the
++	   * error code.
++	   */
++	default:
++	  errno = err;
++	}
++
++      return -1;
++    }
++
++  return 0;
++}
++
++#else /* !Windows */
++
++/* We know how to implement flock in terms of fcntl. */
++
++#ifdef HAVE_FCNTL_H
++#include <fcntl.h>
++#endif
++
++#ifdef HAVE_UNISTD_H
++#include <unistd.h>
++#endif
++
++int
++flock (int fd, int operation)
++{
++  int cmd, r;
++  struct flock fl;
++
++  if (operation & LOCK_NB)
++    cmd = F_SETLK;
++  else
++    cmd = F_SETLKW;
++  operation &= ~LOCK_NB;
++
++  memset (&fl, 0, sizeof fl);
++  fl.l_whence = SEEK_SET;
++  /* l_start & l_len are 0, which as a special case means "whole file". */
++
++  switch (operation)
++    {
++    case LOCK_SH:
++      fl.l_type = F_RDLCK;
++      break;
++    case LOCK_EX:
++      fl.l_type = F_WRLCK;
++      break;
++    case LOCK_UN:
++      fl.l_type = F_UNLCK;
++      break;
++    default:
++      errno = EINVAL;
++      return -1;
++    }
++
++  r = fcntl (fd, cmd, &fl);
++  if (r == -1 && errno == EACCES)
++    errno = EAGAIN;
++
++  return r;
++}
++
++#endif /* !Windows */
+diff -urN gdbm-1.8.0.orig/fsync.c gdbm-1.8.0.flock/fsync.c
+--- gdbm-1.8.0.orig/fsync.c	1970-01-01 01:00:00.000000000 +0100
++++ gdbm-1.8.0.flock/fsync.c	2008-10-03 17:02:15.000000000 +0100
+@@ -0,0 +1,83 @@
++/* Emulate fsync on platforms that lack it, primarily Windows and
++   cross-compilers like MinGW.
++
++   This is derived from sqlite3 sources.
++   http://www.sqlite.org/cvstrac/rlog?f=sqlite/src/os_win.c
++   http://www.sqlite.org/copyright.html
++
++   Written by Richard W.M. Jones <rjones.at.redhat.com>
++
++   Copyright (C) 2008 Free Software Foundation, Inc.
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
++
++#include <autoconf.h>
++#include "systems.h"
++#include <unistd.h>
++
++#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
++
++/* _get_osfhandle */
++#include <io.h>
++
++/* FlushFileBuffers */
++#define WIN32_LEAN_AND_MEAN
++#include <windows.h>
++
++#include <errno.h>
++
++int
++fsync (int fd)
++{
++  HANDLE h = (HANDLE) _get_osfhandle (fd);
++  DWORD err;
++
++  if (h == INVALID_HANDLE_VALUE)
++    {
++      errno = EBADF;
++      return -1;
++    }
++
++  if (!FlushFileBuffers (h))
++    {
++      /* Translate some Windows errors into rough approximations of Unix
++       * errors.  MSDN is useless as usual - in this case it doesn't
++       * document the full range of errors.
++       */
++      err = GetLastError ();
++      switch (err)
++	{
++	  /* eg. Trying to fsync a tty. */
++	case ERROR_INVALID_HANDLE:
++	  errno = EINVAL;
++	  break;
++
++	default:
++	  errno = EIO;
++	}
++      return -1;
++    }
++
++  return 0;
++}
++
++#else /* !Windows */
++
++int fsync (int fd)
++{
++  sync ();
++  sync ();
++}
++
++#endif /* !Windows */
+diff -urN gdbm-1.8.0.orig/Makefile.in gdbm-1.8.0.flock/Makefile.in
+--- gdbm-1.8.0.orig/Makefile.in	2008-10-03 16:32:57.000000000 +0100
++++ gdbm-1.8.0.flock/Makefile.in	2008-10-03 17:12:25.000000000 +0100
+@@ -20,7 +20,7 @@
+ DEFS = @DEFS@
+ 
+ # Where the system [n]dbm routines are...
+-LIBS = @LIBS@ -lc
++LIBS = @LIBS@
+ 
+ # SunOS 4 users might wish to add '-fpcc-struct-return' to CFLAGS. see INSTALL.
+ CPPFLAGS = @CPPFLAGS@
+@@ -132,10 +132,10 @@
+ #	ar q libgdbm.a $(OBJS)
+ #	$(RANLIB) libgdbm.a
+ 
+-libgdbm.la: $(LOBJS) gdbm.h
++libgdbm.la: $(LOBJS) @LTLIBOBJS@ gdbm.h
+ 	rm -f libgdbm.la
+ 	$(LIBTOOL) --mode=link $(CC) -o libgdbm.la -rpath $(libdir) \
+-		-version-info $(SHLIB_VER) $(LOBJS)
++		-version-info $(SHLIB_VER) -no-undefined $(LOBJS) @LTLIBOBJS@
+ 
+ gdbm.h:	gdbm.proto gdbmerrno.h gdbm.proto2
+ 	rm -f gdbm.h
+@@ -146,19 +146,19 @@
+ 	chmod -w gdbm.h
+ 
+ testgdbm: testgdbm.o libgdbm.la @LIBOBJS@
+-	$(LIBTOOL) $(CC) $(LDFLAGS) -o testgdbm testgdbm.o libgdbm.la @LIBOBJS@
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testgdbm testgdbm.o libgdbm.la @LIBOBJS@
+ 
+ testdbm: testdbm.o libgdbm.la
+-	$(LIBTOOL) $(CC) $(LDFLAGS) -o testdbm testdbm.o libgdbm.la
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testdbm testdbm.o libgdbm.la
+ 
+ tdbm: testdbm.o
+-	$(CC) $(LDFLAGS) -o tdbm testdbm.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o tdbm testdbm.o libgdbm.la $(LIBS)
+ 
+ testndbm.o: testndbm.c
+ 	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(DEFS) -DGNU $(srcdir)/testndbm.c
+ 
+ testndbm: testndbm.o libgdbm.la
+-	$(LIBTOOL) $(CC) $(LDFLAGS) -o testndbm testndbm.o libgdbm.la
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testndbm testndbm.o libgdbm.la
+ 
+ tndbm.o: testndbm.c
+ 	cp $(srcdir)/testndbm.c ./tndbm.c
+@@ -166,10 +166,10 @@
+ 	rm -f ./tndbm.c
+ 
+ tndbm: tndbm.o
+-	$(CC) $(LDFLAGS) -o tndbm tndbm.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o tndbm tndbm.o libgdbm.la $(LIBS)
+ 
+ conv2gdbm: conv2gdbm.o libgdbm.la @LIBOBJS@
+-	$(LIBTOOL) $(CC) $(LDFLAGS) -o conv2gdbm conv2gdbm.o $(LIBS) libgdbm.la @LIBOBJS@
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o conv2gdbm conv2gdbm.o $(LIBS) libgdbm.la @LIBOBJS@
+ 
+ lintgdbm: 
+ 	lint $(DEFS) $(LFLAGS) $(DBM_CF) $(NDBM_CF) $(GDBM_CF) testgdbm.c
+diff -urN gdbm-1.8.0.orig/systems.h gdbm-1.8.0.flock/systems.h
+--- gdbm-1.8.0.orig/systems.h	1999-05-19 03:09:46.000000000 +0100
++++ gdbm-1.8.0.flock/systems.h	2008-10-03 16:54:09.000000000 +0100
+@@ -59,9 +59,9 @@
+ #define L_SET SEEK_SET
+ #endif
+ 
+-/* Do we have flock?  (BSD...) */
+-
+-#if HAVE_FLOCK
++#ifndef HAVE_FLOCK
++extern int flock (int fd, int operation);
++#endif
+ 
+ #ifndef LOCK_SH
+ #define LOCK_SH	1
+@@ -83,36 +83,6 @@
+ #define READLOCK_FILE(dbf) lock_val = flock (dbf->desc, LOCK_SH + LOCK_NB)
+ #define WRITELOCK_FILE(dbf) lock_val = flock (dbf->desc, LOCK_EX + LOCK_NB)
+ 
+-#else
+-
+-/* Assume it is done like System V. */
+-
+-#define UNLOCK_FILE(dbf) \
+-	{					\
+-	  struct flock flock;			\
+-	  flock.l_type = F_UNLCK;		\
+-	  flock.l_whence = SEEK_SET;		\
+-	  flock.l_start = flock.l_len = 0L;	\
+-	  fcntl (dbf->desc, F_SETLK, &flock);	\
+-	}
+-#define READLOCK_FILE(dbf) \
+-	{					\
+-	  struct flock flock;			\
+-	  flock.l_type = F_RDLCK;		\
+-	  flock.l_whence = SEEK_SET;			\
+-	  flock.l_start = flock.l_len = 0L;	\
+-	  lock_val = fcntl (dbf->desc, F_SETLK, &flock);	\
+-	}
+-#define WRITELOCK_FILE(dbf) \
+-	{					\
+-	  struct flock flock;			\
+-	  flock.l_type = F_WRLCK;		\
+-	  flock.l_whence = SEEK_SET;			\
+-	  flock.l_start = flock.l_len = 0L;	\
+-	  lock_val = fcntl (dbf->desc, F_SETLK, &flock);	\
+-	}
+-#endif
+-
+ /* Do we have bcopy?  */
+ #if !HAVE_BCOPY
+ #if HAVE_MEMORY_H
+@@ -122,9 +92,8 @@
+ #define bcopy(d1, d2, n) memcpy(d2, d1, n)
+ #endif
+ 
+-/* Do we have fsync? */
+-#if !HAVE_FSYNC
+-#define fsync(f) {sync(); sync();}
++#ifndef HAVE_FSYNC
++extern int fsync (int fd);
+ #endif
+ 
+ /* Default block size.  Some systems do not have blocksize in their
