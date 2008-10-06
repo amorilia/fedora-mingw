@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 26
+BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 # Any additional BuildRequires.

@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        29
+Version:        30
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct  6 2008 Richard Jones <rjones@redhat.com> - 30-1
+- Added _mingw32_cxx.
+
 * Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 29-1
 - Added _mingw32_as, _mingw32_dlltool, _mingw32_windres.
 
