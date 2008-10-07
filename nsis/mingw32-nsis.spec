@@ -2,7 +2,7 @@
 
 Name:           mingw32-nsis
 Version:        2.39
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        zlib and CPL
@@ -20,6 +20,7 @@ Patch100:       nsis-2.39-mingw32-search.patch
 
 BuildRequires:  mingw32-filesystem >= 20
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  python
 BuildRequires:  scons >= 0.96.93
@@ -82,5 +83,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-2
+* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-3
 - Initial RPM release.
