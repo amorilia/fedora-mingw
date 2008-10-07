@@ -55,7 +55,6 @@ sub main {
 
     # Some packages we want to ignore for now.
     delete $br{"mingw32-cyrus-sasl"};
-    delete $br{"mingw32-nsis"};
     delete $br{"mingw32-wix"};
     delete $br{"mingw32-example"};
     delete $br{"mingw32-gdb"};

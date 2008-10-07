@@ -16,14 +16,25 @@ Patch0:         nsis-2.39-debian-64bit-fixes.patch
 Patch1:         nsis-2.39-debian-debug-opt.patch
 
 # This patch is required for NSIS to find the correct cross-compiler.
-Patch2:         nsis-2.39-mingw32-search.patch
+Patch100:       nsis-2.39-mingw32-search.patch
 
 BuildRequires:  mingw32-filesystem >= 20
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  python
 BuildRequires:  scons >= 0.96.93
+
+# We build with 'gcc -m32' and that fails on 64 bit platforms when we
+# include <gnu/stubs.h>.  On x86-64, this is provided by
+# glibc-devel.i386.  Depend on the file explicitly, since only recent
+# versions of RPM let you require a package by architecture.
+BuildRequires:  /usr/include/gnu/stubs-32.h
+
+# We really need the 32 bit version of this library.  The 64 bit
+# version will definitely not work.  XXX Need to do the right thing on
+# non-x86 architectures.
 BuildRequires:  wxGTK-devel
+#.i386
 
 
 %description
@@ -38,9 +49,11 @@ assembler code.
 
 %prep
 %setup -q -n nsis-%{version}-src
+
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+
+%patch100 -p1
 
 
 %build
@@ -66,8 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/nsisconf.nsh
 %{_includedir}/nsis
 %doc %{_docdir}/%{name}-%{version}
+%{_datadir}/nsis
 
 
 %changelog
-* Mon Sep 22 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-1
+* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-1
 - Initial RPM release.
