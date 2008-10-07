@@ -2,7 +2,7 @@
 
 Name:           mingw32-nsis
 Version:        2.39
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        zlib and CPL
@@ -33,8 +33,7 @@ BuildRequires:  /usr/include/gnu/stubs-32.h
 # We really need the 32 bit version of this library.  The 64 bit
 # version will definitely not work.  XXX Need to do the right thing on
 # non-x86 architectures.
-BuildRequires:  wxGTK-devel
-#.i386
+BuildRequires:  /usr/lib/libwx_baseu-2.8.so
 
 
 %description
@@ -83,5 +82,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-1
+* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-2
 - Initial RPM release.
