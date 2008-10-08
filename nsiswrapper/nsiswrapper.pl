@@ -3,7 +3,7 @@
 # NSISWrapper - a helper program for making Windows installers.
 # Copyright (C) 2008 Red Hat Inc.
 # Written by Richard W.M. Jones <rjones@redhat.com>,
-# http://et.redhat.com/~rjones
+# http://fedoraproject.org/wiki/MinGW
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -476,9 +476,9 @@ sub write_script
 #!Nsis Installer Command Script
 #
 # This is an NSIS Installer Command Script generated automatically
-# by the Red Hat nsiswrapper program.  For more information see:
+# by the Fedora nsiswrapper program.  For more information see:
 #
-#   http://et.redhat.com/~rjones/
+#   http://fedoraproject.org/wiki/MinGW
 #
 # To build an installer from the script you would normally do:
 #
