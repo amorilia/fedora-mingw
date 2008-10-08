@@ -22,6 +22,7 @@
 use strict;
 use Getopt::Long;
 use Pod::Usage;
+use File::Temp qw/tempfile/;
 
 =pod
 
@@ -162,10 +163,12 @@ This is the same as the C<InstallDirRegKey> option to NSIS.
 =cut
 
 my $objdump;
+my %files;
+
 my $help = '';
 my $man = '';
 my $verbose = '';
-my %files;
+my $run = '';
 my $name = '';
 my $outfile = 'installer.exe';
 my $installdir = '';
@@ -177,6 +180,7 @@ sub get_options
 	"help|?" => \$help,
 	"man" => \$man,
 	"verbose" => \$verbose,
+	"run" => \$run,
 	"name=s" => \$name,
 	"outfile=s" => \$outfile,
 	"installdir=s" => \$installdir,
@@ -612,7 +616,15 @@ Section -post
   WriteUninstaller "\$INSTDIR\\Uninstall $name.exe"
 SectionEnd
 EOT
+}
 
+# Run makensis on the named file.
+
+sub run_makensis
+{
+    my $filename = shift;
+
+    system ("makensis", $filename) == 0 or die "makensis: $?"
 }
 
 # Main program.
@@ -625,7 +637,14 @@ sub main
     do_dependencies ();
     install_names ();
     print_files () if $verbose;
-    write_script (\*STDOUT);
+    if ($run) {
+	my ($io, $filename) = tempfile ("nswXXXXXX", UNLINK => 1);
+	write_script ($io);
+	close $io;
+	run_makensis ($filename);
+    } else {
+	write_script (\*STDOUT);
+    }
 }
 
 main ()
