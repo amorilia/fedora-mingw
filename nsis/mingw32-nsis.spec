@@ -1,8 +1,9 @@
 %define sconsopts VERSION=%{version} PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir} SKIPPLUGINS=System DEBUG_SYMBOLS=1 OPTS=1
+%define _default_patch_fuzz 2
 
 Name:           mingw32-nsis
 Version:        2.39
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        zlib and CPL
@@ -83,5 +84,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Oct  7 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-3
+* Wed Oct  8 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-4
 - Initial RPM release.

@@ -1,6 +1,18 @@
-diff -ur nsis-2.39-src.orig/Source/DialogTemplate.cpp nsis-2.39-src.64bit/Source/DialogTemplate.cpp
---- nsis-2.39-src.orig/Source/DialogTemplate.cpp	2007-11-30 09:54:13.000000000 +0000
-+++ nsis-2.39-src.64bit/Source/DialogTemplate.cpp	2008-09-22 12:37:11.000000000 +0100
+diff -ur nsis-2.34-src/SCons/Config/gnu nsis-2.34-src-64bit-fixes/SCons/Config/gnu
+--- nsis-2.34-src/SCons/Config/gnu	2007-11-14 07:20:44.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/SCons/Config/gnu	2008-01-13 22:15:21.000000000 +0100
+@@ -85,8 +85,6 @@
+ makensis_env.Append(CXXFLAGS = '-Wno-non-virtual-dtor') # ignore virtual dtor warnings
+ 
+ conf = FlagsConfigure(makensis_env)
+-conf.CheckCompileFlag('-m32')                     #
+-conf.CheckLinkFlag('-m32')                        #
+ conf.CheckLinkFlag('$MAP_FLAG')                   # generate map file
+ if not defenv['DEBUG'] and defenv['STRIP'] and defenv['STRIP_CP']:
+ 	TestStrip(conf)                                 # strip
+diff -ur nsis-2.34-src/Source/DialogTemplate.cpp nsis-2.34-src-64bit-fixes/Source/DialogTemplate.cpp
+--- nsis-2.34-src/Source/DialogTemplate.cpp	2007-11-30 10:54:13.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/DialogTemplate.cpp	2008-01-13 19:01:02.000000000 +0100
 @@ -74,7 +74,7 @@
      if (IS_INTRESOURCE(x)) { \
        *(WORD*)seeker = 0xFFFF; \
@@ -19,9 +31,21 @@ diff -ur nsis-2.39-src.orig/Source/DialogTemplate.cpp nsis-2.39-src.64bit/Source
  
    // DONE!
    return pbDlg;
-diff -ur nsis-2.39-src.orig/Source/Platform.h nsis-2.39-src.64bit/Source/Platform.h
---- nsis-2.39-src.orig/Source/Platform.h	2007-12-22 09:41:57.000000000 +0000
-+++ nsis-2.39-src.64bit/Source/Platform.h	2008-09-22 12:38:20.000000000 +0100
+diff -ur nsis-2.34-src/Source/mmap.cpp nsis-2.34-src-64bit-fixes/Source/mmap.cpp
+--- nsis-2.34-src/Source/mmap.cpp	2007-12-22 10:41:57.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/mmap.cpp	2008-01-13 19:01:59.000000000 +0100
+@@ -324,7 +324,7 @@
+   if (!pView)
+     return;
+ 
+-  unsigned int alignment = ((unsigned int)pView) % m_iAllocationGranularity;
++  unsigned int alignment = ((unsigned long)pView) % m_iAllocationGranularity;
+   pView = (char *)pView - alignment;
+   size += alignment;
+ #ifdef _WIN32
+diff -ur nsis-2.34-src/Source/Platform.h nsis-2.34-src-64bit-fixes/Source/Platform.h
+--- nsis-2.34-src/Source/Platform.h	2007-12-22 10:41:57.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/Platform.h	2008-01-13 19:36:04.000000000 +0100
 @@ -185,7 +185,7 @@
  #    define MAKEINTRESOURCE MAKEINTRESOURCEA
  #  endif
@@ -31,15 +55,15 @@ diff -ur nsis-2.39-src.orig/Source/Platform.h nsis-2.39-src.64bit/Source/Platfor
                                       FIELD_OFFSET(IMAGE_NT_HEADERS, OptionalHeader) + \
                                       FIX_ENDIAN_INT16(PIMAGE_NT_HEADERS(h)->FileHeader.SizeOfOptionalHeader) ) )
  #  endif
-@@ -197,7 +197,7 @@
- #  endif
- #endif
- #ifndef IS_INTRESOURCE
--#  define IS_INTRESOURCE(_r) (((ULONG_PTR)(_r) >> 16) == 0)
-+#  define IS_INTRESOURCE(_r) (((unsigned long)(_r) >> 16) == 0)
+@@ -217,7 +217,7 @@
  #endif
  
- // functions
+ #ifndef ULONG_PTR
+-#  define ULONG_PTR DWORD
++#  define ULONG_PTR ULONG
+ #endif
+ 
+ #ifndef IDC_HAND
 @@ -722,7 +722,7 @@
    WORD e_oemid;
    WORD e_oeminfo;
@@ -49,9 +73,9 @@ diff -ur nsis-2.39-src.orig/Source/Platform.h nsis-2.39-src.64bit/Source/Platfor
  } IMAGE_DOS_HEADER,*PIMAGE_DOS_HEADER;
  #  pragma pack()
  #  pragma pack(4)
-diff -ur nsis-2.39-src.orig/Source/Plugins.cpp nsis-2.39-src.64bit/Source/Plugins.cpp
---- nsis-2.39-src.orig/Source/Plugins.cpp	2007-12-22 09:41:57.000000000 +0000
-+++ nsis-2.39-src.64bit/Source/Plugins.cpp	2008-09-22 12:42:47.000000000 +0100
+diff -ur nsis-2.34-src/Source/Plugins.cpp nsis-2.34-src-64bit-fixes/Source/Plugins.cpp
+--- nsis-2.34-src/Source/Plugins.cpp	2007-12-22 10:41:57.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/Plugins.cpp	2008-01-13 19:01:59.000000000 +0100
 @@ -136,7 +136,7 @@
          DWORD prd = FIX_ENDIAN_INT32(sections[i].PointerToRawData);
          PIMAGE_EXPORT_DIRECTORY exports = PIMAGE_EXPORT_DIRECTORY(&dlldata[0] + prd + ExportDirVA - va);
@@ -61,9 +85,9 @@ diff -ur nsis-2.39-src.orig/Source/Plugins.cpp nsis-2.39-src.64bit/Source/Plugin
          for (unsigned long j = 0; j < FIX_ENDIAN_INT32(exports->NumberOfNames); j++)
          {
            const string name = string((char*)exports + FIX_ENDIAN_INT32(names[j]) - ExportDirVA);
-diff -ur nsis-2.39-src.orig/Source/ResourceEditor.cpp nsis-2.39-src.64bit/Source/ResourceEditor.cpp
---- nsis-2.39-src.orig/Source/ResourceEditor.cpp	2007-12-22 09:41:57.000000000 +0000
-+++ nsis-2.39-src.64bit/Source/ResourceEditor.cpp	2008-09-22 12:40:20.000000000 +0100
+diff -ur nsis-2.34-src/Source/ResourceEditor.cpp nsis-2.34-src-64bit-fixes/Source/ResourceEditor.cpp
+--- nsis-2.34-src/Source/ResourceEditor.cpp	2007-12-22 10:41:57.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/ResourceEditor.cpp	2008-01-13 19:40:29.000000000 +0100
 @@ -665,7 +665,7 @@
      rdDir.NumberOfIdEntries = ConvertEndianness(rdDir.NumberOfIdEntries);
  
@@ -136,9 +160,9 @@ diff -ur nsis-2.39-src.orig/Source/ResourceEditor.cpp nsis-2.39-src.64bit/Source
    }
    else {
      m_bHasName = true;
-diff -ur nsis-2.39-src.orig/Source/util.cpp nsis-2.39-src.64bit/Source/util.cpp
---- nsis-2.39-src.orig/Source/util.cpp	2008-03-04 16:59:51.000000000 +0000
-+++ nsis-2.39-src.64bit/Source/util.cpp	2008-09-22 12:41:03.000000000 +0100
+diff -ur nsis-2.34-src/Source/util.cpp nsis-2.34-src-64bit-fixes/Source/util.cpp
+--- nsis-2.34-src/Source/util.cpp	2007-12-22 10:41:57.000000000 +0100
++++ nsis-2.34-src-64bit-fixes/Source/util.cpp	2008-01-13 19:01:59.000000000 +0100
 @@ -75,9 +75,9 @@
    }
  
