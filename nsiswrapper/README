@@ -1,0 +1,52 @@
+NSISWrapper is a helper program for making Windows installers,
+particularly when you are cross-compiling from Unix.
+
+NSIS (a separate package) is a program for building Windows
+installers.  This wrapper simply makes it easier to generate the
+installer script that NSIS needs.
+
+You can get NSIS itself from http://nsis.sourceforge.net/ but
+generally speaking this wrapper is only useful when cross-compiling
+(run from a Linux machine) in which case you should use the Fedora or
+Debian version of NSIS from:
+
+  Fedora:  http://fedoraproject.org/wiki/MinGW
+  Debian:  http://packages.debian.org/unstable/devel/nsis
+
+----------------------------------------------------------------------
+
+NSISWrapper requires a reasonably recent version of Perl.  You will
+also need to install the MinGW cross-compiler binutils
+(mingw32-binutils package).
+
+----------------------------------------------------------------------
+
+For usage instructions, please refer to the manual page nsiswrapper(1).
+If for some reason the manual page isn't installed then you can do
+this instead:
+
+  nsiswrapper --man
+
+For help with NSIS itself, please refer to the NSIS website.
+
+You can also get quick command line help by doing:
+
+  nsiswrapper --help
+
+----------------------------------------------------------------------
+
+Copyright (C) 2008 Red Hat Inc.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
