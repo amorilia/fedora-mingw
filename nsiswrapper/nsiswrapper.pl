@@ -285,6 +285,8 @@ sub print_config
 
 # Starting at the roots, get the dependencies.
 
+my $missing_deps = 0;
+
 sub do_dependencies
 {
     my $gotem = 1;
@@ -308,6 +310,9 @@ sub do_dependencies
 	    }
 	}
     }
+
+    die "please correct missing dependencies shown above\n"
+	if $missing_deps > 0;
 }
 
 my $path_warning = 0;
@@ -344,6 +349,7 @@ sub get_deps_for_file
 		push @deps, $found;
 	    } else {
 		warn "MISSING DEPENDENCY: $_ (for $file)\n";
+		$missing_deps++;
 		unless ($path_warning) {
 		    warn "You may need to add the directory containing this file to your \$PATH\n";
 		    $path_warning = 1;
