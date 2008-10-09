@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -18,13 +18,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Patch1:         gtk-vnc-0.3.7-abs-ungrab.patch
 
 # Dan's MinGW patch version 2, fixed so it can apply to the tarball.
-Patch100:       gtk-vnc-0.3.7-mingw32-dan2.patch
+Patch100:       gtk-vnc-0.3.7-mingw32-dan3.patch
 
 # Extra files required by Gnulib.
 Patch101:       gtk-vnc-0.3.7-mingw32-gnulib-files.patch
-
-# Fix redefined symbols in socketcompat.h.
-Patch102:       gtk-vnc-0.3.7-mingw32-socketcompat.patch
 
 BuildArch:      noarch
 
@@ -45,7 +42,6 @@ BuildRequires:  mingw32-binutils
 
 %patch100 -p1
 %patch101 -p1
-%patch102 -p1
 
 autoreconf
 
@@ -82,5 +78,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Thu Oct  9 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-2
 - Initial RPM release.
