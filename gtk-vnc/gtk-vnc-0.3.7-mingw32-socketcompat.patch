@@ -1,0 +1,17 @@
+diff -urN gtk-vnc-0.3.7.mingw/src/socketcompat.h gtk-vnc-0.3.7.socketcompat/src/socketcompat.h
+--- gtk-vnc-0.3.7.mingw/src/socketcompat.h	2008-10-09 12:19:03.000000000 +0100
++++ gtk-vnc-0.3.7.socketcompat/src/socketcompat.h	2008-10-09 12:38:04.000000000 +0100
+@@ -52,13 +52,6 @@
+   return WSAGetLastError ();
+ }
+ 
+-/* Compatibility. */
+-#define EWOULDBLOCK             WSAEWOULDBLOCK
+-#define ECONNREFUSED            WSAECONNREFUSED
+-#define EINPROGRESS             WSAEINPROGRESS
+-#define EHOSTUNREACH            WSAEHOSTUNREACH
+-#define EISCONN                 WSAEISCONN
+-
+ #endif /* HAVE_WINSOCK2_H */
+ 
+ #endif /* __WINSOCKWRAPPER_H__ */

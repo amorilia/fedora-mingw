@@ -21,6 +21,7 @@ gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2
+gtk-vnc/gtk-vnc-0.3.7.tar.gz
 iconv/libiconv-1.12.tar.gz
 jasper/jasper-1.900.1.zip
 libgcrypt/libgcrypt-1.4.1.tar.bz2
