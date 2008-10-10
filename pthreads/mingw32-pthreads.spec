@@ -11,7 +11,7 @@
 
 Name:           mingw32-pthreads
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW pthread library
 
 License:        LGPLv2+
@@ -27,6 +27,7 @@ Patch1:         mingw32-pthreads-2.8.0-no-failing-tests.patch
 
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 
 %if %{run_tests}
@@ -103,5 +104,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-1
+* Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-2
 - Initial RPM release.
