@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk2
 Version:        2.14.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -17,6 +17,10 @@ Patch1:         gtk+-2.11.1-set-invisible-char-to-bullet.patch
 Patch2:         gail-leaks.patch
 Patch3:         info-leak.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# If you want to rebuild this, do:
+# wine %{_mingw32_bindir}/gdk-pixbuf-query-loaders.exe > gdk-pixbuf.loaders
+Source1:        gdk-pixbuf.loaders
 
 BuildArch:      noarch
 
@@ -42,8 +46,6 @@ BuildRequires:  gtk2
 # Native one for gdk-pixbuf-csource
 BuildRequires:  gtk2-devel
 
-Requires(post): wine
-
 
 %description
 MinGW Windows Gtk2 library.
@@ -59,7 +61,7 @@ MinGW Windows Gtk2 library.
 # Need to run the correct version of glib-mkenums.
 PATH=%{_mingw32_bindir}:$PATH
 
-%{_mingw32_configure}
+%{_mingw32_configure} --disable-cups
 make
 
 
@@ -73,14 +75,14 @@ rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 # Remove manpages which duplicate those in Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
+# Install gdk-pixbuf.loaders.
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
+install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
-%post
-wine %{_mingw32_bindir}/gdk-pixbuf-query-loaders.exe \
-  > %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 %preun
 rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
@@ -131,6 +133,10 @@ rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %changelog
+* Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.2-3
+- Remove the requirement for Wine at build or install time.
+- Conflicts with (native) cups-devel.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.2-2
 - Rename mingw -> mingw32.
 
