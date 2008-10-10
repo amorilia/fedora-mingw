@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -28,7 +28,12 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-# XXX
+BuildRequires:  mingw32-gtk2
+BuildRequires:  mingw32-gnutls
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
+BuildRequires:  pkgconfig
 
 
 %description
@@ -78,5 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-3
+- Missing BRs discovered by mock.
+
 * Thu Oct  9 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-2
 - Initial RPM release.
