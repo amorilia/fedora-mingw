@@ -6,9 +6,12 @@
 
 %define library_version 1.0.4
 
+# Running the tests requires Wine.
+%define run_tests 0
+
 Name:           mingw32-bzip2
 Version:        1.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW port of bzip2 file compression utility
 
 License:        BSD
@@ -30,8 +33,9 @@ BuildRequires:  mingw32-filesystem >= 26
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
-# This is needed to run the tests.
+%if %{run_tests}
 BuildRequires:  wine
+%endif
 
 
 %description
@@ -71,7 +75,12 @@ make CC="%{_mingw32_cc}" \
      AR="%{_mingw32_ar}" \
      RANLIB="%{_mingw32_ranlib}" \
      CFLAGS="%{_mingw32_cflags} -D_FILE_OFFSET_BITS=64" \
-     %{?_smp_mflags} all
+     %{?_smp_mflags} \
+%if %{run_tests}
+     all
+%else
+     libbz2.a bzip2 bzip2recover
+%endif
 
 
 %install
@@ -126,5 +135,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 10 2008 Richard Jones <rjones@redhat.com> - 1.0.5-2
+- Allow the tests to be disabled selectively.
+
 * Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 1.0.5-1
 - Initial RPM release.
