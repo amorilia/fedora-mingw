@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        3%{?dist}%{?extra_release}
+Release:        4%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -24,6 +24,7 @@ BuildRequires:  mingw32-gnutls
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-libxml2
 BuildRequires:  mingw32-portablexdr
+BuildRequires:  mingw32-readline
 BuildRequires:  pkgconfig
 # Need native version for msgfmt
 BuildRequires:  gettext
@@ -89,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 14 2008 Richard Jones <rjones@redhat.com> - 0.4.6-4
+- +BR mingw32-readline.
+
 * Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 0.4.6-3
 - BuildArch should be noarch
 
