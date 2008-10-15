@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-portablexdr
-Version:        4.0.10
-Release:        5%{?dist}
+Version:        4.0.11
+Release:        1%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -57,6 +57,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 15 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.11-1
+- New upstream version 4.0.11.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.10-5
 - Rename mingw -> mingw32.
 
