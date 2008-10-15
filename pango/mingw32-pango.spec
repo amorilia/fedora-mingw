@@ -13,12 +13,18 @@ License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
 Source0:        http://download.gnome.org/sources/pango/1.21/pango-%{version}.tar.bz2
-# Native pango uses a %post script to generate this, but the pango-querymodules.exe
-# binary is not something we can easily run on a Linux host. We could use wine by
-# wine isn't happy in a mock environment. So we just include a pre-generated copy
-# on basis that it won't ever change much
-Source1:        pango.modules
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# Native pango uses a %post script to generate this, but the
+# pango-querymodules.exe binary is not something we can easily run on
+# a Linux host. We could use wine but wine isn't happy in a mock
+# environment. So we just include a pre-generated copy on basis that
+# it won't ever change much.
+#
+# If you want to rebuild this, do:
+# wine %{_mingw32_bindir}/pango-querymodules.exe > pango.modules
+Source1:        pango.modules
 
 BuildArch:      noarch
 
