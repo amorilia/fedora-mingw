@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        4%{?dist}%{?extra_release}
+Release:        6%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -14,6 +14,9 @@ Group:          Development/Libraries
 URL:            http://libvirt.org/
 Source0:        ftp://libvirt.org/libvirt/libvirt-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0:         mingw32-libvirt-0.4.6-debug-registration.patch
+Patch1:         mingw32-libvirt-0.4.6-register-remote.patch
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
@@ -23,7 +26,8 @@ BuildRequires:  mingw32-libgcrypt
 BuildRequires:  mingw32-gnutls
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-libxml2
-BuildRequires:  mingw32-portablexdr
+# Portable XDR <= 4.0.10 contains a serious endianness bug on Windows.
+BuildRequires:  mingw32-portablexdr >= 4.0.11
 BuildRequires:  mingw32-readline
 BuildRequires:  pkgconfig
 # Need native version for msgfmt
@@ -38,6 +42,8 @@ MinGW Windows libvirt virtualization library.
 
 %prep
 %setup -q -n libvirt-%{version}
+%patch0 -p1
+%patch1 -p1
 
 
 %build
@@ -90,6 +96,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 15 2008 Richard Jones <rjones@redhat.com> - 0.4.6-6
+- Add patches from
+  https://www.redhat.com/archives/libvir-list/2008-October/msg00328.html
+- BR mingw32-portablexdr >= 4.0.11 to fix serious Windows endianness bug.
+
 * Tue Oct 14 2008 Richard Jones <rjones@redhat.com> - 0.4.6-4
 - +BR mingw32-readline.
 
