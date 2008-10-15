@@ -44,6 +44,7 @@ pdcurses/PDCurses-3.4.tar.gz
 pixman/pixman-0.11.10.tar.gz
 pixman/pixman-0.12.0.tar.gz
 portablexdr/portablexdr-4.0.10.tar.gz
+portablexdr/portablexdr-4.0.11.tar.gz
 pthreads/pthreads-w32-2-8-0-release.tar.gz
 python/Python-2.5.2.tar.bz2
 readline/readline-5.2.tar.gz
