@@ -1,5 +1,5 @@
 Name:           mingw32-nsiswrapper
-Version:        2
+Version:        3
 Release:        1%{?dist}
 Summary:        Helper program for making NSIS Windows installers
 
@@ -65,5 +65,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Oct  8 2008 Richard W.M. Jones <rjones@redhat.com> - 2-1
+* Wed Oct  8 2008 Richard W.M. Jones <rjones@redhat.com> - 3-1
 - Initial RPM release.
