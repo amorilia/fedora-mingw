@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        6%{?dist}%{?extra_release}
+Release:        7%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -15,8 +15,14 @@ URL:            http://libvirt.org/
 Source0:        ftp://libvirt.org/libvirt/libvirt-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+# All of these patches are upstream after 0.4.6.
 Patch0:         mingw32-libvirt-0.4.6-debug-registration.patch
 Patch1:         mingw32-libvirt-0.4.6-register-remote.patch
+Patch2:         mingw32-libvirt-0.4.6-win-icon.patch
+Source1:        libvirt_win_icon_16x16.ico
+Source2:        libvirt_win_icon_32x32.ico
+Source3:        libvirt_win_icon_48x48.ico
+Source4:        libvirt_win_icon_64x64.ico
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
@@ -44,6 +50,11 @@ MinGW Windows libvirt virtualization library.
 %setup -q -n libvirt-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
+cp %{SOURCE1} src/
+cp %{SOURCE2} src/
+cp %{SOURCE3} src/
+cp %{SOURCE4} src/
 
 
 %build
@@ -96,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 16 2008 Richard Jones <rjones@redhat.com> - 0.4.6-7
+- Windows icon patch from
+  https://www.redhat.com/archives/libvir-list/2008-October/msg00331.html
+
 * Wed Oct 15 2008 Richard Jones <rjones@redhat.com> - 0.4.6-6
 - Add patches from
   https://www.redhat.com/archives/libvir-list/2008-October/msg00328.html
