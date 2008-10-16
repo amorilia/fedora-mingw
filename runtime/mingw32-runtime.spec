@@ -80,6 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-1
+- New upstream version 3.15.1.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.14-6
 - Rename mingw -> mingw32.
 
