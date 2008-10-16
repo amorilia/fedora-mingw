@@ -36,8 +36,12 @@ BuildRequires:  mingw32-libxml2
 BuildRequires:  mingw32-portablexdr >= 4.0.11
 BuildRequires:  mingw32-readline
 BuildRequires:  pkgconfig
+
 # Need native version for msgfmt
 BuildRequires:  gettext
+
+# For autoreconf.
+BuildRequires:  autoconf, automake, libtool
 
 BuildArch:      noarch
 
@@ -55,6 +59,7 @@ cp %{SOURCE1} src/
 cp %{SOURCE2} src/
 cp %{SOURCE3} src/
 cp %{SOURCE4} src/
+autoreconf
 
 
 %build
