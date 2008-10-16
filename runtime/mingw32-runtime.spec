@@ -5,15 +5,17 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-runtime
-Version:        3.14
-Release:        6%{?dist}
+Version:        3.15.1
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
 Group:          Development/Libraries
 URL:            http://www.mingw.org/
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingw-runtime-%{version}-src.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingwrt-%{version}-mingw32-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0:         mingw32-runtime-3.15.1-useconds_t.patch
 
 BuildArch:	noarch
 
@@ -39,7 +41,8 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 
 %prep
-%setup -q -n mingw-runtime-%{version}
+%setup -q -n mingwrt-%{version}-mingw32
+%patch0 -p1
 
 
 %build
