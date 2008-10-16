@@ -6,23 +6,28 @@
 
 Name:           mingw32-zlib
 Version:        1.2.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
 Group:          Development/Libraries
 URL:            http://www.zlib.net/
 Source0:        http://www.zlib.net/zlib-%{version}.tar.gz
-Patch1:         zlib-win32.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+
+# From Fedora native package, none is applicable to us.
+#Patch3:        zlib-1.2.3-autotools.patch
+#Patch4:        minizip-1.2.3-autotools.patch
+#Patch5:        zlib-1.2.3-minizip.patch
+
+# MinGW-specific patches.
+Patch100:       zlib-win32.patch
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
-## For some reason mingw32-find-provides doesn't get this.
-#Provides:       mingw32(zlib1.dll)
 
 %description
 MinGW Windows zlib compression library.
@@ -30,7 +35,8 @@ MinGW Windows zlib compression library.
 
 %prep
 %setup -q -n zlib-1.2.3
-%patch1 -p1
+
+%patch100 -p1
 
 
 %build
@@ -82,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-10
+- Consider native patches.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-9
 - Rename mingw -> mingw32.
 
