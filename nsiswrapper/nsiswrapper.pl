@@ -23,6 +23,7 @@ use strict;
 use Getopt::Long;
 use Pod::Usage;
 use File::Temp qw/tempfile/;
+#use Data::Dumper;
 
 =pod
 
@@ -89,6 +90,51 @@ License files.
 It's a good idea to examine the NSIS command script, to check that
 nsiswrapper is including all the right dependencies.
 
+=head1 ROOTS (FILES AND DIRECTORIES)
+
+Each parameter should refer to a file or directory which is to be
+included in the installer.
+
+These are known as "roots" because we also automatically add any
+dependencies to the list of files.  Thus if a Windows executable
+requires any DLLs, those are added automatically.  DLLs are searched
+for on the current C<$PATH> (environment variable).
+
+We choose the install location by removing any common prefix from the
+names of roots, which generally ensures that the original directory
+structure is preserved.  Thus for example if the original roots (and
+any dependencies) are:
+
+ /usr/i686-pc-mingw32/sys-root/mingw/bin/program.exe
+ /usr/i686-pc-mingw32/sys-root/mingw/bin/library.dll
+ /usr/i686-pc-mingw32/sys-root/mingw/etc/config
+
+then the install directory will look like this:
+
+ $INSTDIR/bin/program.exe
+ $INSTDIR/bin/library.dll
+ $INSTDIR/etc/config
+
+(C<$INSTDIR> is the installation directory chosen by the user at
+install time).
+
+You can also specify the install location (relative to C<$INSTDIR>) by
+adding roots of the form:
+
+ source=destination
+
+for example:
+
+ /usr/i686-pc-mingw32/sys-root/mingw/bin/program.exe=program.exe
+ /usr/i686-pc-mingw32/sys-root/mingw/bin/library.dll=library.dll
+ /usr/i686-pc-mingw32/sys-root/mingw/etc/config=conf/config
+
+which results in:
+
+ $INSTDIR/program.exe
+ $INSTDIR/library.dll
+ $INSTDIR/conf/config
+
 =head1 OPTIONS
 
 =over 4
@@ -111,6 +157,12 @@ try to operate quietly.
 Normally this program just prints out the NSIS installer command
 script.  However if you supply this option, then we run C<makensis>
 and attempt to generate an actual Windows installer.
+
+=item B<--with-gtk>
+
+GTK programs should normally supply this option.  It ensures that the
+correct files are copied and/or created by the installer for GTK
+programs to work.
 
 =item B<--name "Name">
 
@@ -169,10 +221,17 @@ my $help = '';
 my $man = '';
 my $verbose = '';
 my $run = '';
+my $with_gtk = '';
 my $name = '';
 my $outfile = 'installer.exe';
 my $installdir = '';
 my $installdirregkey = '';
+
+# XXX Should make these configurable.
+my $mingw32_prefix = '/usr/i686-pc-mingw32/sys-root/mingw';
+my $mingw32_bindir = $mingw32_prefix . '/bin';
+my $mingw32_libdir = $mingw32_prefix . '/lib';
+my $mingw32_sysconfdir = $mingw32_prefix . '/etc';
 
 sub get_options
 {
@@ -181,6 +240,7 @@ sub get_options
 	"man" => \$man,
 	"verbose" => \$verbose,
 	"run" => \$run,
+	"with-gtk" => \$with_gtk,
 	"name=s" => \$name,
 	"outfile=s" => \$outfile,
 	"installdir=s" => \$installdir,
@@ -195,15 +255,48 @@ sub get_options
     # Add the roots to the list of files.
     die "nsiswrapper: no roots specified: use --help for more help\n"
 	if @ARGV == 0;
-    foreach (@ARGV) {
-	my $exec = 0;
-	$exec = 1 if m/\.exe$/i;
+    foreach my $file (@ARGV) {
+	my ($dir, $exec) = (0, 0);
 
-	$files{$_} = {
-	    name => $_,
+	# Is it source=destination?
+	my ($source, $dest);
+	if ($file =~ /^(.*)=(.*)$/) {
+	    $source = $1;
+	    $dest = $2;
+	} else {
+	    $source = $file;
+	}
+
+	die "$source: not a file or directory\n"
+	    unless -f $source || -d $source;
+
+	$exec = 1 if $source =~ m/\.exe$/i;
+	$dir = 1 if -d $source;
+
+	$files{$source} = {
+	    name => $source,
 	    root => 1,
-	    dir => -d $_,
+	    dir => $dir,
 	    exec => $exec,
+	};
+
+	# Deal with explicit destination.
+	if (defined $dest) {
+	    my ($install_dir, $install_name);
+
+	    if ($dest =~ m{(.*)/(.*)}) {
+		$install_dir = $1;
+		$install_name = $2;
+	    } else {
+		$install_dir = ".";
+		$install_name = $dest;
+	    }
+
+	    # Convert / in install_dir into backslashes.
+	    $install_dir =~ s{/}{\\}g;
+
+	    $files{$source}->{install_dir} = $install_dir;
+	    $files{$source}->{install_name} = $install_name;
 	}
     }
 
@@ -212,6 +305,7 @@ sub get_options
 	# Massage the first root into a suitable package name.
 	$_ = $ARGV[0];
 	s{.*/}{};
+	s{=.*$}{};
 	s{\.\w\w\w\w?$}{};
 	$_ = ucfirst;
 	$name = $_;
@@ -289,30 +383,45 @@ my $missing_deps = 0;
 
 sub do_dependencies
 {
-    my $gotem = 1;
+    my $deps_added = 1;
 
-    while ($gotem) {
-	$gotem = 0;
+    while ($deps_added > 0) {
+	$deps_added = 0;
+
 	foreach (keys %files) {
 	    my @deps = get_deps_for_file ($_);
 
 	    # Add the deps as separate files.
 	    foreach (@deps) {
-		unless (exists $files{$_}) {
-		    $files{$_} = {
-			name => $_,
-			root => 0,
-			dir => 0,
-			exec => 0,
-		    };
-		    $gotem = 1;
-		}
+		$deps_added += add_file_unless_exists (
+		    $_,
+		    root => 0,
+		    dir => 0,
+		    exec => 0
+		    );
 	    }
 	}
     }
 
     die "please correct missing dependencies shown above\n"
 	if $missing_deps > 0;
+}
+
+sub add_file_unless_exists
+{
+    my $name = shift;
+    my %details = @_;
+
+    unless (exists $files{$name}) {
+	die "$name: not a file or directory\n" unless -f $name || -d $name;
+
+	$details{name} = $name;
+	$files{$name} = \%details;
+
+	return 1;
+    } else {
+	return 0;
+    }
 }
 
 my $path_warning = 0;
@@ -387,6 +496,66 @@ sub is_windows_system_dll
 	$_ eq 'user32.dll'
 }
 
+# Add Gtk dependencies, if --with-gtk.
+
+sub do_gtk
+{
+    add_file_unless_exists (
+	"$mingw32_libdir/gtk-2.0",
+	root => 0,
+	dir => 1,
+	exec => 0,
+	install_dir => "lib",
+	install_name => "gtk-2.0"
+	);
+
+    add_file_unless_exists (
+	"$mingw32_libdir/pango",
+	root => 0,
+	dir => 1,
+	exec => 0,
+	install_dir => "lib",
+	install_name => "pango"
+	);
+
+    add_file_unless_exists (
+	"$mingw32_sysconfdir/fonts",
+	root => 0,
+	dir => 1,
+	exec => 0,
+	install_dir => "etc",
+	install_name => "fonts"
+	);
+
+    add_file_unless_exists (
+	"$mingw32_sysconfdir/gtk-2.0",
+	root => 0,
+	dir => 1,
+	exec => 0,
+	install_dir => "etc",
+	install_name => "gtk-2.0"
+	);
+
+    add_file_unless_exists (
+	"$mingw32_sysconfdir/pango",
+	root => 0,
+	dir => 1,
+	only_mkdir => 1,
+	exec => 0,
+	install_dir => "etc",
+	install_name => "pango"
+	);
+
+    # We need to run pango-querymodules after installation to
+    # rebuild etc\pango\pango.modules.
+    add_file_unless_exists (
+	"$mingw32_bindir/pango-querymodules.exe",
+	root => 0,
+	dir => 0,
+	exec => 0
+	);
+}
+
 # Decide how we will name the output files.  This removes the
 # common prefix from filenames, if it can determine one.
 
@@ -394,13 +563,18 @@ sub install_names
 {
     my @names = keys %files;
 
+    # Don't care about files that already have an install
+    # directory/name defined, ie. they were specified as source=dest
+    # on the command line.
+    @names = grep { ! exists $files{$_}->{install_name} } @names;
+
     # Determine if all the names share a common prefix.
     my @namelens = map { length } @names;
     my $shortest = min (@namelens);
 
     my $prefixlen;
     for ($prefixlen = $shortest; $prefixlen >= 0; --$prefixlen) {
-	my @ns = map { $_ = substr $_, 0, $prefixlen } @names;
+	my @ns = map { substr $_, 0, $prefixlen } @names;
 	last if same (@ns);
     }
 
@@ -408,7 +582,7 @@ sub install_names
 
     # Remove the prefix from each name and save the install directory
     # and install filename separately.
-    foreach my $name (keys %files) {
+    foreach my $name (@names) {
 	my $install_as = substr $name, $prefixlen;
 
 	my ($install_dir, $install_name);
@@ -536,10 +710,31 @@ EOT
 	# If it's a directory, we copy it recursively, otherwise
 	# just copy the single file.
 	if ($files{$_}->{dir}) {
-	    print $io "  File /r \"$_\"\n";
+	    if ($files{$_}->{only_mkdir}) {
+		# This is a hack to allow us to create empty directories.
+		my $install_dir = $files{$_}->{install_dir};
+		my $install_name = $files{$_}->{install_name};
+		print $io "  CreateDirectory \"\$INSTDIR\\$install_dir\\$install_name\"\n";
+	    } else {
+		print $io "  File /r \"$_\"\n";
+	    }
 	} else {
 	    print $io "  File \"$_\"\n";
 	}
+    }
+
+    # GTK?
+    if ($with_gtk) {
+	my $install_dir = $files{"$mingw32_bindir/pango-querymodules.exe"}->{install_dir};
+	my $install_name = $files{"$mingw32_bindir/pango-querymodules.exe"}->{install_name};
+
+	# This particular piece of Windows stupidity is documented here:
+	# http://forums.winamp.com/showthread.php?postid=438771#post438771
+	# http://forums.winamp.com/printthread.php?s=53c76b4ae4221ff1d9dc361fc5bf7ea2&threadid=231797
+	print $io "\n";
+	print $io "  ReadEnvStr \$0 COMSPEC\n";
+	print $io "  SetOutPath \"\$INSTDIR\"\n";
+	print $io "  nsExec::ExecToLog '\$0 /C $install_dir\\$install_name > etc\\pango\\pango.modules'\n"
     }
 
     print $io <<EOT;
@@ -588,7 +783,8 @@ EOT
 	    print $io "  Delete /rebootok \"\$SMPROGRAMS\\$name\\$install_name.lnk\"\n";
 	}
     }
-    print $io "  Delete /rebootok \"\$SMPROGRAMS\\$name\\Uninstall $name.lnk\"\n\n";
+    print $io "  Delete /rebootok \"\$SMPROGRAMS\\$name\\Uninstall $name.lnk\"\n";
+    print $io "  RMDir \"\$SMPROGRAMS\\$name\"\n\n";
 
     # Remove remaining files.
     $olddir = '';
@@ -605,7 +801,7 @@ EOT
 	my $install_dir = $files{$_}->{install_dir};
 	my $install_name = $files{$_}->{install_name};
 	if ($files{$_}->{dir}) {
-	    print $io "  RMDir /r \"\$INSTDIR\\$install_dir\"\n\n";
+	    print $io "  RMDir /r \"\$INSTDIR\\$install_dir\\$install_name\"\n\n";
 	    $olddir = ''; # Don't double-delete directory.
 	} else {
 	    print $io "  Delete /rebootok \"\$INSTDIR\\$install_dir\\$install_name\"\n";
@@ -640,6 +836,7 @@ sub main
     get_options ();
     check_prereqs ();
     print_config () if $verbose;
+    do_gtk () if $with_gtk;
     do_dependencies ();
     install_names ();
     print_files () if $verbose;
