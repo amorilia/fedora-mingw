@@ -5,14 +5,14 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-w32api
-Version:	3.11
-Release:        7%{?dist}
+Version:	3.12
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
 Group:          Development/Libraries
 URL:            http://www.mingw.org/
-Source0:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{version}-src.tar.gz
+Source0:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{version}-mingw32-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -41,7 +41,7 @@ MinGW Windows cross-compiler Win32 header files.
 
 
 %prep
-%setup -q -n w32api-%{version}
+%setup -q -n w32api-%{version}-mingw32
 
 %build
 ./configure \
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.12-1
+- New upstream version 3.12.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11-7
 - Rename mingw -> mingw32.
 
