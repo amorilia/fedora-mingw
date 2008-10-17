@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-libxml2
-Version:        2.7.1
-Release:        2%{?dist}
+Version:        2.7.2
+Release:        1%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -14,6 +14,9 @@ Group:          Development/Libraries
 URL:            http://xmlsoft.org/
 Source0:        ftp://xmlsoft.org/libxml2/libxml2-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# Not required for MinGW.
+#Patch0:         libxml2-multilib.patch
 
 BuildArch:      noarch
 
@@ -70,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 17 2008 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-1
+- Resynch to native Fedora package + patch.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.7.1-2
 - Rename mingw -> mingw32.
 
