@@ -3,8 +3,8 @@
 
 Name:           mingw32-nsis
 Version:        2.39
-Release:        4%{?dist}
-Summary:        MinGW Windows libxml2 XML processing library
+Release:        5%{?dist}
+Summary:        Nullsoft Scriptable Install System
 
 License:        zlib and CPL
 Group:          Development/Libraries
@@ -84,5 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 17 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-5
+- Fix the Summary line.
+
 * Wed Oct  8 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-4
 - Initial RPM release.
