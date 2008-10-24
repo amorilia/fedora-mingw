@@ -15,6 +15,7 @@ cairo/svgspacewar.exe
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
 freetype/freetype-doc-2.3.7.tar.bz2
+gc/gc-7.1.tar.gz
 gcc/gcc-core-4.3.2.tar.bz2
 gcc/gcc-g++-4.3.2.tar.bz2
 gdbm/gdbm-1.8.0.tar.gz

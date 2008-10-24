@@ -1,0 +1,10 @@
+--- gc-7.1/configure.ac.orig	2008-10-24 15:44:08.000000000 +0100
++++ gc-7.1/configure.ac	2008-10-24 15:43:43.000000000 +0100
+@@ -189,6 +189,7 @@
+     AC_DEFINE(GC_WIN32_THREADS)
+     dnl Wine getenv may not return NULL for missing entry
+     AC_DEFINE(NO_GETENV)
++    win32_threads=true
+     ;;
+  dgux386)
+     THREADS=dgux386
