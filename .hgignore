@@ -12,6 +12,7 @@ cairo/cairo-1.7.4.tar.gz
 cairo/cairo-1.8.0.tar.gz
 cairo/svgspacewar
 cairo/svgspacewar.exe
+cairomm/cairomm-1.6.2.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
 freetype/freetype-doc-2.3.7.tar.bz2
@@ -22,11 +23,14 @@ gdbm/gdbm-1.8.0.tar.gz
 gettext/gettext-0.17.tar.gz
 glib2/glib-2.18.0.tar.bz2
 glib2/glib-2.18.1.tar.bz2
+glibmm24/glibmm-2.18.1.tar.bz2
 gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
+gsl/gsl-1.11.tar.gz
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2
 gtk2/gtk+-2.14.4.tar.bz2
+gtkmm24/gtkmm-2.14.1.tar.bz2
 gtk-vnc/gtk-vnc-0.3.7.tar.gz
 iconv/libiconv-1.12.tar.gz
 jasper/jasper-1.900.1.zip
@@ -37,6 +41,7 @@ libgpg-error/libgpg-error-1.6.tar.bz2
 libgpg-error/libgpg-error-1.6.tar.bz2.sig
 libjpeg/jpegsrc.v6b.tar.gz
 libpng/libpng-1.2.31.tar.bz2
+libsigc++20/libsigc++-2.2.2.tar.bz2
 libvirt/libvirt-0.4.5.tar.gz
 libvirt/libvirt-0.4.6.tar.gz
 libxml2/libxml2-2.6.32.tar.gz
@@ -45,9 +50,11 @@ libxml2/libxml2-2.7.2.tar.gz
 nsis/nsis-2.19-src.tar.bz2
 nsis/nsis-2.39-src.tar.bz2
 nsiswrapper/installer.exe
+ocaml/ocaml-3.11.0+beta1.tar.bz2
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pango/pango-1.22.1.tar.bz2
+pangomm/pangomm-2.14.0.tar.bz2
 pdcurses/PDCurses-3.4.tar.gz
 pixman/pixman-0.11.10.tar.gz
 pixman/pixman-0.12.0.tar.gz
