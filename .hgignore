@@ -8,6 +8,9 @@ atk/atk-1.24.0.tar.bz2
 binutils/binutils-2.18.50-20080109-2-src.tar.gz
 bzip2/bzip2-1.0.5.tar.gz
 cairo/cairo-1.7.4.tar.gz
+cairo/cairo-1.8.0.tar.gz
+cairo/svgspacewar
+cairo/svgspacewar.exe
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
 freetype/freetype-doc-2.3.7.tar.bz2

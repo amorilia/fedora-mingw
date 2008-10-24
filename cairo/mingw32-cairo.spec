@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-cairo
-Version:        1.7.4
-Release:        4%{?dist}
+Version:        1.8.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:	LGPLv2 or MPLv1.1
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-1
+- New upstream version 1.8.0.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.7.4-4
 - Rename mingw -> mingw32.
 
