@@ -6,7 +6,7 @@
 
 Name:           mingw32-SDL
 Version:        1.2.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of SDL cross-platform multimedia library
 
 License:        LGPLv2+
@@ -77,7 +77,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 # Remove static libraries but DON'T remove *.dll.a files.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libSDL.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libSDLmain.a
+
+# Actually libSDLmain.a seems to be required.  It just contains
+# a single object file called SDL_win32_main.o.
+#rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libSDLmain.a
 
 
 %clean
@@ -90,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_bindir}/sdl-config
 %{_mingw32_libdir}/libSDL.dll.a
 %{_mingw32_libdir}/libSDL.la
+%{_mingw32_libdir}/libSDLmain.a
 %{_mingw32_libdir}/pkgconfig/sdl.pc
 %{_mingw32_datadir}/aclocal/sdl.m4
 %{_mingw32_mandir}/man3/*.3*
@@ -97,5 +101,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-1
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-2
 - Initial RPM release.
