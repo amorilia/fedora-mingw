@@ -233,5 +233,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.5.2-1
 - Initial RPM release.
