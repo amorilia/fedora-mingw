@@ -14,8 +14,6 @@ Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
 Patch1:         gtk+-2.11.1-set-invisible-char-to-bullet.patch
-Patch2:         gail-leaks.patch
-Patch3:         info-leak.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # If you want to rebuild this, do:
@@ -54,8 +52,6 @@ MinGW Windows Gtk2 library.
 %prep
 %setup -q -n gtk+-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 # Need to run the correct version of glib-mkenums.
@@ -136,6 +132,7 @@ rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-1
 - New upstream version 2.14.4.
 - Require cairo >= 1.8.0 because of important fixes.
+- Remove a couple of patches which are now upstream.
 
 * Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.2-3
 - Remove the requirement for Wine at build or install time.
