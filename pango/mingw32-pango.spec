@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-pango
-Version:        1.21.6
-Release:        6%{?dist}
+Version:        1.22.1
+Release:        1%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -33,7 +33,7 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
-BuildRequires:  mingw32-cairo
+BuildRequires:  mingw32-cairo >= 1.8.0
 BuildRequires:  mingw32-freetype
 BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-glib2
@@ -98,6 +98,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-1
+- New upstream version 1.22.1.
+- BR cairo >= 1.8.0 because of important fixes.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.21.6-6
 - Rename mingw -> mingw32.
 

@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-gtk2
-Version:        2.14.2
-Release:        3%{?dist}
+Version:        2.14.4
+Release:        1%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -30,7 +30,7 @@ BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-glib2
-BuildRequires:  mingw32-cairo
+BuildRequires:  mingw32-cairo >= 1.8.0
 BuildRequires:  mingw32-jasper
 BuildRequires:  mingw32-libpng
 BuildRequires:  mingw32-libjpeg
@@ -133,6 +133,10 @@ rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %changelog
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-1
+- New upstream version 2.14.4.
+- Require cairo >= 1.8.0 because of important fixes.
+
 * Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.2-3
 - Remove the requirement for Wine at build or install time.
 - Conflicts with (native) cups-devel.

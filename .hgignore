@@ -24,6 +24,7 @@ gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2
+gtk2/gtk+-2.14.4.tar.bz2
 gtk-vnc/gtk-vnc-0.3.7.tar.gz
 iconv/libiconv-1.12.tar.gz
 jasper/jasper-1.900.1.zip
@@ -44,6 +45,7 @@ nsis/nsis-2.39-src.tar.bz2
 nsiswrapper/installer.exe
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
+pango/pango-1.22.1.tar.bz2
 pdcurses/PDCurses-3.4.tar.gz
 pixman/pixman-0.11.10.tar.gz
 pixman/pixman-0.12.0.tar.gz
