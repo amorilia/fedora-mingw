@@ -6,7 +6,7 @@
 
 Name:           mingw32-glibmm24
 Version:        2.18.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows C++ interface for GTK2 (a GUI library for X)
 
 License:        LGPLv2+
@@ -23,6 +23,7 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libsigc++20 >= 2.0.0
 BuildRequires:  mingw32-glib2 >= 2.17.3
+BuildRequires:  pkgconfig
 
 Requires:       pkgconfig
 
@@ -77,5 +78,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-2
 - Initial RPM release.

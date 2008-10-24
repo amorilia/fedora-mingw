@@ -8,7 +8,7 @@
 
 Name:           mingw32-pangomm
 Version:        2.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows C++ interface for Pango
 
 License:        LGPLv2+
@@ -27,7 +27,7 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-glibmm24 >= 2.14.1
 BuildRequires:  mingw32-cairomm >= 1.2.2
-BuildRequires:  pango-devel >= 1.21.4
+BuildRequires:  mingw32-pango >= 1.21.4
 BuildRequires:  doxygen
 BuildRequires:  graphviz
 
@@ -74,5 +74,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-1
+* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-2
 - Initial RPM release.
