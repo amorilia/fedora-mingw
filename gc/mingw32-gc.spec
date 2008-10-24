@@ -29,6 +29,7 @@ Patch1000:      mingw32-gc-7.1-set-win32-threads.patch
 
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 
 # XXX Native package uses a separate libatomic_ops library.
