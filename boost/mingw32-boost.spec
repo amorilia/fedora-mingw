@@ -6,7 +6,7 @@
 
 Name:           mingw32-boost
 Version:        1.34.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of Boost C++ Libraries
 
 License:        Boost
@@ -26,6 +26,7 @@ BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 #BuildRequires:  mingw-libstdc++
 BuildRequires:  mingw32-bzip2
@@ -184,5 +185,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-1
+* Sat Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-2
 - Initial RPM release.
