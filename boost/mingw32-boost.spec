@@ -83,39 +83,49 @@ make all
 
 %install
 rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
 
-# install lib
-for i in `find stage -type f -name \*.a`; do
-  NAME=`basename $i`;
-  install -p -m 0644 $i $RPM_BUILD_ROOT%{_mingw32_libdir}/$NAME;
-done;
-for i in `find stage -type f -name \*.so`; do
-  NAME=$i;
-  SONAME=$i.3;
-  VNAME=$i.%{version};
-  base=`basename $i`;
-  NAMEbase=$base;
-  SONAMEbase=$base.3;
-  VNAMEbase=$base.%{version};
-  mv $i $VNAME;
-  ln -s $VNAMEbase $SONAME;
-  ln -s $VNAMEbase $NAME;
-  install -p -m 755 $VNAME $RPM_BUILD_ROOT%{_libdir}/$VNAMEbase;
-  mv $SONAME $RPM_BUILD_ROOT%{_libdir}/$SONAMEbase;
-  mv $NAME $RPM_BUILD_ROOT%{_libdir}/$NAMEbase;
-done;
+# Boost doesn't build shared libraries for some reason.  However it
+# builds *.a files which we can trivially convert to *.dll (they
+# contain objects which are already compiled for PIC).
+function a2dll
+{
+  rm -rf .a2dll
+  mkdir .a2dll
+  pushd .a2dll
+  ar x ../$1
+  error=0
+  i686-pc-mingw32-gcc -shared \
+    -o ../$2.dll \
+    -Wl,--out-implib,../$2.dll.a \
+    *.o -lbz2 -lz -lstdc++ || error=1
+  popd
+  rm -rf .a2dll
+  return $error
+}
+
+for f in `find bin.v2 -name '*.a'`; do
+  b=`basename $f .a`
+  d=`dirname $f`
+  if a2dll $f $d/$b; then
+    install $d/$b.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
+    install $d/$b.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
+  else
+    echo '*** FAILED TO BUILD' $d/$b.dll
+  fi
+done
 
 # install include files
-find %{name} -type d | while read a; do
-  mkdir -p $RPM_BUILD_ROOT%{_includedir}/$a
+find boost -type d | while read a; do
+  mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}/$a
   find $a -mindepth 1 -maxdepth 1 -type f \
-    | xargs -r install -m 644 -p -t $RPM_BUILD_ROOT%{_includedir}/$a
+    | xargs -r install -m 644 -p -t $RPM_BUILD_ROOT%{_mingw32_includedir}/$a
 done
 
 # remove scripts used to generate include files
-find $RPM_BUILD_ROOT%{_includedir}/ \( -name '*.pl' -o -name '*.sh' \) -exec rm {} \;
+find $RPM_BUILD_ROOT%{_mingw32_includedir}/ \( -name '*.pl' -o -name '*.sh' \) -exec rm {} \;
 
 
 %clean
@@ -124,11 +134,55 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/foo.dll
-%{_mingw32_libdir}/foo.dll.a
-# etc.
+%{_mingw32_includedir}/boost
+%{_mingw32_bindir}/libboost_date_time.dll
+%{_mingw32_libdir}/libboost_date_time.dll.a
+%{_mingw32_bindir}/libboost_date_time-mt.dll
+%{_mingw32_libdir}/libboost_date_time-mt.dll.a
+%{_mingw32_bindir}/libboost_filesystem.dll
+%{_mingw32_libdir}/libboost_filesystem.dll.a
+%{_mingw32_bindir}/libboost_filesystem-mt.dll
+%{_mingw32_libdir}/libboost_filesystem-mt.dll.a
+%{_mingw32_bindir}/libboost_graph.dll
+%{_mingw32_libdir}/libboost_graph.dll.a
+%{_mingw32_bindir}/libboost_graph-mt.dll
+%{_mingw32_libdir}/libboost_graph-mt.dll.a
+%{_mingw32_bindir}/libboost_iostreams.dll
+%{_mingw32_libdir}/libboost_iostreams.dll.a
+%{_mingw32_bindir}/libboost_iostreams-mt.dll
+%{_mingw32_libdir}/libboost_iostreams-mt.dll.a
+%{_mingw32_bindir}/libboost_program_options.dll
+%{_mingw32_libdir}/libboost_program_options.dll.a
+%{_mingw32_bindir}/libboost_program_options-mt.dll
+%{_mingw32_libdir}/libboost_program_options-mt.dll.a
+%{_mingw32_bindir}/libboost_regex.dll
+%{_mingw32_libdir}/libboost_regex.dll.a
+%{_mingw32_bindir}/libboost_regex-mt.dll
+%{_mingw32_libdir}/libboost_regex-mt.dll.a
+%{_mingw32_bindir}/libboost_serialization.dll
+%{_mingw32_libdir}/libboost_serialization.dll.a
+%{_mingw32_bindir}/libboost_serialization-mt.dll
+%{_mingw32_libdir}/libboost_serialization-mt.dll.a
+%{_mingw32_bindir}/libboost_signals.dll
+%{_mingw32_libdir}/libboost_signals.dll.a
+%{_mingw32_bindir}/libboost_signals-mt.dll
+%{_mingw32_libdir}/libboost_signals-mt.dll.a
+%{_mingw32_bindir}/libboost_wave.dll
+%{_mingw32_libdir}/libboost_wave.dll.a
+%{_mingw32_bindir}/libboost_wave-mt.dll
+%{_mingw32_libdir}/libboost_wave-mt.dll.a
+# These fail to build: they depend on linking with other parts of boost.
+#libboost_prg_exec_monitor.dll
+#libboost_test_exec_monitor.dll
+#libboost_unit_test_framework.dll
+#libboost_unit_test_framework-mt.dll
+#libboost_test_exec_monitor-mt.dll
+#libboost_prg_exec_monitor-mt.dll
+#libboost_wserialization.dll
+#libboost_wserialization-mt.dll
+#libboost_thread-mt.dll
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Sat Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-1
 - Initial RPM release.
