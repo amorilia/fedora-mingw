@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxml2
 Version:        2.7.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -17,6 +17,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Not required for MinGW.
 #Patch0:         libxml2-multilib.patch
+
+# MinGW-specific patches.
+Patch1000:      mingw32-libxml2-2.7.2-with-modules.patch
 
 BuildArch:      noarch
 
@@ -33,10 +36,11 @@ MinGW Windows libxml2 XML processing library.
 
 %prep
 %setup -q -n libxml2-%{version}
+%patch1000 -p1
 
 
 %build
-LDFLAGS="-no-undefined" %{_mingw32_configure} --without-python
+LDFLAGS="-no-undefined" %{_mingw32_configure} --without-python --with-modules
 make
 
 
@@ -73,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-3
+- Enable modules support for libxslt.
+
 * Fri Oct 17 2008 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-1
 - Resynch to native Fedora package + patch.
 
