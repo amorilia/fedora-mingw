@@ -1,0 +1,21 @@
+--- libxslt-1.1.24.orig/configure.in	2008-05-13 16:40:31.000000000 +0100
++++ libxslt-1.1.24/configure.in	2008-10-25 23:33:10.000000000 +0100
+@@ -3,6 +3,7 @@
+ AC_INIT(libxslt/xslt.c)
+ AM_CONFIG_HEADER(config.h)
+ AC_CANONICAL_HOST
++AC_LIBTOOL_WIN32_DLL
+ 
+ dnl
+ dnl libxslt is the main part of the package
+--- libxslt-1.1.24.orig/libxslt/Makefile.am	2007-01-03 15:11:57.000000000 +0000
++++ libxslt-1.1.24/libxslt/Makefile.am	2008-10-25 23:33:36.000000000 +0100
+@@ -51,7 +51,7 @@
+ 	libxslt.h
+ 
+ libxslt_la_LIBADD = $(EXTRA_LIBS)
+-libxslt_la_LDFLAGS = -version-info @LIBXSLT_VERSION_INFO@
++libxslt_la_LDFLAGS = -version-info @LIBXSLT_VERSION_INFO@ -no-undefined
+ 
+ man_MANS = libxslt.3
+ 
