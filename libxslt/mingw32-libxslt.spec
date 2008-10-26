@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxslt
 Version:        1.1.24
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Library providing the Gnome XSLT engine
 
 License:        MIT
@@ -25,9 +25,13 @@ Patch1000:      mingw32-libxslt-1.1.24-win32-shared.patch
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-libgcrypt
 BuildRequires:  mingw32-libxml2 >= 2.7.2-3
+BuildRequires:  pkgconfig
+BuildRequires:  autoconf, automake, libtool
 
 Requires:       mingw32-libxml2 >= 2.7.2-3
+Requires:       pkgconfig
 
 
 %description
@@ -46,6 +50,7 @@ installed. The xsltproc command is a command line interface to the XSLT engine
 
 
 %build
+PATH=%{_mingw32_bindir}:$PATH \
 %{_mingw32_configure} --without-python --enable-shared
 make
 gzip -9 ChangeLog
@@ -87,5 +92,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-1
+* Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-2
 - Initial RPM release.
