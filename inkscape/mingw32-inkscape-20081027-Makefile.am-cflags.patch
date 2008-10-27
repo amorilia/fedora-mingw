@@ -1,0 +1,33 @@
+Index: src/Makefile.am
+===================================================================
+--- src/Makefile.am	(revision 20065)
++++ src/Makefile.am	(working copy)
+@@ -27,7 +27,27 @@
+ 	$(POPPLER_GLIB_CFLAGS)	\
+ 	-DPOTRACE=\"potrace\"	\
+ 	$(INKSCAPE_CFLAGS) \
+-	-I$(top_srcdir)/cxxtest
++	-I$(top_srcdir)/cxxtest \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/gtk-2.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/glib-2.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/glibmm-2.4 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/gdkmm-2.4 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/gtkmm-2.4 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/atkmm-1.6 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/giomm-2.4 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/pangomm-1.4 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/cairomm-1.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/sigc++-2.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/cairo \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/pango-1.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/atk-1.0 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/include/libxml2 \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/gtk-2.0/include \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/glib-2.0/include \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/glibmm-2.4/include \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/gdkmm-2.4/include \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/gtkmm-2.4/include \
++	-I/usr/i686-pc-mingw32/sys-root/mingw/lib/sigc++-2.0/include
+ 
+ include Makefile_insert
+ include application/Makefile_insert

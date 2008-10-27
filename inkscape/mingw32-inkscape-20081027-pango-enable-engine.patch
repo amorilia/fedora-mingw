@@ -1,0 +1,39 @@
+Index: src/libnrtype/FontFactory.cpp
+===================================================================
+--- src/libnrtype/FontFactory.cpp	(revision 20065)
++++ src/libnrtype/FontFactory.cpp	(working copy)
+@@ -8,6 +8,8 @@
+  *
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #include "FontFactory.h"
+ #include <libnrtype/font-instance.h>
+ 
+Index: src/libnrtype/Layout-TNG-Input.cpp
+===================================================================
+--- src/libnrtype/Layout-TNG-Input.cpp	(revision 20065)
++++ src/libnrtype/Layout-TNG-Input.cpp	(working copy)
+@@ -9,6 +9,8 @@
+  * Released under GNU GPL, read the file 'COPYING' for more information
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #include <gtk/gtkversion.h>
+ #include "Layout-TNG.h"
+ #include "style.h"
+Index: src/libnrtype/FontInstance.cpp
+===================================================================
+--- src/libnrtype/FontInstance.cpp	(revision 20065)
++++ src/libnrtype/FontInstance.cpp	(working copy)
+@@ -8,6 +8,8 @@
+  *
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #ifdef HAVE_CONFIG_H
+ # include <config.h>
+ #endif

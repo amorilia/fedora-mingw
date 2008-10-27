@@ -1,0 +1,13 @@
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 20065)
++++ configure.ac	(working copy)
+@@ -192,7 +192,7 @@
+ 				  break], [gc_ok=no], [$gc_libs])
+ 		    break],
+                  [gc_ok=no])
+-if test "x$gc_ok" = "xyes"; then
++if test "x$gc_ok" = "xyes" && "x$cross_compiling" = "xno" ; then
+ 	AC_MSG_CHECKING([libgc version 6.4+])
+ 	AC_RUN_IFELSE(
+ 		[AC_LANG_SOURCE([[

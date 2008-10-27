@@ -1,0 +1,32 @@
+Index: src/extension/internal/Makefile_insert
+===================================================================
+--- src/extension/internal/Makefile_insert	(revision 20065)
++++ src/extension/internal/Makefile_insert	(working copy)
+@@ -144,5 +144,10 @@
+ 	extension/internal/filter/filter-all.cpp \
+ 	extension/internal/filter/filter-file.cpp \
+ 	extension/internal/filter/filter.cpp \
+-	extension/internal/filter/filter.h
+-
++	extension/internal/filter/filter.h \
++	extension/internal/win32.h \
++	extension/internal/win32.cpp \
++	extension/internal/emf-win32-print.h \
++	extension/internal/emf-win32-print.cpp \
++	extension/internal/emf-win32-inout.h \
++	extension/internal/emf-win32-inout.cpp
+\ No newline at end of file
+Index: src/ui/dialog/Makefile_insert
+===================================================================
+--- src/ui/dialog/Makefile_insert	(revision 20065)
++++ src/ui/dialog/Makefile_insert	(working copy)
+@@ -60,6 +60,8 @@
+ 	ui/dialog/aboutbox.cpp		    \
+ 	ui/dialog/aboutbox.h            \
+ 	ui/dialog/ocaldialogs.cpp       \
+-	ui/dialog/ocaldialogs.h
++	ui/dialog/ocaldialogs.h \
++	ui/dialog/filedialogimpl-win32.h \
++	ui/dialog/filedialogimpl-win32.cpp
+ 
+ ui/dialog/aboutbox.$(OBJEXT): inkscape_version.h
