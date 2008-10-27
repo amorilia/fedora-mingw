@@ -96,9 +96,6 @@ make
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
-# Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libfoo.a
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -106,11 +103,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/foo.dll
-%{_mingw32_libdir}/foo.dll.a
-# etc.
+%{_mingw32_bindir}/inkscape.exe
+%{_mingw32_bindir}/inkview.exe
+%{_mingw32_datadir}/applications/inkscape.desktop
+%{_mingw32_datadir}/inkscape/
+%{_mingw32_datadir}/locale/*/LC_MESSAGES/inkscape.mo
+%{_mingw32_datadir}/pixmaps/inkscape.png
+%{_mingw32_mandir}/*/man1/*.1
+%{_mingw32_mandir}/man1/*.1
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-1
 - Initial RPM release.
