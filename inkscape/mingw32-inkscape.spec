@@ -9,29 +9,23 @@
 
 Name:           mingw32-inkscape
 Version:        20081027
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of Inkscape vector graphics editor
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.inkscape.org/
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 # Checked out of SVN on the date shown and then just rolled up into
 # a tarball.
 # svn co https://inkscape.svn.sourceforge.net/svnroot/inkscape/inkscape/trunk inkscape
 # tar zcf /tmp/inkscape-%{version}.tar.gz inkscape
 Source0:        inkscape-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-# Source patches needed.
-Patch0:         mingw32-inkscape-20081027-no-gc-version-check-when-crosscompiling.patch
-Patch1:         mingw32-inkscape-20081027-no-is-os-vista.patch
-Patch2:         mingw32-inkscape-20081027-extra-win32-objects.patch
-Patch3:         mingw32-inkscape-20081027-pango-enable-engine.patch
-Patch4:         mingw32-inkscape-20081027-no-setenv.patch
-
-# This is a hack, but for some reason PKG_CHECK_MODULES isn't
-# updating CFLAGS correctly.  This just works around the problem.
-Patch5:         mingw32-inkscape-20081027-Makefile.am-cflags.patch
+# Rolled-up source patch, submitted upstream on 2008-10-27.
+Patch0:         mingw32-inkscape-20081027.patch
 
 BuildArch:      noarch
 
@@ -39,6 +33,7 @@ BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-glibmm24
 BuildRequires:  mingw32-cairomm
 BuildRequires:  mingw32-pangomm
@@ -52,7 +47,6 @@ BuildRequires:  mingw32-boost
 BuildRequires:  mingw32-libsigc++20
 
 BuildRequires:  autoconf, automake, libtool
-BuildRequires:  perl
 
 
 %description
@@ -70,13 +64,7 @@ community-oriented development.
 
 %prep
 %setup -q -n inkscape
-
 %patch0 -p0
-%patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
-%patch5 -p0
 
 ./autogen.sh
 
@@ -85,11 +73,7 @@ community-oriented development.
 %{_mingw32_configure} \
   --enable-lcms=no \
   --without-gnome-vfs
-
-# Additionally remove -lX* libraries from the Makefile.
-perl -pi.bak -e 's/-lX\w+//g' src/Makefile
-
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -114,5 +98,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-1
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-2
 - Initial RPM release.

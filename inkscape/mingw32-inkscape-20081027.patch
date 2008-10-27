@@ -1,0 +1,251 @@
+Index: src/libgdl/gdl-win32.c
+===================================================================
+--- src/libgdl/gdl-win32.c	(revision 20069)
++++ src/libgdl/gdl-win32.c	(working copy)
+@@ -14,6 +14,8 @@
+ 
+ #include "gdl-win32.h"
+ 
++#ifdef WIN32
++
+ /* Platform detection */
+ gboolean
+ is_os_vista()
+@@ -40,3 +42,5 @@
+ 
+ 	return is_vista;
+ }
++
++#endif
+Index: src/libgdl/gdl-win32.h
+===================================================================
+--- src/libgdl/gdl-win32.h	(revision 20069)
++++ src/libgdl/gdl-win32.h	(working copy)
+@@ -1,6 +1,8 @@
+ #ifndef __INKSCAPE_GDL_WIN32_H__
+ #define __INKSCAPE_GDL_WIN32_H__
+ 
++#ifdef WIN32
++
+ /*
+  * Windows stuff
+  *
+@@ -20,11 +22,9 @@
+ #include <windows.h>
+ #include <gdk/gdk.h>
+ 
+-#ifndef WIN32
+-#error "This file is only usable for Windows"
+-#endif
+-
+ /* Platform detection */
+ gboolean is_os_vista();
+ 
++#endif /* WIN32 */
++
+ #endif /* __INKSCAPE_GDL_WIN32_H__ */
+Index: src/libgdl/Makefile_insert
+===================================================================
+--- src/libgdl/Makefile_insert	(revision 20069)
++++ src/libgdl/Makefile_insert	(working copy)
+@@ -34,6 +34,8 @@
+ 	libgdl/gdl-stock.c		\
+ 	libgdl/gdl-switcher.h		\
+ 	libgdl/gdl-switcher.c		\
++	libgdl/gdl-win32.c		\
++	libgdl/gdl-win32.h		\
+ 	libgdl/libgdltypebuiltins.h	\
+ 	libgdl/libgdltypebuiltins.c	\
+ 	libgdl/libgdlmarshal.h		\
+Index: src/extension/internal/win32.h
+===================================================================
+--- src/extension/internal/win32.h	(revision 20069)
++++ src/extension/internal/win32.h	(working copy)
+@@ -14,9 +14,7 @@
+ 
+ #include <config.h>
+ 
+-#ifndef WIN32
+-#error "This file is only usable for Windows"
+-#endif
++#ifdef WIN32
+ 
+ #ifdef DATADIR
+ #undef DATADIR
+@@ -84,4 +82,6 @@
+ }  /* namespace Extension */
+ }  /* namespace Inkscape */
+ 
++#endif /* WIN32 */
++
+ #endif /* __INKSCAPE_EXTENSION_INTERNAL_PRINT_WIN32_H__ */
+Index: src/extension/internal/Makefile_insert
+===================================================================
+--- src/extension/internal/Makefile_insert	(revision 20069)
++++ src/extension/internal/Makefile_insert	(working copy)
+@@ -144,5 +144,10 @@
+ 	extension/internal/filter/filter-all.cpp \
+ 	extension/internal/filter/filter-file.cpp \
+ 	extension/internal/filter/filter.cpp \
+-	extension/internal/filter/filter.h
+-
++	extension/internal/filter/filter.h \
++	extension/internal/win32.h \
++	extension/internal/win32.cpp \
++	extension/internal/emf-win32-print.h \
++	extension/internal/emf-win32-print.cpp \
++	extension/internal/emf-win32-inout.h \
++	extension/internal/emf-win32-inout.cpp
+\ No newline at end of file
+Index: src/extension/internal/win32.cpp
+===================================================================
+--- src/extension/internal/win32.cpp	(revision 20069)
++++ src/extension/internal/win32.cpp	(working copy)
+@@ -13,6 +13,8 @@
+ # include "config.h"
+ #endif
+ 
++#ifdef WIN32
++
+ #include <glib/gmem.h>
+ #include <libnr/nr-macros.h>
+ #include <libnr/nr-matrix.h>
+@@ -494,3 +496,5 @@
+ }  /* namespace Internal */
+ }  /* namespace Extension */
+ }  /* namespace Inkscape */
++
++#endif /* WIN32 */
+Index: src/Makefile.am
+===================================================================
+--- src/Makefile.am	(revision 20069)
++++ src/Makefile.am	(working copy)
+@@ -27,7 +27,8 @@
+ 	$(POPPLER_GLIB_CFLAGS)	\
+ 	-DPOTRACE=\"potrace\"	\
+ 	$(INKSCAPE_CFLAGS) \
+-	-I$(top_srcdir)/cxxtest
++	-I$(top_srcdir)/cxxtest \
++	$(WIN32_CFLAGS)
+ 
+ include Makefile_insert
+ include application/Makefile_insert
+Index: src/libnrtype/FontFactory.cpp
+===================================================================
+--- src/libnrtype/FontFactory.cpp	(revision 20069)
++++ src/libnrtype/FontFactory.cpp	(working copy)
+@@ -8,6 +8,8 @@
+  *
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #include "FontFactory.h"
+ #include <libnrtype/font-instance.h>
+ 
+Index: src/libnrtype/Layout-TNG-Input.cpp
+===================================================================
+--- src/libnrtype/Layout-TNG-Input.cpp	(revision 20069)
++++ src/libnrtype/Layout-TNG-Input.cpp	(working copy)
+@@ -9,6 +9,8 @@
+  * Released under GNU GPL, read the file 'COPYING' for more information
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #include <gtk/gtkversion.h>
+ #include "Layout-TNG.h"
+ #include "style.h"
+Index: src/libnrtype/FontInstance.cpp
+===================================================================
+--- src/libnrtype/FontInstance.cpp	(revision 20069)
++++ src/libnrtype/FontInstance.cpp	(working copy)
+@@ -8,6 +8,8 @@
+  *
+  */
+ 
++#define PANGO_ENABLE_ENGINE
++
+ #ifdef HAVE_CONFIG_H
+ # include <config.h>
+ #endif
+Index: src/ui/dialog/Makefile_insert
+===================================================================
+--- src/ui/dialog/Makefile_insert	(revision 20069)
++++ src/ui/dialog/Makefile_insert	(working copy)
+@@ -60,6 +60,8 @@
+ 	ui/dialog/aboutbox.cpp		    \
+ 	ui/dialog/aboutbox.h            \
+ 	ui/dialog/ocaldialogs.cpp       \
+-	ui/dialog/ocaldialogs.h
++	ui/dialog/ocaldialogs.h \
++	ui/dialog/filedialogimpl-win32.h \
++	ui/dialog/filedialogimpl-win32.cpp
+ 
+ ui/dialog/aboutbox.$(OBJEXT): inkscape_version.h
+Index: src/main.cpp
+===================================================================
+--- src/main.cpp	(revision 20069)
++++ src/main.cpp	(working copy)
+@@ -511,7 +511,7 @@
+  */
+ static int set_extensions_env()
+ {
+-    char *oldenv = getenv("PYTHONPATH");
++    const char *oldenv = g_getenv("PYTHONPATH");
+     Glib::ustring tmp = INKSCAPE_EXTENSIONDIR;
+     if (oldenv != NULL) {
+ #ifdef WIN32
+@@ -521,7 +521,7 @@
+ #endif
+         tmp += oldenv;
+     }
+-    setenv("PYTHONPATH", tmp.c_str(), 1);
++    g_setenv("PYTHONPATH", tmp.c_str(), 1);
+     
+     return 0;
+ }
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 20069)
++++ configure.ac	(working copy)
+@@ -192,7 +192,7 @@
+ 				  break], [gc_ok=no], [$gc_libs])
+ 		    break],
+                  [gc_ok=no])
+-if test "x$gc_ok" = "xyes"; then
++if test "x$gc_ok" = "xyes" && "x$cross_compiling" = "xno" ; then
+ 	AC_MSG_CHECKING([libgc version 6.4+])
+ 	AC_RUN_IFELSE(
+ 		[AC_LANG_SOURCE([[
+@@ -248,7 +248,7 @@
+ case "$host" in
+   *-*-mingw*)
+     platform_win32=yes
+-    INKSCAPE_CFLAGS="$INKSCAPE_CFLAGS -mms-bitfields -DLIBXML_STATIC"
++    WIN32_CFLAGS="-mms-bitfields -DLIBXML_STATIC"
+     ;;
+   *)
+     platform_win32=no
+@@ -257,6 +257,8 @@
+ AC_MSG_RESULT([$platform_win32])
+ AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+ 
++AC_SUBST(WIN32_CFLAGS)
++
+ AC_MSG_CHECKING([for Solaris platform])
+ case "$host" in
+   *-solaris2.*)
+@@ -282,10 +284,10 @@
+ 
+ if test "x$with_xft" != "xno" ; then
+ 	dnl Test fontconfig package
+-	PKG_CHECK_MODULES(XFT, xft, xft_ok=yes, xft_ok=no)
++	PKG_CHECK_MODULES(XFT, fontconfig, xft_ok=yes, xft_ok=no)
+ 	if test "x$xft_ok" != "xyes"; then
+ 		dnl test xft package
+-		PKG_CHECK_MODULES(XFT, fontconfig, xft_ok=yes, xft_ok=no)
++		PKG_CHECK_MODULES(XFT, xft, xft_ok=yes, xft_ok=no)
+ 		if test "x$xft_ok" != "xyes"; then
+ 			dnl Have to test xft presence
+ 			AC_CHECK_HEADER(X11/Xft/Xft.h, xft_ok=yes, xft_ok=no)
