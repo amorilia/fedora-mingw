@@ -33,6 +33,10 @@ gsl/gsl-1.11.tar.gz
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2
 gtk2/gtk+-2.14.4.tar.bz2
+gtk2/test1
+gtk2/test2
+gtk2/test3
+gtk2/*.exe
 gtkmm24/gtkmm-2.14.1.tar.bz2
 gtk-vnc/gtk-vnc-0.3.7.tar.gz
 iconv/libiconv-1.12.tar.gz
