@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk2
 Version:        2.14.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -125,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-2
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-3
 - Remove preun script, no longer used.
 
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-1
