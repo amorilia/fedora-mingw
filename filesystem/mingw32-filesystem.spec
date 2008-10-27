@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        30
+Version:        31
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -21,7 +21,20 @@ Source5:        mingw32-find-provides.sh
 Requires:       setup
 Requires:       rpm
 
-# These are actually provided by Windows itself, or Wine.
+# Note about 'Provides: mingw32(foo.dll)'
+# ------------------------------------------------------------
+#
+# We want to be able to build & install mingw32 libraries without
+# necessarily needing to install wine.  (And certainly not needing to
+# install Windows!)  There is no requirement to have wine installed in
+# order to use the mingw toolchain to develop software (ie. to
+# compile more stuff on top of it), so why require that?
+#
+# So for expediency, this base package provides the "missing" DLLs
+# from Windows.  Another way to do it would be to exclude these
+# proprietary DLLs in our find-requires checking script - essentially
+# it comes out the same either way.
+#
 Provides:       mingw32(gdi32.dll)
 Provides:       mingw32(kernel32.dll)
 Provides:       mingw32(ole32.dll)
@@ -117,6 +130,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 27 2008 Richard Jones <rjones@redhat.com> - 31-1
+- Update the spec file with explanation of the 'Provides: mingw32(...)'
+  lines for Windows system DLLs.
+
 * Mon Oct  6 2008 Richard Jones <rjones@redhat.com> - 30-1
 - Added _mingw32_cxx.
 
