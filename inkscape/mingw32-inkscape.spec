@@ -9,7 +9,7 @@
 
 Name:           mingw32-inkscape
 Version:        20081027
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of Inkscape vector graphics editor
 
 License:        LGPLv2+
@@ -34,6 +34,7 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-fontconfig
+BuildRequires:  mingw32-freetype
 BuildRequires:  mingw32-glibmm24
 BuildRequires:  mingw32-cairomm
 BuildRequires:  mingw32-pangomm
@@ -46,7 +47,10 @@ BuildRequires:  mingw32-gsl
 BuildRequires:  mingw32-boost
 BuildRequires:  mingw32-libsigc++20
 
-BuildRequires:  autoconf, automake, libtool
+BuildRequires:  autoconf, automake, libtool, intltool
+
+# For /usr/bin/glib-gettextize
+BuildRequires:  glib2-devel
 
 
 %description
@@ -70,6 +74,7 @@ community-oriented development.
 
 
 %build
+PATH=%{_mingw32_bindir}:$PATH \
 %{_mingw32_configure} \
   --enable-lcms=no \
   --without-gnome-vfs
@@ -98,5 +103,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-2
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-3
 - Initial RPM release.
