@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk2
 Version:        2.14.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -80,10 +80,6 @@ install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
 rm -rf $RPM_BUILD_ROOT
 
 
-%preun
-rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
-
-
 %files
 %defattr(-,root,root)
 %{_mingw32_datadir}/gtk-doc/html/gail-libgail-util
@@ -129,6 +125,9 @@ rm -f %{_mingw32_sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
 
 
 %changelog
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-2
+- Remove preun script, no longer used.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-1
 - New upstream version 2.14.4.
 - Require cairo >= 1.8.0 because of important fixes.
