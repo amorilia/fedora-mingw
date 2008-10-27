@@ -27,10 +27,11 @@ Patch0:         mingw32-inkscape-20081027-no-gc-version-check-when-crosscompilin
 Patch1:         mingw32-inkscape-20081027-no-is-os-vista.patch
 Patch2:         mingw32-inkscape-20081027-extra-win32-objects.patch
 Patch3:         mingw32-inkscape-20081027-pango-enable-engine.patch
+Patch4:         mingw32-inkscape-20081027-no-setenv.patch
 
 # This is a hack, but for some reason PKG_CHECK_MODULES isn't
 # updating CFLAGS correctly.  This just works around the problem.
-Patch4:         mingw32-inkscape-20081027-Makefile.am-cflags.patch
+Patch5:         mingw32-inkscape-20081027-Makefile.am-cflags.patch
 
 BuildArch:      noarch
 
@@ -75,6 +76,7 @@ community-oriented development.
 %patch2 -p0
 %patch3 -p0
 %patch4 -p0
+%patch5 -p0
 
 ./autogen.sh
 
