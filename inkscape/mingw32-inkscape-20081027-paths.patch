@@ -1,0 +1,13 @@
+Index: src/path-prefix.h
+===================================================================
+--- src/path-prefix.h	(revision 20075)
++++ src/path-prefix.h	(working copy)
+@@ -42,7 +42,7 @@
+ #    define CREATE_PALETTESDIR    BR_DATADIR( "/create/swatches" )
+ #    define CREATE_PATTERNSDIR    BR_DATADIR( "/create/patterns/vector" )
+ #else
+-#  ifdef WIN32
++#  if 0
+ #    define INKSCAPE_APPICONDIR   WIN32_DATADIR("pixmaps")
+ #    define INKSCAPE_BINDDIR      WIN32_DATADIR("share\\bind")
+ #    define INKSCAPE_EXAMPLESDIR  WIN32_DATADIR("share\\examples")

@@ -9,7 +9,7 @@
 
 Name:           mingw32-inkscape
 Version:        20081027
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows port of Inkscape vector graphics editor
 
 License:        LGPLv2+
@@ -26,6 +26,13 @@ Source0:        inkscape-%{version}.tar.gz
 
 # Rolled-up source patch, submitted upstream on 2008-10-27.
 Patch0:         mingw32-inkscape-20081027.patch
+
+# Fix the paths.
+Patch1:         mingw32-inkscape-20081027-paths.patch
+
+# This patch is only needed to run under Wine, which doesn't
+# supported getting the outline of unhinted fonts.
+Patch2:         /mingw32-inkscape-20081027-unhinted-fonts-for-wine.patch
 
 BuildArch:      noarch
 
@@ -69,6 +76,8 @@ community-oriented development.
 %prep
 %setup -q -n inkscape
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 
 ./autogen.sh
 
@@ -103,5 +112,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-3
+* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-5
 - Initial RPM release.
