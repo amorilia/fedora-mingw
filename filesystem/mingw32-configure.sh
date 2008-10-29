@@ -35,5 +35,5 @@ CFLAGS="$mingw32_cflags" \
 ./configure \
   --host=$mingw32_host \
   --target=$mingw32_target \
-  --prefix=$_mingw32_prefix \
+  --prefix=$mingw32_prefix \
   "$@"
