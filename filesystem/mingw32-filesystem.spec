@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        33
+Version:        34
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 29 2008 Richard Jones <rjones@redhat.com> - 34-1
+- Set --prefix correctly.
+
 * Wed Oct 29 2008 Richard Jones <rjones@redhat.com> - 33-1
 - Remove mingw32.{sh,csh} which are unused.
 
