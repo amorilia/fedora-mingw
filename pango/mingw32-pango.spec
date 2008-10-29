@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 - Rename mingw -> mingw32.
 
 * Tue Sep 23 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-5
-- Remove use of wine in %post
+- Remove use of wine in %-post.
 
 * Thu Sep 11 2008 Daniel P. Berrange <berrange@redhat.com> - 1.21.6-4
 - Add dep on pkgconfig

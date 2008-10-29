@@ -26,13 +26,14 @@ BuildRequires:  m4
 
 
 %description
-This library implements a full callback system for use in widget libraries,
-abstract interfaces, and general programming. Originally part of the Gtk--
-widget set, %name is now a separate library to provide for more general
-use. It is the most complete library of its kind with the ability to connect
-an abstract callback to a class method, function, or function object. It
-contains adaptor classes for connection of dissimilar callbacks and has an
-ease of use unmatched by other C++ callback libraries.
+This library implements a full callback system for use in widget
+libraries, abstract interfaces, and general programming. Originally
+part of the Gtk-- widget set, %name is now a separate library to
+provide for more general use. It is the most complete library of its
+kind with the ability to connect an abstract callback to a class
+method, function, or function object. It contains adaptor classes for
+connection of dissimilar callbacks and has an ease of use unmatched by
+other C++ callback libraries.
 
 Package GTK-- (gtkmm), which is a C++ binding to the GTK+ library,
 starting with version 1.1.2, uses %name.

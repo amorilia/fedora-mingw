@@ -167,11 +167,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-7
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-7
 - Rename mingw -> mingw32.
 
-* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-6
+* Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-6
 - Use RPM macros from mingw-filesystem.
 
-* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.1-3
+* Mon Jul  7 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-3
 - Initial RPM release, largely based on earlier work from several sources.

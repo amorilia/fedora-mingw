@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0:         mingw32-runtime-3.15.1-useconds_t.patch
 
-BuildArch:	noarch
+BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 26
 BuildRequires:  mingw32-binutils

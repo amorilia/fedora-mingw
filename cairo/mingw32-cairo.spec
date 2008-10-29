@@ -6,12 +6,12 @@
 
 Name:           mingw32-cairo
 Version:        1.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Cairo library
 
-License:	LGPLv2 or MPLv1.1
-URL:		http://cairographics.org
-Source0:	http://cairographics.org/snapshots/cairo-%{version}.tar.gz
+License:        LGPLv2 or MPLv1.1
+URL:            http://cairographics.org
+Source0:        http://cairographics.org/snapshots/cairo-%{version}.tar.gz
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 29 2008 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-2
+- Fix mixed spaces/tabs in specfile.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-1
 - New upstream version 1.8.0.
 

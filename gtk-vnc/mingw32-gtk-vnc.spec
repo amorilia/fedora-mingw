@@ -37,7 +37,8 @@ BuildRequires:  pkgconfig
 
 
 %description
-# description
+gtk-vnc is a VNC viewer widget for GTK. It is built using coroutines
+allowing it to be completely asynchronous while remaining single threaded.
 
 
 %prep
@@ -85,6 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-3
 - Missing BRs discovered by mock.
+- Added description section.
 
 * Thu Oct  9 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-2
 - Initial RPM release.

@@ -11,7 +11,7 @@
 
 Name:           mingw32-bzip2
 Version:        1.0.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW port of bzip2 file compression utility
 
 License:        BSD
@@ -64,22 +64,22 @@ cross-compiling Windows software in Fedora.
 
 %build
 make -f Makefile-libbz2_so \
-     	CC="%{_mingw32_cc}" \
-     	AR="%{_mingw32_ar}" \
-	RANLIB="%{_mingw32_ranlib}" \
-        CFLAGS="%{_mingw32_cflags} -D_FILE_OFFSET_BITS=64" \
-        %{?_smp_mflags} all
+  CC="%{_mingw32_cc}" \
+  AR="%{_mingw32_ar}" \
+  RANLIB="%{_mingw32_ranlib}" \
+  CFLAGS="%{_mingw32_cflags} -D_FILE_OFFSET_BITS=64" \
+  %{?_smp_mflags} all
 
 rm -f *.o
 make CC="%{_mingw32_cc}" \
-     AR="%{_mingw32_ar}" \
-     RANLIB="%{_mingw32_ranlib}" \
-     CFLAGS="%{_mingw32_cflags} -D_FILE_OFFSET_BITS=64" \
-     %{?_smp_mflags} \
+  AR="%{_mingw32_ar}" \
+  RANLIB="%{_mingw32_ranlib}" \
+  CFLAGS="%{_mingw32_cflags} -D_FILE_OFFSET_BITS=64" \
+  %{?_smp_mflags} \
 %if %{run_tests}
-     all
+  all
 %else
-     libbz2.a bzip2 bzip2recover
+  libbz2.a bzip2 bzip2recover
 %endif
 
 
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 29 2008 Richard Jones <rjones@redhat.com> - 1.0.5-3
+- Fix mixed spaces/tabs in specfile.
+
 * Fri Oct 10 2008 Richard Jones <rjones@redhat.com> - 1.0.5-2
 - Allow the tests to be disabled selectively.
 
