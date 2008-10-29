@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw32-filesystem
-Version:        32
+Version:        33
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -13,8 +13,8 @@ BuildArch:      noarch
 
 Source0:        mingw32-COPYING
 Source1:        mingw32-macros.mingw32
-Source2:        mingw32.sh
-Source3:        mingw32.csh
+#Source2:        mingw32.sh
+#Source3:        mingw32.csh
 Source4:        mingw32-find-requires.sh
 Source5:        mingw32-find-provides.sh
 Source6:        mingw32-configure.sh
@@ -74,8 +74,8 @@ mkdir -p $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT%{_bindir}/mingw32-configure
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-install -m 644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
+#mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+#install -m 644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.mingw32
@@ -127,14 +127,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc COPYING
 %config(noreplace) %{_sysconfdir}/rpm/macros.mingw32
-%config(noreplace) %{_sysconfdir}/profile.d/mingw32.sh
-%config(noreplace) %{_sysconfdir}/profile.d/mingw32.csh
+#%config(noreplace) %{_sysconfdir}/profile.d/mingw32.sh
+#%config(noreplace) %{_sysconfdir}/profile.d/mingw32.csh
 %{_bindir}/mingw32-configure
 %{_prefix}/i686-pc-mingw32/
 /usr/lib/rpm/mingw32-*
 
 
 %changelog
+* Wed Oct 29 2008 Richard Jones <rjones@redhat.com> - 33-1
+- Remove mingw32.{sh,csh} which are unused.
+
 * Mon Oct 27 2008 Richard Jones <rjones@redhat.com> - 32-1
 - Add mingw32-configure script.
 
