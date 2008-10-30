@@ -8,7 +8,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.8
-Release:        0.1.20081030hg%{?dist}
+Release:        0.2.20081030hg%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -24,6 +24,7 @@ Patch102:       gtk-vnc-02-ioctl.patch
 Patch103:       gtk-vnc-03-wsastartup.patch
 #Patch104:       gtk-vnc-hgignore.patch
 Patch105:       gtk-vnc-ldflags-confusion.patch
+Patch106:       gtk-vnc-dan-fd-fix.patch
 
 BuildArch:      noarch
 
@@ -52,6 +53,7 @@ allowing it to be completely asynchronous while remaining single threaded.
 %patch103 -p1
 #%patch104 -p1
 %patch105 -p1
+%patch106 -p1
 
 autoreconf
 
@@ -88,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.2.20081030hg
+- Add Dan's fd/socket fix for Windows.
+
 * Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.1.20081030hg
 - Upgrade to current version in Mercurial (pre-release of 0.3.8).
 - More MinGW patches.
