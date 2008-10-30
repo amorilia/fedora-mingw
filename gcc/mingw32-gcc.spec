@@ -2,7 +2,7 @@
 
 Name:           mingw32-gcc
 Version:        4.3.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -19,7 +19,9 @@ BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-runtime
 BuildRequires:  mingw32-w32api
 BuildRequires:  gmp-devel
+%if 0%{?fedora} >= 9
 BuildRequires:  mpfr-devel
+%endif
 BuildRequires:  libgomp
 
 Requires:       mingw32-filesystem >= 26
@@ -167,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-8
+- Don't BR mpfr-devel for RHEL/EPEL-5 (Levente Farkas).
+
 * Thu Sep  4 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-7
 - Rename mingw -> mingw32.
 
