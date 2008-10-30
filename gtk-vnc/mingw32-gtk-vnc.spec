@@ -4,24 +4,26 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+%define _default_patch_fuzz 2
+
 Name:           mingw32-gtk-vnc
-Version:        0.3.7
-Release:        3%{?dist}
+Version:        0.3.8
+Release:        0.1.20081030hg%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://gtk-vnc.sf.net/
-Source0:        http://downloads.sourceforge.net/gtk-vnc/gtk-vnc-%{version}.tar.gz
+Source0:        gtk-vnc-0.3.8-20081030.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Patch1:         gtk-vnc-0.3.7-abs-ungrab.patch
-
-# Dan's MinGW patch version 2, fixed so it can apply to the tarball.
-Patch100:       gtk-vnc-0.3.7-mingw32-dan3.patch
-
-# Extra files required by Gnulib.
-Patch101:       gtk-vnc-0.3.7-mingw32-gnulib-files.patch
+# Patches submitted upstream 2008-10-28/29/30:
+Patch100:       gtk-vnc-00-win32.patch
+Patch101:       gtk-vnc-01-recv.patch
+Patch102:       gtk-vnc-02-ioctl.patch
+Patch103:       gtk-vnc-03-wsastartup.patch
+#Patch104:       gtk-vnc-hgignore.patch
+Patch105:       gtk-vnc-ldflags-confusion.patch
 
 BuildArch:      noarch
 
@@ -42,12 +44,14 @@ allowing it to be completely asynchronous while remaining single threaded.
 
 
 %prep
-%setup -q -n gtk-vnc-%{version}
-
-%patch1 -p1
+%setup -q -n gtk-vnc-0.3.7
 
 %patch100 -p1
 %patch101 -p1
+%patch102 -p1
+%patch103 -p1
+#%patch104 -p1
+%patch105 -p1
 
 autoreconf
 
@@ -84,6 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.1.20081030hg
+- Upgrade to current version in Mercurial (pre-release of 0.3.8).
+- More MinGW patches.
+
 * Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.7-3
 - Missing BRs discovered by mock.
 - Added description section.

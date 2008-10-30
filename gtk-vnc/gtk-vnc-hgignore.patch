@@ -1,0 +1,21 @@
+diff -r 47135c91cd9c .hgignore
+--- a/.hgignore	Thu Oct 09 11:23:09 2008 -0400
++++ b/.hgignore	Wed Oct 29 17:35:32 2008 +0000
+@@ -42,3 +42,17 @@
+ src/.*\.orig
+ .*\.spec
+ .*\.tar\.gz$
++^gnulib/lib/\.deps/
++^gnulib/lib/\.libs/
++^gnulib/tests/\.deps/
++^gnulib/lib/.*\.o$
++^gnulib/lib/.*\.lo$
++^gnulib/lib/.*\.la$
++^gnulib/lib/alloca\.h$
++^gnulib/lib/arpa/inet\.h$
++^gnulib/lib/errno\.h$
++^gnulib/lib/netinet/in\.h$
++^gnulib/lib/stdio\.h$
++^gnulib/lib/stdlib\.h$
++^gnulib/lib/sys/socket\.h$
++^gnulib/lib/unistd\.h$
