@@ -1,0 +1,340 @@
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/examples/echo/echo-server.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/examples/echo/echo-server.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/examples/echo/echo-server.cpp	2008-10-31 10:01:59.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/examples/echo/echo-server.cpp	2008-10-31 16:43:45.000000000 +0000
+@@ -1,5 +1,10 @@
+ #include "echo-server.h"
++#ifndef _MSC_VER
+ #include <unistd.h>
++#else
++#include <Winsock2.h.>
++#define HOST_NAME_MAX 256
++#endif
+ #include <stdlib.h>
+ #include <signal.h>
+ #include <stdio.h>
+@@ -12,6 +17,7 @@
+ {
+ }
+ 
++
+ DBus::Int32 EchoServer::Random()
+ {
+ 	return rand();
+@@ -60,7 +66,11 @@
+ 
+ 	gethostname(hostname, sizeof(hostname));
+ 	info["hostname"] = hostname;
++#ifndef _MSC_VER
+ 	info["username"] = getlogin();
++#else
++	info["username"] = "username not available";
++#endif
+ 
+ 	return info;
+ }
+@@ -78,6 +88,7 @@
+ 	signal(SIGTERM, niam);
+ 	signal(SIGINT, niam);
+ 
++	DBus::_init_threading();
+ 	DBus::default_dispatcher = &dispatcher;
+ 
+ 	DBus::Connection conn = DBus::Connection::SessionBus();
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/examples/properties/Makefile.am mingw32-dbus-1.2.4.mingw/dbuscxx/examples/properties/Makefile.am
+--- mingw32-dbus-1.2.4.orig/dbuscxx/examples/properties/Makefile.am	2008-10-31 10:01:58.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/examples/properties/Makefile.am	2008-10-31 16:59:31.000000000 +0000
+@@ -5,7 +5,8 @@
+ noinst_PROGRAMS = props-server
+ 
+ props_server_SOURCES = props-glue.h props-server.h props-server.cpp
+-props_server_LDADD = $(top_builddir)/src/libdbus-c++-1.la
++props_server_LDADD = $(top_builddir)/src/libdbus-c++-1.la \
++	-L$(top_srcdir)/../trunk/dbus/.libs
+ 
+ props-glue.h: props-introspect.xml
+ 	$(top_builddir)/tools/dbusxx-xml2cpp $^ --adaptor=$@
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/include/dbus-c++/interface.h mingw32-dbus-1.2.4.mingw/dbuscxx/include/dbus-c++/interface.h
+--- mingw32-dbus-1.2.4.orig/dbuscxx/include/dbus-c++/interface.h	2008-10-31 10:01:57.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/include/dbus-c++/interface.h	2008-10-31 16:43:45.000000000 +0000
+@@ -49,7 +49,7 @@
+ 
+ typedef std::map<std::string, PropertyData>	PropertyTable;
+ 
+-class IntrospectedInterface;
++struct IntrospectedInterface;
+ 
+ class ObjectAdaptor;
+ class InterfaceAdaptor;
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/eventloop.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/src/eventloop.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/eventloop.cpp	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/eventloop.cpp	2008-10-31 16:53:59.000000000 +0000
+@@ -25,13 +25,112 @@
+ #include <dbus-c++/eventloop.h>
+ #include <dbus-c++/debug.h>
+ 
++#ifdef HAVE_POLL
+ #include <sys/poll.h>
++#else
++
++/** There is data to read */
++#define POLLIN      0x0001
++/** There is urgent data to read */
++#define POLLPRI     0x0002
++/** Writing now will not block */
++#define POLLOUT     0x0004
++/** Error condition */
++#define POLLERR     0x0008
++/** Hung up */
++#define POLLHUP     0x0010
++/** Invalid request: fd not open */
++#define POLLNVAL    0x0020
++
++/**
++ * A portable struct pollfd wrapper. 
++ */
++typedef struct
++{
++  int fd;            /**< File descriptor */
++  short events;      /**< Events to poll for */
++  short revents;     /**< Events that occurred */
++} DBusPollFD,pollfd;
++
++extern "C" int _dbus_poll (DBusPollFD *fds,
++                int         n_fds,
++                int         timeout_milliseconds);
++#define poll _dbus_poll
++
++#endif
++
++#ifndef _MSC_VER
+ #include <sys/time.h>
++#endif
+ 
+ #include <dbus/dbus.h>
+ 
+ using namespace DBus;
+ 
++
++#ifdef DBUSCXX_WIN
++#include <windows.h>
++typedef long tv_sec; 
++typedef long tv_usec; 
++#if 0
++#define POLLIN      0x0001    /* There is data to read */
++#define POLLPRI     0x0002    /* There is urgent data to read */
++#define POLLOUT     0x0004    /* Writing now will not block */
++#define POLLERR     0x0008    /* Error condition */
++#define POLLHUP     0x0010    /* Hung up */
++#define POLLNVAL    0x0020    /* Invalid request: fd not open */
++           
++typedef struct {
++	int fd;
++	int events;
++	int revents;
++} pollfd;
++
++// http://man.cx/poll(2)
++int	poll(pollfd *fds, unsigned int nfd, int wait_min)
++{
++		// convert to select parameter structure and call select 
++		
++		/* on return set revent structure 
++		   either of the type requested, or of one of the types POLLERR or POLLHUP
++       or POLLNVAL.  (These three bits are meaningless in  the  events  field,
++    */
++		printf(".");
++		return -1;
++/*
++     On success, a positive number is returned, where the number returned is
++     the number of structures which have non-zero revents fields  (in  other
++     words, those descriptors with events or errors reported).  A value of 0
++     indicates that the call timed out and no  file  descriptors  have  been
++     selected. On error, -1 is returned, and errno is set appropriately.
++*/
++}
++#endif
++
++
++#if 0
++void gettimeofday (struct timeval *t, void *)
++{
++  FILETIME ft;
++  dbus_uint64_t *time64 = (dbus_uint64_t *) &ft;
++
++  GetSystemTimeAsFileTime (&ft);
++
++  /* Convert from 100s of nanoseconds since 1601-01-01
++  * to Unix epoch. Yes, this is Y2038 unsafe.
++  */
++  *time64 -= DBUS_INT64_CONSTANT (116444736000000000);
++  *time64 /= 10;
++
++  if (t)
++    t->tv_sec = *time64 / 1000000;
++		t->tv_usec = *time64 % 1000000;
++}
++#endif
++
++#endif
++
++
+ static double millis( timeval tv )
+ {
+ 	return (tv.tv_sec*1000.0 + tv.tv_usec/1000.0);
+@@ -93,7 +192,7 @@
+ {
+ 	int nfd = _watches.size();
+ 
+-	pollfd fds[nfd];
++	pollfd *fds = new pollfd[nfd];
+ 
+ 	Watches::iterator wi = _watches.begin();
+ 
+@@ -174,6 +273,7 @@
+ 			wi = tmp;
+ 		}
+ 	}
++	delete [] fds;
+ }
+ 
+ /*
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/internalerror.h mingw32-dbus-1.2.4.mingw/dbuscxx/src/internalerror.h
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/internalerror.h	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/internalerror.h	2008-10-31 16:43:45.000000000 +0000
+@@ -35,8 +35,9 @@
+ 
+ namespace DBus {
+ 
+-struct InternalError
++class InternalError
+ {
++public:
+ 	DBusError	error;
+ 
+ 	InternalError()
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/Makefile.am mingw32-dbus-1.2.4.mingw/dbuscxx/src/Makefile.am
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/Makefile.am	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/Makefile.am	2008-10-31 16:50:28.000000000 +0000
+@@ -2,6 +2,7 @@
+ 	$(dbus_CFLAGS) \
+ 	$(xml_CFLAGS) \
+ 	$(glib_CFLAGS) \
++	-DDBUSCXX_WIN \
+ 	-I$(top_srcdir)/include
+ 
+ if ENABLE_GLIB
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/message.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/src/message.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/message.cpp	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/message.cpp	2008-10-31 16:44:31.000000000 +0000
+@@ -22,6 +22,8 @@
+  */
+ 
+ 
++#include <stdlib.h>
++
+ #include <dbus-c++/message.h>
+ 
+ #include <dbus/dbus.h>
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/object.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/src/object.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/object.cpp	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/object.cpp	2008-10-31 16:42:28.000000000 +0000
+@@ -26,6 +26,8 @@
+ #include <dbus-c++/object.h>
+ #include "internalerror.h"
+ 
++#include <string.h>
++
+ #include <map>
+ #include <dbus/dbus.h>
+ 
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/src/types.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/src/types.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/src/types.cpp	2008-10-31 10:01:55.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/src/types.cpp	2008-10-31 16:44:17.000000000 +0000
+@@ -22,6 +22,8 @@
+  */
+ 
+ 
++#include <stdlib.h>
++
+ #include <dbus-c++/types.h>
+ #include <dbus-c++/object.h>
+ #include <dbus/dbus.h>
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/tools/introspect.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/tools/introspect.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/tools/introspect.cpp	2008-10-31 10:01:56.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/tools/introspect.cpp	2008-10-31 16:50:41.000000000 +0000
+@@ -21,11 +21,16 @@
+  *
+  */
+ 
++#include <string.h>
++
+ #include <signal.h>
+-#include <unistd.h>
+ #include <iostream>
+ #include "introspect.h"
+ 
++#ifndef _MSC_VER
++#include <unistd.h>
++#endif
++
+ DBus::BusDispatcher dispatcher;
+ static bool systembus;
+ static char* path;
+@@ -44,9 +49,11 @@
+ 
+ int main( int argc, char** argv )
+ {
++#ifndef DBUSCXX_WIN
+ 	signal(SIGTERM, niam);
+ 	signal(SIGINT, niam);
+ 	signal(SIGALRM, niam);
++#endif
+ 
+ 	if(argc == 1)
+ 	{
+@@ -69,7 +76,9 @@
+ 
+ 		DBus::default_dispatcher = &dispatcher;
+ 
++#ifndef DBUSCXX_WIN
+ 		alarm(1);
++#endif
+ 
+ 		dispatcher.enter();
+ 	}
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/tools/Makefile.am mingw32-dbus-1.2.4.mingw/dbuscxx/tools/Makefile.am
+--- mingw32-dbus-1.2.4.orig/dbuscxx/tools/Makefile.am	2008-10-31 10:01:56.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/tools/Makefile.am	2008-10-31 16:59:53.000000000 +0000
+@@ -4,6 +4,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	$(dbus_CFLAGS) \
++	-DDBUSCXX_WIN \
+ 	-I$(top_srcdir)/include
+ 
+ if CROSS_COMPILING
+@@ -16,9 +17,11 @@
+ 
+ dbusxx_xml2cpp_SOURCES = xml2cpp.h xml2cpp.cpp
+ dbusxx_xml2cpp_LDADD = $(libdbus_cxx_la)
++dbusxx_xml2cpp_LDFLAGS = -L../../trunk/dbus/.libs
+ 
+ dbusxx_introspect_SOURCES = introspect.h introspect.cpp
+ dbusxx_introspect_LDADD = $(libdbus_cxx_la)
++dbusxx_introspect_LDFLAGS = -L../../trunk/dbus/.libs
+ 
+ MAINTAINERCLEANFILES = \
+ 	Makefile.in
+diff -ur mingw32-dbus-1.2.4.orig/dbuscxx/tools/xml2cpp.cpp mingw32-dbus-1.2.4.mingw/dbuscxx/tools/xml2cpp.cpp
+--- mingw32-dbus-1.2.4.orig/dbuscxx/tools/xml2cpp.cpp	2008-10-31 10:01:56.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/dbuscxx/tools/xml2cpp.cpp	2008-10-31 16:45:02.000000000 +0000
+@@ -24,6 +24,9 @@
+ 
+ #include "xml2cpp.h"
+ 
++#include <stdlib.h>
++#include <string.h>
++
+ #include <dbus/dbus.h>
+ 
+ #include <string>

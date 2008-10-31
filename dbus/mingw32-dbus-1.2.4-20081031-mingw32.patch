@@ -1,0 +1,226 @@
+diff -ur mingw32-dbus-1.2.4.orig/trunk/bus/main.c mingw32-dbus-1.2.4.mingw/trunk/bus/main.c
+--- mingw32-dbus-1.2.4.orig/trunk/bus/main.c	2008-10-31 10:02:18.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/bus/main.c	2008-10-31 14:28:45.000000000 +0000
+@@ -52,6 +52,7 @@
+     case SIGIO: 
+       /* explicit fall-through */
+ #endif /* DBUS_BUS_ENABLE_DNOTIFY_ON_LINUX  */
++#ifdef SIGUP
+     case SIGHUP:
+       _dbus_string_init_const (&str, "foo");
+       if ((reload_pipe[RELOAD_WRITE_END] > 0) && 
+@@ -61,10 +62,13 @@
+           close_reload_pipe ();
+         }
+       break;
++#endif
+ 
++#ifdef SIGTERM
+     case SIGTERM:
+       _dbus_loop_quit (bus_context_get_loop (context));
+       break;
++#endif
+     }
+ }
+ 
+@@ -458,8 +462,12 @@
+   
+   setup_reload_pipe (bus_context_get_loop (context));
+ 
++#ifdef SIGHUP
+   _dbus_set_signal_handler (SIGHUP, signal_handler);
++#endif
++#ifdef SIGTERM
+   _dbus_set_signal_handler (SIGTERM, signal_handler);
++#endif
+ #ifdef DBUS_BUS_ENABLE_DNOTIFY_ON_LINUX 
+   _dbus_set_signal_handler (SIGIO, signal_handler);
+ #endif /* DBUS_BUS_ENABLE_DNOTIFY_ON_LINUX */
+diff -ur mingw32-dbus-1.2.4.orig/trunk/bus/Makefile.am mingw32-dbus-1.2.4.mingw/trunk/bus/Makefile.am
+--- mingw32-dbus-1.2.4.orig/trunk/bus/Makefile.am	2008-10-31 10:02:18.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/bus/Makefile.am	2008-10-31 17:09:41.000000000 +0000
+@@ -79,7 +79,7 @@
+ dbus_daemon_LDADD=					\
+ 	$(EFENCE)					\
+ 	$(DBUS_BUS_LIBS)				\
+-	$(top_builddir)/dbus/libdbus-convenience.la
++	$(top_builddir)/dbus/libdbus-convenience.la -lws2_32
+ 
+ dbus_daemon_LDFLAGS=@R_DYNAMIC_LDFLAG@ @SECTION_LDFLAGS@ @PIE_LDFLAGS@
+ 
+@@ -149,7 +149,8 @@
+ 
+ ## we use noinst_PROGRAMS not check_PROGRAMS so that we build 
+ ## even when not doing "make check"
+-noinst_PROGRAMS=$(TESTS) dbus-daemon dbus-daemon-launch-helper-test dbus-daemon-launch-helper
++noinst_PROGRAMS=$(TESTS) dbus-daemon
++# dbus-daemon-launch-helper-test dbus-daemon-launch-helper
+ 
+ bus_test_system_SOURCES=			\
+ 	$(XML_SOURCES)				\
+@@ -184,21 +185,21 @@
+ 		$(mkinstalldirs) $(DESTDIR)$(DBUS_DAEMONDIR); \
+ 		chmod 755 $(DESTDIR)$(DBUS_DAEMONDIR); \
+ 	fi
+-	$(INSTALL_PROGRAM) dbus-daemon $(DESTDIR)$(DBUS_DAEMONDIR)
++	$(INSTALL_PROGRAM) dbus-daemon$(EXEEXT) $(DESTDIR)$(DBUS_DAEMONDIR)
+ 	$(mkinstalldirs) $(DESTDIR)$(localstatedir)/run/dbus
+ 	$(mkinstalldirs) $(DESTDIR)$(configdir)/system.d
+ 	$(mkinstalldirs) $(DESTDIR)$(configdir)/session.d
+ 	$(mkinstalldirs) $(DESTDIR)$(datadir)/dbus-1/services
+ 	$(mkinstalldirs) $(DESTDIR)$(datadir)/dbus-1/system-services
+ 	$(mkinstalldirs) $(DESTDIR)$(libexecdir)/dbus-1
+-	$(INSTALL_PROGRAM) dbus-daemon-launch-helper $(DESTDIR)$(libexecdir)
+-	if test `id -u` -eq 0; then \
+-		chown root:$(DBUS_USER) $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper; \
+-		chmod 4750 $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper; \
+-	else \
+-		echo "Not installing $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper binary setuid!"; \
+-		echo "You'll need to manually set permissions to root:$(DBUS_USER) and permissions 4750"; \
+-	fi
++#	$(INSTALL_PROGRAM) dbus-daemon-launch-helper $(DESTDIR)$(libexecdir)
++#	if test `id -u` -eq 0; then \
++#		chown root:$(DBUS_USER) $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper; \
++#		chmod 4750 $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper; \
++#	else \
++#		echo "Not installing $(DESTDIR)$(libexecdir)/dbus-daemon-launch-helper binary setuid!"; \
++#		echo "You'll need to manually set permissions to root:$(DBUS_USER) and permissions 4750"; \
++#	fi
+ 
+ #### Init scripts fun
+ SCRIPT_IN_FILES=messagebus.in \
+diff -ur mingw32-dbus-1.2.4.orig/trunk/configure.in mingw32-dbus-1.2.4.mingw/trunk/configure.in
+--- mingw32-dbus-1.2.4.orig/trunk/configure.in	2008-10-31 10:02:18.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/configure.in	2008-10-31 13:02:24.000000000 +0000
+@@ -60,6 +60,8 @@
+ AC_ISC_POSIX
+ AC_HEADER_STDC
+ AC_C_INLINE
++
++AC_LIBTOOL_WIN32_DLL
+ AM_PROG_LIBTOOL
+ 
+ AC_ARG_ENABLE(tests, AS_HELP_STRING([--enable-tests],[enable unit test code]),enable_tests=$enableval,enable_tests=$USE_MAINTAINER_MODE)
+diff -ur mingw32-dbus-1.2.4.orig/trunk/dbus/dbus-sysdeps-win.c mingw32-dbus-1.2.4.mingw/trunk/dbus/dbus-sysdeps-win.c
+--- mingw32-dbus-1.2.4.orig/trunk/dbus/dbus-sysdeps-win.c	2008-10-31 10:02:08.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/dbus/dbus-sysdeps-win.c	2008-10-31 14:23:29.000000000 +0000
+@@ -31,7 +31,7 @@
+ #define STRSAFE_NO_DEPRECATE
+ 
+ #ifndef DBUS_WINCE
+-#define _WIN32_WINNT 0x0500
++#define _WIN32_WINNT 0x0501
+ #endif
+ 
+ #include "dbus-internals.h"
+@@ -46,6 +46,8 @@
+ #include "dbus-list.h"
+ #include "dbus-credentials.h"
+ 
++#include <stdio.h>
++
+ #include <windows.h>
+ #include <ws2tcpip.h>
+ #include <fcntl.h>
+@@ -55,12 +57,12 @@
+ #include <sys/types.h>
+ 
+ // needed for w2k compatibility (getaddrinfo/freeaddrinfo/getnameinfo)
+-#ifdef __GNUC__
+-#define _inline
+-#include "wspiapi.h"
+-#else
+-#include <wspiapi.h>
+-#endif
++//#ifdef __GNUC__
++//#define _inline
++//#include "wspiapi.h"
++//#else
++//#include <wspiapi.h>
++//#endif
+ 
+ #ifndef O_BINARY
+ #define O_BINARY 0
+diff -ur mingw32-dbus-1.2.4.orig/trunk/dbus/Makefile.am mingw32-dbus-1.2.4.mingw/trunk/dbus/Makefile.am
+--- mingw32-dbus-1.2.4.orig/trunk/dbus/Makefile.am	2008-10-31 10:02:08.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/dbus/Makefile.am	2008-10-31 14:25:42.000000000 +0000
+@@ -73,8 +73,8 @@
+ 	dbus-server-protected.h			\
+ 	dbus-server-socket.c			\
+ 	dbus-server-socket.h			\
+-	dbus-server-unix.c			\
+-	dbus-server-unix.h			\
++	dbus-server-win.c			\
++	dbus-server-win.h			\
+ 	dbus-sha.c				\
+ 	dbus-sha.h				\
+ 	dbus-signature.c			\
+@@ -87,10 +87,8 @@
+ 	dbus-transport-protected.h		\
+ 	dbus-transport-socket.c			\
+ 	dbus-transport-socket.h			\
+-	dbus-transport-unix.c			\
+-	dbus-transport-unix.h			\
+-	dbus-uuidgen.c				\
+-	dbus-uuidgen.h				\
++	dbus-transport-win.c			\
++	dbus-transport-win.h			\
+ 	dbus-watch.c				\
+ 	dbus-watch.h
+ 
+@@ -120,11 +118,11 @@
+ 	dbus-string-private.h			\
+ 	dbus-sysdeps.c				\
+ 	dbus-sysdeps.h				\
+-	dbus-sysdeps-pthread.c			\
+-	dbus-sysdeps-unix.c			\
+-	dbus-sysdeps-unix.h			\
+-	dbus-userdb.c				\
+-	dbus-userdb.h
++	dbus-sysdeps-win-thread.c		\
++	dbus-sysdeps-win.c			\
++	dbus-sysdeps-win.h			\
++	dbus-sysdeps-util-win.c			\
++	dbus-string-util.c
+ 
+ ### source code that is generic utility functionality used
+ ### by the bus daemon or test apps, but is NOT included
+@@ -144,14 +142,11 @@
+ 	dbus-message-util.c			\
+ 	dbus-shell.c				\
+ 	dbus-shell.h				\
+-	dbus-spawn.c				\
++	dbus-spawn-win.c			\
+ 	dbus-spawn.h				\
+-	dbus-string-util.c			\
+ 	dbus-sysdeps-util.c			\
+-	dbus-sysdeps-util-unix.c		\
+ 	dbus-test.c				\
+-	dbus-test.h				\
+-	dbus-userdb-util.c
++	dbus-test.h
+ 
+ libdbus_1_la_SOURCES=				\
+ 	$(DBUS_LIB_SOURCES)			\
+@@ -170,7 +165,7 @@
+ ## and is only used for static linking within the dbus package.
+ noinst_LTLIBRARIES=libdbus-convenience.la
+ 
+-libdbus_1_la_LIBADD= $(DBUS_CLIENT_LIBS)
++libdbus_1_la_LIBADD= $(DBUS_CLIENT_LIBS) -lws2_32
+ ## don't export symbols that start with "_" (we use this 
+ ## convention for internal symbols)
+ libdbus_1_la_LDFLAGS= -export-symbols-regex "^[^_].*" -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -no-undefined @R_DYNAMIC_LDFLAG@ @PIC_LDFLAGS@
+diff -ur mingw32-dbus-1.2.4.orig/trunk/tools/Makefile.am mingw32-dbus-1.2.4.mingw/trunk/tools/Makefile.am
+--- mingw32-dbus-1.2.4.orig/trunk/tools/Makefile.am	2008-10-31 10:02:09.000000000 +0000
++++ mingw32-dbus-1.2.4.mingw/trunk/tools/Makefile.am	2008-10-31 14:35:09.000000000 +0000
+@@ -2,7 +2,8 @@
+ 
+ INCLUDES=-I$(top_srcdir) $(DBUS_CLIENT_CFLAGS) $(DBUS_X_CFLAGS) -DDBUS_LOCALEDIR=\"@EXPANDED_DATADIR@/locale\" -DDBUS_COMPILATION -DDBUS_DAEMONDIR=\"@DBUS_DAEMONDIR@\" -DDBUS_MACHINE_UUID_FILE=\""$(localstatedir)/lib/dbus/machine-id"\"
+ 
+-bin_PROGRAMS=dbus-send dbus-monitor dbus-launch dbus-cleanup-sockets dbus-uuidgen
++bin_PROGRAMS=dbus-send dbus-monitor
++#dbus-launch dbus-cleanup-sockets dbus-uuidgen
+ 
+ dbus_send_SOURCES=				\
+ 	dbus-print-message.c			\
