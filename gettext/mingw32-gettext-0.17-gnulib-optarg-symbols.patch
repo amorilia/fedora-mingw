@@ -1,0 +1,14 @@
+See https://bugzilla.redhat.com/show_bug.cgi?id=467398#c3
+
+--- ./gettext-tools/woe32dll/gettextlib-exports.c.lfarkas 2008-10-31 11:42:38.000000000 +0100
++++ ./gettext-tools/woe32dll/gettextlib-exports.c 2008-10-31 11:43:29.000000000 +0100
+@@ -26,7 +26,7 @@
+ VARIABLE(gl_array_list_implementation)
+ VARIABLE(gl_linkedhash_list_implementation)
+ VARIABLE(program_name)
+-VARIABLE(rpl_optarg)
+-VARIABLE(rpl_optind)
++/*VARIABLE(rpl_optarg)
++VARIABLE(rpl_optind)*/
+ VARIABLE(simple_backup_suffix)
+ VARIABLE(styled_ostream_typeinfo)

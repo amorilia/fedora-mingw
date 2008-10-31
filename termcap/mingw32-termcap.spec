@@ -13,7 +13,7 @@
 
 Name:           mingw32-termcap
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW terminal feature database
 
 License:        GPLv2+
@@ -49,7 +49,9 @@ cross-compiled version.
 make
 
 # Build a shared library.  No need for -fPIC on Windows.
-%{_mingw32_cc} -shared -Wl,--out-implib,termcap.dll.a -o termcap.dll \
+%{_mingw32_cc} -shared \
+  -Wl,--out-implib,libtermcap.dll.a \
+  -o libtermcap-0.dll \
   termcap.o tparam.o version.o
 
 
@@ -62,8 +64,8 @@ make install \
 
 # Move the shared library to the correct locations.
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
-mv termcap.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
-mv termcap.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
+install -m 0755 libtermcap-0.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
+install -m 0755 libtermcap.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
 
 # Don't want the static library, thank you.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libtermcap.a
@@ -79,12 +81,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/termcap.dll
-%{_mingw32_libdir}/termcap.dll.a
-%{_mingw32_infodir}/*
+%{_mingw32_bindir}/libtermcap-0.dll
+%{_mingw32_libdir}/libtermcap.dll.a
 %{_mingw32_includedir}/termcap.h
+# Note that we want the info files in this package because
+# there is no equivalent native Fedora package.
+%{_mingw32_infodir}/*
 
 
 %changelog
+* Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-3
+- Fix so it builds a working DLL.
+
 * Thu Sep 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-1
 - Initial RPM release.

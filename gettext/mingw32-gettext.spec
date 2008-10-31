@@ -6,29 +6,37 @@
 
 Name:      mingw32-gettext
 Version:   0.17
-Release:   5%{?dist}
+Release:   6%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
 Group:     Development/Libraries
 URL:       http://www.gnu.org/software/gettext/
 Source0:   http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0:    mingw32-gettext-0.17-gnulib-optarg-symbols.patch
 
 BuildArch: noarch
 
 BuildRequires: mingw32-filesystem >= 23
+BuildRequires: mingw32-runtime >= 3.15.1
 BuildRequires: mingw32-gcc
 BuildRequires: mingw32-gcc-c++
 BuildRequires: mingw32-binutils
 BuildRequires: mingw32-iconv
+BuildRequires: mingw32-termcap >= 1.3.1-3
 
 
 %description
 MinGW Windows Gettext library
 
+
 %prep
 %setup -q -n gettext-%{version}
+
+%patch0 -p1
+
 
 %build
 %{_mingw32_configure} \
@@ -39,6 +47,7 @@ MinGW Windows Gettext library
   --without-emacs
 
 make
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -56,6 +65,7 @@ rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libintl.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
 
 %files
 %defattr(-,root,root)
@@ -128,6 +138,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-6
+- Add fix for undefined Gnulib symbols (Farkas Levente).
+- Rebuild against mingw32-termcap / libtermcap.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-5
 - Rename mingw -> mingw32.
 

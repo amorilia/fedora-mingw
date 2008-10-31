@@ -6,7 +6,7 @@
 
 Name:           mingw32-sqlite
 Version:        3.5.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of sqlite embeddable SQL database engine
 
 License:        Public Domain
@@ -26,6 +26,7 @@ BuildRequires:  mingw32-binutils
 
 BuildRequires:  mingw32-pdcurses
 BuildRequires:  mingw32-readline
+BuildRequires:  mingw32-termcap >= 1.3.1-3
 
 BuildRequires:  autoconf
 BuildRequires:  libtool
@@ -96,5 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 31 2008 Richard Jones <rjones@redhat.com> - 3.5.9-2
+- Rebuild against latest termcap.
+
 * Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 3.5.9-1
 - Initial RPM release.

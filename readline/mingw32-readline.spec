@@ -6,7 +6,7 @@
 
 Name:           mingw32-readline
 Version:        5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW port of readline for editing typed command lines
 
 License:        GPLv2+
@@ -34,7 +34,7 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 29
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-termcap
+BuildRequires:  mingw32-termcap >= 1.3.1-3
 
 
 %description
@@ -119,5 +119,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 31 2008 Richard W.M. Jones <rjones@example.com> - 5.2-2
+- Rebuild against latest termcap.
+
 * Thu Sep 25 2008 Richard W.M. Jones <rjones@example.com> - 5.2-1
 - Initial RPM release.

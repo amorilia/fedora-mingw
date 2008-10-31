@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        7%{?dist}%{?extra_release}
+Release:        8%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -35,6 +35,7 @@ BuildRequires:  mingw32-libxml2
 # Portable XDR <= 4.0.10 contains a serious endianness bug on Windows.
 BuildRequires:  mingw32-portablexdr >= 4.0.11
 BuildRequires:  mingw32-readline
+BuildRequires:  mingw32-termcap >= 1.3.1-3
 BuildRequires:  pkgconfig
 
 # Need native version for msgfmt
@@ -112,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 31 2008 Richard Jones <rjones@redhat.com> - 0.4.6-8
+- Rebuild against latest termcap.
+
 * Thu Oct 16 2008 Richard Jones <rjones@redhat.com> - 0.4.6-7
 - Windows icon patch from
   https://www.redhat.com/archives/libvir-list/2008-October/msg00331.html
