@@ -56,6 +56,10 @@ BuildRequires:  mingw32-gtkmm24
 BuildRequires:  mingw32-expat
 BuildRequires:  libtool, automake, autoconf
 
+# This keeps dbus-c++ subpackage happy while building.  We have
+# hacked the Makefile to give the correct location of the libraries.
+BuildRequires:  dbus-devel
+
 
 %description
 D-BUS is a system for sending messages between applications. It is
@@ -90,6 +94,9 @@ popd
 
 %build
 pushd trunk
+# Avoid a test which fails when cross-compiling:
+export ac_cv_have_abstract_sockets=no
+
 # For unknown reasons, the configure script chokes if you
 # pass --build explicitly.  We also need to pass -DDBUS_WIN
 # as an extra flag.
@@ -146,5 +153,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Mon Nov  3 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-0.1.20081031svn
 - Initial RPM release.
