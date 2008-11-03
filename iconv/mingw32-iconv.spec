@@ -6,8 +6,8 @@
 
 Name:      mingw32-iconv
 Version:   1.12
-Release:   4%{?dist}
-Summary:   GNU libraries and utilities for producing multi-lingual messages
+Release:   5%{?dist}
+Summary:   GNU libraries and utilities for character set conversion
 
 License:   GPLv2+ and LGPLv2+
 Group:     Development/Libraries
@@ -19,6 +19,12 @@ BuildArch: noarch
 BuildRequires: mingw32-filesystem >= 23
 BuildRequires: mingw32-gcc
 BuildRequires: mingw32-binutils
+
+# There's a quasi-circular dependency between mingw32-iconv and
+# mingw32-gettext.  If gettext is installed when you build this then
+# iconv will create *.mo files.  When this package is added to Fedora
+# we can consider adding this circular dep:
+#BuildRequires: mingw32-gettext
 
 
 %description
@@ -44,6 +50,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT%{_mingw32_docdir}/libiconv/
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
+# If mingw32-gettext was installed during the build, remove the *.mo
+# files.  If mingw32-gettext wasn't installed then there won't be any.
+rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/locale
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -66,6 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov  3 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-5
+- Changed the summary (Bruno Haible).
+- Note about mingw32-gettext / Remove *.mo files.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-4
 - Rename mingw -> mingw32.
 
