@@ -8,6 +8,19 @@ Other useful information:
 
  * https://fedoraproject.org/wiki/SIGs/MinGW
 
+News 2008-11-06
+----------------------------------------------------------------------
+
+We have started the process of reviewing and importing packages into
+Fedora.
+
+As each package gets imported into Fedora, we *remove* it from this
+repository.  All further adjustments to the package should be done in
+Fedora CVS, as with any ordinary Fedora package.
+
+We need more reviewers:
+https://bugzilla.redhat.com/buglist.cgi?quicksearch=mingw32
+
 Build everything
 ----------------------------------------------------------------------
 
