@@ -92,7 +92,7 @@ sub main {
 
     while (<PACKAGES>) {
 	chomp;
-	if (/^mingw32-(.*)/) {
+	if (/^mingw32-(.*)/ && exists $br{$_}) {
 	    $packagename = $_;
 	    my $dirname = $1;
 
