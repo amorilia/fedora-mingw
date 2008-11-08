@@ -1,0 +1,13 @@
+No package for Crystalspace.
+
+The SVN checkout of Crystalspace 'just worked' for me (RWMJ on 2008-11-08).
+I had to install the Fedora native package 'jam' and then ran:
+
+  mingw32-configure
+  jam
+
+A few of the demos seemed to work, although obviously they were very slow
+under Wine.
+
+Don't recommend packaging this now, since it barely qualifies as a
+'development tool' and has only a narrow userbase.
