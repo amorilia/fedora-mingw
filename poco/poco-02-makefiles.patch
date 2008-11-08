@@ -1,0 +1,29 @@
+--- Foundation/Makefile.orig	2008-11-08 11:03:03.000000000 +0000
++++ Foundation/Makefile	2008-11-08 11:03:26.000000000 +0000
+@@ -40,8 +40,12 @@
+ ifeq ($(POCO_CONFIG),MinGW)
+ 	objects += EventLogChannel WindowsConsoleChannel
+ else
++ifeq ($(POCO_CONFIG),MinGW-cross)
++	objects += EventLogChannel WindowsConsoleChannel
++else
+ 	objects += SyslogChannel
+ endif
++endif
+ 
+ target         = PocoFoundation
+ target_version = $(LIBVERSION)
+--- Util/Makefile.orig	2008-11-08 11:26:18.000000000 +0000
++++ Util/Makefile	2008-11-08 11:26:44.000000000 +0000
+@@ -17,7 +17,10 @@
+ 	Validator IntValidator RegExpValidator OptionCallback
+ 
+ ifeq ($(POCO_CONFIG),MinGW)
+-	objects += WinService 
++	objects += WinService
++endif
++ifeq ($(POCO_CONFIG),MinGW-cross)
++	objects += WinService
+ endif
+ 
+ target         = PocoUtil

@@ -1,0 +1,9 @@
+NB: We don't intend to maintain this library for Fedora unless someone
+takes on the responsibility for maintenance.
+
+There is no corresponding native Fedora package.
+
+Upstream has a strange build system.
+
+See also:
+http://lists.fedoraproject.org/pipermail/fedora-mingw/2008-November/000015.html

@@ -1,0 +1,59 @@
+--- build/config/MinGW-cross.old	2008-11-08 13:58:50.000000000 +0000
++++ build/config/MinGW-cross	2008-11-08 13:44:24.000000000 +0000
+@@ -9,21 +9,22 @@
+ #
+ # General Settings
+ #
+-LINKMODE = STATIC
++LINKMODE = SHARED
+ POCO_TARGET_OSNAME = MinGW
+ POCO_TARGET_OSARCH = ia32
+ 
+ #
+ # Define Tools
+ #
+-CC      = gcc
+-CXX     = g++
++CC      = i686-pc-mingw32-gcc
++CXX     = i686-pc-mingw32-g++
+ LINK    = $(CXX)
+-LIB     = ar -cr
+-RANLIB  = ranlib
+-SHLIB   = $(CXX) -shared -mno-cygwin -o $@ -Wl,--out-implib=$(dir $@)$(subst cyg,lib,$(basename $(notdir $@))).a
++LIB     = i686-pc-mingw32-ar -cr
++#RANLIB  = i686-pc-mingw32-ranlib
++RANLIB  = :
++SHLIB   = $(CXX) -shared -o $@ -Wl,--out-implib=$(dir $@)$(subst cyg,lib,$(basename $(notdir $@))).dll.a
+ SHLIBLN = $(POCO_BASE)/build/script/shlibln
+-STRIP   = strip
++STRIP   = i686-pc-mingw32-strip
+ DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
+ SHELL   = sh
+ RM      = rm -rf
+@@ -36,7 +37,10 @@
+ SHAREDLIBEXT     = .dll
+ SHAREDLIBLINKEXT = .dll
+ 
+-BINEXT          = .exe
++# RWMJ: They do, but only if you specify -o foo.exe.  I see now
++# way to do that, so instead pretend that they don't have the .exe
++# extension.
++#BINEXT          = .exe
+ 
+ #
+ # Compiler and Linker Flags
+@@ -66,9 +70,12 @@
+ #
+ # System Specific Flags
+ #
+-SYSFLAGS = -mno-cygwin -D_WIN32 -DMINGW32 -DWINVER=0x500 -DPOCO_NO_FPENVIRONMENT -DPCRE_STATIC -DPOCO_THREAD_STACK_SIZE -DFoundation_Config_INCLUDED -I/usr/local/include -I/usr/include
++SYSFLAGS = -D_WIN32 -DMINGW32 -DWINVER=0x500 -DPOCO_NO_FPENVIRONMENT -DPCRE_STATIC -DPOCO_THREAD_STACK_SIZE -DFoundation_Config_INCLUDED
+ 
+ #
+ # System Specific Libraries
+ #
+-SYSLIBS  = -L/usr/local/lib -L/usr/lib -liphlpapi -lws2_32 -lssl -lcrypto -lws2_32 -lgdi32
++# RWMJ: Not clear why, but for some reason the linker cannot find
++# the SSL and libcrypto libraries using just -lssl -lcrypto. (XXX)
++SSLLIBS = /usr/i686-pc-mingw32/sys-root/mingw/lib/libssl.dll.a /usr/i686-pc-mingw32/sys-root/mingw/lib/libcrypto.dll.a
++SYSLIBS  = -liphlpapi -lws2_32 $(SSLLIBS) -lws2_32 -lgdi32

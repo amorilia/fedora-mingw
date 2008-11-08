@@ -1,0 +1,11 @@
+--- Foundation/src/Environment_WIN32.cpp.orig	2008-11-08 10:45:23.000000000 +0000
++++ Foundation/src/Environment_WIN32.cpp	2008-11-08 10:45:49.000000000 +0000
+@@ -173,7 +173,7 @@
+ 			{
+ 				if (pAdapter->Type == MIB_IF_TYPE_ETHERNET && pAdapter->AddressLength == sizeof(id))
+ 				{
+-					std::memcpy(&id, pAdapter->Address, pAdapter->AddressLength);
++					memcpy(&id, pAdapter->Address, pAdapter->AddressLength);
+ 					found = true;
+ 				}
+ 				pAdapter = pAdapter->Next;
