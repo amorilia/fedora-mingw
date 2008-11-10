@@ -63,6 +63,7 @@ libxslt/libxslt-1.1.24.tar.gz
 nsis/nsis-2.19-src.tar.bz2
 nsis/nsis-2.39-src.tar.bz2
 nsiswrapper/installer.exe
+nspr/nspr-4.7.2.tar.gz
 ocaml/ocaml-3.11.0+beta1.tar.bz2
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
