@@ -33,7 +33,7 @@ BuildRequires:  mingw32-binutils
 
 %build
 %{_mingw32_configure}
-make
+make %{?_smp_mflags}
 
 
 %install
