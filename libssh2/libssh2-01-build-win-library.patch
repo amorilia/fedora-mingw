@@ -1,0 +1,11 @@
+diff -urN libssh2-0.18.orig/configure.in libssh2-0.18.mingw/configure.in
+--- libssh2-0.18.orig/configure.in	2007-07-31 10:55:29.000000000 +0100
++++ libssh2-0.18.mingw/configure.in	2008-11-10 14:12:07.000000000 +0000
+@@ -52,6 +52,7 @@
+ AC_PROG_INSTALL
+ AC_PROG_LN_S
+ AC_PROG_MAKE_SET
++AC_LIBTOOL_WIN32_DLL
+ AC_PROG_LIBTOOL
+ AC_C_BIGENDIAN
+ if test -z "$PKG_CONFIG"; then

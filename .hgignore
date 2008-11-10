@@ -53,6 +53,7 @@ libidn/libidn-1.9.tar.gz
 libjpeg/jpegsrc.v6b.tar.gz
 libpng/libpng-1.2.31.tar.bz2
 libsigc++20/libsigc++-2.2.2.tar.bz2
+libssh2/libssh2-0.18.tar.gz
 libvirt/libvirt-0.4.5.tar.gz
 libvirt/libvirt-0.4.6.tar.gz
 libxml2/libxml2-2.6.32.tar.gz

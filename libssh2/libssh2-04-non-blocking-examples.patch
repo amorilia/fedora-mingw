@@ -1,0 +1,119 @@
+diff -urN libssh2-0.18.orig/example/simple/scp_nonblock.c libssh2-0.18.mingw/example/simple/scp_nonblock.c
+--- libssh2-0.18.orig/example/simple/scp_nonblock.c	2007-09-24 13:15:45.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp_nonblock.c	2008-11-10 14:22:21.000000000 +0000
+@@ -89,8 +89,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance */
+     session = libssh2_session_init();
+diff -urN libssh2-0.18.orig/example/simple/scp_write_nonblock.c libssh2-0.18.mingw/example/simple/scp_write_nonblock.c
+--- libssh2-0.18.orig/example/simple/scp_write_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp_write_nonblock.c	2008-11-10 14:22:13.000000000 +0000
+@@ -106,8 +106,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance
+      */
+diff -urN libssh2-0.18.orig/example/simple/sftpdir_nonblock.c libssh2-0.18.mingw/example/simple/sftpdir_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftpdir_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftpdir_nonblock.c	2008-11-10 14:23:35.000000000 +0000
+@@ -92,8 +92,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance
+      */
+diff -urN libssh2-0.18.orig/example/simple/sftp_mkdir_nonblock.c libssh2-0.18.mingw/example/simple/sftp_mkdir_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_mkdir_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_mkdir_nonblock.c	2008-11-10 14:23:03.000000000 +0000
+@@ -92,8 +92,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance
+      */
+diff -urN libssh2-0.18.orig/example/simple/sftp_nonblock.c libssh2-0.18.mingw/example/simple/sftp_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_nonblock.c	2008-11-10 14:22:30.000000000 +0000
+@@ -95,8 +95,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance */
+     session = libssh2_session_init();
+diff -urN libssh2-0.18.orig/example/simple/sftp_RW_nonblock.c libssh2-0.18.mingw/example/simple/sftp_RW_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_RW_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_RW_nonblock.c	2008-11-10 14:23:18.000000000 +0000
+@@ -88,8 +88,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance
+      */
+diff -urN libssh2-0.18.orig/example/simple/sftp_write_nonblock.c libssh2-0.18.mingw/example/simple/sftp_write_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_write_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_write_nonblock.c	2008-11-10 14:22:44.000000000 +0000
+@@ -107,8 +107,13 @@
+     rc = fcntl(sock, F_GETFL, 0);
+     fcntl(sock, F_SETFL, rc | O_NONBLOCK);
+ #else
++#ifdef WIN32
++    u_long mode = 1;
++    ioctlsocket (sock, FIONBIO, &mode);
++#else
+ #error "add support for setting the socket non-blocking here"
+ #endif
++#endif
+ 
+     /* Create a session instance
+         */

@@ -1,0 +1,186 @@
+diff -urN libssh2-0.18.orig/example/simple/scp.c libssh2-0.18.mingw/example/simple/scp.c
+--- libssh2-0.18.orig/example/simple/scp.c	2007-08-12 22:39:55.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp.c	2008-11-10 14:18:13.000000000 +0000
+@@ -50,7 +50,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/scp_nonblock.c libssh2-0.18.mingw/example/simple/scp_nonblock.c
+--- libssh2-0.18.orig/example/simple/scp_nonblock.c	2007-09-24 13:15:45.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp_nonblock.c	2008-11-10 14:22:21.000000000 +0000
+@@ -50,7 +50,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/scp_write.c libssh2-0.18.mingw/example/simple/scp_write.c
+--- libssh2-0.18.orig/example/simple/scp_write.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp_write.c	2008-11-10 14:19:32.000000000 +0000
+@@ -54,7 +54,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/scp_write_nonblock.c libssh2-0.18.mingw/example/simple/scp_write_nonblock.c
+--- libssh2-0.18.orig/example/simple/scp_write_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/scp_write_nonblock.c	2008-11-10 14:22:13.000000000 +0000
+@@ -55,7 +55,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp.c libssh2-0.18.mingw/example/simple/sftp.c
+--- libssh2-0.18.orig/example/simple/sftp.c	2007-09-24 13:14:18.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp.c	2008-11-10 14:15:47.000000000 +0000
+@@ -80,7 +80,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftpdir.c libssh2-0.18.mingw/example/simple/sftpdir.c
+--- libssh2-0.18.orig/example/simple/sftpdir.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftpdir.c	2008-11-10 14:18:41.000000000 +0000
+@@ -52,7 +52,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftpdir_nonblock.c libssh2-0.18.mingw/example/simple/sftpdir_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftpdir_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftpdir_nonblock.c	2008-11-10 14:23:35.000000000 +0000
+@@ -52,7 +52,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp_mkdir.c libssh2-0.18.mingw/example/simple/sftp_mkdir.c
+--- libssh2-0.18.orig/example/simple/sftp_mkdir.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_mkdir.c	2008-11-10 14:18:33.000000000 +0000
+@@ -51,7 +51,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp_mkdir_nonblock.c libssh2-0.18.mingw/example/simple/sftp_mkdir_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_mkdir_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_mkdir_nonblock.c	2008-11-10 14:23:03.000000000 +0000
+@@ -51,7 +51,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp_nonblock.c libssh2-0.18.mingw/example/simple/sftp_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_nonblock.c	2008-11-10 14:22:30.000000000 +0000
+@@ -55,7 +55,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp_RW_nonblock.c libssh2-0.18.mingw/example/simple/sftp_RW_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_RW_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_RW_nonblock.c	2008-11-10 14:23:18.000000000 +0000
+@@ -63,7 +63,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     /* Ultra basic "connect to port 22 on localhost"
+diff -urN libssh2-0.18.orig/example/simple/sftp_write.c libssh2-0.18.mingw/example/simple/sftp_write.c
+--- libssh2-0.18.orig/example/simple/sftp_write.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_write.c	2008-11-10 14:19:09.000000000 +0000
+@@ -57,7 +57,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/sftp_write_nonblock.c libssh2-0.18.mingw/example/simple/sftp_write_nonblock.c
+--- libssh2-0.18.orig/example/simple/sftp_write_nonblock.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/sftp_write_nonblock.c	2008-11-10 14:22:44.000000000 +0000
+@@ -57,7 +57,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/example/simple/ssh2.c libssh2-0.18.mingw/example/simple/ssh2.c
+--- libssh2-0.18.orig/example/simple/ssh2.c	2007-08-12 22:39:56.000000000 +0100
++++ libssh2-0.18.mingw/example/simple/ssh2.c	2008-11-10 14:14:32.000000000 +0000
+@@ -73,7 +76,7 @@
+ #ifdef WIN32
+     WSADATA wsadata;
+ 
+-    WSAStartup(WINSOCK_VERSION, &wsadata);
++    WSAStartup(MAKEWORD(2,0), &wsadata);
+ #endif
+ 
+     if (argc > 1) {
+diff -urN libssh2-0.18.orig/win32/libssh2_config.h libssh2-0.18.mingw/win32/libssh2_config.h
+--- libssh2-0.18.orig/win32/libssh2_config.h	2007-07-28 23:59:22.000000000 +0100
++++ libssh2-0.18.mingw/win32/libssh2_config.h	2008-11-10 14:15:24.000000000 +0000
+@@ -47,12 +47,10 @@
+ #define strncasecmp _strnicmp
+ #define strcasecmp _stricmp
+ #else
+-#ifdef __MINGW32__
+-#define WINSOCK_VERSION MAKEWORD(2,0)
+-#else
++#ifndef __MINGW32__
+ #define strncasecmp strnicmp
+ #define strcasecmp stricmp
+-#endif /* __MINGW32__ */
++#endif /* !__MINGW32__ */
+ #endif /* _MSC_VER */
+ 
+ /* Compile in zlib support */
