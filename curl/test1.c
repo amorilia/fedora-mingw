@@ -5,6 +5,7 @@
 
 #include <curl/curl.h>
 
+static const char *cainfo = "/etc/pki/tls/certs/ca-bundle.crt";
 static const char *url = "https://fedoraproject.org/wiki/MinGW";
 
 static int bytes_received = 0;
@@ -33,18 +34,24 @@ header_fn (void *ptr, size_t size, size_t nmemb, void *stream)
   return bytes;
 }
 
+/* Handle curl errors. */
+#define CHECK_ERROR(fn, args)						\
+  do {									\
+    CURLcode r = fn args;						\
+    if (r != CURLE_OK) {						\
+      fprintf (stderr, "%s: %s\n", #fn, curl_easy_strerror (r));	\
+      exit (1);								\
+    }									\
+  } while (0)
+
 int
 main ()
 {
-  CURLcode r;
   CURL *curl;
   long code;
+  char error[CURL_ERROR_SIZE];
 
-  r = curl_global_init (CURL_GLOBAL_ALL);
-  if (r != 0) {
-    fprintf (stderr, "curl_global_init failed with code %d\n", r);
-    exit (1);
-  }
+  CHECK_ERROR (curl_global_init, (CURL_GLOBAL_ALL));
 
   curl = curl_easy_init ();
   if (curl == NULL) {
@@ -52,45 +59,21 @@ main ()
     exit (1);
   }
 
-  r = curl_easy_setopt (curl, CURLOPT_URL, url);
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_setopt CURLOPT_URL failed with code %d\n", r);
-    exit (1);
-  }
-
-  r = curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, write_fn);
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_setopt CURLOPT_WRITEFUNCTION failed with code %d\n", r);
-    exit (1);
-  }
-
-  r = curl_easy_setopt (curl, CURLOPT_HEADERFUNCTION, header_fn);
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_setopt CURLOPT_HEADERFUNCTION failed with code %d\n", r);
-    exit (1);
-  }
-
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_URL, url));
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_CAINFO, cainfo));
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_WRITEFUNCTION, write_fn));
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_HEADERFUNCTION, header_fn));
+  /* This enables error messages in curl_easy_perform: */
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_ERRORBUFFER, error));
   /* This enables cookie handling in libcurl: */
-  r = curl_easy_setopt (curl, CURLOPT_COOKIEFILE, "");
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_setopt CURLOPT_COOKIEFILE failed with code %d\n", r);
-    exit (1);
-  }
+  CHECK_ERROR (curl_easy_setopt, (curl, CURLOPT_COOKIEFILE, ""));
 
   /* Fetch the page. */
   printf ("fetching %s ...\n", url);
-  r = curl_easy_perform (curl);
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_perform failed with code %d\n", r);
-    exit (1);
-  }
+  CHECK_ERROR (curl_easy_perform, (curl));
   printf ("... ok, bytes received in body was %d\n", bytes_received);
 
-  r = curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &code);
-  if (r != CURLE_OK) {
-    fprintf (stderr, "curl_easy_getinfo CURLINFO_RESPONSE_CODE failed with code %d\n", r);
-    exit (1);
-  }
+  CHECK_ERROR (curl_easy_getinfo, (curl, CURLINFO_RESPONSE_CODE, &code));
   printf ("HTTP response code: %d\n", (int) code);
 
   curl_easy_cleanup (curl);
