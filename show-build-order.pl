@@ -60,7 +60,6 @@ sub main {
     delete $br{"mingw32-gdb"};
     delete $br{"mingw32-python"};
     delete $br{"mingw32-ocaml"};
-    delete $br{"mingw32-curl"};
     delete $br{"mingw32-pidgin"};
     delete $br{"mingw32-nspr"};
     delete $br{"mingw32-nss"};
