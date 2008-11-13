@@ -11,13 +11,20 @@ Summary:
 
 License:        LGPLv2+
 Group:          Development/Libraries
+
 URL:            
 Source0:        
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+# Patches from native Fedora package:
+#Patch0: ...
+
+# Patches for MinGW:
+#Patch1000: ...
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 33
+BuildRequires:  mingw32-filesystem >= 34
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 # Any additional BuildRequires.
@@ -56,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Thu Nov 13 2008 Your Name <you@example.com> - 1.2.3-1
 - Initial RPM release.
