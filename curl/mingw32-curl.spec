@@ -6,7 +6,7 @@
 
 Name:           mingw32-curl
 Version:        7.18.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of curl and libcurl
 
 License:        MIT
@@ -27,7 +27,7 @@ Patch5:         curl-7.18.2-nss-thread-safety.patch
 # MinGW-specific patches.
 Patch1000:      mingw-curl-7.18.2-getaddrinfo.patch
 
-BuildRequires:  mingw32-filesystem >= 34
+BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  pkgconfig
@@ -120,5 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 13 2008 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-2
+- Requires mingw32-filesystem >= 35.
+
 * Thu Nov 13 2008 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-1
 - Initial RPM release.

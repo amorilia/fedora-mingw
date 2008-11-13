@@ -17,6 +17,8 @@ cairo/svgspacewar
 cairo/svgspacewar.exe
 cairomm/cairomm-1.6.2.tar.gz
 curl/curl-7.18.2.tar.bz2
+curl/test1
+curl/*.exe
 expat/expat-2.0.1.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
 freetype/freetype-2.3.7.tar.bz2
