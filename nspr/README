@@ -1,0 +1,7 @@
+This builds fine with 'rpmbuild' but not with 'mock'.  I spent
+about a day looking at it to find out why, but the reason still
+escapes me.
+
+So for now there is no nspr or NSS (which depends on this).
+
+- RWMJ 2008-11-13
