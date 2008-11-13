@@ -80,6 +80,11 @@ This is the MinGW cross-compiled Windows library.
   --disable-static --with-libssh2 \
   --without-random
 
+# It's not clear where to set the --with-ca-bundle path.  This is the
+# default for CURLOPT_CAINFO.  If this doesn't exist, you'll get an
+# error from all https transfers unless the program sets
+# CURLOPT_CAINFO to point to the correct ca-bundle.crt file.
+
 # --without-random disables random number collection (eg. from
 # /dev/urandom).  There isn't an obvious alternative for Windows:
 # Perhaps we can port EGD or use a library such as Yarrow.
