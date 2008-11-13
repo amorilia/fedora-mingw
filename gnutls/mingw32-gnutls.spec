@@ -6,7 +6,7 @@
 
 Name:           mingw32-gnutls
 Version:        2.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -19,8 +19,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-Patch0:         gnutls-certtool-build.patch
 Patch1:         gnutls-2.4.0-nosrp.patch
+Patch5:         gnutls-1.4.1-cve-2008-4989.patch
+
+# MinGW-specific patches.
+Patch1000:      gnutls-certtool-build.patch
 
 BuildRequires:  mingw32-filesystem >= 25
 BuildRequires:  mingw32-gcc
@@ -38,8 +41,11 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 
 %prep
 %setup -q -n gnutls-%{version}
-%patch0 -p1
-%patch1 -p1
+
+%patch1 -p1 -b .nosrp
+%patch5 -p1 -b .chain-verify
+
+%patch1000 -p1 -b .mingw32
 
 for i in auth_srp_rsa.c auth_srp_sb64.c auth_srp_passwd.c auth_srp.c gnutls_srp.c ext_srp.c; do
     touch lib/$i
@@ -102,6 +108,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 13 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-3
+- fix chain verification issue CVE-2008-4989 (#470079)
+- separate out the MinGW-specific patch from the others
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-2
 - Rename mingw -> mingw32.
 
