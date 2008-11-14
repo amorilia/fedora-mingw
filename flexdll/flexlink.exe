@@ -1,0 +1,4 @@
+#!/bin/sh -
+
+FLEXDIR=@libdir@/flexdll
+@libdir@/flexdll/flexlink.exe
