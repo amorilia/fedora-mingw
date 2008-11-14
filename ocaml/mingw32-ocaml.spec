@@ -47,9 +47,18 @@ CFLAGS="$RPM_OPT_FLAGS" \
   -libdir %{_libdir}/ocaml \
   -x11lib %{_libdir} \
   -x11include %{_includedir} \
-  -mandir %{_mandir}/man1
+  -mandir %{_mandir}/man1 \
+  -cc %{_mingw32_cc} \
+  -as %{_mingw32_as}
 
+# ./configure creates the following files:
+#     config/Makefile - containing mainly paths and names of build tools
+#     config/m.h - containing the machine description
+#     config/s.h - containing the environment / API description
+
+# Overwrite the generated m.h & s.h with the ones from Windows NT.
 cp config/m-nt.h config/m.h
+cp config/s-nt.h config/s.h
 
 make world bootstrap opt opt.opt
 
@@ -74,5 +83,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-1
+* Fri Nov 14 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-1
 - Initial RPM release.

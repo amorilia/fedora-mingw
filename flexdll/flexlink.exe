@@ -1,4 +1,4 @@
 #!/bin/sh -
 
 FLEXDIR=@libdir@/flexdll
-@libdir@/flexdll/flexlink.exe
+@libdir@/flexdll/flexlink.exe "$@"
