@@ -11,7 +11,7 @@
 
 Name:           mingw32-flexdll
 Version:        0.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        FlexDLL Windows DLL plugin API which is like dlopen
 
 License:        zlib
@@ -106,10 +106,12 @@ install -m 0755 flexlink.exe \
   $RPM_BUILD_ROOT%{_libdir}/flexdll
 
 # Provide a wrapper script which sets FLEXDIR to point to the
-# libdir directory.
+# libdir directory.  Some programs call 'flexlink' and some call
+# 'flexlink.exe' so provide both.
 sed 's,@libdir@,%{_libdir},g' \
   < %{SOURCE1} > $RPM_BUILD_ROOT%{_bindir}/flexlink.exe
 chmod 0755 $RPM_BUILD_ROOT%{_bindir}/flexlink.exe
+(cd $RPM_BUILD_ROOT%{_bindir} && ln flexlink.exe flexlink)
 
 
 %clean
@@ -119,10 +121,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc LICENSE README CHANGES
+%{_bindir}/flexlink
 %{_bindir}/flexlink.exe
 %{_libdir}/flexdll
 
 
 %changelog
-* Fri Nov 14 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11-3
+* Fri Nov 14 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11-4
 - Initial RPM release.
