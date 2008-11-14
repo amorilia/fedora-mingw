@@ -6,6 +6,9 @@
 
 %define debug_package %{nil}
 
+# Running the tests requires Wine.
+%define run_tests 0
+
 Name:           mingw32-flexdll
 Version:        0.11
 Release:        1%{?dist}
@@ -27,6 +30,7 @@ BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  ocaml
+BuildRequires:  dos2unix
 
 
 %description
@@ -82,7 +86,9 @@ strip flexlink.exe
 
 
 %check
+%if %{run_tests}
 make -C test CC=%{_mingw32_cc} O=o CHAIN=mingw
+%endif
 
 
 %install
