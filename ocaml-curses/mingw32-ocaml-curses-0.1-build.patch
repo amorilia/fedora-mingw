@@ -1,0 +1,27 @@
+Split up the all and opt (native code) rules, and allow the curses
+library to be specified explicitly.
+
+diff -ur mingw32-ocaml-curses-20020319.orig/curses/Makefile mingw32-ocaml-curses-20020319.mingw/curses/Makefile
+--- mingw32-ocaml-curses-20020319.orig/curses/Makefile	2002-03-19 13:07:47.000000000 +0000
++++ mingw32-ocaml-curses-20020319.mingw/curses/Makefile	2008-11-15 23:03:35.000000000 +0000
+@@ -5,15 +5,17 @@
+ LFLAGS=
+ CPP=cpp
+ 
+-CURSES=ncurses
++CURSES=-lncurses
+ 
+-all: libmlcurses.a mlcurses.cma mlcurses.cmxa
++all: libmlcurses.a mlcurses.cma
++
++opt: libmlcurses.a mlcurses.cmxa
+ 
+ ml_curses.o: ml_curses.c functions.c
+ 	$(OCAMLC) -ccopt "$(CFLAGS)" -c $<
+ 
+ libmlcurses.a: ml_curses.o
+-	$(OCAMLMKLIB) -o mlcurses $< -l$(CURSES)
++	$(OCAMLMKLIB) -o mlcurses $< $(CURSES)
+ 
+ mlcurses.cma: curses.cmo
+ 	$(OCAMLMKLIB) -o mlcurses -linkall $^

@@ -10,7 +10,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -157,20 +157,30 @@ make %{makevars} -C stdlib install
 for i in %{otherlibraries}; do
   make %{makevars} -C otherlibs/$i install
 done
+make %{makevars} -C tools install
 make %{makevars} installopt
 
 cp config/Makefile \
    $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/Makefile.config
 
-# Rename the binaries so they don't clash with base OCaml package.
-mv $RPM_BUILD_ROOT%{_bindir}/ocamlrun \
-  $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlrun
-echo '#!%{_bindir}/%{_mingw32_target}-ocamlrun' \
-  > $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
-tail -n +2 $RPM_BUILD_ROOT%{_bindir}/ocamlopt \
-  >> $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
-chmod 0755 $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
-rm $RPM_BUILD_ROOT%{_bindir}/ocamlopt
+# For bytecode binaries, change the bang-path to point to the locally
+# installed ocamlrun.
+pushd $RPM_BUILD_ROOT%{_bindir}
+for f in ocamlcp ocamldep ocamlmklib ocamlopt ocamlprof; do
+  mv $f $f.old
+  echo '#!%{_bindir}/%{_mingw32_target}-ocamlrun' > $f
+  tail -n +2 $f.old >> $f
+  chmod +x $f
+  rm $f.old
+done
+popd
+
+# Rename all the binaries to target-binary.
+pushd $RPM_BUILD_ROOT%{_bindir}
+for f in ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlrun; do
+  mv $f %{_mingw32_target}-$f
+done
+popd
 
 
 %clean
@@ -179,12 +189,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/%{_mingw32_target}-ocamlrun
+%{_bindir}/%{_mingw32_target}-ocamlcp
+%{_bindir}/%{_mingw32_target}-ocamldep
+%{_bindir}/%{_mingw32_target}-ocamlmklib
+%{_bindir}/%{_mingw32_target}-ocamlmktop
+%{_bindir}/%{_mingw32_target}-ocamlprof
 %{_bindir}/%{_mingw32_target}-ocamlopt
+%{_bindir}/%{_mingw32_target}-ocamlrun
 %{_libdir}/%{_mingw32_target}-ocaml/
 
 
 %changelog
+* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-6
+- Install tools, particularly ocamlmklib.
+
 * Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-5
 - +Requires mingw32-flexdll and the cross-compiler.
 
