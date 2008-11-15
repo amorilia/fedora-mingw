@@ -6,9 +6,11 @@
 
 %define debug_package %{nil}
 
+%define otherlibraries win32unix str num dynlink bigarray systhreads win32graph
+
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -101,6 +103,7 @@ sed \
   -e 's,@bindir@,%{_bindir},g' \
   -e 's,@libdir@,%{_libdir},g' \
   -e 's,@target@,%{_mingw32_target},g' \
+  -e 's,@otherlibraries@,%{otherlibraries},g' \
   < %{SOURCE1000} > Makefile
 
 popd
@@ -136,6 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/threads
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs
 
 # This is the equivalent of 'make install installopt', but
 # we only want to install the parts which are really necessary
@@ -144,6 +148,9 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/threads
 %define makevars BINDIR=$RPM_BUILD_ROOT%{_bindir} LIBDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
 make %{makevars} -C byterun install
 make %{makevars} -C stdlib install
+for i in %{otherlibraries}; do
+  make %{makevars} -C otherlibs/$i install
+done
 make %{makevars} installopt
 
 cp config/Makefile \
@@ -172,5 +179,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-3
+* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-4
 - Initial RPM release.
