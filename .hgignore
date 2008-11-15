@@ -81,6 +81,12 @@ ocaml/*.cmi
 ocaml/*.cmx
 ocaml/*.o
 ocaml-extlib/extlib-1.5.1.tar.gz
+ocaml-extlib/NUL
+ocaml-extlib/test1
+ocaml-extlib/*.exe
+ocaml-extlib/*.cmi
+ocaml-extlib/*.cmx
+ocaml-extlib/*.o
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pango/pango-1.22.1.tar.bz2
