@@ -1,6 +1,6 @@
 PREFIX=@prefix@
 BINDIR=@bindir@
-LIBDIR=@libdir@/i686-pc-mingw32-ocaml
+LIBDIR=@libdir@/@target@-ocaml
 STUBLIBDIR=$(LIBDIR)/stublibs
 MANDIR=$(PREFIX)/man
 MANEXT=1

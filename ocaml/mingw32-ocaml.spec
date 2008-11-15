@@ -4,9 +4,11 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+%define debug_package %{nil}
+
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -38,6 +40,11 @@ BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-flexdll
+
+# While we still ship bytecode, this requires a /usr/bin/ocamlrun from
+# the _identical_ native package.  We don't have that at the moment,
+# which is why this is commented out.
+#Requires:       ocaml-runtime = %{version}
 
 
 %description
@@ -93,6 +100,7 @@ sed \
   -e 's,@prefix@,%{_prefix},g' \
   -e 's,@bindir@,%{_bindir},g' \
   -e 's,@libdir@,%{_libdir},g' \
+  -e 's,@target@,%{_mingw32_target},g' \
   < %{SOURCE1000} > Makefile
 
 popd
@@ -125,19 +133,31 @@ make opt
 %install
 rm -rf $RPM_BUILD_ROOT
 
-# Only want to install ocamlopt and libraries.
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/i686-pc-mingw32-ocaml
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/i686-pc-mingw32-ocaml/threads
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/threads
 
-make installopt \
-  BINDIR=$RPM_BUILD_ROOT%{_bindir} \
-  LIBDIR=$RPM_BUILD_ROOT%{_libdir}/i686-pc-mingw32-ocaml
+# This is the equivalent of 'make install installopt', but
+# we only want to install the parts which are really necessary
+# for the cross-compiler.  eg. We don't need any of the native
+# tools like ocamllex or ocamldoc.
+%define makevars BINDIR=$RPM_BUILD_ROOT%{_bindir} LIBDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
+make %{makevars} -C byterun install
+make %{makevars} -C stdlib install
+make %{makevars} installopt
 
-# ocamlopt is a cross-compiler, so rename the binary.
-# XXX This should probably use %{_mingw32_target} macro.
-mv $RPM_BUILD_ROOT%{_bindir}/ocamlopt \
-  $RPM_BUILD_ROOT%{_bindir}/i686-pc-mingw32-ocamlopt
+cp config/Makefile \
+   $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/Makefile.config
+
+# Rename the binaries so they don't clash with base OCaml package.
+mv $RPM_BUILD_ROOT%{_bindir}/ocamlrun \
+  $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlrun
+echo '#!%{_bindir}/%{_mingw32_target}-ocamlrun' \
+  > $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
+tail -n +2 $RPM_BUILD_ROOT%{_bindir}/ocamlopt \
+  >> $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/%{_mingw32_target}-ocamlopt
+rm $RPM_BUILD_ROOT%{_bindir}/ocamlopt
 
 
 %clean
@@ -146,10 +166,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/i686-pc-mingw32-ocamlopt
-%{_libdir}/i686-pc-mingw32-ocaml/
+%{_bindir}/%{_mingw32_target}-ocamlrun
+%{_bindir}/%{_mingw32_target}-ocamlopt
+%{_libdir}/%{_mingw32_target}-ocaml/
 
 
 %changelog
-* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-1
+* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-3
 - Initial RPM release.
