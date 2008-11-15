@@ -76,6 +76,9 @@ and produces Windows native executables.
 
 
 %build
+# Don't run out of memory.
+ulimit -s unlimited
+
 # Build native ocamlrun and ocamlc which contain the filename-win32-dirsep
 # patch.
 ./configure \
