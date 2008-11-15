@@ -1,0 +1,15 @@
+Binary files ocaml-csv-1.1.7.orig/csv.a and ocaml-csv-1.1.7/csv.a differ
+diff -ur ocaml-csv-1.1.7.orig/Makefile ocaml-csv-1.1.7/Makefile
+--- ocaml-csv-1.1.7.orig/Makefile	2008-10-27 22:04:21.000000000 +0000
++++ ocaml-csv-1.1.7/Makefile	2008-10-27 22:06:47.000000000 +0000
+@@ -70,7 +70,8 @@
+ # Build a distribution.
+ 
+ install:
+-	ocamlfind install csv csv.{cmi,a,cmxa,cma,cmx} META
++	ocamlfind install csv csv.{cmi,a,cmxa,cma,cmx,mli} META
++	install -m 0755 csvtool $(DESTDIR)/usr/bin
+ 
+ dist:
+ 	$(MAKE) check-manifest
+Only in ocaml-csv-1.1.7.orig: README

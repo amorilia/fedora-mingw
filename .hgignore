@@ -80,6 +80,7 @@ ocaml/*.exe
 ocaml/*.cmi
 ocaml/*.cmx
 ocaml/*.o
+ocaml-csv/ocaml-csv-1.1.7.tar.gz
 ocaml-extlib/extlib-1.5.1.tar.gz
 ocaml-extlib/NUL
 ocaml-extlib/test1
