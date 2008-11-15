@@ -71,6 +71,12 @@ nspr/nspr-4.7.2.tar.gz
 nss/nss-3.12.2.0-stripped.tar.bz2
 nss/nss-pem-20080124.tar.bz2
 ocaml/ocaml-3.11.0+beta1.tar.bz2
+ocaml/NUL
+ocaml/test1
+ocaml/*.exe
+ocaml/*.cmi
+ocaml/*.cmx
+ocaml/*.o
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pango/pango-1.22.1.tar.bz2
