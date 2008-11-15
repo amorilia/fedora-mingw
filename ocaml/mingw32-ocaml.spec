@@ -10,7 +10,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -47,6 +47,12 @@ BuildRequires:  mingw32-flexdll
 # the _identical_ native package.  We don't have that at the moment,
 # which is why this is commented out.
 #Requires:       ocaml-runtime = %{version}
+
+# The built program will try to run the cross-compiler and flexdll, so
+# these must be runtime requires.
+Requires:       mingw32-gcc
+Requires:       mingw32-binutils
+Requires:       mingw32-flexdll
 
 
 %description
@@ -179,5 +185,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-5
+- +Requires mingw32-flexdll and the cross-compiler.
+
 * Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-4
 - Initial RPM release.
