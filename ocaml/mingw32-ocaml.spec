@@ -10,7 +10,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -53,6 +53,10 @@ BuildRequires:  mingw32-flexdll
 Requires:       mingw32-gcc
 Requires:       mingw32-binutils
 Requires:       mingw32-flexdll
+
+# i686-pc-mingw32-ocamlmklib tries to run ocamlopt which is probably a
+# bug, but requires this (XXX).
+Requires:       ocaml
 
 
 %description
@@ -203,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-7
+- Further requirements.
+
 * Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-6
 - Install tools, particularly ocamlmklib.
 
