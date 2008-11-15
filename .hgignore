@@ -74,6 +74,8 @@ ocaml/ocaml-3.11.0+beta1.tar.bz2
 ocaml/NUL
 ocaml/test1
 ocaml/test2
+ocaml/test3
+ocaml/test4
 ocaml/*.exe
 ocaml/*.cmi
 ocaml/*.cmx
