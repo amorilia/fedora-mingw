@@ -1,0 +1,40 @@
+--- Makefile.orig	2008-11-15 22:09:17.000000000 +0000
++++ Makefile	2008-11-15 22:10:32.000000000 +0000
+@@ -2,7 +2,7 @@
+ # http://tech.motion-twin.com
+ .SUFFIXES : .ml .mli .cmo .cmx .cmi .mll .mly
+ 
+-INSTALLDIR=`ocamlc -where`
++INSTALLDIR=`ocamlopt -where`
+ CFLAGS=
+ LFLAGS= -a
+ LIBS=
+@@ -33,13 +33,13 @@
+ 	ocamlc xml-light.cma test.ml -o test.exe
+ 	
+ test_opt.exe: xml-light.cmxa
+-	ocamlopt xml-light.cmxa test.ml -o test_opt.exe
++	i686-pc-mingw32-ocamlopt xml-light.cmxa test.ml -o test_opt.exe
+ 
+ xml-light.cma: xml_parser.cmo xml_lexer.cmo dtd.cmo xmlParser.cmo xml.cmo 
+ 	ocamlc -o xml-light.cma $(LFLAGS) $(LIBS) xml_parser.cmo xml_lexer.cmo dtd.cmo xmlParser.cmo xml.cmo
+ 
+ xml-light.cmxa: xml_parser.cmx xml_lexer.cmx dtd.cmx xmlParser.cmx xml.cmx 
+-	ocamlopt -o xml-light.cmxa $(LFLAGS) $(LIBS) xml_parser.cmx xml_lexer.cmx dtd.cmx xmlParser.cmx xml.cmx
++	i686-pc-mingw32-ocamlopt -o xml-light.cmxa $(LFLAGS) $(LIBS) xml_parser.cmx xml_lexer.cmx dtd.cmx xmlParser.cmx xml.cmx
+ 
+ dtd.cmo: xml.cmi xml_lexer.cmi dtd.cmi
+ 
+@@ -84,10 +84,10 @@
+ 	ocamlc $(CFLAGS) -c $<
+ 
+ .ml.cmx:
+-	ocamlopt $(CFLAGS) -c $<
++	i686-pc-mingw32-ocamlopt $(CFLAGS) -c $<
+ 
+ .mli.cmi:
+-	ocamlc $(CFLAGS) $<
++	i686-pc-mingw32-ocamlopt $(CFLAGS) $<
+ 
+ .mll.ml:
+ 	ocamllex $<
