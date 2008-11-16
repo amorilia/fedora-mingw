@@ -44,6 +44,8 @@ OCaml bindings for curses.
 
 
 %build
+ulimit -s unlimited
+
 cd curses
 
 make \

@@ -42,6 +42,8 @@ not require additional C library.
 
 
 %build
+ulimit -s unlimited
+
 make opt
 sed -e 's/@VERSION@/%{VERSION}/' < META.in > META
 

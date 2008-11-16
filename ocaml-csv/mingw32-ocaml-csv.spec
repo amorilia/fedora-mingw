@@ -46,6 +46,8 @@ handling CSV files from shell scripts.
 
 
 %build
+ulimit -s unlimited
+
 %{_mingw32_target}-ocamlopt -I +extlib extLib.cmxa -c csv.mli
 %{_mingw32_target}-ocamlopt -I +extlib extLib.cmxa -c csv.ml
 %{_mingw32_target}-ocamlopt -a -o csv.cmxa csv.cmx
