@@ -200,14 +200,6 @@ for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlr
 done
 popd
 
-# Not clear why this is necessary, but seems to be when
-# built on 32 bit, and it shouldn't do any harm.
-for f in $(
-  find $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml -name '*.a'
-); do
-  %{_mingw32_ranlib} $f
-done
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -235,7 +227,6 @@ rm -rf $RPM_BUILD_ROOT
 - Requires libX11-devel.i386 and libgcc.i386.
 - Allow the normal dependency generators to run because this
   is a native package.
-- Run ranlib on *.a files.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
