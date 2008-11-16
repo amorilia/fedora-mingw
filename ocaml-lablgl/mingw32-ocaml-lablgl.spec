@@ -4,7 +4,7 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
-Name:           mingw32-example
+Name:           mingw32-ocaml-lablgl
 Version:        1.03
 Release:        1%{?dist}
 Summary:        MinGW Windows port of LablGL is an OpenGL interface
