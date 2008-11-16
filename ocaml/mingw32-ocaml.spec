@@ -4,7 +4,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -30,6 +30,10 @@ Patch1006:      mingw32-ocaml-3.11.0+beta1-win32unix-path.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Is it noarch? (XXX)
+# Answer: yes and no.  In theory it should be, but because we install
+# Windows binaries in %{_libdir}, the path is different if built on
+# 32 and 64 bit platforms.  We should probably install the binaries
+# in /usr/share.
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 30
@@ -196,6 +200,14 @@ for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlr
 done
 popd
 
+# Not clear why this is necessary, but seems to be when
+# built on 32 bit, and it shouldn't do any harm.
+for f in $(
+  find $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml -name '*.a'
+); do
+  %{_mingw32_ranlib} $f
+done
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -215,7 +227,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-11
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-12
 - Build the native compiler as 32 bits even on a 64 bit build
   architecture (because the target, Windows, is 32 bit).  The
   compiler does strength reduction and other optimizations
@@ -223,6 +235,7 @@ rm -rf $RPM_BUILD_ROOT
 - Requires libX11-devel.i386 and libgcc.i386.
 - Allow the normal dependency generators to run because this
   is a native package.
+- Run ranlib on *.a files.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
