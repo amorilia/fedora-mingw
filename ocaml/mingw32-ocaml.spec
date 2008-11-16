@@ -1,10 +1,14 @@
+# Built-in strip corrupts binaries, so use the mingw32 strip instead:
+%define __strip %{_mingw32_strip}
+%define __objdump %{_mingw32_objdump}
+
 %define debug_package %{nil}
 
 %define otherlibraries win32unix str num dynlink bigarray systhreads win32graph
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -219,7 +223,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-12
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-13
 - Build the native compiler as 32 bits even on a 64 bit build
   architecture (because the target, Windows, is 32 bit).  The
   compiler does strength reduction and other optimizations
@@ -227,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 - Requires libX11-devel.i386 and libgcc.i386.
 - Allow the normal dependency generators to run because this
   is a native package.
+- Use mingw32 strip to avoid corrupting binaries.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
