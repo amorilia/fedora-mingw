@@ -89,6 +89,7 @@ ocaml-extlib/*.exe
 ocaml-extlib/*.cmi
 ocaml-extlib/*.cmx
 ocaml-extlib/*.o
+ocaml-findlib/findlib-1.2.2.tar.gz
 ocaml-xml-light/xml-light-2.2.cvs20070817.tar.gz
 openssl/openssl-0.9.8g-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
