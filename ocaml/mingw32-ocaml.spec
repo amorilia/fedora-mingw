@@ -1,5 +1,7 @@
-%define __strip %{_mingw32_strip}
-%define __objdump %{_mingw32_objdump}
+#%define __strip %{_mingw32_strip}
+#%define __objdump %{_mingw32_objdump}
+%define __strip :
+%define __objdump :
 %define _use_internal_dependency_generator 0
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
@@ -10,7 +12,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -167,13 +169,15 @@ done
 make %{makevars} -C tools install
 make %{makevars} installopt
 
+install -m 0755 ocamlc $RPM_BUILD_ROOT%{_bindir}
+
 cp config/Makefile \
    $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/Makefile.config
 
 # For bytecode binaries, change the bang-path to point to the locally
 # installed ocamlrun.
 pushd $RPM_BUILD_ROOT%{_bindir}
-for f in ocamlcp ocamldep ocamlmklib ocamlopt ocamlprof; do
+for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlopt ocamlprof; do
   mv $f $f.old
   echo '#!%{_bindir}/%{_mingw32_target}-ocamlrun' > $f
   tail -n +2 $f.old >> $f
@@ -184,7 +188,7 @@ popd
 
 # Rename all the binaries to target-binary.
 pushd $RPM_BUILD_ROOT%{_bindir}
-for f in ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlrun; do
+for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlrun; do
   mv $f %{_mingw32_target}-$f
 done
 popd
@@ -196,6 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%{_bindir}/%{_mingw32_target}-ocamlc
 %{_bindir}/%{_mingw32_target}-ocamlcp
 %{_bindir}/%{_mingw32_target}-ocamldep
 %{_bindir}/%{_mingw32_target}-ocamlmklib
@@ -207,6 +212,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
+- Install ocamlc.
+
 * Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-7
 - Further requirements.
 
