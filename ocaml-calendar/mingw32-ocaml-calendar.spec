@@ -22,7 +22,7 @@ BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-8
-BuildRequires:  mingw32-ocaml-findlib >= 1.2.2-5
+BuildRequires:  mingw32-ocaml-findlib >= 1.2.2-7
 
 
 %description

@@ -18,7 +18,7 @@
 
 Name:           mingw32-ocaml-findlib
 Version:        1.2.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows Objective CAML package manager and build helper
 
 License:        BSD
@@ -40,6 +40,9 @@ BuildRequires:  ocaml-labltk-devel
 BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-8
 BuildRequires:  m4
 BuildRequires:  gawk
+
+# Installing this should pull in ocamlfind (native binary).
+Requires:       ocaml-findlib
 
 # Early versions were accidentally misnamed.
 Obsoletes:      mingw32-findlib <= 1.2.2-5
@@ -133,9 +136,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-6
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-7
 - Use ocamlc now that we have it.
 - Rename package correctly.
+- Pull in ocamlfind binary.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-3
 - Initial RPM release.
