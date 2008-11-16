@@ -24,6 +24,7 @@ BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-13
+BuildRequires:  mingw32-ocaml-findlib
 BuildRequires:  mingw32-libvirt >= 0.2.1
 BuildRequires:  perl
 BuildRequires:  gawk
