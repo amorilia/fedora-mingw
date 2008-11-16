@@ -2,7 +2,8 @@
 # Test programs for testing out the cross-compiler.
 
 all: test1 test1.exe test2 test2.exe test3 test3.exe test4 test4.exe \
-	test_format test_format.exe sudoku sudoku.exe
+	test_format test_format.exe sudoku sudoku.exe \
+	test_buffer test_buffer.exe test_overflow test_overflow.exe
 
 test1: test1.ml
 	ocamlopt $< -o $@
@@ -40,5 +41,18 @@ sudoku: sudoku.ml
 sudoku.exe: sudoku.ml
 	i686-pc-mingw32-ocamlopt $< -o $@
 
+test_buffer: test_buffer.ml
+	ocamlopt $< -o $@
+
+test_buffer.exe: test_buffer.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
+test_overflow: test_overflow.ml
+	ocamlopt $< -o $@
+
+test_overflow.exe: test_overflow.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
 clean:
-	rm -f test[1-4] test_format sudoku *.exe *.cmi *.cmx *.o
+	rm -f test[1-4] test_format sudoku test_buffer test_overflow \
+	  *.exe *.cmi *.cmx *.o

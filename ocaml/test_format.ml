@@ -2,21 +2,24 @@
 
 open Format
 
-let debug = false
+let debug = true
 
 let () =
-  if debug then Printf.printf "creating buffer ...\n%!";
   let buf = Buffer.create 100 in
-  if debug then Printf.printf "creating formatter ...\n%!";
   let fmt = formatter_of_buffer buf in
-  if debug then Printf.printf "open box ...\n%!";
+
+  if debug then
+    Printf.printf "pp_max_boxes before open_box = %d\n"
+      (pp_get_max_boxes fmt ());
+
   pp_open_box fmt 0;
-  if debug then Printf.printf "print string ...\n%!";
+
+  if debug then
+    Printf.printf "pp_max_boxes before open_box = %d\n"
+      (pp_get_max_boxes fmt ());
+
   pp_print_string fmt "This is a string";
-  if debug then Printf.printf "close box ...\n%!";
   pp_close_box fmt ();
-  if debug then Printf.printf "flush ...\n%!";
   pp_print_flush fmt ();
-  if debug then Printf.printf "get buffer contents ...\n%!";
   let str = Buffer.contents buf in
   Printf.printf "contents of buffer = %S\n%!" str
