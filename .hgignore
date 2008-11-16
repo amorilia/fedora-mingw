@@ -71,7 +71,6 @@ nspr/nspr-4.7.2.tar.gz
 nss/nss-3.12.2.0-stripped.tar.bz2
 nss/nss-pem-20080124.tar.bz2
 ocaml/ocaml-3.11.0+beta1.tar.bz2
-ocaml/NUL
 ocaml/test1
 ocaml/test2
 ocaml/test3
@@ -81,10 +80,14 @@ ocaml/*.cmi
 ocaml/*.cmx
 ocaml/*.o
 ocaml-calendar/calendar-2.0.4.tar.gz
+ocaml-calendar/test
+ocaml-calendar/*.exe
+ocaml-calendar/*.cmi
+ocaml-calendar/*.cmx
+ocaml-calendar/*.o
 ocaml-csv/ocaml-csv-1.1.7.tar.gz
 ocaml-curses/ocaml-curses-20020319.tar.gz
 ocaml-extlib/extlib-1.5.1.tar.gz
-ocaml-extlib/NUL
 ocaml-extlib/test1
 ocaml-extlib/*.exe
 ocaml-extlib/*.cmi
