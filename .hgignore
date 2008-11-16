@@ -75,6 +75,8 @@ ocaml/test1
 ocaml/test2
 ocaml/test3
 ocaml/test4
+ocaml/test_format
+ocaml/sudoku
 ocaml/*.exe
 ocaml/*.cmi
 ocaml/*.cmx

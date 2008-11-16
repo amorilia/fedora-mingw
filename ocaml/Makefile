@@ -1,7 +1,8 @@
 # -*- Makefile -*-
 # Test programs for testing out the cross-compiler.
 
-all: test1 test1.exe test2 test2.exe test3 test3.exe test4 test4.exe
+all: test1 test1.exe test2 test2.exe test3 test3.exe test4 test4.exe \
+	test_format test_format.exe sudoku sudoku.exe
 
 test1: test1.ml
 	ocamlopt $< -o $@
@@ -27,5 +28,17 @@ test4: test4.ml
 test4.exe: test4.ml
 	i686-pc-mingw32-ocamlopt graphics.cmxa $< -o $@
 
+test_format: test_format.ml
+	ocamlopt $< -o $@
+
+test_format.exe: test_format.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
+sudoku: sudoku.ml
+	ocamlopt $< -o $@
+
+sudoku.exe: sudoku.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
 clean:
-	rm -f test1 test2 test3 test4 *.exe *.cmi *.cmx *.o
+	rm -f test[1-4] test_format sudoku *.exe *.cmi *.cmx *.o
