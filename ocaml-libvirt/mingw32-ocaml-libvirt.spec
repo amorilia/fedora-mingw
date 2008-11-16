@@ -44,6 +44,9 @@ autoreconf
 
 
 %build
+# Avoid some tail-recursion problem in flexdll.
+ulimit -s unlimited
+
 export OCAMLFIND_CONF=%{_sysconfdir}/%{_mingw32_target}-ocamlfind.conf
 %{_mingw32_configure}
 make OCAMLMKLIB=%{_mingw32_target}-ocamlmklib opt
