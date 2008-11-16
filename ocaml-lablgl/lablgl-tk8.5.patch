@@ -1,0 +1,12 @@
+diff -ur lablgl-1.03/Togl/src/Togl/togl.c lablgl-1.03.new/Togl/src/Togl/togl.c
+--- lablgl-1.03/Togl/src/Togl/togl.c	2006-03-23 00:39:27.000000000 +0000
++++ lablgl-1.03.new/Togl/src/Togl/togl.c	2008-02-12 18:56:01.000000000 +0000
+@@ -153,6 +153,8 @@
+ #  include "tkInt8.3.h"
+ #elif TK_MAJOR_VERSION==8 && TK_MINOR_VERSION==4
+ #  include "tkInt8.4.h"
++#elif TK_MAJOR_VERSION==8 && TK_MINOR_VERSION==5
++#  include "tkInt8.4.h"
+ #else
+    Sorry, you will have to edit togl.c to include the right tkInt.h file
+ #endif

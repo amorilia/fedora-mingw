@@ -62,6 +62,7 @@ sub main {
     delete $br{"mingw32-pidgin"};
     delete $br{"mingw32-nspr"};
     delete $br{"mingw32-nss"};
+    delete $br{"mingw32-ocaml-labgl"};
 
     # There is a dependency loop (gcc -> runtime/w32api -> gcc)
     # which has to be manually resolved below.  Break that loop.
