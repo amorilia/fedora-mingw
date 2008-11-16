@@ -80,6 +80,7 @@ ocaml/*.exe
 ocaml/*.cmi
 ocaml/*.cmx
 ocaml/*.o
+ocaml-calendar/calendar-2.0.4.tar.gz
 ocaml-csv/ocaml-csv-1.1.7.tar.gz
 ocaml-curses/ocaml-curses-20020319.tar.gz
 ocaml-extlib/extlib-1.5.1.tar.gz
