@@ -11,7 +11,7 @@
 
 Name:           mingw32-flexdll
 Version:        0.11
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        FlexDLL Windows DLL plugin API which is like dlopen
 
 License:        zlib
@@ -23,6 +23,7 @@ Source1:        flexlink.exe
 
 # Patches for MinGW:
 Patch1000:      mingw32-flexdll-0.11-mingw-cross.patch
+Patch1001:      mingw32-flexdll-0.11-no-cygpath.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -71,6 +72,7 @@ make it easy to port applications developed for Unix.
 %setup -q -n flexdll
 
 %patch1000 -p1
+%patch1001 -p1
 
 for f in CHANGES LICENSE README; do
   chmod -x $f
@@ -127,5 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11-6
+- Permanently disable cygpath (avoids 'NUL' file being created).
+
 * Fri Nov 14 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11-4
 - Initial RPM release.
