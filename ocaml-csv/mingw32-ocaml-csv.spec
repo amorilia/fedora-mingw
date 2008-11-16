@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-csv
 Version:        1.1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows OCaml library for reading and writing CSV files
 
 License:        LGPLv2+
@@ -25,7 +25,7 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-ocaml
+BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-9
 BuildRequires:  mingw32-ocaml-extlib
 
 
@@ -79,5 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.7-2
+- Force rebuild with latest OCaml compiler.
+
 * Sat Nov 15 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.7-1
 - Initial RPM release.

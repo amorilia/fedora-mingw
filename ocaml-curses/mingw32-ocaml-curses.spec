@@ -9,7 +9,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -28,7 +28,7 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-6
+BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-9
 BuildRequires:  mingw32-pdcurses
 
 
@@ -91,5 +91,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Nov 13 2008 Your Name <you@example.com> - 1.2.3-1
-- Initial RPM release.
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-2
+- Initial release.
