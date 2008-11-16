@@ -1,18 +1,10 @@
-#%define __strip %{_mingw32_strip}
-#%define __objdump %{_mingw32_objdump}
-%define __strip :
-%define __objdump :
-%define _use_internal_dependency_generator 0
-%define __find_requires %{_mingw32_findrequires}
-%define __find_provides %{_mingw32_findprovides}
-
 %define debug_package %{nil}
 
 %define otherlibraries win32unix str num dynlink bigarray systhreads win32graph
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -223,12 +215,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-10
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-11
 - Build the native compiler as 32 bits even on a 64 bit build
   architecture (because the target, Windows, is 32 bit).  The
   compiler does strength reduction and other optimizations
   internally so we must ensure it uses the same int type.
 - Requires libX11-devel.i386 and libgcc.i386.
+- Allow the normal dependency generators to run because this
+  is a native package.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
