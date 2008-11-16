@@ -12,7 +12,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -45,6 +45,9 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-flexdll
 
+# These are required so we can use gcc -m32 and link to 32 bit X11:
+BuildRequires:  /lib/libgcc_s.so.1
+BuildRequires:  /usr/lib/crt1.o
 BuildRequires:  /usr/lib/libX11.so
 
 # While we still ship bytecode, this requires a /usr/bin/ocamlrun from
@@ -99,7 +102,7 @@ ulimit -s unlimited
   -bindir %{_bindir} \
   -libdir %{_libdir}/ocaml \
   -mandir %{_mandir}/man1 \
-  -cc "gcc -m32" -host i386-pc-linux -x11lib /usr/lib
+  -cc "gcc -m32" -host i386-pc-linux -x11lib /usr/lib -verbose
 make world
 
 # Now move the working ocamlrun, ocamlc into the boot/ directory,
@@ -220,11 +223,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-9
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-10
 - Build the native compiler as 32 bits even on a 64 bit build
   architecture (because the target, Windows, is 32 bit).  The
   compiler does strength reduction and other optimizations
   internally so we must ensure it uses the same int type.
+- Requires libX11-devel.i386 and libgcc.i386.
 
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
