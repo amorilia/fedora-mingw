@@ -12,7 +12,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -44,6 +44,8 @@ BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-flexdll
+
+BuildRequires:  /usr/lib/libX11.so
 
 # While we still ship bytecode, this requires a /usr/bin/ocamlrun from
 # the _identical_ native package.  We don't have that at the moment,
@@ -85,13 +87,19 @@ and produces Windows native executables.
 # Don't run out of memory.
 ulimit -s unlimited
 
-# Build native ocamlrun and ocamlc which contain the filename-win32-dirsep
-# patch.
+# Build native ocamlrun and ocamlc which contain the
+# filename-win32-dirsep patch.
+#
+# Note that we must build a 32 bit compiler, even on 64 bit build
+# architectures, because this compiler will try to do strength
+# reduction optimizations using its internal int type, and that must
+# match Windows' int type.  (That's what -cc and -host are for).
 ./configure \
   -no-tk \
   -bindir %{_bindir} \
   -libdir %{_libdir}/ocaml \
-  -mandir %{_mandir}/man1
+  -mandir %{_mandir}/man1 \
+  -cc "gcc -m32" -host i386-pc-linux -x11lib /usr/lib
 make world
 
 # Now move the working ocamlrun, ocamlc into the boot/ directory,
@@ -212,6 +220,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-9
+- Build the native compiler as 32 bits even on a 64 bit build
+  architecture (because the target, Windows, is 32 bit).  The
+  compiler does strength reduction and other optimizations
+  internally so we must ensure it uses the same int type.
+
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-8
 - Install ocamlc.
 
