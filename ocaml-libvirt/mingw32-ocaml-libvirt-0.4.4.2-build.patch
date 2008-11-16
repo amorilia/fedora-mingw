@@ -1,0 +1,42 @@
+diff -ur ocaml-libvirt-0.4.4.2.orig/configure.ac ocaml-libvirt-0.4.4.2.mingw/configure.ac
+--- ocaml-libvirt-0.4.4.2.orig/configure.ac	2008-07-09 12:51:58.000000000 +0100
++++ ocaml-libvirt-0.4.4.2.mingw/configure.ac	2008-11-16 17:42:16.000000000 +0000
+@@ -296,6 +296,9 @@
+     fi
+ done
+ 
++dnl Check for ranlib
++AC_CHECK_TOOL([RANLIB], [ranlib], [:])
++
+ dnl Summary.
+ echo "------------------------------------------------------------"
+ echo "Thanks for downloading" $PACKAGE_STRING
+diff -ur ocaml-libvirt-0.4.4.2.orig/libvirt/Makefile.in ocaml-libvirt-0.4.4.2.mingw/libvirt/Makefile.in
+--- ocaml-libvirt-0.4.4.2.orig/libvirt/Makefile.in	2008-07-09 12:51:41.000000000 +0100
++++ ocaml-libvirt-0.4.4.2.mingw/libvirt/Makefile.in	2008-11-16 17:42:45.000000000 +0000
+@@ -17,6 +17,8 @@
+ 
+ WIN32		= @WIN32@
+ 
++CC		= @CC@
++
+ CFLAGS		= @CFLAGS@ \
+ 		   -I.. \
+ 		   -I"$(shell ocamlc -where)" \
+@@ -29,6 +31,8 @@
+ OCAMLFIND	= @OCAMLFIND@
+ OCAMLMKLIB	= @OCAMLMKLIB@
+ 
++RANLIB		= @RANLIB@
++
+ ifneq ($(OCAMLFIND),)
+ OCAMLCPACKAGES	:= -package unix
+ OCAMLCFLAGS	:= -g
+@@ -68,6 +72,7 @@
+ 
+ mllibvirt.cmxa: libvirt_c.o $(OPTOBJS)
+ 	$(OCAMLMKLIB) -o mllibvirt $^ $(LDFLAGS) -lvirt
++	-$(RANLIB) mllibvirt.a libmllibvirt.a
+ 
+ else
+ ifeq ($(WIN32),yes)
