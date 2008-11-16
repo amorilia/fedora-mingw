@@ -9,7 +9,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -29,6 +29,7 @@ BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-9
+BuildRequires:  mingw32-ocaml-findlib
 BuildRequires:  mingw32-pdcurses
 
 
@@ -67,16 +68,13 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/curses
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs
+export OCAMLFIND_CONF=%{_sysconfdir}/%{_mingw32_target}-ocamlfind.conf
+export DESTDIR=$RPM_BUILD_ROOT
+export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
 
+mkdir -p $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 pushd curses
-install mlcurses.cmxa mlcurses.a *.cmi *.cmx *.mli \
-  $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/curses
-# XXX Not really clear if this file is necessary.
-install dllmlcurses.dll \
-  $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs
+ocamlfind install curses META *.cmi *.cmx *.cmxa *.a *.mli
 popd
 
 
@@ -87,9 +85,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_libdir}/%{_mingw32_target}-ocaml/curses/
-%{_libdir}/%{_mingw32_target}-ocaml/stublibs/dllmlcurses.dll
 
 
 %changelog
-* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-2
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 0.1-3
+- Use ocamlfind to install in the correct location.
+- Install the META file.
+- Fix the version number in changelog.
+
+* Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 0.1-2
 - Initial release.
