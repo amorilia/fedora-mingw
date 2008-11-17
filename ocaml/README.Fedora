@@ -1,0 +1,51 @@
+This is the Fedora MinGW project's OCaml cross-compiler.
+
+For more about the Fedora MinGW project see:
+  https://fedoraproject.org/wiki/MinGW
+
+For more about OCaml see:
+  http://caml.inria.fr/
+
+This is a native Fedora compiler which generates Windows executables.
+Along with the other mingw32-ocaml-* packages (libraries) you can
+cross-compile complicated OCaml software, including GUI apps, to
+Windows.
+
+Integration with autotools, autoconf
+----------------------------------------------------------------------
+
+The compiler is called 'i686-pc-mingw32-ocamlopt' (along with a few
+other tools prefixed with i686-pc-mingw32-*).  Because the compiler is
+a native Fedora binary, it is installed in /usr/bin.
+
+The name was deliberately chosen to fit with the convention used by
+autoconf so that you can write:
+
+  AC_CHECK_TOOL( ...[ocamlopt]... )
+
+Autoconf knows when cross-compiling to search for $target-tool, so the
+above will look for i686-pc-mingw32-ocamlopt when cross-compiling.
+
+Integration with ocamlfind, findlib
+----------------------------------------------------------------------
+
+To support parallel installations of the OCaml compiler and library,
+we switch based on the ocamlfind configuration file.
+
+Thus, to choose the cross-compiler, simply set this environment
+variable (and export it):
+
+  export OCAMLFIND_CONF=/etc/i686-pc-mingw32-ocamlfind.conf
+
+After doing this, commands such as:
+
+  ocamlfind ocamlc
+  ocamlfind ocamlopt
+  [etc.]
+
+will automatically choose the cross-compiler and the correct cross-
+compiled libraries.  For example:
+
+  ocamlfind ocamlopt -package extlib -linkpkg test.ml -o test.exe
+
+will produce a cross-compiled Windows binary using the extlib library.

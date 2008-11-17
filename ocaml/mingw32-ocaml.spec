@@ -8,7 +8,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0+beta1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -19,6 +19,7 @@ Source0:        http://caml.inria.fr/pub/distrib/ocaml-3.11/ocaml-%{version}.tar
 
 # This is installed as config/Makefile when we cross-compile.
 Source1000:     Makefile-fedora-mingw.in
+Source1001:     README.Fedora
 
 # XXX We should apply any Fedora native patches here.
 
@@ -158,6 +159,8 @@ make -C tools ocamlmklib
 # Build ocamlopt
 make opt
 
+cp %{SOURCE1001} .
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -211,6 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc README.Fedora
 %{_bindir}/%{_mingw32_target}-ocamlc
 %{_bindir}/%{_mingw32_target}-ocamlcp
 %{_bindir}/%{_mingw32_target}-ocamldep
@@ -223,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-14
+- Added README.Fedora.
+
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-13
 - Build the native compiler as 32 bits even on a 64 bit build
   architecture (because the target, Windows, is 32 bit).  The
