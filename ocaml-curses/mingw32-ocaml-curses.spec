@@ -9,7 +9,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -53,7 +53,7 @@ make \
   OCAMLC=%{_mingw32_target}-ocamlopt \
   OCAMLOPT=%{_mingw32_target}-ocamlopt \
   OCAMLMKLIB=%{_mingw32_target}-ocamlmklib \
-  CURSES=%{_mingw32_libdir}/pdcurses.dll.a opt
+  CURSES="" opt
 
 cat > META <<EOF
 name = "curses"
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 0.1-4
+- libmlcurses.a contained a copy of pdcurses.dll.a in error.
+
 * Sun Nov 16 2008 Richard W.M. Jones <rjones@redhat.com> - 0.1-3
 - Use ocamlfind to install in the correct location.
 - Install the META file.

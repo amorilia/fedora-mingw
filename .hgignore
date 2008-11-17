@@ -1,6 +1,10 @@
 syntax: glob
 
 *~
+*.exe
+*.cmi
+*.cmx
+*.o
 buildall.log
 
 SDL/SDL-1.2.13.tar.gz
@@ -14,11 +18,9 @@ bzip2/bzip2-1.0.5.tar.gz
 cairo/cairo-1.7.4.tar.gz
 cairo/cairo-1.8.0.tar.gz
 cairo/svgspacewar
-cairo/svgspacewar.exe
 cairomm/cairomm-1.6.2.tar.gz
 curl/curl-7.18.2.tar.bz2
 curl/test1
-curl/*.exe
 expat/expat-2.0.1.tar.gz
 flexdll/flexdll-0.11.tar.gz
 fontconfig/fontconfig-2.6.0.tar.gz
@@ -41,7 +43,6 @@ gtk2/gtk+-2.14.4.tar.bz2
 gtk2/test1
 gtk2/test2
 gtk2/test3
-gtk2/*.exe
 gtkmm24/gtkmm-2.14.1.tar.bz2
 gtk-vnc/gtk-vnc-0.3.7.tar.gz
 gtk-vnc/gtk-vnc-0.3.8-20081030.tar.gz
@@ -66,7 +67,6 @@ libxml2/libxml2-2.7.2.tar.gz
 libxslt/libxslt-1.1.24.tar.gz
 nsis/nsis-2.19-src.tar.bz2
 nsis/nsis-2.39-src.tar.bz2
-nsiswrapper/installer.exe
 nspr/nspr-4.7.2.tar.gz
 nss/nss-3.12.2.0-stripped.tar.bz2
 nss/nss-pem-20080124.tar.bz2
@@ -81,24 +81,13 @@ ocaml/test_buffer
 ocaml/test_overflow
 ocaml/test_float
 ocaml/test_float2
-ocaml/*.exe
-ocaml/*.cmi
-ocaml/*.cmx
-ocaml/*.o
 ocaml-calendar/calendar-2.0.4.tar.gz
 ocaml-calendar/test
-ocaml-calendar/*.exe
-ocaml-calendar/*.cmi
-ocaml-calendar/*.cmx
-ocaml-calendar/*.o
 ocaml-csv/ocaml-csv-1.1.7.tar.gz
 ocaml-curses/ocaml-curses-20020319.tar.gz
+ocaml-curses/test1
 ocaml-extlib/extlib-1.5.1.tar.gz
 ocaml-extlib/test1
-ocaml-extlib/*.exe
-ocaml-extlib/*.cmi
-ocaml-extlib/*.cmx
-ocaml-extlib/*.o
 ocaml-findlib/findlib-1.2.2.tar.gz
 ocaml-lablgl/lablgl-1.03.tar.gz
 ocaml-libvirt/ocaml-libvirt-0.4.4.2.tar.gz
