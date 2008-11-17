@@ -1,0 +1,12 @@
+diff -ur virt-top-1.0.3.orig/virt-top/Makefile.in virt-top-1.0.3.mingw/virt-top/Makefile.in
+--- virt-top-1.0.3.orig/virt-top/Makefile.in	2008-10-21 09:47:53.000000000 +0100
++++ virt-top-1.0.3.mingw/virt-top/Makefile.in	2008-11-17 17:19:28.000000000 +0000
+@@ -83,7 +83,7 @@
+ virt-top.opt: $(XOBJS)
+ 	ocamlfind ocamlopt \
+ 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+-	  -cclib -lncurses -o $@ $^
++	  -o $@ $^ -cclib "-L/usr/i686-pc-mingw32/sys-root/mingw/lib pdcurses.dll.a"
+ 
+ # Manual page.
+ ifeq ($(HAVE_PERLDOC),perldoc)
