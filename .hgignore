@@ -79,6 +79,8 @@ ocaml/test_format
 ocaml/sudoku
 ocaml/test_buffer
 ocaml/test_overflow
+ocaml/test_float
+ocaml/test_float2
 ocaml/*.exe
 ocaml/*.cmi
 ocaml/*.cmx

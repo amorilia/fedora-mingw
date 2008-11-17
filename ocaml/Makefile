@@ -3,7 +3,8 @@
 
 all: test1 test1.exe test2 test2.exe test3 test3.exe test4 test4.exe \
 	test_format test_format.exe sudoku sudoku.exe \
-	test_buffer test_buffer.exe test_overflow test_overflow.exe
+	test_buffer test_buffer.exe test_overflow test_overflow.exe \
+	test_float test_float.exe test_float2 test_float2.exe
 
 test1: test1.ml
 	ocamlopt $< -o $@
@@ -53,6 +54,19 @@ test_overflow: test_overflow.ml
 test_overflow.exe: test_overflow.ml
 	i686-pc-mingw32-ocamlopt $< -o $@
 
+test_float: test_float.ml
+	ocamlopt $< -o $@
+
+test_float.exe: test_float.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
+test_float2: test_float2.ml
+	ocamlopt $< -o $@
+
+test_float2.exe: test_float2.ml
+	i686-pc-mingw32-ocamlopt $< -o $@
+
 clean:
 	rm -f test[1-4] test_format sudoku test_buffer test_overflow \
+	  test_float test_float2 \
 	  *.exe *.cmi *.cmx *.o
