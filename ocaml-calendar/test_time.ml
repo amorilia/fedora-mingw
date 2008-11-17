@@ -28,8 +28,9 @@ test (minute (make 20 10 0) = 10) "minute";;
 test (second (make 20 10 5) = 5) "second";;
 
 let one_two_three = make 1 2 3;;
+let eq f1 f2 = abs_float (f1 -. f2) < 1e-5;;
 test (to_seconds one_two_three = 3723) "to_seconds";;
-test (to_minutes one_two_three = 62.05) "to_minutes";;
+test (eq (to_minutes one_two_three) 62.05) "to_minutes";;
 test (to_hours (make 1 3 0) = 1.05) "to_hours";;
 test (from_seconds 3723 = from_minutes 62.05) "from_seconds; from_minutes";;
 test (from_hours 1.05 = make 1 3 0) "from_hours";;
@@ -44,8 +45,8 @@ test (not (is_am (make 34 0 0))) "not (is_pm 34 0 0)";;
 
 let one_two_three = Period.make 1 2 3;;
 test (Period.to_seconds one_two_three = 3723) "Period.to_seconds";;
-test (Period.to_minutes one_two_three = 62.05) "Period.to_minutes";;
-test (Period.to_hours (Period.make 1 3 0) = 1.05) "Period.to_hours";;
+test (eq (Period.to_minutes one_two_three) 62.05) "Period.to_minutes";;
+test (eq (Period.to_hours (Period.make 1 3 0)) 1.05) "Period.to_hours";;
 
 let ok = nb_ok ();;
 let bug = nb_bug ();;

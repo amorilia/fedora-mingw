@@ -49,8 +49,9 @@ test (is_am (make (- 34) 0 0.)) "is_am (- 34) 0 0";;
 test (not (is_am (make 34 0 0.))) "not (is_pm 34 0 0)";;
 
 let one_two_three = Period.make 1 2 3.;;
-test (Period.to_seconds one_two_three = 3723.) "Period.to_seconds";;
-test (Period.to_minutes one_two_three = 62.05) "Period.to_minutes";;
+let eq f1 f2 = abs_float (f1 -. f2) < 1e-5;;
+test (eq (Period.to_seconds one_two_three) 3723.) "Period.to_seconds";;
+test (eq (Period.to_minutes one_two_three) 62.05) "Period.to_minutes";;
 test (Utils.Float.equal (Period.to_hours (Period.make 1 3 0.1)) 1.050028) 
   "Period.to_hours";;
 
