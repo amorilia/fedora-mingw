@@ -4,23 +4,16 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
-# For versioning, please see the native Fedora package.
-%define alphatag 20020319
-
 Name:           mingw32-ocaml-curses
-Version:        0.1
-Release:        4%{?dist}
+Version:        1.0.3
+Release:        1%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
 Group:          Development/Libraries
 
 URL:            http://savannah.nongnu.org/projects/ocaml-tmk/
-Source0:        ocaml-curses-%{alphatag}.tar.gz
-
-# Patches for MinGW:
-Patch1000:      mingw32-ocaml-curses-0.1-build.patch
-Patch1001:      mingw32-ocaml-curses-0.1-win32-functions.patch
+Source0:        http://download.savannah.gnu.org/releases/ocaml-tmk/ocaml-curses-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -32,37 +25,40 @@ BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-9
 BuildRequires:  mingw32-ocaml-findlib
 BuildRequires:  mingw32-pdcurses
 
+# Upstream package doesn't come with a configure script so
+# we have to rebuild it.
+BuildRequires:  autoconf, automake, libtool
+
 
 %description
 OCaml bindings for curses.
 
 
 %prep
-%setup -q -c -n %{name}-%{alphatag}
+%setup -q -n ocaml-curses-%{version}
 
-%patch1000 -p1
-%patch1001 -p1
+autoreconf
 
 
 %build
 ulimit -s unlimited
 
-cd curses
+%{_mingw32_configure}
 
-make \
-  OCAMLC=%{_mingw32_target}-ocamlopt \
+make all opt \
+  OCAMLC=%{_mingw32_target}-ocamlc \
   OCAMLOPT=%{_mingw32_target}-ocamlopt \
   OCAMLMKLIB=%{_mingw32_target}-ocamlmklib \
-  CURSES="" opt
+  OCAMLMKLIB_FLAGS="-L%{_mingw32_libdir}" \
+  CLIBS="" \
+  all opt
 
-cat > META <<EOF
-name = "curses"
-version = "%{version}"
-description = "OCaml bindings for ncurses"
-requires = ""
-archive(byte) = "mlcurses.cma"
-archive(native) = "mlcurses.cmxa"
-EOF
+# Build the test program just to check that everything is OK.
+%{_mingw32_target}-ocamlopt -I . \
+  -o test.opt \
+  curses.cmxa \
+  test.ml \
+  -cclib "-L%{_mingw32_libdir} pdcurses.dll.a"
 
 
 %install
@@ -73,9 +69,7 @@ export DESTDIR=$RPM_BUILD_ROOT
 export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml
 
 mkdir -p $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
-pushd curses
 ocamlfind install curses META *.cmi *.cmx *.cmxa *.a *.mli
-popd
 
 
 %clean
@@ -88,6 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-1
+- New upstream version 1.0.3 with proper support for Windows
+  and PDCurses.
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 0.1-4
 - libmlcurses.a contained a copy of pdcurses.dll.a in error.
 
