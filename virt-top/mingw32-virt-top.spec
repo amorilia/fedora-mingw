@@ -6,7 +6,7 @@
 
 Name:           mingw32-virt-top
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of top(1) for virtualization stats
 
 License:        GPLv2+
@@ -32,12 +32,12 @@ BuildRequires:  mingw32-ocaml
 BuildRequires:  mingw32-flexdll >= 0.11-7
 #BuildRequires:  ocaml-ocamldoc
 BuildRequires:  mingw32-ocaml-findlib
-BuildRequires:  mingw32-ocaml-curses >= 0.1-3
+BuildRequires:  mingw32-ocaml-curses >= 1.0.3-2
 BuildRequires:  mingw32-ocaml-extlib
 BuildRequires:  mingw32-ocaml-xml-light
 BuildRequires:  mingw32-ocaml-csv
 BuildRequires:  mingw32-ocaml-calendar
-BuildRequires:  mingw32-ocaml-libvirt
+BuildRequires:  mingw32-ocaml-libvirt >= 0.4.4.2-2
 
 # gettext support is disabled temporarily.
 ## Tortuous list of BRs for gettext.
@@ -77,6 +77,7 @@ autoreconf
 
 %build
 export OCAMLFIND_CONF=%{_sysconfdir}/%{_mingw32_target}-ocamlfind.conf
+export OCAMLC=%{_mingw32_target}-ocamlc
 %{_mingw32_configure}
 make opt
 
@@ -99,5 +100,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-1
+* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-2
 - Initial RPM release.
