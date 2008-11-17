@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -28,6 +28,8 @@ BuildRequires:  mingw32-pdcurses
 # Upstream package doesn't come with a configure script so
 # we have to rebuild it.
 BuildRequires:  autoconf, automake, libtool
+
+Requires:       mingw32-pdcurses
 
 
 %description
@@ -82,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-2
+- Runtime requires PDCurses library.
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-1
 - New upstream version 1.0.3 with proper support for Windows
   and PDCurses.
