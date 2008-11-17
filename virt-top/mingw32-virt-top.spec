@@ -76,6 +76,9 @@ autoreconf
 
 
 %build
+# Workaround for non-tail-recursion in flexdll.
+ulimit -s unlimited
+
 export OCAMLFIND_CONF=%{_sysconfdir}/%{_mingw32_target}-ocamlfind.conf
 export OCAMLC=%{_mingw32_target}-ocamlc
 %{_mingw32_configure}
