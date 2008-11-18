@@ -69,10 +69,3 @@ Package notes
 
       Note that once built and installed, these last two replace the
       files built from binaries in mingw32-{runtime,w32api}-bootstrap.
-
-Then for the rest, use ./show-build-order.pl which is a script which
-works out the correct order to build packages and will display the
-list of commands that you have to invoke to do this.
-
-(Note that show-build-order.pl doesn't actually build anything - it
-just prints suggested commands).

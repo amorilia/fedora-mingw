@@ -1,5 +1,6 @@
  SMOCK - Simpler Mock
  ====================
+by Dan Berrange and Richard W.M. Jones.
 
 Smock is a thin wrapper around mock to let you build up a whole
 set of dependant RPMs against an external distro.
@@ -20,10 +21,12 @@ set of dependant RPMs against an external distro.
 
 Now you can run
 
-    ./smock.sh fedora-9 /path/to/srpm
+    ./smock.pl --arch=i386 --arch=x86_64 --distro=fedora-9 list of srpms
 
-And it'll build the RPM against the fedora-9-XXX distro for each 'XXX'
-arch you listed.
+And it'll build the all the SRPMs listed on the command line, using
+previously built SRPMs as dependencies for later ones.  You don't need
+to list them in the proper order - the build order is worked out using
+the dependencies.
 
 The resulting src RPMs, binary RPMs and build logs wil be put into
 $HOME/public_html/smock, and a Yum repo created.  Further RPMs you

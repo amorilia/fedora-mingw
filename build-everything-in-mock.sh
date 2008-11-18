@@ -1,45 +1,27 @@
 #!/bin/bash -
 
-DIST=fedora-9
-SKIP_BUILT_RPMS=1
+# These are the packages we don't want to build yet:
+nobuild="example
+cyrus-sasl
+gdb
+pidgin
+python
+nspr
+nss
+ocaml-lablgl
+wix"
 
-LOCALREPO=$HOME/public_html/smock/yum
-ARCHES="i386 x86_64"
+rm -f */*.src.rpm
 
-export DIST SKIP_BUILT_SRPMS LOCALREPO ARCHES
-
-specs=`perl show-build-order.pl |
-       grep -v '^#' |
-       grep -Eo '[^[:space:]]+/mingw32-[^[:space:]]+\.spec'`
-
-rm -f buildall.log
-echo -e "Specfiles in build order:\n$specs\n\n" >> buildall.log
-
-pwd=`pwd`
-
-for spec in $specs
-do
-    set -e
-    dir=`dirname $spec`
-    srcrpm=`rpmbuild --define "_sourcedir $pwd/$dir" -bs $spec`
-    if [ $? != 0 ]; then exit 1; fi
-    srcrpm=`echo $srcrpm | awk '{print $2}'`
-
-    # Test if all the output RPMs exist already.
-    skip=
-    if [ $SKIP_BUILT_RPMS ]; then
-	skip=1
-	baserpm=`basename $srcrpm | sed 's/\.fc[[:digit:]]*\.src\.rpm//g'`
-	for arch in $ARCHES; do
-	    if [ ! -f $LOCALREPO/$DIST/$arch/RPMS/$baserpm.* ]; then
-		skip=
-	    fi
-	done
+for dir in *; do
+    if ! echo "$nobuild" | grep -sq "^$dir\$"; then
+	if [ -d $dir -a -f $dir/*.spec ]; then
+	    (
+		cd $dir
+		rpmbuild -bs --define "_sourcedir $(pwd)" --define "_srcrpmdir $(pwd)" *.spec
+	    )
+	fi
     fi
+done
 
-    if [ $skip ]; then
-	echo "skipping $srcrpm"
-    else
-	smock/smock.sh $DIST $srcrpm
-    fi
-done 2>&1 | tee -a buildall.log
+smock/smock.pl --arch=i386 --arch=x86_64 --distro=fedora-10 */*.src.rpm
