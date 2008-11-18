@@ -1,6 +1,7 @@
  SMOCK - Simpler Mock
  ====================
 by Dan Berrange and Richard W.M. Jones.
+License: GPLv2+
 
 Smock is a thin wrapper around mock to let you build up a whole
 set of dependant RPMs against an external distro.
