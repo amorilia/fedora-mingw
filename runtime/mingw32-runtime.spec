@@ -6,7 +6,7 @@
 
 Name:           mingw32-runtime
 Version:        3.15.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -80,6 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-2
+- Rebuild against mingw32-filesystem 36
+
 * Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-1
 - New upstream version 3.15.1.
 
