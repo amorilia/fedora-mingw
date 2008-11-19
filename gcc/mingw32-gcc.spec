@@ -2,7 +2,7 @@
 
 Name:           mingw32-gcc
 Version:        4.3.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-10
+- Rebuild against mingw32-filesystem 37
+
 * Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-9
 - Rebuild against mingw32-filesystem 36
 
