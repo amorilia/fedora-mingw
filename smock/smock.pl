@@ -167,10 +167,24 @@ sub is_member_of
     0;
 }
 
+sub dependency_in
+{
+    my $dep = shift;		# eg. dbus-devel
+
+    while ($dep) {
+	return $dep if is_member_of ($dep, @_);
+	my $newdep = $dep;
+	$newdep =~ s/-\w+$//;	# eg. dbus-devel -> dbus
+	last if $newdep eq $dep;
+	$dep = $newdep;
+    }
+    0;
+}
+
 my @names = keys %srpms;
 foreach my $name (@names) {
     my @buildrequires = @{$srpms{$name}->{buildrequires}};
-    @buildrequires = grep { is_member_of ($_, @names) } @buildrequires;
+    @buildrequires = grep { $_ = dependency_in ($_, @names) } @buildrequires;
     $srpms{$name}{buildrequires} = \@buildrequires;
 }
 
