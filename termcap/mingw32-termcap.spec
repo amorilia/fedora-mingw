@@ -13,7 +13,7 @@
 
 Name:           mingw32-termcap
 Version:        1.3.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW terminal feature database
 
 License:        GPLv2+
@@ -27,6 +27,8 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 28
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+
+BuildRequires:  autoconf
 
 
 %description
@@ -42,6 +44,9 @@ cross-compiled version.
 
 %prep
 %setup -q -n termcap-%{version}
+
+# Packaged script doesn't understand --bindir, so rebuild:
+autoconf
 
 
 %build
@@ -60,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make install \
   prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} \
+  exec_prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} \
   oldincludedir=
 
 # Move the shared library to the correct locations.
@@ -90,6 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-4
+- Rerun autoconf because the standard configure doesn't know --bindir.
+- Set exec_prefix during make install step.
+
 * Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-3
 - Fix so it builds a working DLL.
 
