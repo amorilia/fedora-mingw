@@ -6,7 +6,7 @@
 
 Name:           mingw32-libjpeg
 Version:        6b
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
 License:        IJG
@@ -60,7 +60,7 @@ autoconf
 
 %build
 %{_mingw32_configure} --enable-shared --enable-static
-make libdir=%{_mingw32_libdir}
+make
 
 
 %install
@@ -69,15 +69,15 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
-mkdir -p $RPM_BUILD_ROOT%{_mingw32_prefix}/man/man1
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_mandir}/man1
 
-make prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} install
+%{_mingw32_makeinstall}
 
 # Remove static library.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libjpeg.a
 
 # Remove manual pages which duplicate Fedora native.
-rm -rf $RPM_BUILD_ROOT%{_mingw32_prefix}/man
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
 
 %clean
@@ -101,6 +101,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 20 2008 Richard W.M. Jones <rjones@redhat.com> - 6b-6
+- Don't set libdir in the make step.
+- Fix path to mandir.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 6b-5
 - Rename mingw -> mingw32.
 
