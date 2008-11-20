@@ -6,7 +6,7 @@
 
 Name:           mingw32-runtime
 Version:        3.15.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -14,8 +14,6 @@ Group:          Development/Libraries
 URL:            http://www.mingw.org/
 Source0:        http://dl.sourceforge.net/sourceforge/mingw/mingwrt-%{version}-mingw32-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-#Patch0:         mingw32-runtime-3.15.1-useconds_t.patch
 
 BuildArch:      noarch
 
@@ -42,11 +40,14 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 %prep
 %setup -q -n mingwrt-%{version}-mingw32
-#%patch0 -p1
 
 
 %build
-%{_mingw32_configure}
+# NB: Do not use _mingw32_configure here as it won't work.
+CFLAGS="-I%{_mingw32_includedir}" \
+./configure \
+  --build=%_build \
+  --host=%{_mingw32_host}
 make
 
 
@@ -76,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 20 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-5
+- Don't use _mingw32_configure macro - doesn't work here.
+
 * Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-4
 - Rebuild against mingw32-filesystem 37
 
