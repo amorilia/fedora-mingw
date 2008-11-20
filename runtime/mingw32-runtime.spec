@@ -42,7 +42,7 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 %prep
 %setup -q -n mingwrt-%{version}-mingw32
-%patch0 -p1
+#%patch0 -p1
 
 
 %build
