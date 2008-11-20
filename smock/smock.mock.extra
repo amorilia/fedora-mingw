@@ -6,3 +6,4 @@
 name=smock
 baseurl=http://127.0.0.1/USERNAME-smock/yum/fedora-9/i386
 enabled=1
+keepcache=0
