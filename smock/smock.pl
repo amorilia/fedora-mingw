@@ -243,15 +243,17 @@ if (! -d "$localrepo/scratch") {
 
 system "rm -f $localrepo/scratch/*";
 
-foreach my $name (@buildorder) {
-    my $version = $srpms{$name}->{version};
-    my $release = $srpms{$name}->{release};
-    my $srpm_filename = $srpms{$name}->{filename};
+# NB: Need to do the arch/distro in the outer loop to work
+# around the caching bug in mock/yum.
+foreach my $arch (@arches) {
+    foreach my $distro (@distros) {
+	foreach my $name (@buildorder) {
+	    my $version = $srpms{$name}->{version};
+	    my $release = $srpms{$name}->{release};
+	    my $srpm_filename = $srpms{$name}->{filename};
 
-    $release =~ s/\.fc?\d+$//; # "1.fc9" -> "1"
+	    $release =~ s/\.fc?\d+$//; # "1.fc9" -> "1"
 
-    foreach my $arch (@arches) {
-	foreach my $distro (@distros) {
 	    # Does the built (binary) package exist already?
 	    my $pattern = "$localrepo/$distro/$arch/RPMS/$name-$version-$release.*.rpm";
 	    #print "pattern = $pattern\n";
