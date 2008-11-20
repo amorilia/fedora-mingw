@@ -6,7 +6,7 @@
 
 Name:           mingw32-readline
 Version:        5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW port of readline for editing typed command lines
 
 License:        GPLv2+
@@ -98,7 +98,8 @@ install history.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
 popd
 
 # Don't want the info files or manpages which duplicate the native package.
-rm -rf $RPM_BUILD_ROOT%{_mingw32_prefix}/{info,man}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
+rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
 
 # Don't want the static library.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libhistory.a
@@ -119,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 19 2008 Richard W.M. Jones <rjones@example.com> - 5.2-3
+- Fix paths to mandir, infodir.
+
 * Fri Oct 31 2008 Richard W.M. Jones <rjones@example.com> - 5.2-2
 - Rebuild against latest termcap.
 
