@@ -2,7 +2,7 @@
 
 Name:           mingw32-gcc
 Version:        4.3.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -29,9 +29,6 @@ Requires:       mingw32-binutils
 Requires:       mingw32-runtime
 Requires:       mingw32-w32api
 Requires:       mingw32-cpp
-
-Provides:       mingw-gcc = %{version}-%{release}
-Obsoletes:      mingw-gcc < 4.3.2-7
 
 
 %description
@@ -169,6 +166,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-11
+- Remove obsoletes for a long dead package.
+
 * Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-10
 - Rebuild against mingw32-filesystem 37
 
