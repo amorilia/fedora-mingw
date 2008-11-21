@@ -6,7 +6,7 @@
 
 Name:           mingw32-w32api
 Version:	3.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler Win32 header files
 
 License:        Public Domain
@@ -15,14 +15,13 @@ URL:            http://www.mingw.org/
 Source0:        http://dl.sourceforge.net/sourceforge/mingw/w32api-%{version}-mingw32-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildArch:	noarch
+BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 37
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-runtime
 
-Requires:       mingw32-filesystem >= 23
 Requires:       mingw32-binutils
 Requires:       mingw32-gcc
 Requires:       mingw32-runtime
@@ -30,10 +29,6 @@ Requires:       mingw32-runtime
 # Once this is installed, mingw32-bootstrap (binary bootstrapper) is no
 # longer needed.
 Obsoletes:      mingw32-w32api-bootstrap
-Obsoletes:      mingw-w32api-bootstrap
-
-Provides:       mingw-w32api = %{version}-%{release}
-Obsoletes:      mingw-w32api < 3.11-7
 
 
 %description
@@ -44,17 +39,14 @@ MinGW Windows cross-compiler Win32 header files.
 %setup -q -n w32api-%{version}-mingw32
 
 %build
-./configure \
-  --build=%_build \
-  --host=%{_mingw32_host}
-
+%{_mingw32_configure}
 make
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} install
+%{_mingw32_makeinstall}
 
 
 %clean
@@ -68,6 +60,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 3.12-4
+- Remove obsoletes for a long dead package.
+- Enable _mingw32_configure (Levente Farkas).
+
 * Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 3.12-3
 - Rebuild against mingw32-filesystem 37
 
