@@ -6,7 +6,7 @@
 
 Name:           mingw32-runtime
 Version:        3.15.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows cross-compiler runtime and root filesystem
 
 License:        Public Domain
@@ -17,21 +17,16 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 26
+BuildRequires:  mingw32-filesystem >= 37
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-gcc
 
-Requires:       mingw32-filesystem >= 26
 Requires:       mingw32-binutils
 Requires:       mingw32-gcc
 
 # Once this is installed, mingw32-bootstrap (binary bootstrapper) is no
 # longer needed.
 Obsoletes:      mingw32-runtime-bootstrap
-Obsoletes:      mingw-runtime-bootstrap
-
-Provides:       mingw-runtime = %{version}-%{release}
-Obsoletes:      mingw-runtime < 3.14-5
 
 
 %description
@@ -43,24 +38,19 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 
 %build
-# NB: Do not use _mingw32_configure here as it won't work.
-CFLAGS="-I%{_mingw32_includedir}" \
-./configure \
-  --build=%_build \
-  --host=%{_mingw32_host}
-make
+MINGW_CFLAGS="%{_mingw32_cflags} -I%{_mingw32_includedir}"
+%{_mingw32_configure}
+%{_mingw32_make}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{_mingw32_prefix} install
+%{_mingw32_makeinstall}
 
 # make install places these in nonstandard locations, so move them.
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_docdir}
 mv $RPM_BUILD_ROOT%{_mingw32_prefix}/doc/* $RPM_BUILD_ROOT%{_mingw32_docdir}/
-mkdir -p $RPM_BUILD_ROOT%{_mingw32_mandir}
-mv $RPM_BUILD_ROOT%{_mingw32_prefix}/man/* $RPM_BUILD_ROOT%{_mingw32_mandir}/
 
 
 %clean
@@ -77,6 +67,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-6
+- Remove obsoletes for a long dead package.
+- Reenable (and fix) _mingw32_configure (Levente Farkas).
+
 * Thu Nov 20 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-5
 - Don't use _mingw32_configure macro - doesn't work here.
 
