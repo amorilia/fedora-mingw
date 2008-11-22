@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -60,7 +60,7 @@ make all opt \
   -o test.opt \
   curses.cmxa \
   test.ml \
-  -cclib "-L%{_mingw32_libdir} pdcurses.dll.a"
+  -cclib "-lpdcurses"
 
 
 %install
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-3
+- Rebuild against new pdcurses.
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-2
 - Runtime requires PDCurses library.
 

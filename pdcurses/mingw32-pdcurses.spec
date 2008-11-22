@@ -6,7 +6,7 @@
 
 Name:           mingw32-pdcurses
 Version:        3.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Curses library for MinGW
 
 License:        Public Domain
@@ -59,7 +59,7 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
 
 install win32/*.exe $RPM_BUILD_ROOT%{_mingw32_bindir}
 install win32/pdcurses.dll $RPM_BUILD_ROOT%{_mingw32_bindir}/pdcurses.dll
-install win32/pdcurses.a $RPM_BUILD_ROOT%{_mingw32_libdir}/pdcurses.dll.a
+install win32/pdcurses.a $RPM_BUILD_ROOT%{_mingw32_libdir}/libpdcurses.dll.a
 install curses.h panel.h term.h $RPM_BUILD_ROOT%{_mingw32_includedir}
 
 
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw32_bindir}/pdcurses.dll
-%{_mingw32_libdir}/pdcurses.dll.a
+%{_mingw32_libdir}/libpdcurses.dll.a
 %{_mingw32_includedir}/curses.h
 %{_mingw32_includedir}/panel.h
 %{_mingw32_includedir}/term.h
@@ -85,5 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 3.4-2
+- Rename implib to libpdcurses.dll.a so that libtool can use it.
+
 * Thu Sep 25 2008 Richard Jones <rjones@redhat.com> - 3.4-1
 - Initial RPM release.

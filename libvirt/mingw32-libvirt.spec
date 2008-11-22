@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.4.6
-Release:        8%{?dist}%{?extra_release}
+Release:        9%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -113,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 0.4.6-9
+- Rebuild against new readline.
+
 * Fri Oct 31 2008 Richard Jones <rjones@redhat.com> - 0.4.6-8
 - Rebuild against latest termcap.
 

@@ -6,7 +6,7 @@
 
 Name:           mingw32-readline
 Version:        5.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW port of readline for editing typed command lines
 
 License:        GPLv2+
@@ -78,8 +78,8 @@ make SHLIB_LIBS=-ltermcap
 
 # Rebuild the DLLs correctly and create implibs.
 pushd shlib
-%{_mingw32_cc} -shared -o readline.dll -Wl,--out-implib,readline.dll.a readline.so vi_mode.so funmap.so keymaps.so parens.so search.so rltty.so complete.so bind.so isearch.so display.so signals.so util.so kill.so undo.so macro.so input.so callback.so terminal.so text.so nls.so misc.so xmalloc.so history.so histexpand.so histfile.so histsearch.so shell.so mbutil.so tilde.so compat.so -ltermcap
-%{_mingw32_cc} -shared -o history.dll -Wl,--out-implib,history.dll.a history.so histexpand.so histfile.so histsearch.so shell.so mbutil.so xmalloc.so
+%{_mingw32_cc} -shared -o readline.dll -Wl,--out-implib,libreadline.dll.a readline.so vi_mode.so funmap.so keymaps.so parens.so search.so rltty.so complete.so bind.so isearch.so display.so signals.so util.so kill.so undo.so macro.so input.so callback.so terminal.so text.so nls.so misc.so xmalloc.so history.so histexpand.so histfile.so histsearch.so shell.so mbutil.so tilde.so compat.so -ltermcap
+%{_mingw32_cc} -shared -o history.dll -Wl,--out-implib,libhistory.dll.a history.so histexpand.so histfile.so histsearch.so shell.so mbutil.so xmalloc.so
 popd
 
 
@@ -92,9 +92,9 @@ pushd shlib
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/lib*.so.*
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 install readline.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
-install readline.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
+install libreadline.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
 install history.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
-install history.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
+install libhistory.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
 popd
 
 # Don't want the info files or manpages which duplicate the native package.
@@ -114,17 +114,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_mingw32_bindir}/readline.dll
 %{_mingw32_bindir}/history.dll
-%{_mingw32_libdir}/readline.dll.a
-%{_mingw32_libdir}/history.dll.a
+%{_mingw32_libdir}/libreadline.dll.a
+%{_mingw32_libdir}/libhistory.dll.a
 %{_mingw32_includedir}/readline/
 
 
 %changelog
-* Wed Nov 19 2008 Richard W.M. Jones <rjones@example.com> - 5.2-3
+* Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 5.2-4
+- Rename *.dll.a to lib*.dll.a so that libtool can use these libraries.
+
+* Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 5.2-3
 - Fix paths to mandir, infodir.
 
-* Fri Oct 31 2008 Richard W.M. Jones <rjones@example.com> - 5.2-2
+* Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 5.2-2
 - Rebuild against latest termcap.
 
-* Thu Sep 25 2008 Richard W.M. Jones <rjones@example.com> - 5.2-1
+* Thu Sep 25 2008 Richard W.M. Jones <rjones@redhat.com> - 5.2-1
 - Initial RPM release.

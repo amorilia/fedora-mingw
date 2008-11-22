@@ -6,7 +6,7 @@
 
 Name:           mingw32-sqlite
 Version:        3.5.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of sqlite embeddable SQL database engine
 
 License:        Public Domain
@@ -18,7 +18,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 Patch1:         sqlite-3.5.8-pkgconfig-version.patch
-Patch10:        mingw32-sqlite-3.5.9-no-undefined.patch
+
+Patch1000:      mingw32-sqlite-3.5.9-no-undefined.patch
 
 BuildRequires:  mingw32-filesystem >= 26
 BuildRequires:  mingw32-gcc
@@ -48,7 +49,7 @@ for Windows.
 %prep
 %setup -q -n sqlite-%{version}
 %patch1 -p1
-%patch10 -p1
+%patch1000 -p1
 
 # Ships with an old/broken version of libtool which cannot create
 # Windows libraries properly.  So pull in the current version.
@@ -66,9 +67,7 @@ libtoolize --force
 #   - RWMJ 2008-09-30
 export config_TARGET_EXEEXT=.exe
 
-%{_mingw32_configure} \
-  --with-readline-inc='-I%{_mingw32_includedir}/readline' \
-  --with-readline-lib=%{_mingw32_libdir}/readline.dll.a
+%{_mingw32_configure}
 make
 
 
@@ -97,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 3.5.9-3
+- Rebuild against new readline.
+
 * Fri Oct 31 2008 Richard Jones <rjones@redhat.com> - 3.5.9-2
 - Rebuild against latest termcap.
 
