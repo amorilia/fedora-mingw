@@ -1,0 +1,14 @@
+--- libgsf-1.14.10.orig/gsf/gsf-utils.c	2008-07-01 13:56:53.000000000 +0100
++++ libgsf-1.14.10.mingw/gsf/gsf-utils.c	2008-11-22 17:01:35.000000000 +0000
+@@ -19,6 +19,11 @@
+  * USA
+  */
+ 
++/* Needed for G_WIN32_DLLMAIN_FOR_DLL_NAME below.  Maybe a better
++ * solution would be to remove that macro use instead.
++ */
++#undef G_DISABLE_DEPRECATED
++
+ #include <gsf-config.h>
+ #include <gsf/gsf-utils.h>
+ #include <gsf/gsf-input.h>
