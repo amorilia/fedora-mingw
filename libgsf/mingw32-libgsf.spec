@@ -6,7 +6,7 @@
 
 Name:           mingw32-libgsf
 Version:        1.14.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of GNOME Structured File Library
 
 License:        LGPLv2
@@ -34,7 +34,9 @@ BuildRequires:  mingw32-zlib
 # Seems like this is only needed for GNOME integration:
 #BuildRequires:  mingw32-gnome-vfs2
 
-BuildRequires:  autoconf, pkgconfig
+BuildRequires:  autoconf
+BuildRequires:  pkgconfig
+BuildRequires:  intltool
 
 Patch1000:      mingw32-libgsf-1.14.10-better-bz2-detection.patch
 Patch1001:      mingw32-libgsf-1.14.10-glib-deprecated.patch
@@ -77,6 +79,9 @@ rm -r $RPM_BUILD_ROOT%{_mingw32_mandir}/man1
 # we don't have gconf itself.  Thus remove them if they were
 # built.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gconf
+# Also gsf-office-thumbnailer only gets built if gconftool
+# is installed.
+rm -f $RPM_BUILD_ROOT%{_mingw32_bindir}/gsf-office-thumbnailer.exe
 
 
 %clean
@@ -86,7 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw32_bindir}/gsf.exe
-%{_mingw32_bindir}/gsf-office-thumbnailer.exe
 %{_mingw32_bindir}/gsf-vba-dump.exe
 %{_mingw32_bindir}/libgsf-1-114.dll
 %{_mingw32_bindir}/libgsf-win32-1-114.dll
@@ -101,5 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.10-2
+- +BR intltool.
+
 * Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.10-1
 - Initial RPM release.
