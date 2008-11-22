@@ -11,7 +11,7 @@
 
 Name:           mingw32-bzip2
 Version:        1.0.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW port of bzip2 file compression utility
 
 License:        BSD
@@ -102,7 +102,8 @@ popd
 rm -rf $RPM_BUILD_ROOT%{_mingw32_prefix}/man
 
 # The Makefile doesn't install the DLL.
-install bz2.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}/
+# Rename the library so that libtool can find it.
+install bz2.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}/libbz2.dll.a
 install bz2-1.dll $RPM_BUILD_ROOT%{_mingw32_bindir}/
 
 # Remove the static library.
@@ -117,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %{_mingw32_bindir}/bz2-1.dll
-%{_mingw32_libdir}/bz2.dll.a
+%{_mingw32_libdir}/libbz2.dll.a
 
 %{_mingw32_bindir}/bunzip2
 %{_mingw32_bindir}/bzcat
@@ -135,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 1.0.5-4
+- Rename the implib as libbz2.dll.a so that libtool can find it.
+
 * Wed Oct 29 2008 Richard Jones <rjones@redhat.com> - 1.0.5-3
 - Fix mixed spaces/tabs in specfile.
 
