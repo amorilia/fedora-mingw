@@ -25,10 +25,7 @@ BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
-BuildRequires:  mingw32-ocaml
-
-# XXX This requires camlp4 which we don't yet have under MinGW.
-BuildRequires:  mingw32-ocaml-camlp4
+BuildRequires:  mingw32-ocaml >= 3.11.0
 
 # labltk is used by the native package, but is essentially optional.
 #BuildRequires: mingw32-ocaml-labtk
@@ -96,5 +93,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Nov 13 2008 Your Name <you@example.com> - 1.2.3-1
+* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.03-1
 - Initial RPM release.

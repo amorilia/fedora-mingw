@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-libvirt
 Version:        0.4.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of OCaml binding for libvirt
 
 License:        LGPLv2+
@@ -23,7 +23,7 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-13
+BuildRequires:  mingw32-ocaml >= 3.11.0-0.15.beta1
 BuildRequires:  mingw32-ocaml-findlib
 BuildRequires:  mingw32-libvirt >= 0.2.1
 BuildRequires:  perl
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.4.2-3
+- Rebuild against latest OCaml cross-compiler.
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.4.2-2
 - Requires mingw32-libvirt package.
 

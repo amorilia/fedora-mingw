@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-calendar
 Version:        2.0.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows OCaml library for managing dates and times
 
 License:        LGPLv2+
@@ -21,7 +21,7 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 35
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-ocaml >= 3.11.0+beta1-9
+BuildRequires:  mingw32-ocaml >= 3.11.0-0.15.beta1
 BuildRequires:  mingw32-ocaml-findlib >= 1.2.2-7
 
 
@@ -67,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-4
+- Rebuild with newly named mingw32-ocaml cross-compiler.
+
 * Thu Nov 20 2008 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-3
 - Override ocamlc.opt, ocamlopt.opt in case a compatible native
   compiler is also installed.

@@ -7,15 +7,15 @@
 %define otherlibraries win32unix str num dynlink bigarray systhreads win32graph
 
 Name:           mingw32-ocaml
-Version:        3.11.0+beta1
-Release:        14%{?dist}
+Version:        3.11.0
+Release:        0.15.beta1%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
 Group:          Development/Libraries
 
 URL:            http://caml.inria.fr/
-Source0:        http://caml.inria.fr/pub/distrib/ocaml-3.11/ocaml-%{version}.tar.bz2
+Source0:        http://caml.inria.fr/pub/distrib/ocaml-3.11/ocaml-%{version}+beta1.tar.bz2
 
 # This is installed as config/Makefile when we cross-compile.
 Source1000:     Makefile-fedora-mingw.in
@@ -51,10 +51,16 @@ BuildRequires:  /lib/libgcc_s.so.1
 BuildRequires:  /usr/lib/crt1.o
 BuildRequires:  /usr/lib/libX11.so
 
-# While we still ship bytecode, this requires a /usr/bin/ocamlrun from
-# the _identical_ native package.  We don't have that at the moment,
-# which is why this is commented out.
-#Requires:       ocaml-runtime = %{version}
+# We need the native Fedora OCaml package (of the precise matching
+# version) for several reasons:
+# (a) We need /usr/bin/ocamlrun (the bytecode interpreter) in order
+# to run our bytecodes such as i686-pc-mingw32-ocamlopt.  Eventually
+# shipping native versions of the cross-compiler binaries should
+# resolve this.
+# (b) We need camlp4 preprocessor, and because of the way this works
+# it has to be the camlp4 from the identical version.
+Requires:       ocaml-runtime = %{version}
+Requires:       ocaml-camlp4-devel = %{version}
 
 # The built program will try to run the cross-compiler and flexdll, so
 # these must be runtime requires.
@@ -76,7 +82,7 @@ and produces Windows native executables.
 
 
 %prep
-%setup -q -n ocaml-%{version}
+%setup -q -n ocaml-%{version}+beta1
 
 %patch1000 -p1
 %patch1001 -p1
@@ -188,24 +194,15 @@ install -m 0755 ocamlc $RPM_BUILD_ROOT%{_bindir}
 cp config/Makefile \
    $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/Makefile.config
 
-# For bytecode binaries, change the bang-path to point to the locally
-# installed ocamlrun.
-pushd $RPM_BUILD_ROOT%{_bindir}
-for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlopt ocamlprof; do
-  mv $f $f.old
-  echo '#!%{_bindir}/%{_mingw32_target}-ocamlrun' > $f
-  tail -n +2 $f.old >> $f
-  chmod +x $f
-  rm $f.old
-done
-popd
-
 # Rename all the binaries to target-binary.
 pushd $RPM_BUILD_ROOT%{_bindir}
-for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof ocamlrun; do
+for f in ocamlc ocamlcp ocamldep ocamlmklib ocamlmktop ocamlopt ocamlprof; do
   mv $f %{_mingw32_target}-$f
 done
 popd
+
+# Don't install ocamlrun, use native one.
+rm $RPM_BUILD_ROOT%{_bindir}/ocamlrun
 
 
 %clean
@@ -222,11 +219,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%{_mingw32_target}-ocamlmktop
 %{_bindir}/%{_mingw32_target}-ocamlprof
 %{_bindir}/%{_mingw32_target}-ocamlopt
-%{_bindir}/%{_mingw32_target}-ocamlrun
 %{_libdir}/%{_mingw32_target}-ocaml/
 
 
 %changelog
+* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0-0.15.beta1
+- Use the proper package naming convention, since '+' etc shouldn't be
+  in the name, as per Fedora packaging guidelines.  Note that this won't
+  upgrade smoothly, but we don't care because these packages aren't
+  officially released yet.  You'll just have to uninstall the old
+  package and install the new one.
+- Don't ship our own ocamlrun, use the native one instead.
+- Require camlp4 utilities.
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0+beta1-14
 - Added README.Fedora.
 

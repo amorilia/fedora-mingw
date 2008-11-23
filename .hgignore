@@ -91,6 +91,7 @@ ocaml-curses/test1
 ocaml-extlib/extlib-1.5.1.tar.gz
 ocaml-extlib/test1
 ocaml-findlib/findlib-1.2.2.tar.gz
+ocaml-findlib/findlib-1.2.3.tar.gz
 ocaml-lablgl/lablgl-1.03.tar.gz
 ocaml-libvirt/ocaml-libvirt-0.4.4.2.tar.gz
 ocaml-xml-light/xml-light-2.2.cvs20070817.tar.gz
