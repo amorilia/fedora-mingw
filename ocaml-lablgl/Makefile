@@ -12,4 +12,4 @@ all: balls.opt balls.exe
 
 %.exe: %.ml
 	OCAMLFIND_CONF=/etc/i686-pc-mingw32-ocamlfind.conf \
-	ocamlfind ocamlopt -I +lablGL lablgl.cmxa $< -o $@
+	ocamlfind ocamlopt -I +lablGL unix.cmxa lablglut.cmxa lablgl.cmxa $< -o $@

@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-lablgl
 Version:        1.03
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of LablGL is an OpenGL interface
 
 License:        BSD
@@ -19,11 +19,13 @@ Source0:        http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/dist/lablgl-%{vers
 Patch0:         lablgl-tk8.5.patch
 
 Patch1000:      mingw32-ocaml-lablgl-1.03-make-fixes.patch
+Patch1001:      mingw32-ocaml-lablgl-1.03-no-toplevel.patch
+Patch1002:      mingw32-ocaml-lablgl-1.03-evil-glut-header.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 35
+BuildRequires:  mingw32-filesystem >= 38
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
@@ -32,6 +34,9 @@ BuildRequires:  mingw32-ocaml >= 3.11.0
 # labltk is used by the native package, but is essentially optional.
 #BuildRequires: mingw32-ocaml-labtk
 
+# Because of the evil glut patch above, we in fact use the
+# native GLUT header files.
+BuildRequires:  freeglut-devel
 
 %description
 LablGL is is an Objective Caml interface to OpenGL. Support is
@@ -41,7 +46,7 @@ implementations (SGI, Digital Unix, Solaris...), with XFree86 GLX
 extension, or with open-source Mesa.
 
 This is the MinGW Windows port of this package.  Currently it does not
-support Togl (Tk integration) or GLUT.
+support Togl (Tk integration).
 
 
 %prep
@@ -49,11 +54,13 @@ support Togl (Tk integration) or GLUT.
 
 %patch0 -p1
 %patch1000 -p1
+%patch1001 -p1
+%patch1002 -p1
 
 cat > Makefile.config <<__EOF__
 CAMLC = %{_mingw32_target}-ocamlc
 CAMLOPT = %{_mingw32_target}-ocamlopt
-BINDIR = %{_bindir}
+BINDIR = %{_mingw32_bindir}
 #XINCLUDES = -I%{_prefix}/X11R6/include
 #XLIBS = -lXext -lXmu -lX11
 #TKINCLUDES = -I%{_includedir}
@@ -61,7 +68,7 @@ GLINCLUDES = -DHAS_GLEXT_H -DGL_GLEXT_PROTOTYPES -DGLU_VERSION_1_3
 GLLIBS = -lglu32 -lopengl32
 GLUTLIBS = -lglut32
 RANLIB = i686-pc-mingw32-ranlib
-TOOLCHAIN = msvc
+TOOLCHAIN = unix
 XB = .bat
 XE = .exe
 XS = .dll
@@ -77,19 +84,18 @@ __EOF__
 
 
 %build
-make lib
-make libopt
+make LIBRARIAN=i686-pc-mingw32-ocamlmklib lib glut libopt glutopt
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs
 make INSTALLDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL \
     DLLDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs \
-    BINDIR=$RPM_BUILD_ROOT%{_bindir} \
+    BINDIR=$RPM_BUILD_ROOT%{_mingw32_bindir} \
     install
 
 # Make and install a META file.
@@ -118,9 +124,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%{_mingw32_bindir}/lablglut.bat
 %{_libdir}/%{_mingw32_target}-ocaml/lablGL/
+%{_libdir}/%{_mingw32_target}-ocaml/stublibs/dlllablgl.dll
+%{_libdir}/%{_mingw32_target}-ocaml/stublibs/dlllablglut.dll
 
 
 %changelog
-* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.03-1
+* Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.03-3
 - Initial RPM release.

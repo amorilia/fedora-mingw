@@ -1,0 +1,11 @@
+--- lablgl-1.03/LablGlut/src/wrap_glut.c.orig	2008-11-23 20:40:12.000000000 +0000
++++ lablgl-1.03/LablGlut/src/wrap_glut.c	2008-11-23 20:41:13.000000000 +0000
+@@ -13,7 +13,7 @@
+ #ifdef __APPLE__
+ #include <GLUT/glut.h>
+ #else
+-#include <GL/glut.h>
++#include "/usr/include/GL/glut.h"
+ #endif
+ #include <stdio.h>
+ #include <stdlib.h>
