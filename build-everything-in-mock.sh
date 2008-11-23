@@ -8,7 +8,6 @@ pidgin
 python
 nspr
 nss
-ocaml-lablgl
 wix"
 
 rm -f */*.src.rpm

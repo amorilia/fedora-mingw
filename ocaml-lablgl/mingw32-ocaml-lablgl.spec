@@ -18,6 +18,8 @@ Source0:        http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/dist/lablgl-%{vers
 # Patches from native Fedora package:
 Patch0:         lablgl-tk8.5.patch
 
+Patch1000:      mingw32-ocaml-lablgl-1.03-make-fixes.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -38,11 +40,15 @@ support for LablGL.  It can be used either with proprietary OpenGL
 implementations (SGI, Digital Unix, Solaris...), with XFree86 GLX
 extension, or with open-source Mesa.
 
+This is the MinGW Windows port of this package.  Currently it does not
+support Togl (Tk integration) or GLUT.
+
 
 %prep
 %setup -q -n lablgl-%{version}
 
 %patch0 -p1
+%patch1000 -p1
 
 cat > Makefile.config <<__EOF__
 CAMLC = %{_mingw32_target}-ocamlc
@@ -59,8 +65,9 @@ TOOLCHAIN = msvc
 XB = .bat
 XE = .exe
 XS = .dll
-MKLIB = ar rcs
-MKDLL = i686-pc-mingw32-gcc -shared -o
+# NB: The next two lines have a space after them.
+MKLIB = i686-pc-mingw32-ar rcs 
+MKDLL = i686-pc-mingw32-ocamlmklib -o 
 LIBDIR = %{_libdir}/%{_mingw32_target}-ocaml
 DLLDIR = %{_libdir}/%{_mingw32_target}-ocaml/stublibs
 INSTALLDIR = %{_libdir}/%{_mingw32_target}-ocaml/lablGL
@@ -70,15 +77,39 @@ __EOF__
 
 
 %build
-make all opt
+make lib
+make libopt
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
 
-# Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libfoo.a
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs
+make INSTALLDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL \
+    DLLDIR=$RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/stublibs \
+    BINDIR=$RPM_BUILD_ROOT%{_bindir} \
+    install
+
+# Make and install a META file.
+cat <<EOM >META
+version="%{version}"
+directory="+lablgl"
+archive(byte) = "lablgl.cma"
+archive(native) = "lablgl.cmxa"
+EOM
+cp META $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL
+
+# Remove unnecessary *.ml files (ones which have a *.mli).
+pushd $RPM_BUILD_ROOT%{_libdir}/%{_mingw32_target}-ocaml/lablGL
+for f in *.ml; do \
+  b=`basename $f .ml`; \
+  if [ -f "$b.mli" ]; then \
+    rm $f; \
+  fi; \
+done
+popd
 
 
 %clean
@@ -87,9 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/foo.dll
-%{_mingw32_libdir}/foo.dll.a
-# etc.
+%{_libdir}/%{_mingw32_target}-ocaml/lablGL/
 
 
 %changelog
