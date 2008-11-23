@@ -181,7 +181,7 @@ sub dependency_in
     0;
 }
 
-my @names = keys %srpms;
+my @names = sort keys %srpms;
 foreach my $name (@names) {
     my @buildrequires = @{$srpms{$name}->{buildrequires}};
     @buildrequires = grep { $_ = dependency_in ($_, @names) } @buildrequires;
