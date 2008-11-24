@@ -8,6 +8,7 @@ pidgin
 python
 nspr
 nss
+virt-ctrl
 wix"
 
 rm -f */*.src.rpm
