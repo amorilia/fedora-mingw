@@ -1,0 +1,30 @@
+diff -ur lablgtk-2.10.1.orig/src/Makefile lablgtk-2.10.1.mingw/src/Makefile
+--- lablgtk-2.10.1.orig/src/Makefile	2008-11-24 19:32:20.000000000 +0000
++++ lablgtk-2.10.1.mingw/src/Makefile	2008-11-24 20:02:18.000000000 +0000
+@@ -19,7 +19,8 @@
+ 
+ include $(CONFIG)
+ 
+-TARGETS = varcc$(XE) lablgtktop$(XE) lablgtk2$(XB) gdk-pixbuf-mlsource$(XE)
++#TARGETS = varcc$(XE) lablgtktop$(XE) lablgtk2$(XB) gdk-pixbuf-mlsource$(XE)
++TARGETS = varcc$(XE) lablgtk.cma lablgtk2$(XB) gtkThread.cmo gtkThInit.cmo
+ 
+ all: byte
+ world: byte $(CAMLBEST)
+@@ -294,7 +295,7 @@
+ 	cp lablgtk2$(XB) "$(BINDIR)"
+ 	if test -f lablgladecc$(XE); then \
+ 	   cp lablgladecc$(XE) "$(BINDIR)/lablgladecc2$(XE)"; fi
+-	cp gdk-pixbuf-mlsource$(XE) "$(BINDIR)"
++#	cp gdk-pixbuf-mlsource$(XE) "$(BINDIR)"
+ 
+ installdll:
+ 	cp $(CLIBS:lib%$(XA)=dll%$(XS)) "$(DLLDIR)" || \
+@@ -325,6 +326,7 @@
+ else
+ liblablgtk2$(XA): $(COBJS)
+ 	$(LIBRARIAN) -o lablgtk2 $(COBJS) $(GTKLIBS)
++	$(RANLIB) $@
+ lablgtk.cma: liblablgtk2$(XA) $(MLOBJS)
+ 	$(LIBRARIAN) -o lablgtk -oc lablgtk2 $(MLOBJS) $(GTKLIBS)
+ lablgtk.cmxa: liblablgtk2$(XA) $(MLOBJS:.cmo=.cmx)
