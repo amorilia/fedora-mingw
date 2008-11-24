@@ -6,8 +6,8 @@
 
 Name:           mingw32-runtime
 Version:        3.15.1
-Release:        6%{?dist}
-Summary:        MinGW Windows cross-compiler runtime and root filesystem
+Release:        8%{?dist}
+Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain
 Group:          Development/Libraries
@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 37
+BuildRequires:  mingw32-filesystem >= 39-3
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-gcc
 
@@ -38,7 +38,7 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 
 %build
-MINGW_CFLAGS="%{_mingw32_cflags} -I%{_mingw32_includedir}"
+MINGW32_CFLAGS="%{_mingw32_cflags} -I%{_mingw32_includedir}"
 %{_mingw32_configure}
 %{_mingw32_make}
 
@@ -67,6 +67,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-8
+- Rebuild against latest filesystem package.
+- MINGW_CFLAGS -> MINGW32_CFLAGS.
+- Rewrite the summary for accuracy and brevity.
+
 * Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 3.15.1-6
 - Remove obsoletes for a long dead package.
 - Reenable (and fix) _mingw32_configure (Levente Farkas).

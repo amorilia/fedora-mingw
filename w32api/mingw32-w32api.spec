@@ -6,8 +6,8 @@
 
 Name:           mingw32-w32api
 Version:	3.12
-Release:        4%{?dist}
-Summary:        MinGW Windows cross-compiler Win32 header files
+Release:        6%{?dist}
+Summary:        Win32 header files and stubs
 
 License:        Public Domain
 Group:          Development/Libraries
@@ -17,7 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 37
+BuildRequires:  mingw32-filesystem >= 39-3
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-runtime
@@ -60,6 +60,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 3.12-6
+- Rebuild against latest filesystem package.
+- Rewrite the summary for accuracy and brevity.
+
 * Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 3.12-4
 - Remove obsoletes for a long dead package.
 - Enable _mingw32_configure (Levente Farkas).

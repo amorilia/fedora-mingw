@@ -2,7 +2,7 @@
 
 Name:           mingw32-gcc
 Version:        4.3.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -14,7 +14,7 @@ Patch1:         %{name}-build.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  texinfo
-BuildRequires:  mingw32-filesystem >= 26
+BuildRequires:  mingw32-filesystem >= 39-3
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-runtime
 BuildRequires:  mingw32-w32api
@@ -24,7 +24,8 @@ BuildRequires:  mpfr-devel
 %endif
 BuildRequires:  libgomp
 
-Requires:       mingw32-filesystem >= 26
+# NB: Explicit mingw32-filesystem dependency is REQUIRED here.
+Requires:       mingw32-filesystem >= 39-3
 Requires:       mingw32-binutils
 Requires:       mingw32-runtime
 Requires:       mingw32-w32api
@@ -55,6 +56,7 @@ MinGW Windows cross-compiler for C++
 %setup -q -c
 %setup -q -D -T -a1
 %patch1 -p1
+
 
 %build
 cd gcc-%{version}
@@ -166,6 +168,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-12
+- Rebuild against latest filesystem package.
+
 * Fri Nov 21 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-11
 - Remove obsoletes for a long dead package.
 
