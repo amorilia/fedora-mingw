@@ -27,6 +27,8 @@ use File::Temp qw(tempfile);
 my @arches = ();
 my @distros = ();
 my $localrepo = $ENV{HOME} . "/public_html/smock/yum";
+my $dryrun = 0;
+my $chain = 0;
 my $help = 0;
 my $man = 0;
 
@@ -34,6 +36,8 @@ GetOptions (
     "arch=s" => \@arches,
     "distro=s" => \@distros,
     "localrepo=s" => \$localrepo,
+    "dryrun" => \$dryrun,
+    "chain" => \$chain,
     "help|?" => \$help,
     "man" => \$man
     ) or pod2usage (2);
@@ -86,6 +90,17 @@ You can list this option several times to build several distributions.
 =item B<--localrepo>
 
 Local repository.  Defaults to C<$HOME/public_html/smock/yum>
+
+=item B<--dryrun>
+
+Don't run any commands, just print the packages in the order
+in which they must be built.
+
+=item B<--chain>
+
+Don't run any commands, just print the packages in the correct
+format for chain building.  See:
+L<http://fedoraproject.org/wiki/Koji/UsingKoji#Chained_builds>
 
 =back
 
@@ -202,9 +217,48 @@ close $fh;
 
 my @buildorder = get_lines "tsort $filename";
 
-#foreach (@buildorder) {
-#    print "$_\n";
-#}
+# With --chain flag we print the packages in groups for chain building.
+
+if ($chain) {
+    my %group = ();
+    my $name;
+
+    print 'make chain-build CHAIN="';
+
+    foreach $name (@buildorder) {
+	my @br = @{$srpms{$name}->{buildrequires}};
+
+	# If a BR occurs within the current group, then start the next group.
+	my $occurs = 0;
+	foreach (@br) {
+	    if (exists $group{$_}) {
+		$occurs = 1;
+		last;
+	    }
+	}
+
+	if ($occurs) {
+	    %group = ();
+	    print ": ";
+	}
+
+	$group{$name} = 1;
+	print "$name ";
+    }
+    print "\"\n";
+
+    exit 0
+}
+
+# With --dryrun flag we just print the packages in build order then exit.
+
+if ($dryrun) {
+    foreach (@buildorder) {
+	print "$_\n";
+    }
+
+    exit 0
+}
 
 # Now we can build each SRPM.
 
