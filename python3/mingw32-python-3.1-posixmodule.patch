@@ -1,0 +1,54 @@
+Index: Modules/posixmodule.c
+===================================================================
+--- Modules/posixmodule.c	(revision 67686)
++++ Modules/posixmodule.c	(working copy)
+@@ -98,6 +98,7 @@
+ 
+ /* Various compilers have only certain posix functions */
+ /* XXX Gosh I wish these were all moved into pyconfig.h */
++/* XXX RWMJ agrees.  This sucks for cross-compiling. */
+ #if defined(PYCC_VACPP) && defined(PYOS_OS2)
+ #include <process.h>
+ #else
+@@ -129,6 +130,15 @@
+ #define HAVE_FSYNC	1
+ #define fsync _commit
+ #else
++#if defined(__MINGW32__)	/* MinGW, similar to MS compiler. */
++#define HAVE_GETCWD     1
++#define HAVE_SPAWNV	1
++#define HAVE_EXECV      1
++#define HAVE_SYSTEM	1
++#define HAVE_CWAIT	1
++#define HAVE_FSYNC	1
++#define fsync _commit
++#else
+ #if defined(PYOS_OS2) && defined(PYCC_GCC) || defined(__VMS)
+ /* Everything needed is defined in PC/os2emx/pyconfig.h or vms/pyconfig.h */
+ #else			/* all other compilers */
+@@ -151,6 +161,7 @@
+ #define HAVE_WAIT       1
+ #define HAVE_TTYNAME	1
+ #endif  /* PYOS_OS2 && PYCC_GCC && __VMS */
++#endif  /* __MINGW32__ */
+ #endif  /* _MSC_VER */
+ #endif  /* __BORLANDC__ */
+ #endif  /* ! __WATCOMC__ || __QNX__ */
+@@ -168,7 +179,7 @@
+ #if defined(PYCC_VACPP)
+ extern int mkdir(char *);
+ #else
+-#if ( defined(__WATCOMC__) || defined(_MSC_VER) ) && !defined(__QNX__)
++#if ( defined(__WATCOMC__) || defined(_MSC_VER) || defined(__MINGW32__) ) && !defined(__QNX__)
+ extern int mkdir(const char *);
+ #else
+ extern int mkdir(const char *, mode_t);
+@@ -2488,7 +2499,7 @@
+ 	                      Py_FileSystemDefaultEncoding, &path, &mode))
+ 		return NULL;
+ 	Py_BEGIN_ALLOW_THREADS
+-#if ( defined(__WATCOMC__) || defined(PYCC_VACPP) ) && !defined(__QNX__)
++#if ( defined(__WATCOMC__) || defined(PYCC_VACPP) || defined(__MINGW32__)) && !defined(__QNX__)
+ 	res = mkdir(path);
+ #else
+ 	res = mkdir(path, mode);

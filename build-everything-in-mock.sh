@@ -6,6 +6,7 @@ cyrus-sasl
 gdb
 pidgin
 python
+python3
 nspr
 nss
 virt-ctrl

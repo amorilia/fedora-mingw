@@ -1,0 +1,53 @@
+Index: configure.in
+===================================================================
+--- configure.in	(revision 67686)
++++ configure.in	(working copy)
+@@ -2370,7 +2394,8 @@
+  setlocale setregid setreuid setsid setpgid setpgrp setuid setvbuf snprintf \
+  sigaction siginterrupt sigrelse strftime strlcpy \
+  sysconf tcgetpgrp tcsetpgrp tempnam timegm times tmpfile tmpnam tmpnam_r \
+- truncate uname unsetenv utimes waitpid wait3 wait4 wcscoll wcsxfrm _getpty)
++ truncate uname unsetenv utimes waitpid wait3 wait4 wcscoll wcsxfrm _getpty \
++ _wfopen _wgetcwd _wstat)
+ 
+ # For some functions, having a definition is not sufficient, since
+ # we want to take their address.
+Index: Modules/main.c
+===================================================================
+--- Modules/main.c	(revision 67686)
++++ Modules/main.c	(working copy)
+@@ -100,7 +100,7 @@
+ PYTHONIOENCODING: Encoding[:errors] used for stdin/stdout/stderr.\n\
+ ";
+ 
+-#ifndef MS_WINDOWS
++#ifndef HAVE__WFOPEN
+ static FILE*
+ _wfopen(const wchar_t *path, const wchar_t *mode)
+ {
+Index: Modules/getpath.c
+===================================================================
+--- Modules/getpath.c	(revision 67686)
++++ Modules/getpath.c	(working copy)
+@@ -131,11 +131,7 @@
+ static wchar_t *module_search_path = NULL;
+ static wchar_t lib_python[] = L"lib/python" VERSION;
+ 
+-/* In principle, this should use HAVE__WSTAT, and _wstat
+-   should be detected by autoconf. However, no current
+-   POSIX system provides that function, so testing for
+-   it is pointless. */
+-#ifndef MS_WINDOWS
++#ifndef HAVE__WSTAT
+ static int
+ _wstat(const wchar_t* path, struct stat *buf)
+ {
+@@ -149,7 +145,7 @@
+ }
+ #endif
+ 
+-#ifndef MS_WINDOWS
++#ifndef HAVE__WGETCWD
+ static wchar_t*
+ _wgetcwd(wchar_t *buf, size_t size)
+ {
