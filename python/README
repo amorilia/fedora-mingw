@@ -1,0 +1,50 @@
+This is the plan for building Python under the MinGW Windows
+cross-compiler -- Richard W.M. Jones (rjones@redhat.com) 2008-12-11.
+----------------------------------------------------------------------
+
+Originally we had envisaged only building Python 3.  However because
+Python 3 is substantially incompatible with existing Python code and
+Python bindings to C libraries, this would have made this project less
+than useful for current Python code.
+
+The current plan is to maintain two sets of patches, to Python 2.6 and
+Python 3.x, keeping the patches as similar as possible, and getting
+them upstream quickly.  This allows code to continue to be Python 2.x
+compatible, while providing an upgrade path to Python 3, and providing
+a reasonable way to get patches upstream and experiment with the
+bleeding edge Python 3.
+
+Note that Python 3 is not yet in Fedora, but we require a native
+Python binary is available in order to compile (otherwise the
+generated python.exe has to be run during the compile, but there are
+numerous problems with doing that in practice).  Thus in order to
+build mingw32-python3, we also have to build our own native python3
+"compatibility package" if you will.  This is completely different
+from whatever Fedora will decide to do in future, and is not to be
+confused with the real Python 3 for Fedora.  Once real Python 3 exists
+in Fedora, we can drop this compatibility package.
+
+In conclusion, the packages we are building are:
+
+    In python/ subdirectory:
+
+	mingw32-python		Python 2.6 cross-compiled to Windows.
+
+    In python3/ subdirectory:
+
+	mingw32-python3		Python 3.x cross-compiled to Windows.
+
+	python3			Fake Python 3 native package (we don't
+				intend to ever release this, beyond
+				MinGW developers).
+
+
+Current status
+----------------------------------------------------------------------
+
+mingw32-python (cross-compiled Python 2.6): Initial build.  Contains
+no Fedora native patches yet.
+
+mingw32-python3: Initial build.
+
+python3: Fake package created.
