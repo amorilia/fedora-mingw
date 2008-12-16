@@ -1,6 +1,6 @@
---- sqlite-3.5.9/Makefile.in.orig	2008-09-30 12:06:50.000000000 +0100
-+++ sqlite-3.5.9/Makefile.in	2008-09-30 12:07:07.000000000 +0100
-@@ -413,13 +413,14 @@
+--- sqlite-3.6.6.2/Makefile.in.orig	2008-12-16 15:43:08.000000000 +0000
++++ sqlite-3.6.6.2/Makefile.in	2008-12-16 15:43:27.000000000 +0000
+@@ -448,13 +448,14 @@
  
  libsqlite3.la:	$(LIBOBJ)
  	$(LTLINK) -o $@ $(LIBOBJ) $(TLIBS) \
@@ -10,7 +10,7 @@
  
  libtclsqlite3.la:	tclsqlite.lo libsqlite3.la
  	$(LTLINK) -o $@ tclsqlite.lo \
- 		$(LIBOBJ) @TCL_STUB_LIB_SPEC@ $(TLIBS) \
+ 		libsqlite3.la @TCL_STUB_LIB_SPEC@ $(TLIBS) \
                  -rpath "$(libdir)/sqlite" \
 -		-version-info "8:6:8"
 +		-version-info "8:6:8" -no-undefined

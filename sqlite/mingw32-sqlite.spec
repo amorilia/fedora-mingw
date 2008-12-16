@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-sqlite
-Version:        3.5.9
-Release:        3%{?dist}
+Version:        3.6.6.2
+Release:        1%{?dist}
 Summary:        MinGW Windows port of sqlite embeddable SQL database engine
 
 License:        Public Domain
@@ -17,9 +17,12 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-Patch1:         sqlite-3.5.8-pkgconfig-version.patch
+# Patches from Fedora native package.
+Patch1:         sqlite-3.6.6.2-libdl.patch
+Patch2:         sqlite-3.6.6.2-lemon-snprintf.patch
 
-Patch1000:      mingw32-sqlite-3.5.9-no-undefined.patch
+# Patches for MinGW port.
+Patch1000:      mingw32-sqlite-3.6.6.2-no-undefined.patch
 
 BuildRequires:  mingw32-filesystem >= 26
 BuildRequires:  mingw32-gcc
@@ -31,6 +34,8 @@ BuildRequires:  mingw32-termcap >= 1.3.1-3
 
 BuildRequires:  autoconf
 BuildRequires:  libtool
+
+Requires:       pkgconfig
 
 
 %description
@@ -48,7 +53,8 @@ for Windows.
 
 %prep
 %setup -q -n sqlite-%{version}
-%patch1 -p1
+%patch1 -p1 -b .libdl
+%patch2 -p1 -b .lemon-sprintf
 %patch1000 -p1
 
 # Ships with an old/broken version of libtool which cannot create
@@ -78,6 +84,8 @@ make DESTDIR=$RPM_BUILD_ROOT install
 # Remove static libraries but DON'T remove *.dll.a files.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libsqlite3.a
 
+chmod 0644 $RPM_BUILD_ROOT%{_mingw32_libdir}/libsqlite3.dll.a
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc README VERSION
 %{_mingw32_bindir}/sqlite3.exe
 %{_mingw32_bindir}/libsqlite3-0.dll
 %{_mingw32_libdir}/libsqlite3.dll.a
@@ -92,10 +101,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_includedir}/sqlite3.h
 %{_mingw32_includedir}/sqlite3ext.h
 %{_mingw32_libdir}/pkgconfig/sqlite3.pc
-# etc.
 
 
 %changelog
+* Tue Dec 16 2008 Richard Jones <rjones@redhat.com> - 3.6.6.2-1
+- New upstream release (to match Fedora native), 3.6.6.2.
+- Replace patches with ones from native.
+- Rebase -no-undefined patch.
+- Remove spurious +x permissions on libsqlite3.dll.a.
+- Requires pkgconfig.
+
 * Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 3.5.9-3
 - Rebuild against new readline.
 
