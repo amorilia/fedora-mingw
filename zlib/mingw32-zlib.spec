@@ -6,7 +6,7 @@
 
 Name:           mingw32-zlib
 Version:        1.2.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        MinGW Windows zlib compression library
 
 License:        zlib
@@ -46,6 +46,7 @@ RANLIB=%{_mingw32_ranlib} \
 ./configure
 
 make -f win32/Makefile.gcc \
+  CFLAGS="%{_mingw32_cflags}" \
   CC=%{_mingw32_cc} \
   AR=%{_mingw32_ar} \
   RC=i686-pc-mingw32-windres \
@@ -88,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 18 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-11
+- Pass correct CFLAGS to build.
+
 * Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-10
 - Consider native patches.
 
