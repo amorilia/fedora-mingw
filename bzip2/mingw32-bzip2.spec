@@ -11,7 +11,7 @@
 
 Name:           mingw32-bzip2
 Version:        1.0.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW port of bzip2 file compression utility
 
 License:        BSD
@@ -116,6 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE
 
 %{_mingw32_bindir}/bz2-1.dll
 %{_mingw32_libdir}/libbz2.dll.a
@@ -136,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 18 2008 Richard Jones <rjones@redhat.com> - 1.0.5-5
+- Include the LICENSE file in doc section.
+
 * Sat Nov 22 2008 Richard Jones <rjones@redhat.com> - 1.0.5-4
 - Rename the implib as libbz2.dll.a so that libtool can find it.
 
