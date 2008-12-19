@@ -6,7 +6,7 @@
 
 Name:      mingw32-iconv
 Version:   1.12
-Release:   5%{?dist}
+Release:   6%{?dist}
 Summary:   GNU libraries and utilities for character set conversion
 
 License:   GPLv2+ and LGPLv2+
@@ -61,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING COPYING.LIB
 %{_mingw32_bindir}/iconv
 %{_mingw32_bindir}/libcharset-1.dll
 %{_mingw32_bindir}/libiconv-2.dll
@@ -76,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 19 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-6
+- Include the license files in doc section.
+
 * Mon Nov  3 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-5
 - Changed the summary (Bruno Haible).
 - Note about mingw32-gettext / Remove *.mo files.
