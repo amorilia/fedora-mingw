@@ -6,7 +6,7 @@
 
 Name:      mingw32-iconv
 Version:   1.12
-Release:   6%{?dist}
+Release:   7%{?dist}
 Summary:   GNU libraries and utilities for character set conversion
 
 License:   GPLv2+ and LGPLv2+
@@ -77,8 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Dec 19 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-6
+* Fri Dec 19 2008 Richard W.M. Jones <rjones@redhat.com> - 1.12-7
 - Include the license files in doc section.
+- Fix the changelog entry numbering.
 
 * Mon Nov  3 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-5
 - Changed the summary (Bruno Haible).
