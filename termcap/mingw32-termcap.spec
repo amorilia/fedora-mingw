@@ -13,7 +13,7 @@
 
 Name:           mingw32-termcap
 Version:        1.3.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW terminal feature database
 
 License:        GPLv2+
@@ -87,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libtermcap-0.dll
 %{_mingw32_libdir}/libtermcap.dll.a
 %{_mingw32_includedir}/termcap.h
@@ -96,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 19 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-5
+- Added license file to doc section.
+
 * Wed Nov 19 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-4
 - Rerun autoconf because the standard configure doesn't know --bindir.
 - Set exec_prefix during make install step.
