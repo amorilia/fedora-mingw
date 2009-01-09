@@ -4,15 +4,15 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
-%define crazy_version 2-8-0
-
 # The tests take ages to run and require Wine.
 %define run_tests 0
 
 Name:           mingw32-pthreads
 Version:        2.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW pthread library
+
+%define crazy_version %(echo %{version}|tr . -)
 
 License:        LGPLv2+
 Group:          Development/Libraries
@@ -24,8 +24,9 @@ BuildArch:      noarch
 
 Patch0:         mingw32-pthreads-2.8.0-use-wine-for-tests.patch
 Patch1:         mingw32-pthreads-2.8.0-no-failing-tests.patch
+Patch2:		mingw32-pthreads-flags.patch
 
-BuildRequires:  mingw32-filesystem >= 30
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
@@ -55,21 +56,23 @@ high-quality solution to this problem.
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 
 %build
-make clean
-make CROSS=%{_mingw32_host}- GC-inlined
-make CROSS=%{_mingw32_host}- GCE-inlined
+%{_mingw32_make} clean
+%{_mingw32_make} CROSS=%{_mingw32_host}- GC-inlined
+%{_mingw32_make} clean
+%{_mingw32_make} CROSS=%{_mingw32_host}- GCE-inlined
 
 
 %check
 %if %{run_tests}
 pushd tests
-make clean
-make QAPC= CC=i686-pc-mingw32-gcc XXCFLAGS="-D__CLEANUP_C" TEST=GC all-pass
-make clean
-make QAPC= CC=i686-pc-mingw32-gcc XXCFLAGS="-D__CLEANUP_C" TEST=GCE all-pass
+%{_mingw32_make} clean
+%{_mingw32_make} QAPC= CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GC all-pass
+%{_mingw32_make} clean
+%{_mingw32_make} QAPC= CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GCE all-pass
 popd
 %endif
 
@@ -104,5 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Dec 29 2008 Levente Farkas <lfarkas@lfarkas.org> - 2.8.0-3
+- minor cleanup
+
 * Fri Oct 10 2008 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-2
 - Initial RPM release.
