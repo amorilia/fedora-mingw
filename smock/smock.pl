@@ -212,6 +212,10 @@ foreach my $name (@names) {
     foreach (@buildrequires) {
 	print $fh "$_ $name\n"
     }
+    # Add a self->self dependency.  This ensures that any
+    # packages which don't have or appear as a dependency of
+    # any other package still get built.
+    print $fh "$name $name\n"
 }
 close $fh;
 
