@@ -6,7 +6,7 @@
 
 Name:           mingw32-SDL
 Version:        1.2.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of SDL cross-platform multimedia library
 
 License:        LGPLv2+
@@ -28,10 +28,20 @@ Patch26:        SDL-1.2.13-dynamic-pulse.patch
 Patch27:        SDL-1.2.13-pulse-rework.patch
 Patch28:        SDL-1.2.13-audiodriver.patch
 
-BuildRequires:  mingw32-filesystem >= 30
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-iconv
 
+Required:       pkgconfig
+
+# Not required at the moment, but SDL does contain plenty of C++ code,
+# I just haven't worked out how to enable it.
+#BuildRequires:  mingw32-gcc-c++
+
+# If we have nasm in the future, then this would enable future
+# optimizations on x86-based architectures.
 #%ifarch %{ix86}
 #BuildRequires: nasm
 #%endif
@@ -82,6 +92,10 @@ rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libSDL.a
 # a single object file called SDL_win32_main.o.
 #rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libSDLmain.a
 
+# Delete man pages since they duplicate what is already available
+# in base Fedora package.
+rm $RPM_BUILD_ROOT%{_mingw32_mandir}/man3/*.3*
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/SDL.dll
 %{_mingw32_bindir}/sdl-config
 %{_mingw32_libdir}/libSDL.dll.a
@@ -96,10 +111,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libSDLmain.a
 %{_mingw32_libdir}/pkgconfig/sdl.pc
 %{_mingw32_datadir}/aclocal/sdl.m4
-%{_mingw32_mandir}/man3/*.3*
 %{_mingw32_includedir}/SDL
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-3
+- Verify we are still up to date with Fedora release.
+- Include COPYING in documentation.
+- Build with dlfcn.
+- List all BRs.
+- No need to package the man pages, don't duplicate what's in the
+  base Fedora package already.
+- Requires pkgconfig.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-2
 - Initial RPM release.
