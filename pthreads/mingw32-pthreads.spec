@@ -9,7 +9,7 @@
 
 Name:           mingw32-pthreads
 Version:        2.8.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW pthread library
 
 %define crazy_version %(echo %{version}|tr . -)
@@ -70,9 +70,11 @@ high-quality solution to this problem.
 %if %{run_tests}
 pushd tests
 %{_mingw32_make} clean
-%{_mingw32_make} QAPC= CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GC all-pass
+%{_mingw32_make} QAPC= \
+  CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GC all-pass
 %{_mingw32_make} clean
-%{_mingw32_make} QAPC= CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GCE all-pass
+%{_mingw32_make} QAPC= \
+  CC=%{_mingw32_cc} XXCFLAGS="-D__CLEANUP_C" TEST=GCE all-pass
 popd
 %endif
 
@@ -96,17 +98,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc ANNOUNCE BUGS ChangeLog CONTRIBUTORS COPYING COPYING.LIB
+%doc FAQ MAINTAINERS NEWS PROGRESS README README.NONPORTABLE TODO
 %{_mingw32_bindir}/pthreadGC2.dll
 %{_mingw32_bindir}/pthreadGCE2.dll
 %{_mingw32_bindir}/pthread.def
 %{_mingw32_libdir}/libpthreadGC2.a
 %{_mingw32_libdir}/libpthreadGCE2.a
 %{_mingw32_includedir}/pthread
-%doc ANNOUNCE BUGS ChangeLog CONTRIBUTORS COPYING COPYING.LIB
-%doc FAQ MAINTAINERS NEWS PROGRESS README README.NONPORTABLE TODO
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-4
+- Cleanup to the spec file, no functional changes.
+
 * Mon Dec 29 2008 Levente Farkas <lfarkas@lfarkas.org> - 2.8.0-3
 - minor cleanup
 
