@@ -6,7 +6,7 @@
 
 Name:           mingw32-nspr
 Version:        4.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -28,6 +28,8 @@ Patch1000:      mingw32-nspr-4.7.2-build.patch
 BuildRequires:  mingw32-filesystem >= 33
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+
+Requires:       pkgconfig
 
 
 %description
@@ -129,5 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-3
+- Requires pkgconfig.
+
 * Mon Nov 10 2008 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-2
 - Initial RPM release.

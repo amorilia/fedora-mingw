@@ -6,7 +6,7 @@
 
 Name:           mingw32-freetype
 Version:        2.3.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Freetype library
 
 License:        FTL or GPLv2+
@@ -16,11 +16,10 @@ Source1:         http://download.savannah.gnu.org/releases/freetype/freetype-doc
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Patch1:  freetype-2.1.10-enable-ft2-bci.patch
-Patch2:  freetype-2.3.0-enable-spr.patch
-Patch3:  freetype-2.2.1-enable-valid.patch
-Patch4:  freetype-2.2.1-memcpy-fix.patch
-
+Patch1:         freetype-2.1.10-enable-ft2-bci.patch
+Patch2:         freetype-2.3.0-enable-spr.patch
+Patch3:         freetype-2.2.1-enable-valid.patch
+Patch4:         freetype-2.2.1-memcpy-fix.patch
 
 BuildArch:      noarch
 
@@ -28,6 +27,9 @@ BuildRequires:  mingw32-filesystem >= 25
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-zlib
+
+Requires:       pkgconfig
+
 
 %description
 MinGW Windows Freetype library.
@@ -66,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.3.7-6
+- Requires pkgconfig.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.3.7-5
 - Rename mingw -> mingw32.
 

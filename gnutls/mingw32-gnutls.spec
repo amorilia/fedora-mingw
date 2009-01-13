@@ -6,7 +6,7 @@
 
 Name:           mingw32-gnutls
 Version:        2.4.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -34,6 +34,9 @@ BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-zlib
 BuildRequires:  autoconf automake libtool
+
+Requires:       pkgconfig
+
 
 %description
 MinGW Windows GnuTLS TLS/SSL encryption library.
@@ -108,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-4
+- Requires pkgconfig.
+
 * Thu Nov 13 2008 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-3
 - fix chain verification issue CVE-2008-4989 (#470079)
 - separate out the MinGW-specific patch from the others

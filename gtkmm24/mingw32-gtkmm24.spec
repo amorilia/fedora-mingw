@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtkmm24
 Version:        2.14.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows C++ interface for GTK2 (a GUI library for X)
 
 License:        LGPLv2+
@@ -27,6 +27,8 @@ BuildRequires:  mingw32-pango >= 1.5.2
 BuildRequires:  mingw32-gtk2 >= 2.14.0
 BuildRequires:  mingw32-cairomm >= 1.2.2
 BuildRequires:  mingw32-pangomm >= 2.14.0
+
+Requires:       pkgconfig
 
 
 %description
@@ -81,5 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-2
+- Requires pkgconfig.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-1
 - Initial RPM release.

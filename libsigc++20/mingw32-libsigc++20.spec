@@ -6,7 +6,7 @@
 
 Name:           mingw32-libsigc++20
 Version:        2.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of the typesafe signal framework for C++
 
 License:        LGPLv2+
@@ -23,6 +23,8 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 
 BuildRequires:  m4
+
+Requires:       pkgconfig
 
 
 %description
@@ -71,5 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-2
+- Requires pkgconfig.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-1
 - Initial RPM release.

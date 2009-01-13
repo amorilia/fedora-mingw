@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxml2
 Version:        2.7.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -28,6 +28,8 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-zlib
 BuildRequires:  mingw32-gettext
+
+Requires:       pkgconfig
 
 
 %description
@@ -77,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-4
+- Requires pkgconfig.
+
 * Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-3
 - Enable modules support for libxslt.
 

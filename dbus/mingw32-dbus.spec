@@ -16,7 +16,7 @@
 
 Name:           mingw32-dbus
 Version:        1.2.4
-Release:        0.1.%{date}svn%{?dist}
+Release:        0.2.%{date}svn%{?dist}
 Summary:        MinGW Windows port of DBus
 
 License:        GPLv2+ or AFL
@@ -59,6 +59,8 @@ BuildRequires:  libtool, automake, autoconf
 # This keeps dbus-c++ subpackage happy while building.  We have
 # hacked the Makefile to give the correct location of the libraries.
 BuildRequires:  dbus-devel
+
+Requires:       pkgconfig
 
 
 %description
@@ -151,7 +153,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_includedir}/dbus-1.0/
 
 
-
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-0.2.20081031svn
+- Requires pkgconfig.
+
 * Mon Nov  3 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-0.1.20081031svn
 - Initial RPM release.

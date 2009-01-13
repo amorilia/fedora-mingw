@@ -6,7 +6,7 @@
 
 Name:           mingw32-libglade2
 Version:        2.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Libglade2 library
 
 License:        LGPLv2+
@@ -27,6 +27,8 @@ BuildRequires:  mingw32-pango
 BuildRequires:  mingw32-gettext
 # Native one for msgfmt
 BuildRequires:  gettext
+
+Requires:       pkgconfig
 
 %description
 MinGW Windows Libglade2 library.
@@ -66,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-2
+- Requires pkgconfig.
+
 * Fri Nov 28 2008 Daniel P. Berrange <berrange@redhat.com> - 2.6.3-1
 - Initial build
 
