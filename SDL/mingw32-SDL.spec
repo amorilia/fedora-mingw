@@ -6,7 +6,7 @@
 
 Name:           mingw32-SDL
 Version:        1.2.13
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of SDL cross-platform multimedia library
 
 License:        LGPLv2+
@@ -115,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-3
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.13-4
 - Verify we are still up to date with Fedora release.
 - Include COPYING in documentation.
 - Build with dlfcn.
