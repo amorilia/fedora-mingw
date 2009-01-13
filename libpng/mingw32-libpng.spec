@@ -5,25 +5,27 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-libpng
-Version:        1.2.31
-Release:        5%{?dist}
+Version:        1.2.34
+Release:        1%{?dist}
 Summary:        MinGW Windows Libpng library
 
 License:        zlib
 URL:            http://www.libpng.org/pub/png/
 Source0:        ftp://ftp.simplesystems.org/pub/png/src/libpng-%{version}.tar.bz2
-Patch1: libpng-pngconf.patch
-Patch2: libpng-ztxt-bug.patch
+Patch0:         libpng-multilib.patch
+Patch1:         libpng-pngconf.patch
 
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 41
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-zlib
+
+Requires:       pkgconfig
 
 %description
 MinGW Windows Libpng library.
@@ -31,8 +33,8 @@ MinGW Windows Libpng library.
 
 %prep
 %setup -q -n libpng-%{version}
+%patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{_mingw32_configure}
@@ -56,6 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc ANNOUNCE CHANGES KNOWNBUG LICENSE README TODO Y2KINFO
 %{_mingw32_bindir}/libpng-3.dll
 %{_mingw32_bindir}/libpng-config
 %{_mingw32_bindir}/libpng12-0.dll
@@ -73,6 +76,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.34-1
+- Rebase to 1.2.34 and patches from Fedora.
+- Requires pkgconfig.
+- Add documentation.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.31-5
 - Rename mingw -> mingw32.
 
