@@ -6,7 +6,7 @@
 
 Name:           mingw32-libpng
 Version:        1.2.34
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Libpng library
 
 License:        zlib
@@ -20,7 +20,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 41
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-zlib
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.34-2
+- Depend on mingw32-filesystem >= 40 so we can still build in F-10.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.34-1
 - Rebase to 1.2.34 and patches from Fedora.
 - Requires pkgconfig.
