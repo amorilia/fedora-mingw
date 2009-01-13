@@ -34,7 +34,7 @@ BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-iconv
 
-Required:       pkgconfig
+Requires:       pkgconfig
 
 # Not required at the moment, but SDL does contain plenty of C++ code,
 # I just haven't worked out how to enable it.
