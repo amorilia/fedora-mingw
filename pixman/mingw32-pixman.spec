@@ -5,21 +5,26 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-pixman
-Version:        0.12.0
-Release:        2%{?dist}
+Version:        0.13.2
+Release:        1%{?dist}
 Summary:        MinGW Windows Pixman library
 
 License:        MIT
 URL:            http://xorg.freedesktop.org/
-Source0:        http://xorg.freedesktop.org/archive/individual/lib/pixman-%{version}.tar.gz
 Group:          Development/Libraries
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+Source0:        http://xorg.freedesktop.org/archive/individual/lib/pixman-%{version}.tar.gz
+Source1:        make-pixman-snapshot.sh
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
+
+Requires:       pkgconfig
 
 %description
 MinGW Windows Pixman library.
@@ -28,11 +33,12 @@ MinGW Windows Pixman library.
 %prep
 %setup -q -n pixman-%{version}
 
+
 %build
 # Uses GTK for its testsuite, so disable this otherwise
 # we have a chicken & egg problem on mingw
-%{_mingw32_configure} --disable-gtk
-make
+%{_mingw32_configure} --disable-gtk --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -40,7 +46,6 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
-rm $RPM_BUILD_ROOT/%{_mingw32_libdir}/libpixman-1.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -54,7 +59,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libpixman-1.la
 %{_mingw32_libdir}/pkgconfig/pixman-1.pc
 
+
 %changelog
+* Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 0.13.2-1
+- Resynch with Fedora package (0.13.2).
+- Disable static library for speed.
+- Use _smp_mflags.
+- Requires pkgconfig.
+- Depends on dlfcn.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 0.12.0-2
 - Rename mingw -> mingw32.
 
