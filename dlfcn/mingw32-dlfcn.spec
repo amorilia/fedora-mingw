@@ -9,8 +9,8 @@
 %define alphatag r11
 
 Name:          mingw32-dlfcn
-Version:       0.1
-Release:       0.2.%{alphatag}%{?dist}
+Version:       0
+Release:       0.3.%{alphatag}%{?dist}
 Summary:       Implements a wrapper for dlfcn (dlopen dlclose dlsym dlerror)
 
 License:       LGPLv2+
@@ -24,7 +24,7 @@ BuildArch:     noarch
 BuildRequires: mingw32-filesystem >= 40
 BuildRequires: mingw32-gcc
 BuildRequires: mingw32-binutils
-BuildRequires: dos2unix
+#BuildRequires: dos2unix
 
 Patch1:        dlfcn_configure.patch
 
@@ -36,9 +36,10 @@ around the dynamic link library functions found in the Windows API.
 
 %prep
 %setup -q -n %{realname}-%{alphatag}
-dos2unix --keepdate configure
-dos2unix --keepdate README
-dos2unix --keepdate COPYING
+
+%{__sed} -i 's/\r//' configure
+%{__sed} -i 's/\r//' README
+%{__sed} -i 's/\r//' COPYING
 
 %patch1 -p1
 
@@ -50,7 +51,7 @@ dos2unix --keepdate COPYING
   --enable-shared=yes \
   --enable-static=no \
   --enable-strip=i686-pc-mingw32-strip
-make 
+make %{?_smp_mflags}
 
 
 %install
@@ -71,6 +72,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 14 2009 Richard W.M. Jones <rjones@redhat.com> - 0-0.3.r11
+- Use Version 0
+  (https://www.redhat.com/archives/fedora-packaging/2009-January/msg00064.html)
+- Revert use of dos2unix for now
+  (https://www.redhat.com/archives/fedora-packaging/2009-January/msg00066.html)
+- Use _smp_mflags.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.2.r11
 - Import into fedora-mingw temporary repository because there are packages
   which will depend on this.
