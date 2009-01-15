@@ -6,7 +6,7 @@
 
 Name:           mingw32-pixman
 Version:        0.13.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Pixman library
 
 License:        MIT
@@ -15,6 +15,8 @@ Group:          Development/Libraries
 
 Source0:        http://xorg.freedesktop.org/archive/individual/lib/pixman-%{version}.tar.gz
 Source1:        make-pixman-snapshot.sh
+
+Patch0:         pixman-0.13.2-license.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -32,6 +34,7 @@ MinGW Windows Pixman library.
 
 %prep
 %setup -q -n pixman-%{version}
+%patch0 -p1
 
 
 %build
@@ -53,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE
 %{_mingw32_bindir}/libpixman-1-0.dll
 %{_mingw32_includedir}/pixman-1
 %{_mingw32_libdir}/libpixman-1.dll.a
@@ -61,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 15 2009 Richard W.M. Jones <rjones@redhat.com> - 0.13.2-2
+- Include LICENSE file (freedesktop bug 19582).
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 0.13.2-1
 - Resynch with Fedora package (0.13.2).
 - Disable static library for speed.
