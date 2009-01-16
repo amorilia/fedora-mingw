@@ -6,7 +6,7 @@
 
 Name:      mingw32-gettext
 Version:   0.17
-Release:   6%{?dist}
+Release:   7%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
@@ -27,6 +27,13 @@ BuildRequires: mingw32-binutils
 BuildRequires: mingw32-iconv
 BuildRequires: mingw32-termcap >= 1.3.1-3
 
+# Possible extra BRs.  These are used if available, but
+# not required just for building.
+#BuildRequires: mingw32-dlfcn
+#BuildRequires: mingw32-libxml2
+#BuildRequires: mingw32-expat
+#BuildRequires: mingw32-glib2
+
 
 %description
 MinGW Windows Gettext library
@@ -43,10 +50,10 @@ MinGW Windows Gettext library
   --disable-java \
   --disable-native-java \
   --disable-csharp \
+  --disable-static \
   --enable-threads=win32 \
   --without-emacs
-
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -57,10 +64,9 @@ rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/locale/locale.alias
 rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/charset.alias
 rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/info/dir
 
-# Remove static libraries.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libasprintf.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgettextpo.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libintl.a
+# Remove man pages, these are available in base gettext-devel.
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}/man1/
+rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}/man3/
 
 
 %clean
@@ -69,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/autopoint
 %{_mingw32_bindir}/envsubst.exe
 %{_mingw32_bindir}/gettext.exe
@@ -117,27 +124,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/locale/*/LC_MESSAGES/gettext-tools.mo
 %{_mingw32_datadir}/locale/*/LC_MESSAGES/gettext-runtime.mo
 
-%{_mingw32_mandir}/man1/autopoint.1*
-%{_mingw32_mandir}/man1/envsubst.1*
-%{_mingw32_mandir}/man1/gettext.1*
-%{_mingw32_mandir}/man1/gettextize.1*
-%{_mingw32_mandir}/man1/msg*1*
-%{_mingw32_mandir}/man1/ngettext.1*
-%{_mingw32_mandir}/man1/recode-sr-latin.1*
-%{_mingw32_mandir}/man1/xgettext.1*
-
-%{_mingw32_mandir}/man3/bind_textdomain_codeset.3*
-%{_mingw32_mandir}/man3/bindtextdomain.3*
-%{_mingw32_mandir}/man3/dcgettext.3*
-%{_mingw32_mandir}/man3/dcngettext.3*
-%{_mingw32_mandir}/man3/dgettext.3*
-%{_mingw32_mandir}/man3/dngettext.3*
-%{_mingw32_mandir}/man3/gettext.3*
-%{_mingw32_mandir}/man3/ngettext.3*
-%{_mingw32_mandir}/man3/textdomain.3*
-
 
 %changelog
+* Fri Jan 16 2009 Richard W.M. Jones <rjones@redhat.com> - 0.17-7
+- Remove the manpages - already available in base Fedora gettext-devel.
+- Use _smp_mflags for build.
+- Added list of potential BRs.
+- Added license file to doc section.
+
 * Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 0.17-6
 - Add fix for undefined Gnulib symbols (Farkas Levente).
 - Rebuild against mingw32-termcap / libtermcap.
