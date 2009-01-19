@@ -1,16 +1,7 @@
 #!/bin/bash -
 
 # These are the packages we don't want to build yet:
-nobuild="example
-cyrus-sasl
-gdb
-pidgin
-python
-python3
-nspr
-nss
-virt-ctrl
-wix"
+nobuild=$(grep -v '^#' IGNORE)
 
 rm -f */*.src.rpm
 

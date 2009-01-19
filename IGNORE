@@ -1,0 +1,11 @@
+# List of packages that are ignored when building, updating status, etc.
+example
+cyrus-sasl
+gdb
+pidgin
+python
+python3
+nspr
+nss
+virt-ctrl
+wix
