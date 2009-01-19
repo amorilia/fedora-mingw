@@ -6,7 +6,7 @@
 
 Name:           mingw32-cairo
 Version:        1.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
@@ -22,10 +22,18 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libxml2
 BuildRequires:  mingw32-pixman
-BuildRequires:  mingw32-freetype
 BuildRequires:  mingw32-libpng
-BuildRequires:  mingw32-fontconfig
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-iconv
+BuildRequires:  mingw32-zlib
 BuildRequires:  pkgconfig
+
+# These are BRs for the base package, but are not needed on Win32
+# because Cairo includes a separate Win32 font rendering back end
+# (thanks to: Erik van Pienbroek).
+#BuildRequires:  mingw32-fontconfig
+#BuildRequires:  mingw32-freetype
+
 
 %description
 MinGW Windows Cairo library.
@@ -34,9 +42,15 @@ MinGW Windows Cairo library.
 %prep
 %setup -q -n cairo-%{version}
 
+
 %build
-%{_mingw32_configure} --disable-xlib --disable-xcb --enable-win32 --enable-png --enable-freetype
-make
+%{_mingw32_configure} \
+  --disable-xlib \
+  --disable-xcb \
+  --enable-win32 \
+  --enable-png \
+  --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -46,7 +60,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/charset.alias
 
-rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/libcairo.a
+# If mingw32-freetype was installed, then cairo will incorrectly
+# install the following file.  Remove it:
+rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/pkgconfig/cairo-ft.pc
 
 
 %clean
@@ -55,11 +71,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %{_mingw32_bindir}/libcairo-2.dll
 %{_mingw32_includedir}/cairo/
 %{_mingw32_libdir}/libcairo.dll.a
 %{_mingw32_libdir}/libcairo.la
-%{_mingw32_libdir}/pkgconfig/cairo-ft.pc
 %{_mingw32_libdir}/pkgconfig/cairo-pdf.pc
 %{_mingw32_libdir}/pkgconfig/cairo-png.pc
 %{_mingw32_libdir}/pkgconfig/cairo-ps.pc
@@ -71,6 +87,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 19 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-3
+- Include license file in documentation section.
+- Disable building static library to save time.
+- Remove BRs on mingw32-fontconfig and mingw32-freetype which are
+  not needed on Win32.
+- Use _smp_mflags.
+- Added BRs mingw32-dlfcn, mingw32-iconv, mingw32-zlib.
+
 * Wed Oct 29 2008 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-2
 - Fix mixed spaces/tabs in specfile.
 
