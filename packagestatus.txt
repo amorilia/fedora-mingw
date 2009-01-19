@@ -117,12 +117,6 @@ around the dynamic link library functions found in the Windows API.
 <td class="develbg devel">0</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
-<tr><td>mingw32-example</td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">1.2.3</td>
-</tr>
 <tr><td><a title="This is expat, the C library for parsing XML, written by James Clark. Expat
 is a stream oriented XML parser. This means that you register handlers with
 the parser prior to starting the parse. These handlers are called when the
@@ -226,18 +220,6 @@ used as a garbage collecting replacement for C malloc or C++ new.
 <td class="fedorabg released">4.3.2</td>
 <td class="develbg devel">4.3.2</td>
 <td class="pendingbg">&nbsp;</td>
-</tr>
-<tr><td><a title="This is the MinGW port of the GNU debugger (gdb).
-
-Note this is a Fedora native binary which debugs Windows target
-executables.
-
-
-" href="http://www.mingw.org/MinGWiki/index.php/gdb">mingw32-gdb</a><br/><small>MinGW port of the GNU debugger (gdb)</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">6.8</td>
 </tr>
 <tr><td><a title="Gdbm is a GNU database indexing library, including routines which use
 extensible hashing.  Gdbm works in a similar way to standard UNIX dbm
@@ -510,31 +492,6 @@ installer script that NSIS needs.
 <td class="fedorabg">&nbsp;</td>
 <td class="develbg">&nbsp;</td>
 <td class="pendingbg pending">3</td>
-</tr>
-<tr><td><a title="NSPR provides platform independence for non-GUI operating system
-facilities. These facilities include threads, thread synchronization,
-normal file and network I/O, interval timing and calendar time, basic
-memory management (malloc and free) and shared library linking.
-
-
-" href="http://www.mozilla.org/projects/nspr/">mingw32-nspr</a><br/><small>MinGW Windows port of the Netscape Portable Runtime (NSPR)</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">4.7.2</td>
-</tr>
-<tr><td><a title="Network Security Services (NSS) is a set of libraries designed to
-support cross-platform development of security-enabled client and
-server applications. Applications built with NSS can support SSL v2
-and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509
-v3 certificates, and other security standards.
-
-
-" href="http://www.mozilla.org/projects/security/pki/nss/">mingw32-nss</a><br/><small>MinGW Windows port of NSS (Network Security Services)</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">3.12.2.0</td>
 </tr>
 <tr><td><a title="Objective Caml is a high-level, strongly-typed, functional and
 object-oriented programming language from the ML family of languages.
@@ -877,6 +834,6 @@ cross-compiled version.
 <td class="develbg devel">1.2.3</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
-<tr><td>Totals</td><td>19</td><td>19</td><td>19</td><td>52</td></tr>
+<tr><td>Totals</td><td>19</td><td>19</td><td>19</td><td>48</td></tr>
 </table>
 </html>
