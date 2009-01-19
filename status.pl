@@ -1,57 +1,46 @@
 #!/usr/bin/perl -wT
 
-# Produce a status page for all current and pending OCaml packages.
+# Produce a status page for all current and pending Fedora MinGW packages.
 # By Richard W.M. Jones <rjones@redhat.com>
-# $Id: ocaml-status.pl,v 1.7 2008/12/05 17:44:39 rjones Exp $
 #
 # Requires:
-# . All OCaml-related packages have to be checked out
+# . All Fedora MinGW packages have to be checked out
 #   under $HOME/d/fedora.
-# . All pending packages have to be checked out under
-#   $HOME/d/redhat/ocaml.
+# . All pending packages to be available in
+#   $HOME/d/fedora-mingw--devel.
 #
 # The output is normally placed here:
-# http://cocan.org/getting_started_with_ocaml_on_red_hat_and_fedora
+# http://annexia.org/fedora_mingw
 #
-# Checks that the package build-requires OCaml in order to know if
-# it's an OCaml-related package.
+# Checks that the package build-requires mingw32-* in order to know if
+# it's an MinGW-related package.
 #
 # Only recognizes the Fedora/EPEL branches listed below and ignores
-# anything else.  There are no OCaml packages in RHEL at this time.
+# anything else.  There are no MinGW packages in RHEL at this time.
+#
+# XXX This script is a bit crap.  Instead of using lame specfile
+# parsing, this should be generated from the SRPMs.
 
 use strict;
 
 use POSIX qw(strftime);
 use CGI qw/:standard/;
 
-my $fedora = $ENV{HOME} . "/d/fedora";
-my $pending = $ENV{HOME} . "/d/redhat/ocaml";
+my $home = $ENV{HOME};
+if ($home =~ m/(.*)/) { $home = $1; }
+
+my $fedora = $home . "/d/fedora";
+my $pending = $home . "/d/fedora-mingw--devel";
+
+chdir $pending or die "$pending: $!\n";
+
 my %branches = (
-    "EL-4" => {
-	name => "EPEL 4",
-	url => "http://fedoraproject.org/wiki/EPEL",
-	title => "Packages for Red Hat Enterprise Linux 4",
-	sortorder => 1,
-	class => "epelbg",
-    },
     "EL-5" => {
 	name => "EPEL 5",
 	url => "http://fedoraproject.org/wiki/EPEL",
 	title => "Packages for Red Hat Enterprise Linux 5",
 	sortorder => 2,
 	class => "epelbg",
-    },
-    "F-8" => {
-	name => "Fedora 8",
-	url => "http://fedoraproject.org/",
-	sortorder => 8,
-	class => "fedorabg",
-    },
-    "F-9" => {
-	name => "Fedora 9",
-	url => "http://fedoraproject.org/",
-	sortorder => 9,
-	class => "fedorabg",
     },
     "F-10" => {
 	name => "Fedora 10",
@@ -68,19 +57,24 @@ my %branches = (
     },
     "pending" => {
 	name => "Pending",
-	url => "https://bugzilla.redhat.com/buglist.cgi?version=rawhide&component=Package+Review&target_milestone=&bug_status=NEW&bug_status=ASSIGNED&bug_status=NEEDINFO&bug_status=MODIFIED&short_desc_type=allwordssubstr&short_desc=ocaml&long_desc_type=allwordssubstr&long_desc=",
+	url => "https://bugzilla.redhat.com/buglist.cgi?version=rawhide&component=Package+Review&target_milestone=&bug_status=NEW&bug_status=ASSIGNED&bug_status=NEEDINFO&bug_status=MODIFIED&short_desc_type=allwordssubstr&short_desc=mingw32&long_desc_type=allwordssubstr&long_desc=",
 	sortorder => 100,
 	class => "pendingbg",
     },
 );
 
 # List of packages to ignore in pending.
-my %ignore_pending = (
-    "ocaml-foolib" => 1,
-    "ocaml-libvirt" => 1,
-);
+my %ignore_pending = ();
+open IGNORE, "IGNORE" or die "IGNORE: $!\n";
+while (<IGNORE>) {
+    next if /^\#/ || /^$/;
+    m/(.*)/; # untaint
+    $ignore_pending{$1} = 1;
+}
+close IGNORE;
 
-# List of packages to ignore in Fedora.
+# List of packages to ignore in Fedora checkout,
+# because they confuse this script.
 my %ignore_fedora = (
     "cyrus-sasl" => 1,
     "kernel" => 1,
@@ -107,8 +101,7 @@ sub collect {
 	    my $specfile_name = $2;
 	    my $branch = $1;
 	    if (exists $branches{$branch} &&
-		!exists $ignore_fedora{$specfile_name} &&
-		$specfile_name !~ /^mingw32/) {
+		!exists $ignore_fedora{$specfile_name}) {
 		collect_specfile ($specfile, $branch);
 	    }
 	}
@@ -125,7 +118,7 @@ sub collect_specfile {
     my $branch = shift;
 
     # Read the specfile and parse the bits we understand.
-    my ($name, $version, $summary, $description, $url, $is_ocaml,
+    my ($name, $version, $summary, $description, $url, $is_mingw,
 	@rpmdefines);
     @rpmdefines = (["nil", ""]);
 
@@ -134,7 +127,7 @@ sub collect_specfile {
 	if (/^Name:\s*(\S+)/) {
 	    $name = $1;
 	    $name = rpmsubst ($name, 1, @rpmdefines) if $name =~ /%{/;
-	    $is_ocaml = 1 if $name =~ /ocaml/;
+	    $is_mingw = 1 if $name =~ /mingw32/;
 	} elsif (/^Version:\s*(\S+)/) {
 	    $version = $1;
 	    $version = rpmsubst ($version, 1, @rpmdefines) if $version =~ /%{/;
@@ -143,9 +136,9 @@ sub collect_specfile {
 	    $url = rpmsubst ($url, 1, @rpmdefines) if $url =~ /%{/;
 	} elsif (!$summary && /^Summary:\s*(.*)/) {
 	    $summary = $1;
-	    $is_ocaml = 1 if $summary =~ /ocaml/i;
-	} elsif (/^(Build)?Requires:.*ocaml/) {
-	    $is_ocaml = 1
+	    #$is_mingw = 1 if $summary =~ /mingw32/i;
+	} elsif (/^(Build)?Requires:.*mingw32/) {
+	    $is_mingw = 1
 	} elsif (!$description && /^%description/) {
 	    $description = "";
 	    while (<SPEC>) {
@@ -154,7 +147,7 @@ sub collect_specfile {
 	    }
 	    $description = rpmsubst ($description, 1, @rpmdefines)
 		if $description =~ /%{/;
-	    $is_ocaml = 1 if $description =~ /ocaml/i;
+	    #$is_mingw = 1 if $description =~ /mingw/i;
         }
 
 	# Handle simple RPM defines.
@@ -168,17 +161,26 @@ sub collect_specfile {
 	}
     }
 
-    # Check it's an OCaml package.  If name/summary/description contains
-    # 'ocaml' or it Requires/BuildRequires some ocaml package then we
-    # assume it's OCaml-related.
-    if (!$is_ocaml) {
-	warn "warning: $name ($branch) ignored, not an OCaml package\n";
+    # Check it's a MinGW package.  If name/summary/description contains
+    # 'mingw' or it Requires/BuildRequires some mingw32-* package then we
+    # assume it's related.
+    if (!$is_mingw) {
+	warn "warning: $name ($branch) ignored, not a MinGW package\n";
 	return;
     }
 
     # Ignore certain packages appearing in pending branch.
-    if ($branch eq "pending" && exists $ignore_pending{$name}) {
-	return;
+    if ($branch eq "pending") {
+	if (exists $ignore_pending{$name}) {
+	    return;
+	}
+
+	# Also ignore packages marked NOT-FOR-FEDORA in pending.
+	my $dirname = $specfile;
+	$dirname =~ s{/[^/]+$}{};
+	if (-f "$dirname/NOT-FOR-FEDORA") {
+	    return;
+	}
     }
 
     #print "$name $version $url\n";
@@ -323,7 +325,7 @@ sub output_package {
 	    my $class = "released";
 	    $class = "pending" if $branch eq "pending";
 	    $class = "devel" if $branch eq "devel";
-	    $class = "ocaml" if $name eq "ocaml";
+	    $class = "filesystem" if $name eq "mingw32-filesystem";
 
 	    print "<td class=\"$brclass $class\">$r{version}</td>\n";
 	} else {
@@ -350,9 +352,9 @@ sub output_trailer {
 
 # Define a standard package name order.
 sub pkgnameorder {
-    # "ocaml-*" packages always sort first.
-    return -1 if $a =~ /^ocaml/ && $b !~ /^ocaml/;
-    return 1 if $a !~ /^ocaml/ && $b =~ /^ocaml/;
+    # "mingw32-*" packages always sort first.
+    return -1 if $a =~ /^mingw32/ && $b !~ /^mingw32/;
+    return 1 if $a !~ /^mingw32/ && $b =~ /^mingw32/;
 
     return (lc($a) cmp lc($b))
 }
