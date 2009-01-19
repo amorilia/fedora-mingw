@@ -69,7 +69,7 @@ open IGNORE, "IGNORE" or die "IGNORE: $!\n";
 while (<IGNORE>) {
     next if /^\#/ || /^$/;
     m/(.*)/; # untaint
-    $ignore_pending{$1} = 1;
+    $ignore_pending{"mingw32-$1"} = 1;
 }
 close IGNORE;
 
