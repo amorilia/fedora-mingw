@@ -6,7 +6,7 @@
 
 Name:           mingw32-libgpg-error
 Version:        1.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        MinGW Windows GnuPGP error library
 
 License:        LGPLv2+
@@ -21,7 +21,12 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 27
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
+
+BuildRequires:  gettext
+
 
 %description
 MinGW Windows GnuPGP error library.
@@ -33,7 +38,7 @@ MinGW Windows GnuPGP error library.
 
 %build
 %{_mingw32_configure}
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -43,12 +48,13 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgpg-error.a
 
+%find_lang libgpg-error
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f libgpg-error.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/gpg-error-config
 %{_mingw32_bindir}/gpg-error.exe
@@ -56,11 +62,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libgpg-error.dll.a
 %{_mingw32_libdir}/libgpg-error.la
 %{_mingw32_includedir}/gpg-error.h
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/libgpg-error.mo
 %{_mingw32_datadir}/aclocal/gpg-error.m4
 %{_mingw32_datadir}/common-lisp/source/gpg-error/*
 
 %changelog
+* Thu Jan 22 2009 Richard W.M. Jones <rjones@redhat.com> - 1.6-9
+- Verify that we are still matching current native package.
+- Use auto-buildrequires to identify more accurate list of BRs:
+    + BR gettext (for /usr/bin/msgfmt etc)
+    + BR mingw32-dlfcn
+    + BR mingw32-iconv
+- Use _smp_mflags.
+- Use find_lang.
+
 * Mon Sep 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6-8
 - Rename mingw -> mingw32.
 - Depends on mingw-filesystem 27.
