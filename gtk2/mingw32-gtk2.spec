@@ -5,15 +5,15 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-gtk2
-Version:        2.14.4
-Release:        3%{?dist}
+Version:        2.15.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
-Patch1:         gtk+-2.11.1-set-invisible-char-to-bullet.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # If you want to rebuild this, do:
@@ -22,18 +22,18 @@ Source1:        gdk-pixbuf.loaders
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
-BuildRequires:  mingw32-glib2
+BuildRequires:  mingw32-glib2 >= 2.17.7
 BuildRequires:  mingw32-cairo >= 1.8.0
 BuildRequires:  mingw32-jasper
-BuildRequires:  mingw32-libpng
+BuildRequires:  mingw32-libpng >= 1.2.2
 BuildRequires:  mingw32-libjpeg
-BuildRequires:  mingw32-pango
-BuildRequires:  mingw32-atk
+BuildRequires:  mingw32-pango >= 1.20.0
+BuildRequires:  mingw32-atk >= 1.13.0
 BuildRequires:  pkgconfig
 # Native one for msgfmt
 BuildRequires:  gettext
@@ -51,14 +51,14 @@ MinGW Windows Gtk2 library.
 
 %prep
 %setup -q -n gtk+-%{version}
-%patch1 -p1
+
 
 %build
 # Need to run the correct version of glib-mkenums.
 PATH=%{_mingw32_bindir}:$PATH
 
-%{_mingw32_configure} --disable-cups
-make
+%{_mingw32_configure} --disable-cups --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -75,19 +75,19 @@ rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
 install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
 
+%find_lang %{name} --all-name
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 %{_mingw32_datadir}/gtk-doc/html/gail-libgail-util
 %{_mingw32_datadir}/gtk-doc/html/gdk-pixbuf
 %{_mingw32_datadir}/gtk-doc/html/gdk
 %{_mingw32_datadir}/gtk-doc/html/gtk
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/gtk20-properties.mo
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/gtk20.mo
 %{_mingw32_datadir}/themes/*
 %{_mingw32_bindir}/gdk-pixbuf-csource.exe
 %{_mingw32_bindir}/gdk-pixbuf-query-loaders.exe
@@ -125,6 +125,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.15.0-1
+- Rebase to Fedora native version 2.15.0.
+- Disable static libraries.
+- Use _smp_mflags.
+- Use find_lang macro.
+
 * Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 2.14.4-3
 - Remove preun script, no longer used.
 
