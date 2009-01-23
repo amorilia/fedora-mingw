@@ -15,7 +15,6 @@ URL:            http://www.gnutls.org/
 #Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
 # XXX patent tainted SRP code removed.
 Source0:        gnutls-%{version}-nosrp.tar.bz2
-Source1:        libgnutls-config
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -72,6 +71,7 @@ rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/info/dir
 # Remove info and man pages which duplicate stuff in Fedora already.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
+
 
 %find_lang gnutls
 
