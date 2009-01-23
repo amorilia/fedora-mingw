@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-libvirt
-Version:        0.5.0
-Release:        9%{?dist}%{?extra_release}
+Version:        0.5.1
+Release:        1%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -55,8 +55,9 @@ MinGW Windows libvirt virtualization library.
   --without-lxc \
   --without-openvz \
   --without-uml \
-  --without-libvirtd
-make
+  --without-libvirtd \
+  --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -68,14 +69,14 @@ rm -rf $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/libvirt
 rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/doc/*
 rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/gtk-doc/*
 
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libvirt.a
+%find_lang libvirt
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f libvirt.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/libvirt-0.dll
 %{_mingw32_bindir}/virsh.exe
@@ -83,8 +84,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libvirt.dll.a
 %{_mingw32_libdir}/libvirt.la
 %{_mingw32_libdir}/pkgconfig/libvirt.pc
-
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/libvirt.mo
 
 %dir %{_mingw32_includedir}/libvirt
 %{_mingw32_includedir}/libvirt/libvirt.h
@@ -94,6 +93,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard Jones <rjones@redhat.com> - 0.5.1-1
+- Rebase to Fedora native version 0.5.1.
+- Use find_lang macro.
+- Use _smp_mflags.
+- Disable static libraries.
+
 * Wed Nov 26 2008 Richard Jones <rjones@redhat.com> - 0.5.0-1
 - New upstream version 0.5.0.
 
