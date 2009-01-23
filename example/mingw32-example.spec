@@ -39,7 +39,7 @@ BuildRequires:  mingw32-binutils
 
 
 %build
-%{_mingw32_configure}
+%{_mingw32_configure} --disable-static
 make %{?_smp_mflags}
 
 
@@ -63,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Nov 13 2008 Your Name <you@example.com> - 1.2.3-1
+* Fri Jan 23 2009 Your Name <you@example.com> - 1.2.3-1
 - Initial RPM release.
