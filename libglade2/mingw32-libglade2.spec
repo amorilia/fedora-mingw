@@ -6,7 +6,7 @@
 
 Name:           mingw32-libglade2
 Version:        2.6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Libglade2 library
 
 License:        LGPLv2+
@@ -40,7 +40,7 @@ MinGW Windows Libglade2 library.
 
 %build
 %{_mingw32_configure} --disable-gtk-doc
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-3
+- Use _smp_mflags.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-2
 - Requires pkgconfig.
 

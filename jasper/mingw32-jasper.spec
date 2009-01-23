@@ -6,7 +6,7 @@
 
 Name:           mingw32-jasper
 Version:        1.900.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -41,7 +41,7 @@ MinGW Windows Jasper library.
 
 %build
 autoreconf
-%{_mingw32_configure} --disable-opengl --enable-libjpeg
+%{_mingw32_configure} --disable-opengl --enable-libjpeg --disable-static
 make
 
 
@@ -49,8 +49,6 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install mandir=%{_mingw32_mandir}
-
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libjasper.a
 
 
 %clean
@@ -75,6 +73,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-6
+- Use _smp_mflags.
+- Disable static libraries.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-5
 - Rename mingw -> mingw32.
 

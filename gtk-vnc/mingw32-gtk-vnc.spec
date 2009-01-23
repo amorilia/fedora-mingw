@@ -8,7 +8,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.8
-Release:        0.2.20081030hg%{?dist}
+Release:        0.3.20081030hg%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -59,16 +59,13 @@ autoreconf
 
 
 %build
-%{_mingw32_configure} --without-python --with-examples
-make
+%{_mingw32_configure} --without-python --with-examples --disable-static
+make %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgtk-vnc-1.0.a
 
 # automake gives gvncviewer a strange name ...
 mv $RPM_BUILD_ROOT%{_mingw32_bindir}/i686-pc-mingw32-gvncviewer.exe \
@@ -90,6 +87,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.3.20081030hg
+- Use _smp_mflags.
+- Disable static library.
+
 * Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.2.20081030hg
 - Add Dan's fd/socket fix for Windows.
 

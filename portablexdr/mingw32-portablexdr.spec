@@ -6,7 +6,7 @@
 
 Name:           mingw32-portablexdr
 Version:        4.0.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -31,17 +31,14 @@ MinGW Windows PortableXDR XDR / RPC library.
 
 
 %build
-%{_mingw32_configure}
-make
+%{_mingw32_configure} --disable-static
+make %{?_smp_flags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Remove static library.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libportablexdr.a
 
 
 %clean
@@ -57,6 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 4.0.11-2
+- Disable static libraries.
+- Use _smp_flags.
+
 * Wed Oct 15 2008 Richard W.M. Jones <rjones@redhat.com> - 4.0.11-1
 - New upstream version 4.0.11.
 

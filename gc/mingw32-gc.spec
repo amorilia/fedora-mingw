@@ -6,7 +6,7 @@
 
 Name:           mingw32-gc
 Version:        7.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of GC garbage collector for C and C++
 
 License:        BSD
@@ -73,7 +73,7 @@ autoreconf -i
   --enable-large-config \
   --enable-parallel-mark \
   --enable-threads=win32
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -112,5 +112,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 7.1-2
+- Use _smp_mflags.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 7.1-1
 - Initial RPM release.

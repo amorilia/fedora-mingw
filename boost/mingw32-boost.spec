@@ -6,7 +6,7 @@
 
 Name:           mingw32-boost
 Version:        1.34.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of Boost C++ Libraries
 
 License:        Boost
@@ -79,7 +79,7 @@ REGEX_FLAGS="--without-icu"
 rm user-config.jam
 echo "using gcc : : %{_mingw32_cc} : ;" > user-config.jam
 
-make all
+make %{?_smp_mflags} all
 
 
 %install
@@ -185,5 +185,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-3
+- Use _smp_mflags.
+
 * Sat Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-2
 - Initial RPM release.

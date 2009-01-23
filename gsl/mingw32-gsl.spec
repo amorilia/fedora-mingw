@@ -6,7 +6,7 @@
 
 Name:           mingw32-gsl
 Version:        1.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of the GNU Scientific Library
 
 License:        LGPLv2+
@@ -46,7 +46,7 @@ mv THANKS.aux THANKS
 #   configure ... CFLAGS="$CFLAGS -fgnu89-inline"
 # but that destroys the original CFLAGS setting.
 %{_mingw32_configure}
-make
+make %{?_smp_mflags}
 
 # These ltshwrapper files contain DOS line endings for
 # unknown reason.  Bash chokes on them, so we have to convert
@@ -88,5 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.11-2
+- Use _smp_mflags.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.11-1
 - Initial RPM release.

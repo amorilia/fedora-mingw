@@ -6,7 +6,7 @@
 
 Name:           mingw32-cairomm
 Version:        1.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows C++ API for the cairo graphics library
 
 License:        LGPLv2+
@@ -39,7 +39,7 @@ Standard Template Library where it makes sense.
 
 %build
 %{_mingw32_configure} --enable-static=no --enable-docs=no
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -61,5 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.6.2-3
+- Use _smp_mflags.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.6.2-2
 - Initial RPM release.

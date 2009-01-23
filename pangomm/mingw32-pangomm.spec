@@ -8,7 +8,7 @@
 
 Name:           mingw32-pangomm
 Version:        2.14.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows C++ interface for Pango
 
 License:        LGPLv2+
@@ -48,7 +48,7 @@ quickly create complex user interfaces.
 
 %build
 %{_mingw32_configure} --disable-static
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-4
+- Use _smp_mflags.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-3
 - Requires pkgconfig.
 

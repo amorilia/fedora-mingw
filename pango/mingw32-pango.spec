@@ -6,7 +6,7 @@
 
 Name:           mingw32-pango
 Version:        1.22.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -49,8 +49,8 @@ MinGW Windows Pango library.
 %build
 # Need to run the correct version of glib-mkenums.
 PATH=%{_mingw32_bindir}:$PATH \
-%{_mingw32_configure}
-make
+%{_mingw32_configure} --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -98,6 +98,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-2
+- Disable static libraries.
+- Use _smp_mflags.
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-1
 - New upstream version 1.22.1.
 - BR cairo >= 1.8.0 because of important fixes.

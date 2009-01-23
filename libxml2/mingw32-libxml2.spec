@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxml2
 Version:        2.7.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -42,16 +42,15 @@ MinGW Windows libxml2 XML processing library.
 
 
 %build
-LDFLAGS="-no-undefined" %{_mingw32_configure} --without-python --with-modules
-make
+LDFLAGS="-no-undefined" \
+%{_mingw32_configure} --without-python --with-modules --disable-static
+make %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
-
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libxml2.a
 
 # Remove manpages which duplicate Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
@@ -79,6 +78,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-5
+- Use _smp_mflags.
+- Disable static libraries.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-4
 - Requires pkgconfig.
 

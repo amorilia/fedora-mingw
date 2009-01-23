@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxslt
 Version:        1.1.24
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Library providing the Gnome XSLT engine
 
 License:        MIT
@@ -51,18 +51,14 @@ installed. The xsltproc command is a command line interface to the XSLT engine
 
 %build
 PATH=%{_mingw32_bindir}:$PATH \
-%{_mingw32_configure} --without-python --enable-shared
-make
+%{_mingw32_configure} --without-python --enable-shared --disable-static
+make %{?_smp_mflags}
 gzip -9 ChangeLog
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libexslt.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libxslt.a
 
 # Remove doc and man which duplicate stuff already in Fedora native package.
 rm -r $RPM_BUILD_ROOT%{_mingw32_docdir}
@@ -92,5 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-3
+- Disable static libraries.
+- Use _smp_mflags.
+
 * Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-2
 - Initial RPM release.

@@ -6,7 +6,7 @@
 
 Name:           mingw32-fontconfig
 Version:        2.6.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
@@ -42,7 +42,7 @@ autoreconf
 %build
 PATH="%{_mingw32_bindir}:$PATH" \
 %{_mingw32_configure} --with-arch=i686
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -79,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/doc/fontconfig
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-6
+- Use _smp_mflags.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-5
 - Rename mingw -> mingw32.
 

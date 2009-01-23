@@ -6,7 +6,7 @@
 
 Name:           mingw32-libgcrypt
 Version:        1.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows gcrypt encryption library
 
 License:        LGPLv2+
@@ -35,17 +35,14 @@ MinGW Windows gcrypt encryption library.
 
 %build
 PATH="%{_mingw32_bindir}:$PATH" \
-%{_mingw32_configure}
-make
+%{_mingw32_configure} --disable-static
+make %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
-
-# Remove the static library.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgcrypt.a
 
 # Remove info pages which duplicate what is in Fedora natively.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
@@ -70,6 +67,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.4.3-3
+- Use _smp_mflags.
+- Disable static libraries.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.4.3-2
 - Rename mingw -> mingw32.
 
