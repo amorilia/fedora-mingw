@@ -42,6 +42,7 @@ glib2/glib-2.18.1.tar.bz2
 glibmm24/glibmm-2.18.1.tar.bz2
 gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
+gnutls/gnutls-2.6.3-nosrp.tar.bz2
 gsl/gsl-1.11.tar.gz
 gtk2/gtk+-2.14.0.tar.bz2
 gtk2/gtk+-2.14.2.tar.bz2

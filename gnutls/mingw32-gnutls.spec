@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-gnutls
-Version:        2.4.2
-Release:        4%{?dist}
+Version:        2.6.3
+Release:        1%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -15,12 +15,12 @@ URL:            http://www.gnutls.org/
 #Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
 # XXX patent tainted SRP code removed.
 Source0:        gnutls-%{version}-nosrp.tar.bz2
+Source1:        libgnutls-config
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-Patch1:         gnutls-2.4.0-nosrp.patch
-Patch5:         gnutls-1.4.1-cve-2008-4989.patch
+Patch1:         gnutls-2.6.2-nosrp.patch
 
 # MinGW-specific patches.
 Patch1000:      gnutls-certtool-build.patch
@@ -29,7 +29,7 @@ BuildRequires:  mingw32-filesystem >= 25
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libgpg-error
-BuildRequires:  mingw32-libgcrypt
+BuildRequires:  mingw32-libgcrypt >= 1.2.2
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-zlib
@@ -46,7 +46,6 @@ MinGW Windows GnuTLS TLS/SSL encryption library.
 %setup -q -n gnutls-%{version}
 
 %patch1 -p1 -b .nosrp
-%patch5 -p1 -b .chain-verify
 
 %patch1000 -p1 -b .mingw32
 
@@ -57,9 +56,11 @@ done
 %build
 autoreconf
 PATH="%{_mingw32_bindir}:$PATH" \
-%{_mingw32_configure} --with-included-libtasn1 --disable-cxx \
-           --disable-srp-authentication
-make
+%{_mingw32_configure} \
+  --with-included-libtasn1 \
+  --disable-srp-authentication \
+  --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -68,20 +69,18 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/info/dir
 
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls-extra.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls-openssl.a
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libgnutls.a
-
 # Remove info and man pages which duplicate stuff in Fedora already.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
+
+%find_lang gnutls
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f gnutls.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/certtool.exe
 %{_mingw32_bindir}/gnutls-cli-debug.exe
@@ -107,10 +106,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_includedir}/gnutls/
 %{_mingw32_datadir}/aclocal/libgnutls-extra.m4
 %{_mingw32_datadir}/aclocal/libgnutls.m4
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/gnutls.mo
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-1
+- Rebase to native Fedora version 2.6.3.
+- Enable C++ library.
+- Use _smp_mflags.
+- Use find_lang macro.
+- Don't build static library.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-4
 - Requires pkgconfig.
 
