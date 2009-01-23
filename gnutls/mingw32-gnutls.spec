@@ -30,6 +30,7 @@ BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-libgpg-error
 BuildRequires:  mingw32-libgcrypt >= 1.2.2
+BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-readline
 BuildRequires:  mingw32-zlib
