@@ -5,14 +5,14 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-atk
-Version:        1.24.0
-Release:        2%{?dist}
+Version:        1.25.2
+Release:        1%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            http://developer.gnome.org/projects/gap/
-Source:         http://download.gnome.org/sources/atk/1.24/atk-%{version}.tar.bz2 
+URL:            http://projects.gnome.org/accessibility/
+Source:         http://ftp.gnome.org/pub/GNOME/sources/atk/1.25/atk-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -40,7 +40,7 @@ MinGW Windows Atk library.
 
 %build
 %{_mingw32_configure}
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -50,12 +50,13 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 
+%find_lang atk10
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f atk10.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/libatk-1.0-0.dll
 %{_mingw32_includedir}/atk-1.0
@@ -64,10 +65,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libatk-1.0.la
 %{_mingw32_libdir}/pkgconfig/atk.pc
 %{_mingw32_datadir}/gtk-doc/html/atk/
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/atk10.mo
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-1
+- Rebase to latest Fedora native version 1.25.2.
+- Use find_lang macro.
+- Use smp_mflags.
+- Fix URL.
+- Fix Source URL.
+
 * Wed Sep 24 2008 Daniel P. Berrange <berrange@redhat.com> - 1.24.0-2
 - Rename mingw -> mingw32.
 

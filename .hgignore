@@ -11,6 +11,7 @@ syntax: glob
 SDL/SDL-1.2.13.tar.gz
 atk/atk-1.23.5.tar.bz2
 atk/atk-1.24.0.tar.bz2
+atk/atk-1.25.2.tar.bz2
 binutils/binutils-2.18.50-20080109-2-src.tar.gz
 boost/boost_1_34_1.tar.bz2
 boost/boost_1_36_0.tar.bz2
