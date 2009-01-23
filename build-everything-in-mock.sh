@@ -23,4 +23,9 @@ for dir in *; do
     fi
 done
 
-smock/smock.pl --arch=i386 --arch=x86_64 --distro=fedora-10 $srpms
+smock/smock.pl \
+  --arch=i386 \
+  --arch=x86_64 \
+  --distro=fedora-rawhide \
+  --distro=fedora-10 \
+  $srpms
