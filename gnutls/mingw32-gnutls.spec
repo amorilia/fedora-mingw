@@ -22,15 +22,16 @@ BuildArch:      noarch
 Patch1:         gnutls-2.6.2-nosrp.patch
 
 # MinGW-specific patches.
-Patch1000:      gnutls-certtool-build.patch
+Patch1000:      mingw32-gnutls-2.6.3-certtool-build.patch
 
 BuildRequires:  mingw32-filesystem >= 25
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-libgpg-error
 BuildRequires:  mingw32-libgcrypt >= 1.2.2
 BuildRequires:  mingw32-iconv
-BuildRequires:  mingw32-gettext
+BuildRequires:  mingw32-readline
 BuildRequires:  mingw32-zlib
 BuildRequires:  autoconf automake libtool
 
@@ -59,7 +60,8 @@ PATH="%{_mingw32_bindir}:$PATH" \
   --with-included-libtasn1 \
   --disable-srp-authentication \
   --disable-static
-make %{?_smp_mflags}
+# %{?_smp_mflags} doesn't build correctly.
+make
 
 
 %install
@@ -112,9 +114,11 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-1
 - Rebase to native Fedora version 2.6.3.
 - Enable C++ library.
-- Use _smp_mflags.
 - Use find_lang macro.
 - Don't build static library.
+- Rebase MinGW patch to 2.6.3.
+- +BR mingw32-dlfcn.
+- +BR mingw32-readline.
 
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-4
 - Requires pkgconfig.
