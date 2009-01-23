@@ -39,7 +39,7 @@ MinGW Windows Atk library.
 
 
 %build
-%{_mingw32_configure}
+%{_mingw32_configure} --disable-static
 make %{?_smp_mflags}
 
 
