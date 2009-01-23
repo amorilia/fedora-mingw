@@ -20,21 +20,26 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # wine %{_mingw32_bindir}/gdk-pixbuf-query-loaders.exe > gdk-pixbuf.loaders
 Source1:        gdk-pixbuf.loaders
 
+# Fix use of extended buttons in gtkstatusicon.
+Patch1000:      mingw32-gtk2-2.15.0-xbuttons.patch
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-iconv
+
+BuildRequires:  mingw32-atk >= 1.13.0
+BuildRequires:  mingw32-cairo >= 1.8.0
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-glib2 >= 2.17.7
-BuildRequires:  mingw32-cairo >= 1.8.0
+BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-jasper
-BuildRequires:  mingw32-libpng >= 1.2.2
 BuildRequires:  mingw32-libjpeg
+BuildRequires:  mingw32-libpng >= 1.2.2
 BuildRequires:  mingw32-pango >= 1.20.0
-BuildRequires:  mingw32-atk >= 1.13.0
 BuildRequires:  pkgconfig
+
 # Native one for msgfmt
 BuildRequires:  gettext
 # Native one for glib-genmarsjal
@@ -51,6 +56,8 @@ MinGW Windows Gtk2 library.
 
 %prep
 %setup -q -n gtk+-%{version}
+
+%patch1000 -p1
 
 
 %build
