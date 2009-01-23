@@ -34,7 +34,16 @@ BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-readline
 BuildRequires:  mingw32-zlib
-BuildRequires:  autoconf automake libtool
+
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
+
+# Yes, really ...
+BuildRequires:  pkgconfig
+
+# For native /usr/bin/msgfmt etc.
+BuildRequires:  gettext
 
 Requires:       pkgconfig
 
