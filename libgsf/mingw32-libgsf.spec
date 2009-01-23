@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-1
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-1
 - Rebase to native Fedora version 1.14.11.
 - Use find_lang macro.
 

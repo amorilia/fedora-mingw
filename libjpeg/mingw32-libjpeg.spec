@@ -98,7 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2008 Richard W.M. Jones <rjones@redhat.com> - 6b-7
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 6b-7
 - Disable static libraries.
 - Use _smp_mflags.
 

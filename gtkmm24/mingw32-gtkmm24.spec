@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-2
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-3
 - Use _smp_mflags.
 
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-2
