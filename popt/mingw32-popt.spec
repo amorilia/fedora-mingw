@@ -4,9 +4,15 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+# popt 1.13 doesn't work for cross-compilation, but the CVS version
+# contains significant fixes which get some of the way there.  (We
+# patch it further, and have sent those fixes upstream).  This is the
+# date of the CVS version that we use as a base:
+%define cvsdate 20081025
+
 Name:           mingw32-popt
-Version:        1.13_cvs20081025
-Release:        1%{?dist}
+Version:        1.14
+Release:        0.1.cvs%{cvsdate}%{?dist}
 Summary:        MinGW Windows C library for parsing command line parameters
 
 License:        MIT
@@ -17,7 +23,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 # Checked out from CVS on this date.
-Source0:        popt-20081025.tar.gz
+Source0:        popt-%{cvsdate}.tar.gz
 
 # Not needed - no multilib on MinGW.
 #Source1:        http://people.redhat.com/jantill/fedora/png-mtime.py
@@ -66,9 +72,9 @@ chmod 0755 configure
 
 
 %build
-%{_mingw32_configure}
+%{_mingw32_configure} --disable-static
 make -C lib fnmatch.h
-make
+make %{?_smp_mflags}
 doxygen
 
 
@@ -78,30 +84,31 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/popt.d
 
-# Remove the static library.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libpopt.a
-
 # Remove the man page since it duplicates content in the Fedora native pkg.
 rm $RPM_BUILD_ROOT%{_mingw32_mandir}/man3/*
 
-# This is broken under MinGW - we should have our own variant.
-#%find_lang %{name}
+%find_lang popt
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f popt.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/libpopt-0.dll
 %{_mingw32_libdir}/libpopt.dll.a
 %{_mingw32_libdir}/libpopt.la
 %{_mingw32_includedir}/popt.h
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/*.mo
 %config(noreplace) %{_mingw32_sysconfdir}/popt.d
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-1
+- The version should be 1.14 because this is a pre-release (from CVS).
+- Disable static libraries.
+- Build using _smp_mflags.
+- Use find_lang.
+
 * Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.13-1
 - Initial RPM release.
