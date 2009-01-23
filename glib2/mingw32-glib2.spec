@@ -5,19 +5,19 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-glib2
-Version:        2.18.1
-Release:        2%{?dist}
+Version:        2.19.5
+Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.18/glib-%{version}.tar.bz2
+Source0:        http://download.gnome.org/sources/glib/2.19/glib-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-Patch2:         gio-2.16-only-pass-uri-to-gio-apps.patch
+Patch0:         glib-i386-atomic.patch
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
@@ -30,18 +30,25 @@ BuildRequires:  gettext
 # Native version required for glib-genmarshal
 BuildRequires:  glib2-devel
 
+# These are required for the glib-i386-atomic patch.
+BuildRequires:  autoconf, automake, libtool, gettext-devel, gtk-doc
+
 %description
 MinGW Windows Glib2 library.
 
 
 %prep
 %setup -q -n glib-%{version}
-%patch2 -p1
+%patch0 -p1 -b .i386-atomic
+
+# Required for the glib-i386-atomic patch.
+libtoolize --force --copy
+autoreconf
 
 
 %build
-%{_mingw32_configure}
-make
+%{_mingw32_configure} --disable-static
+make %{?_smp_mflags}
 
 
 %install
@@ -54,12 +61,14 @@ rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 # Remove manpages which duplicate Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
+%find_lang glib20
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f glib20.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/glib-genmarshal.exe
 %{_mingw32_bindir}/glib-gettextize
@@ -103,10 +112,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/gtk-doc/html/gio/
 %{_mingw32_datadir}/gtk-doc/html/glib/
 %{_mingw32_datadir}/gtk-doc/html/gobject/
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/glib20.mo
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.5-1
+- Rebase to native Fedora version 2.19.5.
+- Use _smp_mflags.
+- Use find_lang.
+- Don't build static libraries.
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-2
 - Rename mingw -> mingw32.
 
