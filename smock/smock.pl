@@ -28,6 +28,7 @@ my @arches = ();
 my @distros = ();
 my $localrepo = $ENV{HOME} . "/public_html/smock/yum";
 my $dryrun = 0;
+my $keepgoing = 0;
 my $chain = 0;
 my $help = 0;
 my $man = 0;
@@ -37,6 +38,7 @@ GetOptions (
     "distro=s" => \@distros,
     "localrepo=s" => \$localrepo,
     "dryrun" => \$dryrun,
+    "keepgoing" => \$keepgoing,
     "chain" => \$chain,
     "help|?" => \$help,
     "man" => \$man
@@ -95,6 +97,16 @@ Local repository.  Defaults to C<$HOME/public_html/smock/yum>
 
 Don't run any commands, just print the packages in the order
 in which they must be built.
+
+=item B<--keepgoing>
+
+Don't exit if a package fails, but keep building.
+
+Note that this isn't always safe because new packages may be built
+against older packages, in the case where the older package couldn't
+be rebuilt because of an error.
+
+However, it is very useful.
 
 =item B<--chain>
 
@@ -196,30 +208,42 @@ sub dependency_in
     0;
 }
 
-my @names = sort keys %srpms;
-foreach my $name (@names) {
+foreach my $name (keys %srpms) {
     my @buildrequires = @{$srpms{$name}->{buildrequires}};
-    @buildrequires = grep { $_ = dependency_in ($_, @names) } @buildrequires;
+    @buildrequires =
+	grep { $_ = dependency_in ($_, keys %srpms) } @buildrequires;
     $srpms{$name}{buildrequires} = \@buildrequires;
 }
 
-# Now sort the SRPMs into the correct order for building
+# This function takes a list of package names and sorts them into the
+# correct order for building, given the existing %srpms hash
+# containing buildrequires.  We use the external 'tsort' program.
 
-my ($fh, $filename) = tempfile ();
+sub tsort
+{
+    my @names = @_;
 
-foreach my $name (@names) {
-    my @buildrequires = @{$srpms{$name}->{buildrequires}};
-    foreach (@buildrequires) {
-	print $fh "$_ $name\n"
+    my ($fh, $filename) = tempfile ();
+
+    foreach my $name (@names) {
+	my @buildrequires = @{$srpms{$name}->{buildrequires}};
+	foreach (@buildrequires) {
+	    print $fh "$_ $name\n"
+	}
+	# Add a self->self dependency.  This ensures that any
+	# packages which don't have or appear as a dependency of
+	# any other package still get built.
+	print $fh "$name $name\n"
     }
-    # Add a self->self dependency.  This ensures that any
-    # packages which don't have or appear as a dependency of
-    # any other package still get built.
-    print $fh "$name $name\n"
-}
-close $fh;
+    close $fh;
 
-my @buildorder = get_lines "tsort $filename";
+    get_lines "tsort $filename";
+}
+
+# Sort the initial list of package names.
+
+my @names = sort keys %srpms;
+my @buildorder = tsort (@names);
 
 # With --chain flag we print the packages in groups for chain building.
 
@@ -299,7 +323,9 @@ if (! -d "$localrepo/scratch") {
 	or die "mkdir $localrepo/scratch: $!\nIf you haven't set up a local repository yet, you must read the README file.\n";
 }
 
-system "rm -f $localrepo/scratch/*";
+system "rm -rf $localrepo/scratch/*";
+
+my @errors = ();
 
 # NB: Need to do the arch/distro in the outer loop to work
 # around the caching bug in mock/yum.
@@ -323,17 +349,24 @@ foreach my $arch (@arches) {
 		print "*** building $name-$version-$release $arch $distro ***\n";
 
 		createrepo ($arch, $distro);
-		system ("mock -r $distro-$arch --resultdir $localrepo/scratch $srpm_filename") == 0
-		    or die "Build failed, return code $?\nLeaving the logs in $localrepo/scratch\n";
 
-		# Build was a success so move the final RPMs into the
-		# mock repo for next time.
-		system ("mv $localrepo/scratch/*.src.rpm $localrepo/$distro/src/SRPMS") == 0 or die "mv";
-		system ("mv $localrepo/scratch/*.rpm $localrepo/$distro/$arch/RPMS") == 0 or die "mv";
-		my_mkdir "$localrepo/$distro/$arch/logs/$name-$version-$release";
-		system ("mv $localrepo/scratch/*.log $localrepo/$distro/$arch/logs/$name-$version-$release/") == 0 or die "mv";
+		my $scratchdir = "$localrepo/scratch/$name-$distro-$arch";
+		mkdir $scratchdir;
 
-		createrepo ($arch, $distro);
+		if (system ("mock -r $distro-$arch --resultdir $scratchdir $srpm_filename") == 0) {
+		    # Build was a success so move the final RPMs into the
+		    # mock repo for next time.
+		    system ("mv $scratchdir/*.src.rpm $localrepo/$distro/src/SRPMS") == 0 or die "mv";
+		    system ("mv $scratchdir/*.rpm $localrepo/$distro/$arch/RPMS") == 0 or die "mv";
+		    my_mkdir "$localrepo/$distro/$arch/logs/$name-$version-$release";
+		    system ("mv $scratchdir/*.log $localrepo/$distro/$arch/logs/$name-$version-$release/") == 0 or die "mv";
+		    createrepo ($arch, $distro);
+		}
+		else {
+		    push @errors, "$name-$distro-$arch";
+		    print STDERR "Build failed, return code $?\nLeaving the logs in $scratchdir\n";
+		    die unless $keepgoing;
+		}
 	    }
 	    else
 	    {
@@ -342,3 +375,11 @@ foreach my $arch (@arches) {
 	}
     }
 }
+
+if (@errors) {
+    print "\n\n\nBuild failed for the following packages:\n";
+    print "  $_\n" foreach @errors;
+    exit 1
+}
+
+exit 0
