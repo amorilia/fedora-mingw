@@ -39,6 +39,7 @@ gdbm/gdbm-1.8.0.tar.gz
 gettext/gettext-0.17.tar.gz
 glib2/glib-2.18.0.tar.bz2
 glib2/glib-2.18.1.tar.bz2
+glib2/glib-2.19.5.tar.bz2
 glibmm24/glibmm-2.18.1.tar.bz2
 gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
