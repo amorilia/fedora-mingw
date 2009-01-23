@@ -12,7 +12,7 @@ Summary:        MinGW Windows Gtk2 library
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk+/2.14/gtk+-%{version}.tar.bz2
+Source0:        http://download.gnome.org/sources/gtk+/2.15/gtk+-%{version}.tar.bz2
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
