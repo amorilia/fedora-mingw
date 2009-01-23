@@ -26,11 +26,13 @@ Patch100:       jpeg-mingw32.patch
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libpng
 BuildRequires:  mingw32-zlib
 BuildRequires:  autoconf, libtool
+
 
 %description
 MinGW Windows Libjpeg library.
@@ -54,9 +56,28 @@ cp %{SOURCE1} configure.in
 # libjpeg 6b includes a horribly obsolete version of libtool.
 # Blow it away and replace with build system's version.
 rm -f config.guess config.sub ltmain.sh ltconfig aclocal.m4
-cp /usr/share/aclocal/libtool.m4 aclocal.m4
+
+cat /usr/share/aclocal/libtool.m4 > aclocal.m4
+# If this is the new libtool 2.x, we need to append some additional
+# files.  Rather than hard-coding a version of libtool, just test
+# if the files exist and append them:
+for f in \
+  /usr/share/aclocal/ltoptions.m4 \
+  /usr/share/aclocal/ltversion.m4 \
+  /usr/share/aclocal/ltsugar.m4 \
+  /usr/share/aclocal/lt~obsolete.m4; do
+  if [ -f $f ]; then cat $f >> aclocal.m4; fi
+done
+
+# Now we can run libtool.
 libtoolize
+
+# Automake can fail - we only need this to get config.sub and config.guess.
+automake -a ||:
+
+# Finally because we replaced configure.in:
 autoconf
+
 
 %build
 %{_mingw32_configure} --enable-shared --disable-static
@@ -83,6 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc README
 %{_mingw32_bindir}/cjpeg
 %{_mingw32_bindir}/djpeg
 %{_mingw32_bindir}/jpegtran
@@ -101,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 6b-7
 - Disable static libraries.
 - Use _smp_mflags.
+- Update for new libtool 2.
+- +BR mingw32-dlfcn.
+- Added documentation (README includes the license).
 
 * Thu Nov 20 2008 Richard W.M. Jones <rjones@redhat.com> - 6b-6
 - Don't set libdir in the make step.
