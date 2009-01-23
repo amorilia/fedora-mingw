@@ -27,6 +27,7 @@ BuildRequires:  mingw32-bzip2 >= 1.0.5-4
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-zlib
+BuildRequires:  mingw32-dlfcn
 # We don't have bonobo in MinGW yet:
 #BuildRequires:  mingw32-libbonobo
 # We don't build Python packages yet:
@@ -38,9 +39,6 @@ BuildRequires:  autoconf
 BuildRequires:  pkgconfig
 BuildRequires:  intltool
 
-Patch1000:      mingw32-libgsf-1.14.10-better-bz2-detection.patch
-Patch1001:      mingw32-libgsf-1.14.10-glib-deprecated.patch
-
 
 %description
 A library for reading and writing structured files (eg MS OLE and Zip).
@@ -50,9 +48,6 @@ This is the MinGW Windows cross-compiled port of libgsf.
 
 %prep
 %setup -q -n libgsf-%{version}
-
-%patch1000 -p1
-%patch1001 -p1
 
 autoconf
 
@@ -90,7 +85,7 @@ rm -f $RPM_BUILD_ROOT%{_mingw32_bindir}/gsf-office-thumbnailer.exe
 rm -rf $RPM_BUILD_ROOT
 
 
-%files -f libgsf.mo
+%files -f libgsf.lang
 %defattr(-,root,root)
 %{_mingw32_bindir}/gsf.exe
 %{_mingw32_bindir}/gsf-vba-dump.exe
@@ -109,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-1
 - Rebase to native Fedora version 1.14.11.
 - Use find_lang macro.
+- Remove mingw32-libgsf-1.14.10-better-bz2-detection.patch, now upstream.
+- Remove mingw32-libgsf-1.14.10-glib-deprecated.patch, now fixed upstream.
+- +BR mingw32-dlfcn.
 
 * Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.10-2
 - +BR intltool.
