@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-libgsf
-Version:        1.14.10
-Release:        2%{?dist}
+Version:        1.14.11
+Release:        1%{?dist}
 Summary:        MinGW Windows port of GNOME Structured File Library
 
 License:        LGPLv2
@@ -83,12 +83,14 @@ rm -rf $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gconf
 # is installed.
 rm -f $RPM_BUILD_ROOT%{_mingw32_bindir}/gsf-office-thumbnailer.exe
 
+%find_lang libgsf
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f libgsf.mo
 %defattr(-,root,root)
 %{_mingw32_bindir}/gsf.exe
 %{_mingw32_bindir}/gsf-vba-dump.exe
@@ -101,10 +103,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/pkgconfig/libgsf-1.pc
 %{_mingw32_libdir}/pkgconfig/libgsf-win32-1.pc
 %{_mingw32_includedir}/libgsf-1/
-%{_mingw32_datadir}/locale/*/LC_MESSAGES/libgsf.mo
 
 
 %changelog
+* Fri Jan 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-1
+- Rebase to native Fedora version 1.14.11.
+- Use find_lang macro.
+
 * Sat Nov 22 2008 Richard W.M. Jones <rjones@redhat.com> - 1.14.10-2
 - +BR intltool.
 
