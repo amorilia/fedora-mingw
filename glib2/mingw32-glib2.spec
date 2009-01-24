@@ -6,7 +6,7 @@
 
 Name:           mingw32-glib2
 Version:        2.19.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -19,11 +19,13 @@ BuildArch:      noarch
 
 Patch0:         glib-i386-atomic.patch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 43-6
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gettext
+
 BuildRequires:  pkgconfig
 # Native version required for msgfmt use in build
 BuildRequires:  gettext
@@ -115,11 +117,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.5-1
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.5-2
 - Rebase to native Fedora version 2.19.5.
 - Use _smp_mflags.
 - Use find_lang.
 - Don't build static libraries.
+- +BR dlfcn.
 
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-2
 - Rename mingw -> mingw32.
