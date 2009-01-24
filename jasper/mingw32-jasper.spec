@@ -10,22 +10,32 @@ Release:        6%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
+Group:          Development/Libraries
+
 URL:            http://www.ece.uvic.ca/~mdadams/jasper/
 Source0:        http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-%{version}.zip
-Patch1:         jasper-1.900.1-sleep.patch
-Patch2:         jasper-1.900.1-mingw32.patch
-Patch3:         jasper-1.900.1-enable-shared.patch
-Patch4:         patch-libjasper-stepsizes-overflow.diff
-Group:          Development/Libraries
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+# Patches from Fedora native package.
+Patch1:         jasper-1.701.0-GL.patch
+# Note patch2 appears in native package, but is not applied:
+#Patch2:         jasper-1.701.0-GL-ac.patch
+Patch3:         patch-libjasper-stepsizes-overflow.diff
+
+# MinGW-specific patches.
+Patch1000:      jasper-1.900.1-mingw32.patch
+Patch1001:      jasper-1.900.1-sleep.patch
+Patch1002:      jasper-1.900.1-enable-shared.patch
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libjpeg
-BuildRequires:  autoconf automake libtool
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  autoconf
+
 
 %description
 MinGW Windows Jasper library.
@@ -33,22 +43,28 @@ MinGW Windows Jasper library.
 
 %prep
 %setup -q -n jasper-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+%patch1 -p1 -b .GL
+%patch3 -p1 -b .CVE-2007-2721
+
+%patch1000 -p1 -b .mingw32
+%patch1001 -p1 -b .sleep
+%patch1002 -p1 -b .shared
 
 
 %build
-autoreconf
+autoconf
 %{_mingw32_configure} --disable-opengl --enable-libjpeg --disable-static
-make
+make %{?_smp_mflags}
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install mandir=%{_mingw32_mandir}
+
+# Remove the manual pages - don't duplicate documentation which
+# is in the native Fedora package.
+rm $RPM_BUILD_ROOT%{_mingw32_mandir}/man1/*
 
 
 %clean
@@ -57,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-# XXX dlls
+%doc COPYRIGHT LICENSE NEWS README
 %{_mingw32_bindir}/i686-pc-mingw32-imgcmp.exe
 %{_mingw32_bindir}/i686-pc-mingw32-imginfo.exe
 %{_mingw32_bindir}/i686-pc-mingw32-jasper.exe
@@ -66,16 +82,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libjasper.dll.a
 %{_mingw32_libdir}/libjasper.la
 %{_mingw32_includedir}/jasper/
-%{_mingw32_mandir}/man1/i686-pc-mingw32-imgcmp.1*
-%{_mingw32_mandir}/man1/i686-pc-mingw32-imginfo.1*
-%{_mingw32_mandir}/man1/i686-pc-mingw32-jasper.1*
-%{_mingw32_mandir}/man1/i686-pc-mingw32-jiv.1*
 
 
 %changelog
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-6
 - Use _smp_mflags.
 - Disable static libraries.
+- Include documentation.
+- Use the same patches as Fedora native package.
+- Just run autoconf instead of autoreconf so we don't upgrade libtool.
+- +BR mingw32-dlfcn.
+- Don't need the manual pages.
 
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-5
 - Rename mingw -> mingw32.
