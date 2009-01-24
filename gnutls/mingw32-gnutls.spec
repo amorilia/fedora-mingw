@@ -63,8 +63,11 @@ for i in auth_srp_rsa.c auth_srp_sb64.c auth_srp_passwd.c auth_srp.c gnutls_srp.
     touch lib/$i
 done
 
-%build
+libtoolize --force --copy
 autoreconf
+
+
+%build
 PATH="%{_mingw32_bindir}:$PATH" \
 %{_mingw32_configure} \
   --with-included-libtasn1 \
@@ -83,7 +86,6 @@ rm -f $RPM_BUILD_ROOT%{_mingw32_datadir}/info/dir
 # Remove info and man pages which duplicate stuff in Fedora already.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_infodir}
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
-
 
 %find_lang gnutls
 
@@ -129,6 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 - Rebase MinGW patch to 2.6.3.
 - +BR mingw32-dlfcn.
 - +BR mingw32-readline.
+- Force rebuild of libtool.
 
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.4.2-4
 - Requires pkgconfig.
