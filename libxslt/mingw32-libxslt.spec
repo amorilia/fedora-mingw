@@ -25,6 +25,8 @@ Patch1000:      mingw32-libxslt-1.1.24-win32-shared.patch
 BuildRequires:  mingw32-filesystem >= 30
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-libgcrypt
 BuildRequires:  mingw32-libxml2 >= 2.7.2-3
 BuildRequires:  pkgconfig
@@ -47,6 +49,9 @@ installed. The xsltproc command is a command line interface to the XSLT engine
 %patch1 -p0
 
 %patch1000 -p1
+
+libtoolize --force --copy
+autoreconf
 
 
 %build
@@ -95,6 +100,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-3
 - Use _smp_mflags.
+- Rebuild libtool.
+- +BRs dlfcn and iconv.
 
 * Sat Oct 25 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-2
 - Initial RPM release.
