@@ -19,14 +19,17 @@ Patch0:         mingw32-fontconfig-2.6.0-remove-logfile.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 23
+BuildRequires:  mingw32-filesystem >= 43-6
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-expat
 BuildRequires:  mingw32-freetype
+BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-libxml2
 BuildRequires:  pkgconfig
 BuildRequires:  docbook-utils
-BuildRequires:  autoconf automake libtool
+BuildRequires:  automake, autoconf, libtool
 
 
 %description
@@ -36,6 +39,7 @@ MinGW Windows Fontconfig library.
 %prep
 %setup -q -n fontconfig-%{version}
 %patch0 -p1
+libtoolize --force --copy
 autoreconf
 
 
@@ -81,6 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-6
 - Use _smp_mflags.
+- Rebuild libtool configuration.
+- More BRs suggested by auto-buildrequires.
 
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-5
 - Rename mingw -> mingw32.
