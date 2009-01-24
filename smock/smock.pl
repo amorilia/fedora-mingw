@@ -365,7 +365,7 @@ foreach my $arch (@arches) {
 		else {
 		    push @errors, "$name-$distro-$arch";
 		    print STDERR "Build failed, return code $?\nLeaving the logs in $scratchdir\n";
-		    die unless $keepgoing;
+		    exit 1 unless $keepgoing;
 		}
 	    }
 	    else

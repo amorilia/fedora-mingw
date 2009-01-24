@@ -4,7 +4,7 @@
 nobuild=$(grep -v '^#' IGNORE)
 
 # Keep going (not safe).  Comment out for a safe build.
-keepgoing=--keepgoing
+#keepgoing=--keepgoing
 
 rm -f */*.src.rpm
 
