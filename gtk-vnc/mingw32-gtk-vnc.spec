@@ -55,6 +55,7 @@ allowing it to be completely asynchronous while remaining single threaded.
 %patch105 -p1
 %patch106 -p1
 
+libtoolize --force --copy
 autoreconf
 
 
@@ -90,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.3.20081030hg
 - Use _smp_mflags.
 - Disable static library.
+- Rebuild libtool.
 
 * Thu Oct 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.2.20081030hg
 - Add Dan's fd/socket fix for Windows.
