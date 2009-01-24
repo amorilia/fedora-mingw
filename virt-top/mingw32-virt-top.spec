@@ -6,7 +6,7 @@
 
 Name:           mingw32-virt-top
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of top(1) for virtualization stats
 
 License:        GPLv2+
@@ -32,7 +32,7 @@ BuildRequires:  mingw32-ocaml
 BuildRequires:  mingw32-flexdll >= 0.11-7
 #BuildRequires:  ocaml-ocamldoc
 BuildRequires:  mingw32-ocaml-findlib
-BuildRequires:  mingw32-ocaml-curses >= 1.0.3-2
+BuildRequires:  mingw32-ocaml-curses >= 1.0.3-4
 BuildRequires:  mingw32-ocaml-extlib
 BuildRequires:  mingw32-ocaml-xml-light
 BuildRequires:  mingw32-ocaml-csv
@@ -103,5 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-3
+- PDcurses library was renamed to libpdcurses.dll
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-2
 - Initial RPM release.

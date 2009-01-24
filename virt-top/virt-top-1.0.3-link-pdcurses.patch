@@ -6,7 +6,7 @@ diff -ur virt-top-1.0.3.orig/virt-top/Makefile.in virt-top-1.0.3.mingw/virt-top/
  	ocamlfind ocamlopt \
  	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 -	  -cclib -lncurses -o $@ $^
-+	  -o $@ $^ -cclib "-L/usr/i686-pc-mingw32/sys-root/mingw/lib pdcurses.dll.a"
++	  -o $@ $^ -cclib "-L/usr/i686-pc-mingw32/sys-root/mingw/lib libpdcurses.dll.a"
  
  # Manual page.
  ifeq ($(HAVE_PERLDOC),perldoc)
