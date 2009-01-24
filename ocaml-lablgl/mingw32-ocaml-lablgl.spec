@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-lablgl
 Version:        1.03
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of LablGL is an OpenGL interface
 
 License:        BSD
@@ -84,7 +84,10 @@ __EOF__
 
 
 %build
-make LIBRARIAN=i686-pc-mingw32-ocamlmklib lib glut libopt glutopt
+# XXX w32api-3.12 had libglut32.a, but 3.13 lacks this, so we have
+# had to disable glut compilation.
+#make LIBRARIAN=i686-pc-mingw32-ocamlmklib lib glut libopt glutopt
+make LIBRARIAN=i686-pc-mingw32-ocamlmklib lib libopt
 
 
 %install
@@ -124,12 +127,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/lablglut.bat
+# XXX See above for reason why glut is missing.
+#%{_mingw32_bindir}/lablglut.bat
 %{_libdir}/%{_mingw32_target}-ocaml/lablGL/
 %{_libdir}/%{_mingw32_target}-ocaml/stublibs/dlllablgl.dll
-%{_libdir}/%{_mingw32_target}-ocaml/stublibs/dlllablglut.dll
+#%{_libdir}/%{_mingw32_target}-ocaml/stublibs/dlllablglut.dll
 
 
 %changelog
+* Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 1.03-4
+- Disable GLUT since the library has been dropped from w32api.
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.03-3
 - Initial RPM release.
