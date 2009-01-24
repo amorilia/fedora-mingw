@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-curses
 Version:        1.0.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows OCaml bindings for ncurses
 
 License:        LGPLv2+
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-5
+- Force rebuild.
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-4
 - Rebuild against newest OCaml cross-compiler.
 
