@@ -6,7 +6,7 @@
 
 Name:           mingw32-libssh2
 Version:        0.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows library implementing the SSH2 protocol
 
 License:        BSD
@@ -50,6 +50,7 @@ SECSH-DHGEX(04), and SECSH-NUMBERS(10).
 %patch1004 -p1
 %patch1005 -p1
 
+libtoolize --force --copy
 autoreconf
 
 
@@ -81,5 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 0.18-2
+- Update libtool installation.
+
 * Mon Nov 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.18-1
 - Initial RPM release.
