@@ -1,6 +1,7 @@
 # List of packages that are ignored when building, updating status, etc.
 example
 cyrus-sasl
+dbus
 gdb
 inkscape
 pidgin
