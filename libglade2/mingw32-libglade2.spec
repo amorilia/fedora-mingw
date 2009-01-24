@@ -25,6 +25,8 @@ BuildRequires:  mingw32-gtk2
 BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-pango
 BuildRequires:  mingw32-gettext
+BuildRequires:  mingw32-libxml2
+
 # Native one for msgfmt
 BuildRequires:  gettext
 
@@ -70,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-3
 - Use _smp_mflags.
+- +BR mingw32-libxml2.
 
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-2
 - Requires pkgconfig.
