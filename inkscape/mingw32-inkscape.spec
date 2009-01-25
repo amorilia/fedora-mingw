@@ -7,9 +7,11 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+%define svnrev 20568
+
 Name:           mingw32-inkscape
-Version:        20081027
-Release:        5%{?dist}
+Version:        0.47
+Release:        0.1.svn%{svnrev}%{?dist}
 Summary:        MinGW Windows port of Inkscape vector graphics editor
 
 License:        LGPLv2+
@@ -18,25 +20,21 @@ URL:            http://www.inkscape.org/
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-# Checked out of SVN on the date shown and then just rolled up into
-# a tarball.
-# svn co https://inkscape.svn.sourceforge.net/svnroot/inkscape/inkscape/trunk inkscape
-# tar zcf /tmp/inkscape-%{version}.tar.gz inkscape
-Source0:        inkscape-%{version}.tar.gz
+Source0:        http://inkscape.modevia.com/svn-snap/inkscape-%{svnrev}.tar.bz2
 
 # Rolled-up source patch, submitted upstream on 2008-10-27.
-Patch0:         mingw32-inkscape-20081027.patch
+#Patch0:         mingw32-inkscape-20081027.patch
 
 # Fix the paths.
 Patch1:         mingw32-inkscape-20081027-paths.patch
 
 # This patch is only needed to run under Wine, which doesn't
 # supported getting the outline of unhinted fonts.
-Patch2:         /mingw32-inkscape-20081027-unhinted-fonts-for-wine.patch
+Patch2:         mingw32-inkscape-20081027-unhinted-fonts-for-wine.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 30
+BuildRequires:  mingw32-filesystem >= 43
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
@@ -74,8 +72,8 @@ community-oriented development.
 
 
 %prep
-%setup -q -n inkscape
-%patch0 -p0
+%setup -q -n inkscape-%{svnrev}
+#%patch0 -p0
 %patch1 -p0
 %patch2 -p0
 
@@ -112,5 +110,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 27 2008 Richard W.M. Jones <rjones@redhat.com> - 20081027-5
+* Sun Jan 25 2009 Richard W.M. Jones <rjones@redhat.com> - 0.47-0.1.svn20568
 - Initial RPM release.
