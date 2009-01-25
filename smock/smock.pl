@@ -360,7 +360,10 @@ foreach my $arch (@arches) {
 		    system ("mv $scratchdir/*.rpm $localrepo/$distro/$arch/RPMS") == 0 or die "mv";
 		    my_mkdir "$localrepo/$distro/$arch/logs/$name-$version-$release";
 		    system ("mv $scratchdir/*.log $localrepo/$distro/$arch/logs/$name-$version-$release/") == 0 or die "mv";
+		    system "rm -rf $scratchdir";
+
 		    createrepo ($arch, $distro);
+
 		}
 		else {
 		    push @errors, "$name-$distro-$arch";
