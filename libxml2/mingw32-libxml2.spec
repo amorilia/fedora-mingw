@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxml2
 Version:        2.7.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -26,8 +26,13 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-zlib
+
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-gettext
+BuildRequires:  mingw32-iconv
+BuildRequires:  mingw32-zlib
+
+BuildRequires:  autoconf, automake, libtool
 
 Requires:       pkgconfig
 
@@ -38,7 +43,12 @@ MinGW Windows libxml2 XML processing library.
 
 %prep
 %setup -q -n libxml2-%{version}
+
 %patch1000 -p1
+
+# Patched configure.in, so rebuild configure.
+libtoolize --force --copy
+autoreconf
 
 
 %build
@@ -78,6 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-6
+- Rerun autoreconf after patching configure.in (Erik van Pienbroek).
+- Rebuild libtool for Rawhide / libtool 2.
+- Add BRs dlfcn and iconv.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.7.2-5
 - Use _smp_mflags.
 - Disable static libraries.
