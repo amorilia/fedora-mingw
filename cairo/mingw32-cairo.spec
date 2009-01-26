@@ -6,7 +6,7 @@
 
 Name:           mingw32-cairo
 Version:        1.8.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
@@ -49,7 +49,8 @@ MinGW Windows Cairo library.
   --disable-xcb \
   --enable-win32 \
   --enable-png \
-  --disable-static
+  --disable-static \
+  --disable-ft
 make %{?_smp_mflags}
 
 
@@ -87,6 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-4
+- Disable freetype in configure so it doesn't break if freetype
+  or fontconfig are actually installed. (Erik van Pienbroek).
+
 * Mon Jan 19 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-3
 - Include license file in documentation section.
 - Disable building static library to save time.
