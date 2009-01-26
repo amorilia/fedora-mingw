@@ -61,10 +61,6 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/charset.alias
 
-# If mingw32-freetype was installed, then cairo will incorrectly
-# install the following file.  Remove it:
-rm -f $RPM_BUILD_ROOT%{_mingw32_libdir}/pkgconfig/cairo-ft.pc
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-5
+- Don't need to remove extra pkgconfig file in install section.
+
 * Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-4
 - Disable freetype in configure so it doesn't break if freetype
   or fontconfig are actually installed. (Erik van Pienbroek).
