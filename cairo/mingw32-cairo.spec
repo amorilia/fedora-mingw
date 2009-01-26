@@ -6,7 +6,7 @@
 
 Name:           mingw32-cairo
 Version:        1.8.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
@@ -33,6 +33,8 @@ BuildRequires:  pkgconfig
 # (thanks to: Erik van Pienbroek).
 #BuildRequires:  mingw32-fontconfig
 #BuildRequires:  mingw32-freetype
+
+Requires:       pkgconfig
 
 
 %description
@@ -84,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-6
+- Requires pkgconfig (Erik van Pienbroek).
+
 * Mon Jan 26 2009 Richard W.M. Jones <rjones@redhat.com> - 1.8.0-5
 - Don't need to remove extra pkgconfig file in install section.
 
