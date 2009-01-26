@@ -1,9 +1,11 @@
 #!/bin/bash -
 
+set -e
+
 # These are the packages we don't want to build yet:
 nobuild=$(grep -v '^#' IGNORE)
 
-# Keep going (not safe).  Comment out for a safe build.
+# Keep going - don't stop when smock hits an error.
 keepgoing=--keepgoing
 
 rm -f */*.src.rpm
@@ -26,10 +28,29 @@ for dir in *; do
     fi
 done
 
+# Rawhide build everything:
+
 smock/smock.pl \
   --arch=i386 \
   --arch=x86_64 \
   --distro=fedora-rawhide \
-  --distro=fedora-10 \
   $keepgoing \
   $srpms
+
+# In Fedora 10 don't try to build the OCaml RPMs since they
+# require OCaml 3.11 which was not in Fedora 10:
+
+srpms_no_ocaml=""
+for f in $srpms; do
+    case $f in
+    *ocaml* | *virt-top*) ;;
+    *) srpms_no_ocaml="$srpms_no_ocaml $f" ;;
+    esac
+done
+
+smock/smock.pl \
+  --arch=i386 \
+  --arch=x86_64 \
+  --distro=fedora-10 \
+  $keepgoing \
+  $srpms_no_ocaml
