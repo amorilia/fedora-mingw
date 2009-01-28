@@ -113,5 +113,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Jan 28 2009 Richard W.M. Jones <rjones@redhat.com> - 2.3.2-1
+* Wed Jan 28 2009 Richard W.M. Jones <rjones@redhat.com> - 4.2.4-1
 - Initial RPM release (on behalf of Ralf Corsepius).
