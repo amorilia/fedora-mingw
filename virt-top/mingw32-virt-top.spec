@@ -6,7 +6,7 @@
 
 Name:           mingw32-virt-top
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of top(1) for virtualization stats
 
 License:        GPLv2+
@@ -24,7 +24,7 @@ Patch1000:      virt-top-1.0.3-link-pdcurses.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 35
+BuildRequires:  mingw32-filesystem >= 43-6
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
@@ -92,6 +92,8 @@ export OCAMLFIND_CONF=%{_sysconfdir}/%{_mingw32_target}-ocamlfind.conf
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+# Rename win32 native binaries
+mv $RPM_BUILD_ROOT%{_mingw32_bindir}/virt-top $RPM_BUILD_ROOT%{_mingw32_bindir}/virt-top.exe
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -99,10 +101,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_mingw32_bindir}/virt-top
+%{_mingw32_bindir}/virt-top.exe
 
 
 %changelog
+* Tue Jan 27 2009 Levente Farkas <lfarkas@lfarkas.org> - 1.0.3-4
+- Rename win32 binaries.
+
 * Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-3
 - PDcurses library was renamed to libpdcurses.dll
 
