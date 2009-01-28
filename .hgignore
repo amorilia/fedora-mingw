@@ -41,6 +41,7 @@ glib2/glib-2.18.0.tar.bz2
 glib2/glib-2.18.1.tar.bz2
 glib2/glib-2.19.5.tar.bz2
 glibmm24/glibmm-2.18.1.tar.bz2
+gmp/gmp-4.2.4.tar.bz2
 gnutls/gnutls-2.4.1.tar.bz2
 gnutls/gnutls-2.4.2-nosrp.tar.bz2
 gnutls/gnutls-2.6.3-nosrp.tar.bz2
