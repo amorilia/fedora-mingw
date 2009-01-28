@@ -4,9 +4,13 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+# Build the programs like cjpeg, etc.
+# https://bugzilla.redhat.com/show_bug.cgi?id=467401c7
+%define build_programs 0
+
 Name:           mingw32-libjpeg
 Version:        6b
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows Libjpeg library
 
 License:        IJG
@@ -97,6 +101,17 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_mandir}/man1
 # Remove manual pages which duplicate Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
+pushd $RPM_BUILD_ROOT%{_mingw32_bindir}
+# Rename or remove win32 native binaries
+for i in cjpeg djpeg jpegtran rdjpgcom wrjpgcom ; do
+%if %build_programs
+   mv $i $i.exe
+%else
+   rm $i
+%endif
+done
+popd
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -105,11 +120,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README
-%{_mingw32_bindir}/cjpeg
-%{_mingw32_bindir}/djpeg
-%{_mingw32_bindir}/jpegtran
-%{_mingw32_bindir}/rdjpgcom
-%{_mingw32_bindir}/wrjpgcom
+%if %build_programs
+%{_mingw32_bindir}/cjpeg.exe
+%{_mingw32_bindir}/djpeg.exe
+%{_mingw32_bindir}/jpegtran.exe
+%{_mingw32_bindir}/rdjpgcom.exe
+%{_mingw32_bindir}/wrjpgcom.exe
+%endif
 %{_mingw32_bindir}/libjpeg-62.dll
 %{_mingw32_includedir}/jconfig.h
 %{_mingw32_includedir}/jerror.h
@@ -120,6 +137,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 28 2009 Richard W.M. Jones <rjones@redhat.com> - 6b-8
+- Exclude the binaries.
+- Rename the binaries to *.exe (Levente Farkas).
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 6b-7
 - Disable static libraries.
 - Use _smp_mflags.
