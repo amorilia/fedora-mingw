@@ -6,7 +6,7 @@
 
 Name:           mingw32-pango
 Version:        1.22.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -69,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libpango-1.0-0.dll
 %{_mingw32_bindir}/libpangocairo-1.0-0.dll
 %{_mingw32_bindir}/libpangoft2-1.0-0.dll
@@ -98,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 27 2009 Levente Farkas <lfarkas@lfarkas.org> - 1.22.1-3
+- Include license file in documentation section.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-2
 - Disable static libraries.
 - Use _smp_mflags.
