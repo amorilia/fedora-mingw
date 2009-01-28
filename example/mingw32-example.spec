@@ -57,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE
 %{_mingw32_bindir}/foo.dll
 %{_mingw32_libdir}/foo.dll.a
 # etc.
