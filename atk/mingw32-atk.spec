@@ -6,7 +6,7 @@
 
 Name:           mingw32-atk
 Version:        1.25.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
@@ -49,6 +49,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
+rm -rf $RPM_BUILD_ROOT/%{_mingw32_datadir}/gtk-doc
 
 %find_lang atk10
 
@@ -57,17 +58,20 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files -f atk10.lang
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %{_mingw32_bindir}/libatk-1.0-0.dll
 %{_mingw32_includedir}/atk-1.0
 %{_mingw32_libdir}/atk-1.0.def
 %{_mingw32_libdir}/libatk-1.0.dll.a
 %{_mingw32_libdir}/libatk-1.0.la
 %{_mingw32_libdir}/pkgconfig/atk.pc
-%{_mingw32_datadir}/gtk-doc/html/atk/
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-2
+- Remove gtk-doc.
+- Fix defattr line.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-1
 - Rebase to latest Fedora native version 1.25.2.
 - Use find_lang macro.
