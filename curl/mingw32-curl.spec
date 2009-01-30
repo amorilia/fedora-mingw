@@ -6,7 +6,7 @@
 
 Name:           mingw32-curl
 Version:        7.18.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of curl and libcurl
 
 License:        MIT
@@ -47,6 +47,8 @@ BuildRequires:  mingw32-openssl
 
 # Not started porting this package yet.
 #BuildRequires:  mingw32-krb5
+
+Requires:       pkgconfig
 
 
 %description
@@ -125,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-3
+- Requires pkgconfig.
+
 * Thu Nov 13 2008 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-2
 - Requires mingw32-filesystem >= 35.
 

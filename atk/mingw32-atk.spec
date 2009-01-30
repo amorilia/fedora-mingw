@@ -6,7 +6,7 @@
 
 Name:           mingw32-atk
 Version:        1.25.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
@@ -28,6 +28,8 @@ BuildRequires:  pkgconfig
 BuildRequires:  gettext
 # Need native one too for  glib-genmarshal
 BuildRequires:  glib2-devel
+
+Requires:       pkgconfig
 
 
 %description
@@ -68,9 +70,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-2
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-3
 - Remove gtk-doc.
 - Fix defattr line.
+- Requires pkgconfig.
 
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-1
 - Rebase to latest Fedora native version 1.25.2.

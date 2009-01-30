@@ -8,7 +8,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.8
-Release:        0.3.20081030hg%{?dist}
+Release:        0.4.20081030hg%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -37,6 +37,8 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  pkgconfig
+
+Requires:       pkgconfig
 
 
 %description
@@ -88,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.4.20081030hg
+- Requires pkgconfig.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.3.20081030hg
 - Use _smp_mflags.
 - Disable static library.

@@ -6,7 +6,7 @@
 
 Name:           mingw32-libgsf
 Version:        1.14.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of GNOME Structured File Library
 
 License:        LGPLv2
@@ -38,6 +38,8 @@ BuildRequires:  mingw32-dlfcn
 BuildRequires:  autoconf
 BuildRequires:  pkgconfig
 BuildRequires:  intltool
+
+Requires:       pkgconfig
 
 
 %description
@@ -101,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-2
+- Requires pkgconfig.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-1
 - Rebase to native Fedora version 1.14.11.
 - Use find_lang macro.

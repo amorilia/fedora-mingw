@@ -10,7 +10,7 @@
 
 Name:           mingw32-libidn
 Version:        1.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Internationalized Domain Name support library
 
 License:        LGPLv2+
@@ -30,6 +30,8 @@ BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-iconv
 BuildRequires:  pkgconfig, gettext
 #BuildRequires:  libtool, automake, autoconf
+
+Requires:       pkgconfig
 
 
 %description
@@ -76,5 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 0.6.14-2
+- Requires pkgconfig.
+
 * Mon Nov 10 2008 Richard W.M. Jones <rjones@redhat.com> - 0.6.14-1
 - Initial RPM release.

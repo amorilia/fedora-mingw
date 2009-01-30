@@ -6,7 +6,7 @@
 
 Name:           mingw32-nss
 Version:        3.12.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of NSS (Network Security Services)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -34,6 +34,8 @@ BuildRequires:  mingw32-sqlite
 BuildRequires:  mingw32-zlib
 BuildRequires:  pkgconfig
 BuildRequires:  perl
+
+Requires:       pkgconfig
 
 
 %description
@@ -248,5 +250,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-2
 - Initial RPM release.

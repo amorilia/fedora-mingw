@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk2
 Version:        2.15.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -48,6 +48,8 @@ BuildRequires:  glib2-devel
 BuildRequires:  gtk2
 # Native one for gdk-pixbuf-csource
 BuildRequires:  gtk2-devel
+
+Requires:       pkgconfig
 
 
 %description
@@ -132,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 2.15.0-2
+- Requires pkgconfig.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.15.0-1
 - Rebase to Fedora native version 2.15.0.
 - Disable static libraries.

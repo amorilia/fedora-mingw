@@ -6,7 +6,7 @@
 
 Name:           mingw32-fontconfig
 Version:        2.6.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
@@ -30,6 +30,8 @@ BuildRequires:  mingw32-libxml2
 BuildRequires:  pkgconfig
 BuildRequires:  docbook-utils
 BuildRequires:  automake, autoconf, libtool
+
+Requires:       pkgconfig
 
 
 %description
@@ -83,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/doc/fontconfig
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-7
+- Requires pkgconfig.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-6
 - Use _smp_mflags.
 - Rebuild libtool configuration.

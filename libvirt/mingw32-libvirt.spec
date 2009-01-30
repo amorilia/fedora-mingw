@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.5.1
-Release:        1%{?dist}%{?extra_release}
+Release:        2%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -33,6 +33,8 @@ BuildRequires:  pkgconfig
 BuildRequires:  gettext
 
 BuildArch:      noarch
+
+Requires:       pkgconfig
 
 
 %description
@@ -93,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard Jones <rjones@redhat.com> - 0.5.1-2
+- Requires pkgconfig.
+
 * Fri Jan 23 2009 Richard Jones <rjones@redhat.com> - 0.5.1-1
 - Rebase to Fedora native version 0.5.1.
 - Use find_lang macro.

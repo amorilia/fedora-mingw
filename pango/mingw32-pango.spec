@@ -6,7 +6,7 @@
 
 Name:           mingw32-pango
 Version:        1.22.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -38,6 +38,9 @@ BuildRequires:  mingw32-freetype
 BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-glib2
 BuildRequires:  pkgconfig
+
+Requires:       pkgconfig
+
 
 %description
 MinGW Windows Pango library.
@@ -99,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-4
+- Requires pkgconfig.
+
 * Tue Jan 27 2009 Levente Farkas <lfarkas@lfarkas.org> - 1.22.1-3
 - Include license file in documentation section.
 
