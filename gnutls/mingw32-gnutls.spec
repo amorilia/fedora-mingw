@@ -63,9 +63,11 @@ for i in auth_srp_rsa.c auth_srp_sb64.c auth_srp_passwd.c auth_srp.c gnutls_srp.
     touch lib/$i
 done
 
+%if 0%{?fedora} > 10
 libtoolize --force --copy
 aclocal
 autoreconf
+%endif
 
 
 %build
