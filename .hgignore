@@ -127,6 +127,7 @@ portablexdr/portablexdr-4.0.10.tar.gz
 portablexdr/portablexdr-4.0.11.tar.gz
 pthreads/pthreads-w32-2-8-0-release.tar.gz
 python/Python-2.5.2.tar.bz2
+qt-win/qt-win-opensource-src-4.4.3.zip
 readline/readline-5.2.tar.gz
 runtime-bootstrap/mingw-runtime-3.14.tar.gz
 runtime/mingw-runtime-3.14-src.tar.gz

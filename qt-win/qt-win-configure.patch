@@ -1,0 +1,466 @@
+diff -urN qt-win-opensource-src-4.4.3.orig/configure.cache qt-win-opensource-src-4.4.3/configure.cache
+--- qt-win-opensource-src-4.4.3.orig/configure.cache	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/configure.cache	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,27 @@
++-platform 
++win32-g++ 
++-confirm-license 
++-no-qmake 
++-dont-process 
++-prefix 
++/usr/i686-pc-mingw32/sys-root/mingw 
++-bindir 
++/usr/i686-pc-mingw32/sys-root/mingw/bin 
++-datadir 
++/usr/i686-pc-mingw32/sys-root/mingw/share 
++-demosdir 
++/usr/i686-pc-mingw32/sys-root/mingw/lib/qt4/demos 
++-docdir 
++/usr/i686-pc-mingw32/sys-root/mingw/share/doc 
++-examplesdir 
++/usr/i686-pc-mingw32/sys-root/mingw/share/qt4/examples 
++-headerdir 
++/usr/i686-pc-mingw32/sys-root/mingw/include 
++-libdir 
++/usr/i686-pc-mingw32/sys-root/mingw/lib 
++-plugindir 
++/usr/i686-pc-mingw32/sys-root/mingw/lib/qt4/plugins 
++-translationdir 
++/usr/i686-pc-mingw32/sys-root/mingw/share/qt4/translations 
++-release 
++-shared 
+diff -urN qt-win-opensource-src-4.4.3.orig/include/Qt/qconfig.h qt-win-opensource-src-4.4.3/include/Qt/qconfig.h
+--- qt-win-opensource-src-4.4.3.orig/include/Qt/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/include/Qt/qconfig.h	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1 @@
++#include "../../src/corelib/global/qconfig.h"
+diff -urN qt-win-opensource-src-4.4.3.orig/include/QtCore/qconfig.h qt-win-opensource-src-4.4.3/include/QtCore/qconfig.h
+--- qt-win-opensource-src-4.4.3.orig/include/QtCore/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/include/QtCore/qconfig.h	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1 @@
++#include "../../src/corelib/global/qconfig.h"
+diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qmake.conf qt-win-opensource-src-4.4.3/mkspecs/default/qmake.conf
+--- qt-win-opensource-src-4.4.3.orig/mkspecs/default/qmake.conf	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/mkspecs/default/qmake.conf	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,107 @@
++#
++# qmake configuration for win32-g++
++#
++# Written for MinGW
++#
++
++MAKEFILE_GENERATOR	= MINGW
++TEMPLATE		= app
++CONFIG			+= qt warn_on release link_prl copy_dir_files debug_and_release debug_and_release_target precompile_header
++QT			+= core gui
++DEFINES			+= UNICODE QT_LARGEFILE_SUPPORT
++QMAKE_COMPILER_DEFINES  += __GNUC__ WIN32
++
++QMAKE_EXT_OBJ           = .o
++QMAKE_EXT_RES           = _res.o
++
++QMAKE_CC		= gcc
++QMAKE_LEX		= flex
++QMAKE_LEXFLAGS		=
++QMAKE_YACC		= byacc
++QMAKE_YACCFLAGS		= -d
++QMAKE_CFLAGS		=
++QMAKE_CFLAGS_DEPS	= -M
++QMAKE_CFLAGS_WARN_ON	= -Wall
++QMAKE_CFLAGS_WARN_OFF	= -w
++QMAKE_CFLAGS_RELEASE	= -O2
++QMAKE_CFLAGS_DEBUG	= -g
++QMAKE_CFLAGS_YACC	= -Wno-unused -Wno-parentheses
++
++QMAKE_CXX		= g++
++QMAKE_CXXFLAGS		= $$QMAKE_CFLAGS
++QMAKE_CXXFLAGS_DEPS	= $$QMAKE_CFLAGS_DEPS
++QMAKE_CXXFLAGS_WARN_ON	= $$QMAKE_CFLAGS_WARN_ON
++QMAKE_CXXFLAGS_WARN_OFF	= $$QMAKE_CFLAGS_WARN_OFF
++QMAKE_CXXFLAGS_RELEASE	= $$QMAKE_CFLAGS_RELEASE
++QMAKE_CXXFLAGS_DEBUG	= $$QMAKE_CFLAGS_DEBUG
++QMAKE_CXXFLAGS_YACC	= $$QMAKE_CFLAGS_YACC
++QMAKE_CXXFLAGS_THREAD	= $$QMAKE_CFLAGS_THREAD
++QMAKE_CXXFLAGS_RTTI_ON	= -frtti
++QMAKE_CXXFLAGS_RTTI_OFF	= -fno-rtti
++QMAKE_CXXFLAGS_EXCEPTIONS_ON = -fexceptions -mthreads
++QMAKE_CXXFLAGS_EXCEPTIONS_OFF = -fno-exceptions
++
++QMAKE_INCDIR		=
++QMAKE_INCDIR_QT		= $$[QT_INSTALL_HEADERS]
++QMAKE_LIBDIR_QT		= $$[QT_INSTALL_LIBS]
++
++QMAKE_RUN_CC		= $(CC) -c $(CFLAGS) $(INCPATH) -o $obj $src
++QMAKE_RUN_CC_IMP	= $(CC) -c $(CFLAGS) $(INCPATH) -o $@ $<
++QMAKE_RUN_CXX		= $(CXX) -c $(CXXFLAGS) $(INCPATH) -o $obj $src
++QMAKE_RUN_CXX_IMP	= $(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
++
++QMAKE_LINK		= g++
++QMAKE_LFLAGS		= -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
++QMAKE_LFLAGS_EXCEPTIONS_ON = -mthreads -Wl
++QMAKE_LFLAGS_EXCEPTIONS_OFF =
++QMAKE_LFLAGS_RELEASE	= -Wl,-s
++QMAKE_LFLAGS_DEBUG	=
++QMAKE_LFLAGS_CONSOLE	= -Wl,-subsystem,console
++QMAKE_LFLAGS_WINDOWS	= -Wl,-subsystem,windows
++QMAKE_LFLAGS_DLL        = -shared
++QMAKE_LINK_OBJECT_MAX	= 10
++QMAKE_LINK_OBJECT_SCRIPT= object_script
++
++
++QMAKE_LIBS		=
++QMAKE_LIBS_CORE         = -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
++QMAKE_LIBS_GUI          = -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lws2_32 -lole32 -luuid -luser32 -ladvapi32
++QMAKE_LIBS_NETWORK      = -lws2_32
++QMAKE_LIBS_OPENGL       = -lopengl32 -lglu32 -lgdi32 -luser32
++QMAKE_LIBS_COMPAT       = -ladvapi32 -lshell32 -lcomdlg32 -luser32 -lgdi32 -lws2_32
++QMAKE_LIBS_QT_ENTRY     = -lmingw32 -lqtmain
++
++!isEmpty(QMAKE_SH) {
++    MINGW_IN_SHELL      = 1
++	QMAKE_DIR_SEP		= /
++	QMAKE_COPY		= cp
++	QMAKE_COPY_DIR		= xcopy /s /q /y /i
++	QMAKE_MOVE		= mv
++	QMAKE_DEL_FILE		= rm
++	QMAKE_MKDIR		= mkdir
++	QMAKE_DEL_DIR		= rmdir
++    QMAKE_CHK_DIR_EXISTS = test -d
++} else {
++	QMAKE_COPY		= copy /y
++	QMAKE_COPY_DIR		= xcopy /s /q /y /i
++	QMAKE_MOVE		= move
++	QMAKE_DEL_FILE		= del
++	QMAKE_MKDIR		= mkdir
++	QMAKE_DEL_DIR		= rmdir
++    QMAKE_CHK_DIR_EXISTS	= if not exist
++}
++
++QMAKE_MOC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}moc.exe
++QMAKE_UIC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}uic.exe
++QMAKE_IDC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}idc.exe
++
++QMAKE_IDL		= midl
++QMAKE_LIB		= ar -ru
++QMAKE_RC		= windres
++QMAKE_ZIP		= zip -r -9
++
++QMAKE_STRIP		= strip
++QMAKE_STRIPFLAGS_LIB 	+= --strip-unneeded
++load(qt_config)
++
++QMAKESPEC_ORIGINAL=Z:/tmp/qt-win-opensource-src-4.4.3/mkspecs/win32-g++
+diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qplatformdefs.h qt-win-opensource-src-4.4.3/mkspecs/default/qplatformdefs.h
+--- qt-win-opensource-src-4.4.3.orig/mkspecs/default/qplatformdefs.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/mkspecs/default/qplatformdefs.h	2008-09-27 10:00:52.000000000 +0100
+@@ -0,0 +1,160 @@
++/****************************************************************************
++**
++** Copyright (C) 2008 Nokia Corporation and/or its subsidiary(-ies).
++** Contact: Qt Software Information (qt-info@nokia.com)
++**
++** This file is part of the qmake spec of the Qt Toolkit.
++**
++** Commercial Usage
++** Licensees holding valid Qt Commercial licenses may use this file in
++** accordance with the Qt Commercial License Agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Nokia.
++**
++**
++** GNU General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License versions 2.0 or 3.0 as published by the Free
++** Software Foundation and appearing in the file LICENSE.GPL included in
++** the packaging of this file.  Please review the following information
++** to ensure GNU General Public Licensing requirements will be met:
++** http://www.fsf.org/licensing/licenses/info/GPLv2.html and
++** http://www.gnu.org/copyleft/gpl.html.  In addition, as a special
++** exception, Nokia gives you certain additional rights. These rights
++** are described in the Nokia Qt GPL Exception version 1.3, included in
++** the file GPL_EXCEPTION.txt in this package.
++**
++** Qt for Windows(R) Licensees
++** As a special exception, Nokia, as the sole copyright holder for Qt
++** Designer, grants users of the Qt/Eclipse Integration plug-in the
++** right for the Qt/Eclipse Integration to link to functionality
++** provided by Qt Designer and its related libraries.
++**
++** If you are unsure which license is appropriate for your use, please
++** contact the sales department at qt-sales@nokia.com.
++**
++****************************************************************************/
++
++#ifndef QPLATFORMDEFS_H
++#define QPLATFORMDEFS_H
++
++#ifdef UNICODE
++#ifndef _UNICODE
++#define _UNICODE
++#endif
++#endif
++
++// Get Qt defines/settings
++
++#include "qglobal.h"
++
++#include <tchar.h>
++#include <io.h>
++#include <direct.h>
++#include <stdio.h>
++#include <fcntl.h>
++#include <errno.h>
++#include <sys/stat.h>
++#include <stdlib.h>
++#include <windows.h>
++#include <limits.h>
++
++#if !defined(_WIN32_WINNT) || (_WIN32_WINNT-0 < 0x0500)
++typedef enum {
++    NameUnknown		  = 0, 
++    NameFullyQualifiedDN  = 1, 
++    NameSamCompatible	  = 2, 
++    NameDisplay		  = 3, 
++    NameUniqueId	  = 6, 
++    NameCanonical	  = 7, 
++    NameUserPrincipal	  = 8, 
++    NameCanonicalEx	  = 9, 
++    NameServicePrincipal  = 10, 
++    NameDnsDomain	  = 12
++} EXTENDED_NAME_FORMAT, *PEXTENDED_NAME_FORMAT;
++#endif
++
++#define Q_FS_FAT
++#ifdef QT_LARGEFILE_SUPPORT
++#define QT_STATBUF		struct _stati64		// non-ANSI defs
++#define QT_STATBUF4TSTAT	struct _stati64		// non-ANSI defs
++#define QT_STAT			::_stati64
++#define QT_FSTAT		::_fstati64
++#else
++#define QT_STATBUF		struct _stat		// non-ANSI defs
++#define QT_STATBUF4TSTAT	struct _stat		// non-ANSI defs
++#define QT_STAT			::_stat
++#define QT_FSTAT		::_fstat
++#endif
++#define QT_STAT_REG		_S_IFREG
++#define QT_STAT_DIR		_S_IFDIR
++#define QT_STAT_MASK		_S_IFMT
++#if defined(_S_IFLNK)
++#  define QT_STAT_LNK		_S_IFLNK
++#endif
++#define QT_FILENO		_fileno
++#define QT_OPEN			::_open
++#define QT_CLOSE		::_close
++#ifdef QT_LARGEFILE_SUPPORT
++#define QT_LSEEK		::_lseeki64
++#ifndef UNICODE
++#define QT_TSTAT		::_stati64
++#else
++#define QT_TSTAT		::_wstati64
++#endif
++#else
++#define QT_LSEEK		::_lseek
++#ifndef UNICODE
++#define QT_TSTAT		::_stat
++#else
++#define QT_TSTAT		::_wstat
++#endif
++#endif
++#define QT_READ			::_read
++#define QT_WRITE		::_write
++#define QT_ACCESS		::_access
++#define QT_GETCWD		::_getcwd
++#define QT_CHDIR		::_chdir
++#define QT_MKDIR		::_mkdir
++#define QT_RMDIR		::_rmdir
++#define QT_OPEN_LARGEFILE       0
++#define QT_OPEN_RDONLY		_O_RDONLY
++#define QT_OPEN_WRONLY		_O_WRONLY
++#define QT_OPEN_RDWR		_O_RDWR
++#define QT_OPEN_CREAT		_O_CREAT
++#define QT_OPEN_TRUNC		_O_TRUNC
++#define QT_OPEN_APPEND		_O_APPEND
++#if defined(O_TEXT)
++# define QT_OPEN_TEXT		_O_TEXT
++# define QT_OPEN_BINARY		_O_BINARY
++#endif
++
++#define QT_FOPEN                ::fopen
++#ifdef QT_LARGEFILE_SUPPORT
++#define QT_FSEEK                ::fseeko64
++#define QT_FTELL                ::ftello64
++#else
++#define QT_FSEEK                ::fseek
++#define QT_FTELL                ::ftell
++#endif
++#define QT_FGETPOS              ::fgetpos
++#define QT_FSETPOS              ::fsetpos
++#define QT_FPOS_T               fpos_t
++#ifdef QT_LARGEFILE_SUPPORT
++#define QT_OFF_T                off64_t
++#else
++#define QT_OFF_T                long
++#endif
++
++#define QT_SIGNAL_ARGS		int
++
++#define QT_VSNPRINTF		::_vsnprintf
++#define QT_SNPRINTF		::_snprintf
++
++# define F_OK	0
++# define X_OK	1
++# define W_OK	2
++# define R_OK	4
++
++
++#endif // QPLATFORMDEFS_H
+diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/qconfig.pri qt-win-opensource-src-4.4.3/mkspecs/qconfig.pri
+--- qt-win-opensource-src-4.4.3.orig/mkspecs/qconfig.pri	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/mkspecs/qconfig.pri	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,11 @@
++CONFIG+= release shared stl exceptions rtti
++QT_ARCH = windows
++QT_EDITION = OpenSource
++QT_CONFIG += release zlib png accessibility qt3support opengl ipv6 xmlpatterns webkit svg minimal-config small-config medium-config large-config full-config
++#versioning 
++QT_VERSION = 4.4.3
++QT_MAJOR_VERSION = 4
++QT_MINOR_VERSION = 4
++QT_PATCH_VERSION = 3
++#Qt for Windows CE c-runtime deployment
++QT_CE_C_RUNTIME = no
+diff -urN qt-win-opensource-src-4.4.3.orig/.qmake.cache qt-win-opensource-src-4.4.3/.qmake.cache
+--- qt-win-opensource-src-4.4.3.orig/.qmake.cache	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/.qmake.cache	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,24 @@
++QMAKE_QT_VERSION_OVERRIDE = 4
++OBJECTS_DIR     = tmp/obj/release_shared
++MOC_DIR         = tmp/moc/release_shared
++RCC_DIR         = tmp/rcc/release_shared
++sql-plugins    += sqlite
++styles         += windows plastique cleanlooks windowsxp windowsvista motif cde
++imageformat-plugins += gif tiff jpeg
++TMPPATH            = $$quote($$(INCLUDE))
++QMAKE_INCDIR_POST += $$split(TMPPATH,";")
++TMPPATH            = $$quote($$(LIB))
++QMAKE_LIBDIR_POST += $$split(TMPPATH,";")
++CONFIG         += dist-config large-config medium-config minimal-config small-config full-config release incremental create_prl link_prl depend_includepath QTDIR_build
++QT_BUILD_PARTS  = libs tools examples demos docs translations
++QMAKESPEC       = Z:/tmp/qt-win-opensource-src-4.4.3/mkspecs/win32-g++
++ARCH            = windows
++QT_BUILD_TREE   = Z:/tmp/qt-win-opensource-src-4.4.3
++QT_SOURCE_TREE  = Z:/tmp/qt-win-opensource-src-4.4.3
++QMAKE_MOC       = $$QT_BUILD_TREE/bin/moc.exe
++QMAKE_UIC       = $$QT_BUILD_TREE/bin/uic.exe
++QMAKE_UIC3      = $$QT_BUILD_TREE/bin/uic3.exe
++QMAKE_RCC       = $$QT_BUILD_TREE/bin/rcc.exe
++QMAKE_DUMPCPP   = $$QT_BUILD_TREE/bin/dumpcpp.exe
++QMAKE_INCDIR_QT = $$QT_BUILD_TREE/include
++QMAKE_LIBDIR_QT = $$QT_BUILD_TREE/lib
+diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.cpp qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.cpp
+--- qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.cpp	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.cpp	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,27 @@
++/* Licensed */
++static const char qt_configure_licensee_str          [512 + 12] = "qt_lcnsuser=Open Source";
++static const char qt_configure_licensed_products_str [512 + 12] = "qt_lcnsprod=OpenSource";
++static const char qt_configure_prefix_path_str       [512 + 12] = "qt_prfxpath=/usr/i686-pc-mingw32/sys-root/mingw";
++static const char qt_configure_documentation_path_str[512 + 12] = "qt_docspath=/usr/i686-pc-mingw32/sys-root/mingw/share/doc";
++static const char qt_configure_headers_path_str      [512 + 12] = "qt_hdrspath=/usr/i686-pc-mingw32/sys-root/mingw/include";
++static const char qt_configure_libraries_path_str    [512 + 12] = "qt_libspath=/usr/i686-pc-mingw32/sys-root/mingw/lib";
++static const char qt_configure_binaries_path_str     [512 + 12] = "qt_binspath=/usr/i686-pc-mingw32/sys-root/mingw/bin";
++static const char qt_configure_plugins_path_str      [512 + 12] = "qt_plugpath=/usr/i686-pc-mingw32/sys-root/mingw/lib/qt4/plugins";
++static const char qt_configure_data_path_str         [512 + 12] = "qt_datapath=/usr/i686-pc-mingw32/sys-root/mingw/share";
++static const char qt_configure_translations_path_str [512 + 12] = "qt_trnspath=/usr/i686-pc-mingw32/sys-root/mingw/share/qt4/translations";
++static const char qt_configure_examples_path_str     [512 + 12] = "qt_xmplpath=/usr/i686-pc-mingw32/sys-root/mingw/share/qt4/examples";
++static const char qt_configure_demos_path_str        [512 + 12] = "qt_demopath=/usr/i686-pc-mingw32/sys-root/mingw/lib/qt4/demos";
++/* strlen( "qt_lcnsxxxx" ) == 12 */
++#define QT_CONFIGURE_LICENSEE qt_configure_licensee_str + 12;
++#define QT_CONFIGURE_LICENSED_PRODUCTS qt_configure_licensed_products_str + 12;
++#define QT_CONFIGURE_PREFIX_PATH qt_configure_prefix_path_str + 12;
++#define QT_CONFIGURE_DOCUMENTATION_PATH qt_configure_documentation_path_str + 12;
++#define QT_CONFIGURE_HEADERS_PATH qt_configure_headers_path_str + 12;
++#define QT_CONFIGURE_LIBRARIES_PATH qt_configure_libraries_path_str + 12;
++#define QT_CONFIGURE_BINARIES_PATH qt_configure_binaries_path_str + 12;
++#define QT_CONFIGURE_PLUGINS_PATH qt_configure_plugins_path_str + 12;
++#define QT_CONFIGURE_DATA_PATH qt_configure_data_path_str + 12;
++#define QT_CONFIGURE_TRANSLATIONS_PATH qt_configure_translations_path_str + 12;
++#define QT_CONFIGURE_EXAMPLES_PATH qt_configure_examples_path_str + 12;
++#define QT_CONFIGURE_DEMOS_PATH qt_configure_demos_path_str + 12;
++
+diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.h
+--- qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.h	2009-02-01 23:43:14.000000000 +0000
+@@ -0,0 +1,72 @@
++/* Everything */
++
++#ifndef QT_DLL
++#define QT_DLL
++#endif
++
++/* License information */
++#define QT_PRODUCT_LICENSEE "Open Source"
++#define QT_PRODUCT_LICENSE "OpenSource"
++
++// Qt Edition
++#ifndef QT_EDITION
++#  define QT_EDITION QT_EDITION_OPENSOURCE
++#endif
++
++#if (defined(_DEBUG) || defined(DEBUG))
++# if (defined(WIN64) || defined(_WIN64) || defined(__WIN64__))
++#  define QT_BUILD_KEY "Windows x64 mingw debug full-config"
++# else
++#  define QT_BUILD_KEY "Windows mingw debug full-config"
++# endif
++#else
++# if (defined(WIN64) || defined(_WIN64) || defined(__WIN64__))
++#  define QT_BUILD_KEY "Windows x64 mingw release full-config"
++# else
++#  define QT_BUILD_KEY "Windows mingw release full-config"
++# endif
++#endif
++
++/* Machine byte-order */
++#define Q_BIG_ENDIAN 4321
++#define Q_LITTLE_ENDIAN 1234
++#define Q_BYTE_ORDER Q_LITTLE_ENDIAN
++
++// Compile time features
++#define QT_ARCH_WINDOWS
++#if defined(QT_NO_DBUS) && defined(QT_DBUS)
++# undef QT_NO_DBUS
++#elif !defined(QT_NO_DBUS)
++# define QT_NO_DBUS
++#endif
++
++#if defined(QT_NO_DIRECT3D) && defined(QT_DIRECT3D)
++# undef QT_NO_DIRECT3D
++#elif !defined(QT_NO_DIRECT3D)
++# define QT_NO_DIRECT3D
++#endif
++
++#if defined(QT_NO_OPENSSL) && defined(QT_OPENSSL)
++# undef QT_NO_OPENSSL
++#elif !defined(QT_NO_OPENSSL)
++# define QT_NO_OPENSSL
++#endif
++
++#if defined(QT_NO_PHONON) && defined(QT_PHONON)
++# undef QT_NO_PHONON
++#elif !defined(QT_NO_PHONON)
++# define QT_NO_PHONON
++#endif
++
++#if defined(QT_NO_STYLE_WINDOWSCE) && defined(QT_STYLE_WINDOWSCE)
++# undef QT_NO_STYLE_WINDOWSCE
++#elif !defined(QT_NO_STYLE_WINDOWSCE)
++# define QT_NO_STYLE_WINDOWSCE
++#endif
++
++#if defined(QT_NO_STYLE_WINDOWSMOBILE) && defined(QT_STYLE_WINDOWSMOBILE)
++# undef QT_NO_STYLE_WINDOWSMOBILE
++#elif !defined(QT_NO_STYLE_WINDOWSMOBILE)
++# define QT_NO_STYLE_WINDOWSMOBILE
++#endif
++
