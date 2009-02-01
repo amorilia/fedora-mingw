@@ -4,14 +4,29 @@
 %define __find_requires %{_mingw32_findrequires}
 %define __find_provides %{_mingw32_findprovides}
 
+# For the curious:
+# 0.9.5a soversion = 0
+# 0.9.6  soversion = 1
+# 0.9.6a soversion = 2
+# 0.9.6c soversion = 3
+# 0.9.7a soversion = 4
+# 0.9.7ef soversion = 5
+# 0.9.8ab soversion = 6
+# 0.9.8g soversion = 7
+# 0.9.8j + EAP-FAST soversion = 8
+%define soversion 8
+
 # Enable the tests.
 # These only work some of the time, but fail randomly at other times
 # (although I have had them complete a few times, so I don't think
 # there is any actual problem with the binaries).
-%define with_tests 0
+%define run_tests 0
+
+# Number of threads to spawn when testing some threading fixes.
+%define thread_test_threads %{?threads:%{threads}}%{!?threads:1}
 
 Name:           mingw32-openssl
-Version:        0.9.8g
+Version:        0.9.8j
 Release:        1%{?dist}
 Summary:        MinGW port of the OpenSSL toolkit
 
@@ -30,34 +45,44 @@ Source9:        opensslconf-new.h
 Source10:       opensslconf-new-warning.h
 
 # Patches from Fedora native package.
-Patch0:         openssl-0.9.8g-redhat.patch
+# Build changes
+Patch0:         openssl-0.9.8j-redhat.patch
 Patch1:         openssl-0.9.8a-defaults.patch
 Patch2:         openssl-0.9.8a-link-krb5.patch
-Patch3:         openssl-0.9.8g-soversion.patch
-Patch4:         openssl-0.9.8a-enginesdir.patch
+Patch3:         openssl-0.9.8j-soversion.patch
+Patch4:         openssl-0.9.8j-enginesdir.patch
 Patch5:         openssl-0.9.8a-no-rpath.patch
 Patch6:         openssl-0.9.8b-test-use-localhost.patch
-Patch7:         openssl-0.9.8g-shlib-version.patch
+Patch7:         openssl-0.9.8j-shlib-version.patch
+# Bug fixes
 Patch21:        openssl-0.9.8b-aliasing-bug.patch
 Patch22:        openssl-0.9.8b-x509-name-cmp.patch
 Patch23:        openssl-0.9.8g-default-paths.patch
 Patch24:        openssl-0.9.8g-no-extssl.patch
+# Functionality changes
 Patch32:        openssl-0.9.8g-ia64.patch
-Patch33:        openssl-0.9.7f-ca-dir.patch
+Patch33:        openssl-0.9.8j-ca-dir.patch
 Patch34:        openssl-0.9.6-x509.patch
-Patch35:        openssl-0.9.7-beta5-version-add-engines.patch
+Patch35:        openssl-0.9.8j-version-add-engines.patch
 Patch38:        openssl-0.9.8a-reuse-cipher-change.patch
 # Disabled this because it uses getaddrinfo which is lacking on Windows.
 #Patch39:        openssl-0.9.8g-ipv6-apps.patch
-Patch50:        openssl-0.9.8g-speed-bug.patch
-Patch51:        openssl-0.9.8g-bn-mul-bug.patch
-Patch52:        openssl-0.9.8g-cve-2008-0891.patch
-Patch53:        openssl-0.9.8g-cve-2008-1671.patch
+Patch40:        openssl-0.9.8j-nocanister.patch
+Patch41:        openssl-0.9.8j-use-fipscheck.patch
+Patch42:        openssl-0.9.8j-fipscheck-hmac.patch
+Patch43:        openssl-0.9.8j-evp-nonfips.patch
+Patch44:        openssl-0.9.8j-kernel-fipsmode.patch
+Patch45:        openssl-0.9.8j-env-nozlib.patch
+Patch46:        openssl-0.9.8j-eap-fast.patch
+Patch47:        openssl-0.9.8j-readme-warning.patch
+Patch48:        openssl-0.9.8j-bad-mime.patch
+Patch49:        openssl-0.9.8j-fips-no-pairwise.patch
+# Backported fixes including security fixes
 
 # MinGW-specific patches.
 Patch100:       mingw32-openssl-0.9.8g-header-files.patch
 Patch101:       mingw32-openssl-0.9.8g-configure.patch
-Patch102:       mingw32-openssl-0.9.8g-shared.patch
+Patch102:       mingw32-openssl-0.9.8j-shared.patch
 Patch103:       mingw32-openssl-0.9.8g-global.patch
 Patch104:       mingw32-openssl-0.9.8g-sfx.patch
 
@@ -65,11 +90,12 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 26
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
 BuildRequires:  mingw32-zlib
+BuildRequires:  mingw32-pthreads
 
 BuildRequires:  mktemp
 #BuildRequires:  krb5-devel
@@ -82,12 +108,12 @@ BuildRequires:  /usr/bin/rename
 # /usr/bin/makedepend which comes from imake.
 BuildRequires:  imake
 
+%if %{run_tests}
 # Required both to build, and to run the tests.
 # XXX This needs to be fixed - cross-compilation should not
 # require running executables.
 BuildRequires:  wine
 
-%if %{with_tests}
 # Required to run the tests.
 BuildRequires:  xorg-x11-server-Xvfb
 %endif
@@ -130,10 +156,16 @@ This package contains Windows (MinGW) libraries and development tools.
 %patch35 -p1 -b .version-add-engines
 %patch38 -p1 -b .cipher-change
 #%patch39 -p1 -b .ipv6-apps
-%patch50 -p1 -b .speed-bug
-%patch51 -p1 -b .bn-mul-bug
-%patch52 -p0 -b .srvname-crash
-%patch53 -p0 -b .srv-kex-crash
+%patch40 -p1 -b .nocanister
+%patch41 -p1 -b .use-fipscheck
+%patch42 -p1 -b .fipscheck-hmac
+%patch43 -p1 -b .evp-nonfips
+%patch44 -p1 -b .fipsmode
+%patch45 -p1 -b .env-nozlib
+%patch46 -p1 -b .eap-fast
+%patch47 -p1 -b .warning
+%patch48 -p1 -b .bad-mime
+%patch49 -p1 -b .no-pairwise
 
 %patch100 -p1 -b .mingw-header-files
 %patch101 -p1 -b .mingw-configure
@@ -148,17 +180,11 @@ perl util/perlpath.pl `dirname %{__perl}`
 touch Makefile
 make TABLE PERL=%{__perl}
 
-
 %build
-
-cat > gcc <<EOS
-#!/bin/sh -
-%{_bindir}/i686-pc-mingw32-gcc -m32 "$@"
-EOS
-export PATH=.:$PATH
-
 # NB: 'no-hw' is vital.  MinGW cannot build the hardware drivers
 # and if you don't have this you'll get an obscure link error.
+%{_mingw32_env}; \
+sed -i -e "s/MINGW32_CC/%{_mingw32_cc}/" -e "s/MINGW32_CFLAGS/%{_mingw32_cflags}/" -e "s/MINGW32_RANLIB/%{_mingw32_ranlib}/" Configure; \
 ./Configure \
   --prefix=%{_mingw32_prefix} \
   --openssldir=%{_mingw32_sysconfdir}/pki/tls \
@@ -168,11 +194,13 @@ export PATH=.:$PATH
   mingw
 #  --with-krb5-flavor=MIT
 #  -I%{_mingw32_prefix}/kerberos/include -L%{_mingw32_prefix}/kerberos/%{_lib}
-make depend
-make all build-shared
-make rehash build-shared
+%{_mingw32_make} depend
+%{_mingw32_make} all build-shared
 
-%if %{with_tests}
+# Generate hashes for the included certs.
+%{_mingw32_make} rehash build-shared
+
+%if %{run_tests}
 #----------------------------------------------------------------------
 # Run some tests.  I don't know why this isn't in a %-check section
 # but this is how it is in the native RPM.
@@ -204,27 +232,36 @@ sleep 3
 DISPLAY=$display
 export DISPLAY
 
-make LDCMD=%{_mingw32_cc} -C test apps tests
+%{_mingw32_make} LDCMD=%{_mingw32_cc} -C test apps tests
 
 # Disable this thread test, because we don't have pthread on Windows.
-#%-{_mingw32_cc} -o openssl-thread-test \
-#  -I./include \
-#  %-{_mingw32_cflags} \
-#  %-{SOURCE8} \
-#  -L. \
-#  -lssl -lcrypto \
-#  -lpthread -lz -ldl
-#
+%{_mingw32_cc} -o openssl-thread-test \
+  -I./include \
+  %-{_mingw32_cflags} \
+  %-{SOURCE8} \
+  -L. \
+  -lssl -lcrypto \
+  -lpthread -lz -ldl
+
 ## `krb5-config --cflags`
 ## `krb5-config --libs`
 #
-#./openssl-thread-test --threads %{thread_test_threads}
+./openssl-thread-test --threads %{thread_test_threads}
 
 #----------------------------------------------------------------------
 %endif
 
 # Patch33 must be patched after tests otherwise they will fail
 patch -p1 -b -z .ca-dir < %{PATCH33}
+
+# Add generation of HMAC checksum of the final stripped library
+#%define __spec_install_post \
+#    %{?__debug_package:%{__debug_install_post}} \
+#    %{__arch_install_post} \
+#    %{__os_install_post} \
+#    fips/fips_standalone_sha1 $RPM_BUILD_ROOT/%{_lib}/libcrypto.so.%{version} >$RPM_BUILD_ROOT/%{_lib}/.libcrypto.so.%{version}.hmac \
+#    ln -sf .libcrypto.so.%{version}.hmac $RPM_BUILD_ROOT/%{_lib}/.libcrypto.so.%{soversion}.hmac \
+#%{nil}
 
 if ! iconv -f UTF-8 -t ASCII//TRANSLIT CHANGES >/dev/null 2>&1 ; then
   iconv -f ISO-8859-1 -t UTF-8 -o CHANGES.utf8 CHANGES && \
@@ -242,8 +279,8 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_mandir}
 make INSTALL_PREFIX=$RPM_BUILD_ROOT install build-shared
 
 # Install the actual DLLs.
-install libcrypto-7.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
-install libssl-7.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
+install libcrypto-%{soversion}.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
+install libssl-%{soversion}.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
 
 # Remove static libraries but DON'T remove *.dll.a files.
 rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libcrypto.a
@@ -257,6 +294,19 @@ rm -r $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/man
 chmod 0755 $RPM_BUILD_ROOT%{_mingw32_libdir}/libcrypto.dll.a
 chmod 0755 $RPM_BUILD_ROOT%{_mingw32_libdir}/libssl.dll.a
 
+# Install a makefile for generating keys and self-signed certs, and a script
+# for generating them on the fly.
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/certs
+install -m644 %{SOURCE2} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/certs/Makefile
+install -m755 %{SOURCE6} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/certs/make-dummy-cert
+
+# Pick a CA script.
+pushd  $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/tls/misc
+mv CA.sh CA
+popd
+
+mkdir -m700 $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/CA
+mkdir -m700 $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pki/CA/private
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -264,10 +314,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE
 %{_mingw32_bindir}/openssl.exe
 %{_mingw32_bindir}/c_rehash
-%{_mingw32_bindir}/libcrypto-7.dll
-%{_mingw32_bindir}/libssl-7.dll
+%{_mingw32_bindir}/libcrypto-%{soversion}.dll
+%{_mingw32_bindir}/libssl-%{soversion}.dll
+#{_mingw32_bindir}/.libcrypto*.hmac
 %{_mingw32_libdir}/libcrypto.dll.a
 %{_mingw32_libdir}/libssl.dll.a
 %{_mingw32_libdir}/engines
@@ -277,5 +329,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 28 2009 Levente Farkas <lfarkas@lfarkas.org> - 0.9.8j-1
+- update to new upstream version.
+
+* Mon Dec 29 2008 Levente Farkas <lfarkas@lfarkas.org> - 0.9.8g-2
+- minor cleanup.
+
 * Tue Sep 30 2008 Richard W.M. Jones <rjones@redhat.com> - 0.9.8g-1
 - Initial RPM release.

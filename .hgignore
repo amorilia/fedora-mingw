@@ -113,6 +113,7 @@ ocaml-lablgtk/lablgtk-2.10.1.tar.gz
 ocaml-libvirt/ocaml-libvirt-0.4.4.2.tar.gz
 ocaml-xml-light/xml-light-2.2.cvs20070817.tar.gz
 openssl/openssl-0.9.8g-usa.tar.bz2
+openssl/openssl-0.9.8j-usa.tar.bz2
 pango/pango-1.21.6.tar.bz2
 pango/pango-1.22.1.tar.bz2
 pangomm/pangomm-2.14.0.tar.bz2
