@@ -27,7 +27,7 @@
 
 Name:           mingw32-openssl
 Version:        0.9.8j
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW port of the OpenSSL toolkit
 
 License:        OpenSSL
@@ -80,8 +80,8 @@ Patch49:        openssl-0.9.8j-fips-no-pairwise.patch
 # Backported fixes including security fixes
 
 # MinGW-specific patches.
-Patch100:       mingw32-openssl-0.9.8g-header-files.patch
-Patch101:       mingw32-openssl-0.9.8g-configure.patch
+Patch100:       mingw32-openssl-0.9.8j-header-files.patch
+Patch101:       mingw32-openssl-0.9.8j-configure.patch
 Patch102:       mingw32-openssl-0.9.8j-shared.patch
 Patch103:       mingw32-openssl-0.9.8g-global.patch
 Patch104:       mingw32-openssl-0.9.8g-sfx.patch
@@ -329,6 +329,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb  2 2009 Levente Farkas <lfarkas@lfarkas.org> - 0.9.8j-2
+- Various build fixes.
+
 * Wed Jan 28 2009 Levente Farkas <lfarkas@lfarkas.org> - 0.9.8j-1
 - update to new upstream version.
 
