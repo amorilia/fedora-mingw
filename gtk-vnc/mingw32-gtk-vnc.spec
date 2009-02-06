@@ -8,7 +8,7 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
@@ -19,7 +19,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 46
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-3
+- Downgrade mingw32-filesystem version so it can still build on F-10.
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-2
 - Needs mingw32-filesystem with the pkg-config library path fix.
 - Added optional BRs suggested by auto-buildrequires.
