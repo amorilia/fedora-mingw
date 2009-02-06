@@ -8,34 +8,27 @@
 
 Name:           mingw32-gtk-vnc
 Version:        0.3.8
-Release:        0.4.20081030hg%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of VNC client GTK widget
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            http://gtk-vnc.sf.net/
-Source0:        gtk-vnc-0.3.8-20081030.tar.gz
+URL:            http://sourceforge.net/projects/gtk-vnc
+Source0:        http://downloads.sourceforge.net/gtk-vnc/gtk-vnc-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-# Patches submitted upstream 2008-10-28/29/30:
-Patch100:       gtk-vnc-00-win32.patch
-Patch101:       gtk-vnc-01-recv.patch
-Patch102:       gtk-vnc-02-ioctl.patch
-Patch103:       gtk-vnc-03-wsastartup.patch
-#Patch104:       gtk-vnc-hgignore.patch
-Patch105:       gtk-vnc-ldflags-confusion.patch
-Patch106:       gtk-vnc-dan-fd-fix.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 30
+BuildRequires:  mingw32-filesystem >= 46
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-gtk2
+
+BuildRequires:  mingw32-cairo
+BuildRequires:  mingw32-dlfcn
+BuildRequires:  mingw32-gettext
+BuildRequires:  mingw32-iconv
 BuildRequires:  mingw32-gnutls
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  libtool
+BuildRequires:  mingw32-gtk2
 BuildRequires:  pkgconfig
 
 Requires:       pkgconfig
@@ -47,18 +40,7 @@ allowing it to be completely asynchronous while remaining single threaded.
 
 
 %prep
-%setup -q -n gtk-vnc-0.3.7
-
-%patch100 -p1
-%patch101 -p1
-%patch102 -p1
-%patch103 -p1
-#%patch104 -p1
-%patch105 -p1
-%patch106 -p1
-
-libtoolize --force --copy
-autoreconf
+%setup -q -n gtk-vnc-%{version}
 
 
 %build
@@ -81,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING.LIB
 %{_mingw32_bindir}/gvncviewer.exe
 %{_mingw32_bindir}/libgtk-vnc-1.0-0.dll
 %{_mingw32_libdir}/libgtk-vnc-1.0.dll.a
@@ -90,6 +73,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-2
+- Needs mingw32-filesystem with the pkg-config library path fix.
+- Added optional BRs suggested by auto-buildrequires.
+- Include the license file.
+
+* Tue Feb  3 2009 Michel Salim <salimma@fedoraproject.org> - 0.3.8-1
+- Update to 0.3.8
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 0.3.8-0.4.20081030hg
 - Requires pkgconfig.
 

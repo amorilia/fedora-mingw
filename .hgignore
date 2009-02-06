@@ -56,6 +56,7 @@ gtk2/test3
 gtkmm24/gtkmm-2.14.1.tar.bz2
 gtk-vnc/gtk-vnc-0.3.7.tar.gz
 gtk-vnc/gtk-vnc-0.3.8-20081030.tar.gz
+gtk-vnc/gtk-vnc-0.3.8.tar.gz
 iconv/libiconv-1.12.tar.gz
 inkscape/inkscape-20081027.tar.gz
 jasper/jasper-1.900.1.zip
