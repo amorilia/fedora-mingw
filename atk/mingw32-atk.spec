@@ -6,7 +6,7 @@
 
 Name:           mingw32-atk
 Version:        1.25.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
@@ -62,12 +62,14 @@ rm $RPM_BUILD_ROOT%{_mingw32_libdir}/atk-1.0.def
 
 %find_lang atk10
 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
 %files -f atk10.lang
 %defattr(-,root,root,-)
+%doc COPYING
 %{_mingw32_bindir}/libatk-1.0-0.dll
 %{_mingw32_includedir}/atk-1.0
 %{_mingw32_libdir}/libatk-1.0.dll.a
@@ -76,6 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-5
+- Include license file.
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.25.2-4
 - Remove gtk-doc.
 - Fix defattr line.
