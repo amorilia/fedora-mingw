@@ -6,7 +6,7 @@
 
 Name:           mingw32-poco
 Version:        1.3.3p1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows C++ libraries for network-centric applications
 
 License:        Boost
@@ -76,6 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE
 # XXX I think the '*d.dll' libraries are debug versions and
 # possibly they should be moved to a subpackage?
 %{_mingw32_bindir}/libPocoFoundationd.dll
@@ -98,5 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-2
+- Include license.
+
 * Sat Nov  8 2008 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-1
 - Initial RPM release.

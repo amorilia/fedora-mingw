@@ -6,7 +6,7 @@
 
 Name:           mingw32-gnutls
 Version:        2.6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -99,6 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f gnutls.lang
 %defattr(-,root,root)
+%doc COPYING COPYING.LIB
 %{_mingw32_bindir}/certtool.exe
 %{_mingw32_bindir}/gnutls-cli-debug.exe
 %{_mingw32_bindir}/gnutls-cli.exe
@@ -126,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-3
+- Include license.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-2
 - Rebase to native Fedora version 2.6.3.
 - Enable C++ library.

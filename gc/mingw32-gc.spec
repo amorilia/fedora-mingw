@@ -6,7 +6,7 @@
 
 Name:           mingw32-gc
 Version:        7.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of GC garbage collector for C and C++
 
 License:        BSD
@@ -95,6 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc doc/README
 %{_mingw32_bindir}/libcord-1.dll
 %{_mingw32_bindir}/libgc-1.dll
 %{_mingw32_bindir}/libgccpp-1.dll
@@ -112,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 7.1-3
+- Include license (summarised by doc/README)
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 7.1-2
 - Use _smp_mflags.
 

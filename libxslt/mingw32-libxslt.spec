@@ -6,7 +6,7 @@
 
 Name:           mingw32-libxslt
 Version:        1.1.24
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Library providing the Gnome XSLT engine
 
 License:        MIT
@@ -81,6 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/xslt-config
 %{_mingw32_bindir}/xsltproc.exe
 %{_mingw32_includedir}/libexslt
@@ -98,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-4
+- Include license file.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.1.24-3
 - Use _smp_mflags.
 - Rebuild libtool.

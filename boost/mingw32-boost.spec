@@ -6,7 +6,7 @@
 
 Name:           mingw32-boost
 Version:        1.34.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of Boost C++ Libraries
 
 License:        Boost
@@ -135,6 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc LICENSE_1_0.txt
 %{_mingw32_includedir}/boost
 %{_mingw32_bindir}/libboost_date_time.dll
 %{_mingw32_libdir}/libboost_date_time.dll.a
@@ -185,6 +186,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-4
+- Include license file.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-3
 - Use _smp_mflags.
 

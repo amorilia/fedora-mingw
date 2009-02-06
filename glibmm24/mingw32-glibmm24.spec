@@ -6,7 +6,7 @@
 
 Name:           mingw32-glibmm24
 Version:        2.18.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows C++ interface for GTK2 (a GUI library for X)
 
 License:        LGPLv2+
@@ -59,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING COPYING.tools
 %{_mingw32_bindir}/libgiomm-2.4-1.dll
 %{_mingw32_bindir}/libglibmm_generate_extra_defs-2.4-1.dll
 %{_mingw32_bindir}/libglibmm-2.4-1.dll
@@ -78,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-4
+- Include license.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.18.1-3
 - Use _smp_mflags.
 

@@ -10,7 +10,7 @@
 
 Name:           mingw32-libidn
 Version:        1.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Internationalized Domain Name support library
 
 License:        LGPLv2+
@@ -68,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING COPYING.LIB
 %{_mingw32_bindir}/idn.exe
 %{_mingw32_bindir}/libidn-11.dll
 %{_mingw32_libdir}/libidn.dll.a
@@ -78,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 0.6.14-3
+- Include license file.
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 0.6.14-2
 - Requires pkgconfig.
 

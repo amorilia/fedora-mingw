@@ -6,7 +6,7 @@
 
 Name:           mingw32-libglade2
 Version:        2.6.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Libglade2 library
 
 License:        LGPLv2+
@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libglade-2.0-0.dll
 %{_mingw32_bindir}/libglade-convert
 %{_mingw32_includedir}/libglade-2.0
@@ -70,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-4
+- Include license file.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-3
 - Use _smp_mflags.
 - +BR mingw32-libxml2.

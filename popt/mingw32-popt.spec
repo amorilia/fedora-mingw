@@ -12,7 +12,7 @@
 
 Name:           mingw32-popt
 Version:        1.14
-Release:        0.1.cvs%{cvsdate}%{?dist}
+Release:        0.2.cvs%{cvsdate}%{?dist}
 Summary:        MinGW Windows C library for parsing command line parameters
 
 License:        MIT
@@ -96,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f popt.lang
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libpopt-0.dll
 %{_mingw32_libdir}/libpopt.dll.a
 %{_mingw32_libdir}/libpopt.la
@@ -104,7 +105,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-1
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-0.2.cvs20081025
+- Include license file.
+
+* Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-0.1.cvs20081025
 - The version should be 1.14 because this is a pre-release (from CVS).
 - Disable static libraries.
 - Build using _smp_mflags.

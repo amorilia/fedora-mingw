@@ -6,7 +6,7 @@
 
 Name:           mingw32-libgsf
 Version:        1.14.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of GNOME Structured File Library
 
 License:        LGPLv2
@@ -89,6 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f libgsf.lang
 %defattr(-,root,root)
+%doc COPYING COPYING.LIB
 %{_mingw32_bindir}/gsf.exe
 %{_mingw32_bindir}/gsf-vba-dump.exe
 %{_mingw32_bindir}/libgsf-1-114.dll
@@ -103,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-3
+- Include license files.
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14.11-2
 - Requires pkgconfig.
 

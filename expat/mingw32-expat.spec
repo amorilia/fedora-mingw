@@ -6,7 +6,7 @@
 
 Name:           mingw32-expat
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of expat XML parser library
 
 License:        MIT
@@ -61,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libexpat-1.dll
 %{_mingw32_bindir}/xmlwf
 %{_mingw32_libdir}/libexpat.dll.a
@@ -70,5 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.0.1-2
+- Include license.
+
 * Fri Oct 31 2008 Richard W.M. Jones <rjones@redhat.com> - 2.0.1-1
 - Initial RPM release.

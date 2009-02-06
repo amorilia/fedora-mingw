@@ -6,7 +6,7 @@
 
 Name:           mingw32-nss
 Version:        3.12.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of NSS (Network Security Services)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -244,11 +244,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc XXX
 %{_mingw32_bindir}/foo.dll
 %{_mingw32_libdir}/foo.dll.a
 # etc.
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-3
+- Include license file.
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-2
 - Initial RPM release.

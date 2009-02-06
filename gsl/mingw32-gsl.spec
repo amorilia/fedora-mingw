@@ -6,7 +6,7 @@
 
 Name:           mingw32-gsl
 Version:        1.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of the GNU Scientific Library
 
 License:        LGPLv2+
@@ -73,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING
 %{_mingw32_bindir}/libgslcblas-0.dll
 %{_mingw32_bindir}/libgsl-0.dll
 %{_mingw32_bindir}/gsl-config
@@ -88,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.11-3
+- Include license.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.11-2
 - Use _smp_mflags.
 

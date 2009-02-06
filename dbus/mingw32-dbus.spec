@@ -16,7 +16,7 @@
 
 Name:           mingw32-dbus
 Version:        1.2.4
-Release:        0.2.%{date}svn%{?dist}
+Release:        0.3.%{date}svn%{?dist}
 Summary:        MinGW Windows port of DBus
 
 License:        GPLv2+ or AFL
@@ -140,6 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc trunk/COPYING
 %{_mingw32_bindir}/dbus-daemon.exe
 %{_mingw32_bindir}/i686-pc-mingw32-dbus-monitor.exe
 %{_mingw32_bindir}/i686-pc-mingw32-dbus-send.exe
@@ -154,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-0.3.20081031svn
+- Include license.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.4-0.2.20081031svn
 - Requires pkgconfig.
 

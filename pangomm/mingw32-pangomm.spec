@@ -8,7 +8,7 @@
 
 Name:           mingw32-pangomm
 Version:        2.14.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows C++ interface for Pango
 
 License:        LGPLv2+
@@ -68,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
+%doc COPYING COPYING.tools
 %{_mingw32_bindir}/libpangomm-%{apiver}-1.dll
 %{_mingw32_libdir}/libpangomm-%{apiver}.la
 %{_mingw32_libdir}/libpangomm-%{apiver}.dll.a
@@ -76,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-5
+- Include license file.
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.0-4
 - Use _smp_mflags.
 
