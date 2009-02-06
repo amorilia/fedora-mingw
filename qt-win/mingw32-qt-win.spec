@@ -17,7 +17,7 @@
 
 Name:           mingw32-qt-win
 Version:        4.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Qt for Windows
 
 License:        GPLv2+
@@ -50,6 +50,9 @@ Patch0:         qt-win-configure.patch
 Patch10:        mingw32-qt-4.4.3-atomic-volatile.patch
 Patch11:        mingw32-qt-4.4.3-no-fpu-functions.patch
 Patch12:        mingw32-qt-4.4.3-wininput.patch
+
+# http://lists-archives.org/mingw-users/11845-problem-compile-qt-4-4-2-with-latest-w32api.html
+Patch20:        mingw32-qt-4.4.3-subauth.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -86,6 +89,8 @@ Fedora Windows cross-compiler.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+
+%patch20 -p1
 
 for f in changes-%{version} LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT OPENSOURCE-NOTICE.TXT README; do
   dos2unix --keepdate $f
@@ -179,5 +184,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-3
+- Fix required for older W32API in Fedora 10.
+
 * Sun Feb  1 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-2
 - Initial RPM release.
