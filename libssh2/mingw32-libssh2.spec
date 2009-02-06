@@ -6,7 +6,7 @@
 
 Name:           mingw32-libssh2
 Version:        0.18
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows library implementing the SSH2 protocol
 
 License:        BSD
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 0.18-3
+- Rebuild against new OpenSSH (because of soname bump).
+
 * Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 0.18-2
 - Update libtool installation.
 
