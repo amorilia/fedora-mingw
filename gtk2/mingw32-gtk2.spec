@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtk2
 Version:        2.15.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -31,6 +31,7 @@ BuildRequires:  mingw32-binutils
 
 BuildRequires:  mingw32-atk >= 1.13.0
 BuildRequires:  mingw32-cairo >= 1.8.0
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-glib2 >= 2.17.7
 BuildRequires:  mingw32-iconv
@@ -38,6 +39,9 @@ BuildRequires:  mingw32-jasper
 BuildRequires:  mingw32-libjpeg
 BuildRequires:  mingw32-libpng >= 1.2.2
 BuildRequires:  mingw32-pango >= 1.20.0
+BuildRequires:  mingw32-pixman
+BuildRequires:  mingw32-zlib
+
 BuildRequires:  pkgconfig
 
 # Native one for msgfmt
@@ -80,6 +84,9 @@ rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 # Remove manpages which duplicate those in Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_mingw32_mandir}
 
+# Remove documentation too.
+rm -rf $RPM_BUILD_ROOT%{_mingw32_datadir}/gtk-doc
+
 # Install gdk-pixbuf.loaders.
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
 install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/gtk-2.0/
@@ -93,10 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%{_mingw32_datadir}/gtk-doc/html/gail-libgail-util
-%{_mingw32_datadir}/gtk-doc/html/gdk-pixbuf
-%{_mingw32_datadir}/gtk-doc/html/gdk
-%{_mingw32_datadir}/gtk-doc/html/gtk
+%doc COPYING
 %{_mingw32_datadir}/themes/*
 %{_mingw32_bindir}/gdk-pixbuf-csource.exe
 %{_mingw32_bindir}/gdk-pixbuf-query-loaders.exe
@@ -134,6 +138,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.15.0-3
+- Remove documentation.
+- Add license file.
+- Added extra BRs suggested by auto-buildrequires.
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 2.15.0-2
 - Requires pkgconfig.
 
