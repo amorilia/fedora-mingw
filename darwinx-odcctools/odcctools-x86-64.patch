@@ -1,0 +1,60 @@
+diff -ur odcctools-20060413.orig/ld64/Readers/ObjectFileMachO-all.cpp odcctools-20060413/ld64/Readers/ObjectFileMachO-all.cpp
+--- odcctools-20060413.orig/ld64/Readers/ObjectFileMachO-all.cpp	2005-05-26 22:31:25.000000000 +0100
++++ odcctools-20060413/ld64/Readers/ObjectFileMachO-all.cpp	2009-02-08 20:28:47.000000000 +0000
+@@ -55,7 +55,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_64_SAME_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_64_OPPOSITE_ENDIAN
+ #else
+ 	#error unknown architecture
+@@ -77,7 +77,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_32_SAME_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_32_OPPOSITE_ENDIAN
+ #else
+ 	#error unknown architecture
+@@ -100,7 +100,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_32_OPPOSITE_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_32_SAME_ENDIAN
+ #else
+ 	#error unknown architecture
+diff -ur odcctools-20060413.orig/ld64/Writers/ExecutableFileMachO-all.cpp odcctools-20060413/ld64/Writers/ExecutableFileMachO-all.cpp
+--- odcctools-20060413.orig/ld64/Writers/ExecutableFileMachO-all.cpp	2005-05-26 22:31:25.000000000 +0100
++++ odcctools-20060413/ld64/Writers/ExecutableFileMachO-all.cpp	2009-02-08 20:30:09.000000000 +0000
+@@ -47,7 +49,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_64_SAME_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_64_OPPOSITE_ENDIAN
+ #else
+ 	#error unknown architecture
+@@ -67,7 +69,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_32_SAME_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_32_OPPOSITE_ENDIAN
+ #else
+ 	#error unknown architecture
+@@ -87,7 +89,7 @@
+ #undef MACHO_64_OPPOSITE_ENDIAN
+ #if __ppc__ || __ppc64__
+ 	#define MACHO_32_OPPOSITE_ENDIAN
+-#elif __i386__
++#elif __i386__ || __x86_64__
+ 	#define MACHO_32_SAME_ENDIAN
+ #else
+ 	#error unknown architecture

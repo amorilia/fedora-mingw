@@ -1,0 +1,19 @@
+diff -ur odcctools-20060413.orig/libstuff/ofile.c odcctools-20060413/libstuff/ofile.c
+--- odcctools-20060413.orig/libstuff/ofile.c	2006-04-13 14:44:46.000000000 +0100
++++ odcctools-20060413/libstuff/ofile.c	2009-02-08 20:17:39.000000000 +0000
+@@ -101,7 +101,6 @@
+     unsigned long module_index);
+ 
+ #ifndef OTOOL
+-#ifdef ALIGNMENT_CHECKS
+ static
+ void
+ temporary_archive_member_warning(
+@@ -124,7 +123,6 @@
+         print("\n");
+ 	va_end(ap);
+ }
+-#endif /* defined(ALIGNMENT_CHECKS) */
+ #endif /* !defined(OTOOL) */
+ 
+ #ifndef OFI

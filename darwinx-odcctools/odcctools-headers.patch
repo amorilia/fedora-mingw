@@ -1,0 +1,63 @@
+diff -uNr odcctools-20060226/ld64/ld.cpp odcctools-20060226-new/ld64/ld.cpp
+--- odcctools-20060226/ld64/ld.cpp	2005-05-26 17:31:25.000000000 -0400
++++ odcctools-20060226-new/ld64/ld.cpp	2006-03-15 10:28:06.000000000 -0500
+@@ -38,6 +38,8 @@
+ #include <algorithm>
+ #include <ext/hash_map>
+ 
++#include <unistd.h>
++
+ #include "Options.h"
+ 
+ #include "ObjectFile.h"
+diff -uNr odcctools-20060226/ld64/Options.cpp odcctools-20060226-new/ld64/Options.cpp
+--- odcctools-20060226/ld64/Options.cpp	2006-02-26 13:31:29.000000000 -0500
++++ odcctools-20060226-new/ld64/Options.cpp	2006-03-15 10:28:07.000000000 -0500
+@@ -31,6 +31,9 @@
+ 
+ #include "Options.h"
+ 
++#include <unistd.h>
++#include <ctype.h>
++
+  __attribute__((noreturn))
+ void throwf(const char* format, ...) 
+ {
+diff -uNr odcctools-20060226/ld64/Writers/ExecutableFileMachO-all.cpp odcctools-20060226-new/ld64/Writers/ExecutableFileMachO-all.cpp
+--- odcctools-20060226/ld64/Writers/ExecutableFileMachO-all.cpp	2005-05-26 17:31:25.000000000 -0400
++++ odcctools-20060226-new/ld64/Writers/ExecutableFileMachO-all.cpp	2006-03-15 10:35:24.000000000 -0500
+@@ -31,6 +31,8 @@
+ #include <mach-o/ppc/reloc.h>
+ #include <mach-o/stab.h>
+ 
++#include <unistd.h>
++
+ #include <vector>
+ #include <algorithm>
+ #include <map>
+diff -ur odcctools-20060413.orig/ld64/Options.h odcctools-20060413/ld64/Options.h
+--- odcctools-20060413.orig/ld64/Options.h	2006-04-13 14:44:52.000000000 +0100
++++ odcctools-20060413/ld64/Options.h	2009-02-08 20:21:12.000000000 +0000
+@@ -25,7 +25,9 @@
+ #ifndef __OPTIONS__
+ #define __OPTIONS__
+ 
+-
++#include <cstring>
++#include <cstdio>
++#include <climits>
+ #include <stdint.h>
+ #include <mach/machine.h>
+ 
+diff -ur odcctools-20060413.orig/ld64/SectCreate.cpp odcctools-20060413/ld64/SectCreate.cpp
+--- odcctools-20060413.orig/ld64/SectCreate.cpp	2005-05-26 22:31:25.000000000 +0100
++++ odcctools-20060413/ld64/SectCreate.cpp	2009-02-08 20:21:28.000000000 +0000
+@@ -21,6 +21,8 @@
+  * @APPLE_LICENSE_HEADER_END@
+  */
+ 
++#include <cstdio>
++#include <cstring>
+ #include <vector>
+ 
+ #include "ObjectFile.h"

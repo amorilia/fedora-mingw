@@ -1,0 +1,26 @@
+diff -ur odcctools-20060413.orig/include/mach-o/nlist.h odcctools-20060413/include/mach-o/nlist.h
+--- odcctools-20060413.orig/include/mach-o/nlist.h	2006-04-13 14:44:50.000000000 +0100
++++ odcctools-20060413/include/mach-o/nlist.h	2009-02-08 20:10:29.000000000 +0000
+@@ -75,9 +75,7 @@
+  */
+ struct nlist {
+ 	union {
+-#ifndef __LP64__
+ 		char *n_name;	/* for use when in-core */
+-#endif
+ 		int32_t n_strx;	/* index into the string table */
+ 	} n_un;
+ 	uint8_t n_type;		/* type flag, see below */
+diff -ur odcctools-20060413.orig/include/mach-o/ranlib.h odcctools-20060413/include/mach-o/ranlib.h
+--- odcctools-20060413.orig/include/mach-o/ranlib.h	2006-04-13 14:44:50.000000000 +0100
++++ odcctools-20060413/include/mach-o/ranlib.h	2009-02-08 20:07:48.000000000 +0000
+@@ -58,9 +58,7 @@
+ struct	ranlib {
+     union {
+ 	uint32_t	ran_strx;	/* string table index of */
+-#ifndef __LP64__
+ 	char		*ran_name;	/* symbol defined by */
+-#endif
+     } ran_un;
+     uint32_t		ran_off;	/* library member at this offset */
+ };
