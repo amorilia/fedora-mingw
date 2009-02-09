@@ -1,4 +1,4 @@
-Status of packages in Fedora, EPEL and RHEL, last updated on 2009-01-30.
+Status of packages in Fedora, EPEL and RHEL, last updated on 2009-02-09.
 
 <html>
 <table class="top_table fedoratbl">
@@ -12,10 +12,10 @@ Status of packages in Fedora, EPEL and RHEL, last updated on 2009-01-30.
 
 
 " href="http://projects.gnome.org/accessibility/">mingw32-atk</a><br/><small>MinGW Windows Atk library</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">1.25.2</td>
+<td class="epelbg released">1.25.2</td>
+<td class="fedorabg released">1.25.2</td>
+<td class="develbg devel">1.25.2</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="MinGW Windows binutils (utilities like &#39;strip&#39;, &#39;as&#39;, &#39;ld&#39;) which
 understand Windows executables and DLLs.
@@ -131,7 +131,7 @@ This environment is maintained by the Fedora MinGW SIG at:
 " href="http://hg.et.redhat.com/misc/fedora-mingw--devel/">mingw32-filesystem</a><br/><small>MinGW base filesystem and environment</small></td>
 <td class="epelbg filesystem">40</td>
 <td class="fedorabg filesystem">40</td>
-<td class="develbg filesystem">45</td>
+<td class="develbg filesystem">46</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="Under Windows, DLL (Dynamically-Linked Libraries) are generally used
@@ -298,7 +298,7 @@ numerical analysis, written in C.
 allowing it to be completely asynchronous while remaining single threaded.
 
 
-" href="http://gtk-vnc.sf.net/">mingw32-gtk-vnc</a><br/><small>MinGW Windows port of VNC client GTK widget</small></td>
+" href="http://sourceforge.net/projects/gtk-vnc">mingw32-gtk-vnc</a><br/><small>MinGW Windows port of VNC client GTK widget</small></td>
 <td class="epelbg">&nbsp;</td>
 <td class="fedorabg">&nbsp;</td>
 <td class="develbg">&nbsp;</td>
@@ -344,14 +344,17 @@ freely combined to quickly create complex user interfaces.
 <td class="develbg">&nbsp;</td>
 <td class="pendingbg pending">1.900.1</td>
 </tr>
-<tr><td><a title="MinGW Windows gcrypt encryption library.
+<tr><td><a title="Libgcrypt is a general purpose crypto library based on the code used
+in GNU Privacy Guard.
+
+This is a Windows cross-compiled version of the library.
 
 
 " href="ftp://ftp.gnupg.org/gcrypt/libgcrypt/">mingw32-libgcrypt</a><br/><small>MinGW Windows gcrypt encryption library</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">1.4.3</td>
+<td class="epelbg released">1.4.4</td>
+<td class="fedorabg released">1.4.4</td>
+<td class="develbg devel">1.4.4</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="MinGW Windows Libglade2 library.
 
@@ -649,10 +652,10 @@ This package contains Windows (MinGW) libraries and development tools.
 
 
 " href="http://www.openssl.org/">mingw32-openssl</a><br/><small>MinGW port of the OpenSSL toolkit</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">0.9.8g</td>
+<td class="epelbg released">0.9.8j</td>
+<td class="fedorabg released">0.9.8j</td>
+<td class="develbg devel">0.9.8j</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="MinGW Windows Pango library.
 
@@ -770,6 +773,19 @@ high-quality solution to this problem.
 <td class="develbg devel">2.8.0</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
+<tr><td><a title="This package contains the Qt software toolkit for developing
+cross-platform applications.
+
+This is the Windows version of Qt, for use in conjunction with the
+Fedora Windows cross-compiler.
+
+
+" href="http://www.qtsoftware.com/">mingw32-qt-win</a><br/><small>Qt for Windows</small></td>
+<td class="epelbg">&nbsp;</td>
+<td class="fedorabg">&nbsp;</td>
+<td class="develbg">&nbsp;</td>
+<td class="pendingbg pending">4.4.3</td>
+</tr>
 <tr><td><a title="The Readline library provides a set of functions that allow users to
 edit command lines. Both Emacs and vi editing modes are available. The
 Readline library includes additional functions for maintaining a list
@@ -858,6 +874,6 @@ cross-compiled version.
 <td class="develbg devel">1.2.3</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
-<tr><td>Totals</td><td>25</td><td>25</td><td>25</td><td>43</td></tr>
+<tr><td>Totals</td><td>28</td><td>28</td><td>28</td><td>41</td></tr>
 </table>
 </html>
