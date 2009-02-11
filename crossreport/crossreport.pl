@@ -257,7 +257,7 @@ my %report = (
     "dup/dup2 may not work as expected in Win32.\n".
     "\n".
     "$suggest_portability_library",
-    dup2 => '@dup2',
+    dup2 => '@dup',
 
     getopt_long =>
     "GNU getopt_long is not available in Windows.\n".
@@ -345,7 +345,7 @@ my %report = (
     "$suggest_portability_library",
     strtold => '@strtoll',
     strtoul => '@strtoll',
-    strtoull => '@strtoull',
+    strtoull => '@strtoll',
 
     system =>
     "You should be careful using the 'system' call on Windows.  It exists\n".
