@@ -1,0 +1,133 @@
+# RPM macros for Fedora MinGW.
+
+%_mingw64_target          x86_64-pc-mingw32
+
+# Paths.
+%_mingw64_sysroot         %{_prefix}/%{_mingw64_target}/sys-root
+%_mingw64_prefix          %{_mingw64_sysroot}/mingw
+%_mingw64_exec_prefix     %{_mingw64_prefix}
+%_mingw64_bindir          %{_mingw64_exec_prefix}/bin
+%_mingw64_sbindir         %{_mingw64_exec_prefix}/sbin
+%_mingw64_libexecdir      %{_mingw64_exec_prefix}/libexec
+%_mingw64_libdir          %{_mingw64_exec_prefix}/lib
+%_mingw64_datadir         %{_mingw64_prefix}/share
+%_mingw64_docdir          %{_mingw64_prefix}/share/doc
+%_mingw64_infodir         %{_mingw64_prefix}/share/info
+%_mingw64_mandir          %{_mingw64_prefix}/share/man
+%_mingw64_sysconfdir      %{_mingw64_prefix}/etc
+%_mingw64_sharedstatedir  %{_mingw64_prefix}/com
+%_mingw64_localstatedir   %{_mingw64_prefix}/var
+%_mingw64_includedir      %{_mingw64_prefix}/include
+
+# Build macros.
+%_mingw64_host            %{_mingw64_target}
+
+%_mingw64_cflags          -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -mms-bitfields
+
+%_mingw64_cc              %{_mingw64_target}-gcc
+%_mingw64_cxx             %{_mingw64_target}-g++
+%_mingw64_cpp             %{_mingw64_target}-gcc -E
+%_mingw64_addr2line       %{_mingw64_target}-addr2line
+%_mingw64_ar              %{_mingw64_target}-ar
+%_mingw64_as              %{_mingw64_target}-as
+%_mingw64_c++             %{_mingw64_target}-c++
+%_mingw64_c++filt         %{_mingw64_target}-c++filt
+%_mingw64_dlltool         %{_mingw64_target}-dlltool
+%_mingw64_dllwrap         %{_mingw64_target}-dllwrap
+%_mingw64_gcov            %{_mingw64_target}-gcov
+%_mingw64_gprof           %{_mingw64_target}-gprof
+%_mingw64_ld              %{_mingw64_target}-ld
+%_mingw64_nm              %{_mingw64_target}-nm
+%_mingw64_objcopy         %{_mingw64_target}-objcopy
+%_mingw64_objdump         %{_mingw64_target}-objdump
+%_mingw64_ranlib          %{_mingw64_target}-ranlib
+%_mingw64_readelf         %{_mingw64_target}-readelf
+%_mingw64_size            %{_mingw64_target}-size
+%_mingw64_strings         %{_mingw64_target}-strings
+%_mingw64_strip           %{_mingw64_target}-strip
+%_mingw64_windmc          %{_mingw64_target}-windmc
+%_mingw64_windres         %{_mingw64_target}-windres
+
+%_mingw64_cache           mingw64-config.cache
+
+%_mingw64_findprovides    /usr/lib/rpm/mingw64-find-provides.sh
+%_mingw64_findrequires    /usr/lib/rpm/mingw64-find-requires.sh
+
+%_mingw64_env HOST_CC=gcc; export HOST_CC; \
+  PKG_CONFIG_LIBDIR="%{_mingw64_libdir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  unset PKG_CONFIG_PATH; \
+  _PREFIX="%{_bindir}/%{_mingw64_target}-"; \
+  for i in `ls -1 ${_PREFIX}* | grep -v 'gcc-'`; do \
+    x=`echo $i|sed "s,${_PREFIX},,"|tr "a-z+-" "A-ZX_"`; \
+    declare -x $x="$i" ; export $x; \
+  done; \
+  unset _PREFIX; \
+  CC="${MINGW64_CC:-%_mingw64_cc}"; export CC; \
+  CFLAGS="${MINGW64_CFLAGS:-%_mingw64_cflags}"; export CFLAGS; \
+  if [ -x "%{_bindir}/%{_mingw64_cxx}" ]; then \
+    CXX="${MINGW64_CXX:-%_mingw64_cxx}"; export CXX; \
+    CXXFLAGS="${MINGW64_CXXFLAGS:-%_mingw64_cflags}"; export CXXFLAGS; \
+  else \
+    CXX=; export CXX; \
+    ac_cv_prog_CXX=no; export ac_cv_prog_CXX; \
+    CXXFLAGS=; export CXXFLAGS; \
+  fi; \
+  for i in `ls %{_mingw64_bindir}/*|grep -- "-config\$"` ; do \
+    x=`basename $i|tr "a-z+-" "A-ZX_"`; \
+    declare -x $x="$i" ; export $x; \
+  done; \
+  unset x i
+
+
+%_mingw64_configure %{_mingw64_env} ; \
+  ./configure --cache-file=%{_mingw64_cache} \\\
+	--host=%{_mingw64_host} \\\
+	--build=%_build \\\
+	--target=%{_mingw64_target} \\\
+	--prefix=%{_mingw64_prefix} \\\
+	--exec-prefix=%{_mingw64_exec_prefix} \\\
+	--bindir=%{_mingw64_bindir} \\\
+	--sbindir=%{_mingw64_sbindir} \\\
+	--sysconfdir=%{_mingw64_sysconfdir} \\\
+	--datadir=%{_mingw64_datadir} \\\
+	--includedir=%{_mingw64_includedir} \\\
+	--libdir=%{_mingw64_libdir} \\\
+	--libexecdir=%{_mingw64_libexecdir} \\\
+	--localstatedir=%{_mingw64_localstatedir} \\\
+	--sharedstatedir=%{_mingw64_sharedstatedir} \\\
+	--mandir=%{_mingw64_mandir} \\\
+	--infodir=%{_mingw64_infodir}
+
+%_mingw64_make %{_mingw64_env} ; \
+  make \\\
+	prefix=%{_mingw64_prefix} \\\
+	exec_prefix=%{_mingw64_exec_prefix} \\\
+	bindir=%{_mingw64_bindir} \\\
+	sbindir=%{_mingw64_sbindir} \\\
+	sysconfdir=%{_mingw64_sysconfdir} \\\
+	datadir=%{_mingw64_datadir} \\\
+	includedir=%{_mingw64_includedir} \\\
+	libdir=%{_mingw64_libdir} \\\
+	libexecdir=%{_mingw64_libexecdir} \\\
+	localstatedir=%{_mingw64_localstatedir} \\\
+	sharedstatedir=%{_mingw64_sharedstatedir} \\\
+	mandir=%{_mingw64_mandir} \\\
+	infodir=%{_mingw64_infodir}
+
+%_mingw64_makeinstall %{_mingw64_env} ; \
+  make \\\
+	prefix=%{?buildroot:%{buildroot}}%{_mingw64_prefix} \\\
+	exec_prefix=%{?buildroot:%{buildroot}}%{_mingw64_exec_prefix} \\\
+	bindir=%{?buildroot:%{buildroot}}%{_mingw64_bindir} \\\
+	sbindir=%{?buildroot:%{buildroot}}%{_mingw64_sbindir} \\\
+	sysconfdir=%{?buildroot:%{buildroot}}%{_mingw64_sysconfdir} \\\
+	datadir=%{?buildroot:%{buildroot}}%{_mingw64_datadir} \\\
+	includedir=%{?buildroot:%{buildroot}}%{_mingw64_includedir} \\\
+	libdir=%{?buildroot:%{buildroot}}%{_mingw64_libdir} \\\
+	libexecdir=%{?buildroot:%{buildroot}}%{_mingw64_libexecdir} \\\
+	localstatedir=%{?buildroot:%{buildroot}}%{_mingw64_localstatedir} \\\
+	sharedstatedir=%{?buildroot:%{buildroot}}%{_mingw64_sharedstatedir} \\\
+	mandir=%{?buildroot:%{buildroot}}%{_mingw64_mandir} \\\
+	infodir=%{?buildroot:%{buildroot}}%{_mingw64_infodir} \\\
+  install
+
