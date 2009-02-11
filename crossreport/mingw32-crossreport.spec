@@ -1,5 +1,5 @@
 Name:           mingw32-crossreport
-Version:        1
+Version:        2
 Release:        1%{?dist}
 Summary:        Analysis tool to help cross-compilation to Windows
 
@@ -78,5 +78,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 1-1
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2-1
 - Initial RPM release.
