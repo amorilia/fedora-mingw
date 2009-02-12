@@ -5,7 +5,7 @@
 # Paths.
 %_mingw64_sysroot         %{_prefix}/%{_mingw64_target}/sys-root
 %_mingw64_prefix          %{_mingw64_sysroot}
-%_mingw64_exec_prefix     %{_mingw64_prefix}/%{_mingw64_target}
+%_mingw64_exec_prefix     %{_mingw64_prefix}
 %_mingw64_bindir          %{_mingw64_exec_prefix}/bin
 %_mingw64_sbindir         %{_mingw64_exec_prefix}/sbin
 %_mingw64_libexecdir      %{_mingw64_exec_prefix}/libexec
@@ -17,10 +17,7 @@
 %_mingw64_sysconfdir      %{_mingw64_prefix}/etc
 %_mingw64_sharedstatedir  %{_mingw64_prefix}/com
 %_mingw64_localstatedir   %{_mingw64_prefix}/var
-
-# XXX Not sure which of these is correct ...
-#%_mingw64_includedir      %{_mingw64_prefix}/include
-%_mingw64_includedir      %{_mingw64_exec_prefix}/include
+%_mingw64_includedir      %{_mingw64_prefix}/include
 
 # Build macros.
 %_mingw64_host            %{_mingw64_target}

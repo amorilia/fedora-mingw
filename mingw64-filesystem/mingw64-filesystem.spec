@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw64-filesystem
-Version:        6
+Version:        10
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -89,21 +89,25 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/rpmlint/
 
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32
 
-# GCC requires these directories, even though they contain links
-# to binaries which are also installed in /usr/bin etc.  These
-# contain Fedora native binaries.
+# These directories are used by GCC for cross-compilation.
+# NOTE different contents from mingw32.
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/bin
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/lib
 
 # The system root which will contain Windows native binaries
 # and Windows-specific header files, pkgconfig, etc.
 # NOTE different from mingw32.
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/bin
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/include
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/include/sys
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/lib
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/lib/pkgconfig
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/bin
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/include
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/include/sys
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/lib
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/lib/pkgconfig
+
+# GCC wants to look in include64/ directory for some reason.
+pushd $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root
+ln -s include include64
+popd
 
 # We don't normally package manual pages and info files, except
 # where those are not supplied by a Fedora native package.  So we
@@ -120,12 +124,10 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/man
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/man/man{1,2,3,4,5,6,7,8,l,n}
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/aclocal
 
-
-# This is needed because of some problems with upstream gcc and
-# bad mingw32 patches.
 pushd $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root
-ln -s x86_64-pc-mingw32 mingw
+ln -s . mingw
 popd
+
 
 # NB. NOT _libdir
 mkdir -p $RPM_BUILD_ROOT/usr/lib/rpm
@@ -152,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 6-1
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 10-1
 - Start mingw64 development.
 
 * Sun Feb  1 2009 Richard W.M. Jones <rjones@redhat.com> - 46-1

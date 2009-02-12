@@ -5,8 +5,8 @@
 %define svn_revision 607
 
 Name:           mingw64-headers
-Version:	0.1
-Release:        0.svn%{svn_revision}.6%{?dist}
+Version:        0.1
+Release:        0.svn%{svn_revision}.10%{?dist}
 Summary:        Win32 header files and stubs
 
 License:        Public Domain and LGPLv2+
@@ -19,9 +19,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw64-filesystem >= 6
+BuildRequires:  mingw64-filesystem >= 10
 
-Requires:       mingw64-filesystem >= 6
+Requires:       mingw64-filesystem >= 10
 
 
 %description
@@ -45,16 +45,15 @@ find -name ChangeLog -delete
 %install
 rm -rf $RPM_BUILD_ROOT
 
+# This is different from mingw32.  By default GCC 4.4 searches for
+# headers in these two directories:
+#   /usr/x86_64-pc-mingw32/include
+#   /usr/x86_64-pc-mingw32/sys-root/mingw/include64  (symlink to ./include)
+
 mkdir -p $RPM_BUILD_ROOT%{_mingw64_includedir}
 
-cp -a trunk/mingw-w64-headers/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}/
-cp -a trunk/mingw-w64-headers/direct-x/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}/
-
-# XXX We don't know why this is required, but gcc/cc1 fails
-# to find the header files without it.
-pushd $RPM_BUILD_ROOT%{_mingw64_exec_prefix}
-ln -s include include64
-popd
+cp -a trunk/mingw-w64-headers/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}
+cp -a trunk/mingw-w64-headers/direct-x/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}
 
 
 %clean
@@ -64,11 +63,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw64_includedir}/*
-%{_mingw64_exec_prefix}/include64
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.6
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.10
 - Started mingw64 development.
 
 * Mon Dec 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.13-1

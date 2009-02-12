@@ -4,7 +4,7 @@
 
 Name:           mingw64-gcc
 Version:        4.4.0
-Release:        0.20090206.6%{?dist}
+Release:        0.20090206.7%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -15,7 +15,7 @@ Source1:        ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/snapsho
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  texinfo
-BuildRequires:  mingw64-filesystem >= 6
+BuildRequires:  mingw64-filesystem >= 10
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-runtime
@@ -26,7 +26,7 @@ BuildRequires:  mpfr-devel
 BuildRequires:  libgomp
 
 # NB: Explicit mingw64-filesystem dependency is REQUIRED here.
-Requires:       mingw64-filesystem >= 6
+Requires:       mingw64-filesystem >= 10
 Requires:       mingw64-binutils
 Requires:       mingw64-headers
 Requires:       mingw64-runtime
@@ -69,12 +69,11 @@ MinGW Windows cross-compiler for C++
 cd gcc-%{upstream_version}
 
 mkdir -p build
-cd build
+pushd build
 
 languages="c,c++"
 
 CC="%{__cc} ${RPM_OPT_FLAGS}" \
-MINGW64_CFLAGS="%{_mingw64_cflags} -L%{_mingw64_libdir}" \
 ../configure \
   --prefix=%{_prefix} \
   --bindir=%{_bindir} \
@@ -96,6 +95,7 @@ MINGW64_CFLAGS="%{_mingw64_cflags} -L%{_mingw64_libdir}" \
   --enable-languages="$languages" $optargs
 
 make %{?_smp_mflags} all
+popd
 
 
 %install
@@ -114,6 +114,12 @@ mkdir -p $RPM_BUILD_ROOT/lib
 ln -sf ..%{_prefix}/bin/x86_64-pc-mingw32-cpp \
   $RPM_BUILD_ROOT/lib/x86_64-pc-mingw32-cpp
 
+# This DLL should definitely not be in /usr/bin ...
+mkdir -p $RPM_BUILD_ROOT%{_mingw64_bindir}
+mv $RPM_BUILD_ROOT%{_bindir}/libgcc_s_sjlj-1.dll \
+  $RPM_BUILD_ROOT%{_mingw64_bindir}
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -127,12 +133,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/x86_64-pc-mingw32/lib/libiberty.a
 %dir %{_libdir}/gcc/x86_64-pc-mingw32
 %dir %{_libdir}/gcc/x86_64-pc-mingw32/%{version}
-%{_libdir}/gcc/x86_64-pc-mingw32/%{version}/crtbegin.o
-%{_libdir}/gcc/x86_64-pc-mingw32/%{version}/crtend.o
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/crtfastmath.o
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libgcc.a
+%{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libgcc_eh.a
+%{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libgcc_s.a
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libgcov.a
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libssp.a
+%{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libssp.dll.a
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libssp.la
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libssp_nonshared.a
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/libssp_nonshared.la
@@ -145,10 +152,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/include/ssp/*.h
 %dir %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/install-tools
 %{_libdir}/gcc/x86_64-pc-mingw32/%{version}/install-tools/*
+%{_libdir}/gcc/x86_64-pc-mingw32/bin/libssp-0.dll
 %dir %{_libexecdir}/gcc/x86_64-pc-mingw32/%{version}/install-tools
 %{_libexecdir}/gcc/x86_64-pc-mingw32/%{version}/install-tools/*
 %{_mandir}/man1/x86_64-pc-mingw32-gcc.1*
 %{_mandir}/man1/x86_64-pc-mingw32-gcov.1*
+%{_mingw64_bindir}/libgcc_s_sjlj-1.dll
 
 
 %files -n mingw64-cpp
@@ -176,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-0.20090206.6
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-0.20090206.7
 - Started mingw64 development.
 
 * Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-12

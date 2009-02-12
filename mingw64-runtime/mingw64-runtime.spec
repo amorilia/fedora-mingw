@@ -12,7 +12,7 @@
 
 Name:           mingw64-runtime
 Version:        0.1
-Release:        0.svn%{svn_revision}.1%{?dist}
+Release:        0.svn%{svn_revision}.3%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain
@@ -23,7 +23,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw64-filesystem >= 3
+BuildRequires:  mingw64-filesystem >= 10
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc-bootstrap
@@ -39,7 +39,7 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 %build
 pushd trunk/mingw-w64-crt
-%{_mingw64_configure} --with-sysroot=%{_mingw64_prefix}
+%{_mingw64_configure} --with-sysroot=%{_mingw64_sysroot}
 make %{?_smp_mflags}
 popd
 
@@ -51,6 +51,21 @@ pushd trunk/mingw-w64-crt
 make DESTDIR=$RPM_BUILD_ROOT install
 popd
 
+# The above installs in /usr/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/lib
+# which is the wrong location.  Move it to %{_mingw64_libdir}.
+mv $RPM_BUILD_ROOT%{_mingw64_sysroot}/%{_mingw64_target}/lib \
+  $RPM_BUILD_ROOT%{_mingw64_libdir}
+
+# However GCC when building looks in /usr/x86_64-pc-mingw32/lib for
+# libraries.  Make symlinks so that this works.
+# XXX Hack - why is this needed?
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/%{_mingw64_target}/lib
+pushd $RPM_BUILD_ROOT%{_prefix}/%{_mingw64_target}/lib
+for f in ../sys-root/lib/*.[ao]; do
+  ln -s $f
+done
+popd
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,10 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw64_libdir}/*
+%{_prefix}/%{_mingw64_target}/lib/*
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.1
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.3
 - Started mingw64 development.
 
 * Tue Feb 10 2009 Richard W.M. Jones <rjones@redhat.com> - 3.15.2-1
