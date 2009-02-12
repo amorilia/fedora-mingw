@@ -6,7 +6,7 @@
 
 Name:           mingw64-headers
 Version:	0.1
-Release:        0.svn%{svn_revision}.2%{?dist}
+Release:        0.svn%{svn_revision}.6%{?dist}
 Summary:        Win32 header files and stubs
 
 License:        Public Domain and LGPLv2+
@@ -19,9 +19,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  mingw64-filesystem >= 2
+BuildRequires:  mingw64-filesystem >= 6
 
-Requires:       mingw64-filesystem >= 2
+Requires:       mingw64-filesystem >= 6
 
 
 %description
@@ -50,10 +50,10 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw64_includedir}
 cp -a trunk/mingw-w64-headers/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}/
 cp -a trunk/mingw-w64-headers/direct-x/include/* $RPM_BUILD_ROOT%{_mingw64_includedir}/
 
-# This link is a temporary hack to get builds working.  Eventually
-# upstream will sort this out so the link is no longer necessary.
-pushd $RPM_BUILD_ROOT%{_mingw64_sysroot}
-ln -s mingw %{_mingw64_target}
+# XXX We don't know why this is required, but gcc/cc1 fails
+# to find the header files without it.
+pushd $RPM_BUILD_ROOT%{_mingw64_exec_prefix}
+ln -s include include64
 popd
 
 
@@ -64,11 +64,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_mingw64_includedir}/*
-%{_mingw64_sysroot}/%{_mingw64_target}
+%{_mingw64_exec_prefix}/include64
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.2
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 0.1-0.svn607.6
 - Started mingw64 development.
 
 * Mon Dec 15 2008 Richard W.M. Jones <rjones@redhat.com> - 3.13-1

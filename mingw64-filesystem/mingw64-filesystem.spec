@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           mingw64-filesystem
-Version:        2
+Version:        6
 Release:        1%{?dist}
 Summary:        MinGW base filesystem and environment
 
@@ -95,30 +95,37 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/bin
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/lib
 
-# The MinGW system root which will contain Windows native binaries
+# The system root which will contain Windows native binaries
 # and Windows-specific header files, pkgconfig, etc.
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/bin
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/include
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/include/sys
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/lib
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/lib/pkgconfig
-
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share/aclocal
+# NOTE different from mingw32.
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/bin
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/include
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/include/sys
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/lib
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/x86_64-pc-mingw32/lib/pkgconfig
 
 # We don't normally package manual pages and info files, except
 # where those are not supplied by a Fedora native package.  So we
 # need to create the directories.
 #
 # Note that some packages try to install stuff in
-#   /usr/x86_64-pc-mingw32/sys-root/mingw/man and
-#   /usr/x86_64-pc-mingw32/sys-root/mingw/doc
+#   /usr/x86_64-pc-mingw32/sys-root/man and
+#   /usr/x86_64-pc-mingw32/sys-root/doc
 # but those are both packaging bugs.
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share/doc
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share/info
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share/man
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/mingw/share/man/man{1,2,3,4,5,6,7,8,l,n}
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/doc
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/info
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/man
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/man/man{1,2,3,4,5,6,7,8,l,n}
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root/share/aclocal
+
+
+# This is needed because of some problems with upstream gcc and
+# bad mingw32 patches.
+pushd $RPM_BUILD_ROOT%{_prefix}/x86_64-pc-mingw32/sys-root
+ln -s x86_64-pc-mingw32 mingw
+popd
 
 # NB. NOT _libdir
 mkdir -p $RPM_BUILD_ROOT/usr/lib/rpm
@@ -145,7 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2-1
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 6-1
 - Start mingw64 development.
 
 * Sun Feb  1 2009 Richard W.M. Jones <rjones@redhat.com> - 46-1

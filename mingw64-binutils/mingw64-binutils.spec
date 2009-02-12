@@ -1,21 +1,26 @@
 Name:           mingw64-binutils
 Version:        2.19.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows binutils
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
 Group:          Development/Libraries
+
 URL:            http://www.gnu.org/software/binutils/
 Source0:        http://ftp.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2
+
+# Possible patch added after 2.19.1:
+# http://sourceware.org/ml/binutils/2009-02/msg00090.html
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  texinfo
-BuildRequires:  mingw64-filesystem >= 2
+BuildRequires:  mingw64-filesystem >= 6
 
 # NB: This must be left in.
-Requires:       mingw64-filesystem >= 2
+Requires:       mingw64-filesystem >= 6
 
 
 %description
@@ -43,7 +48,7 @@ CFLAGS="$RPM_OPT_FLAGS" \
   --includedir=%{_includedir} --libdir=%{_libdir} \
   --mandir=%{_mandir} --infodir=%{_infodir}
 
-make all
+make %{?_smp_mflags} all
 
 
 %install
@@ -70,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.1-1
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.1-4
 - Started mingw64 development.
 
 * Tue Feb 10 2009 Richard W.M. Jones <rjones@redhat.com> - 2.19.1-1
