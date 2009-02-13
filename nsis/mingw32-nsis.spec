@@ -2,8 +2,8 @@
 %define _default_patch_fuzz 2
 
 Name:           mingw32-nsis
-Version:        2.39
-Release:        5%{?dist}
+Version:        2.43
+Release:        1%{?dist}
 Summary:        Nullsoft Scriptable Install System
 
 License:        zlib and CPL
@@ -13,30 +13,19 @@ Source0:        http://dl.sourceforge.net/sourceforge/nsis/nsis-%{version}-src.t
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Patches from Debian (mainly by Paul Wise).
-Patch0:         nsis-2.39-debian-64bit-fixes.patch
-Patch1:         nsis-2.39-debian-debug-opt.patch
+Patch0:         nsis-2.42-debian-64bit-fixes.patch
+Patch1:         nsis-2.43-debian-debug-opt.patch
 
-# This patch is required for NSIS to find the correct cross-compiler.
-Patch100:       nsis-2.39-mingw32-search.patch
-
-BuildRequires:  mingw32-filesystem >= 20
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  python
-BuildRequires:  scons >= 0.96.93
+BuildRequires:  scons
+BuildRequires:  wxGTK-devel
 
-# We build with 'gcc -m32' and that fails on 64 bit platforms when we
-# include <gnu/stubs.h>.  On x86-64, this is provided by
-# glibc-devel.i386.  Depend on the file explicitly, since only recent
-# versions of RPM let you require a package by architecture.
-BuildRequires:  /usr/include/gnu/stubs-32.h
-
-# We really need the 32 bit version of this library.  The 64 bit
-# version will definitely not work.  XXX Need to do the right thing on
-# non-x86 architectures.
-BuildRequires:  /usr/lib/libwx_baseu-2.8.so
-
+# since nsis a 32 bit only apps
+ExclusiveArch:  i386 ppc
 
 %description
 NSIS, the Nullsoft Scriptable Install System, is a script-driven
@@ -51,10 +40,8 @@ assembler code.
 %prep
 %setup -q -n nsis-%{version}-src
 
-%patch0 -p1
-%patch1 -p1
-
-%patch100 -p1
+%patch0 -p1 -b .64bit
+%patch1 -p1 -b .debug
 
 
 %build
@@ -76,14 +63,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/*
-%config(noreplace) %{_sysconfdir}/nsisconf.nsh
-%{_includedir}/nsis
 %doc %{_docdir}/%{name}-%{version}
+%config(noreplace) %{_sysconfdir}/nsisconf.nsh
+%{_bindir}/*
+#{_includedir}/nsis
 %{_datadir}/nsis
 
 
 %changelog
+* Fri Feb 13 2009 Levente Farkas <lfarkas@lfarkas.org> - 2.43-1
+- update to the latest upstream
+
+* Wed Jan 14 2009 Levente Farkas <lfarkas@lfarkas.org> - 2.42-1
+- update to the latest upstream
+- a few small changes
+
 * Fri Oct 17 2008 Richard W.M. Jones <rjones@redhat.com> - 2.39-5
 - Fix the Summary line.
 

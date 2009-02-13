@@ -1,81 +1,5 @@
-diff -ur nsis-2.34-src/SCons/Config/gnu nsis-2.34-src-64bit-fixes/SCons/Config/gnu
---- nsis-2.34-src/SCons/Config/gnu	2007-11-14 07:20:44.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/SCons/Config/gnu	2008-01-13 22:15:21.000000000 +0100
-@@ -85,8 +85,6 @@
- makensis_env.Append(CXXFLAGS = '-Wno-non-virtual-dtor') # ignore virtual dtor warnings
- 
- conf = FlagsConfigure(makensis_env)
--conf.CheckCompileFlag('-m32')                     #
--conf.CheckLinkFlag('-m32')                        #
- conf.CheckLinkFlag('$MAP_FLAG')                   # generate map file
- if not defenv['DEBUG'] and defenv['STRIP'] and defenv['STRIP_CP']:
- 	TestStrip(conf)                                 # strip
-diff -ur nsis-2.34-src/Source/DialogTemplate.cpp nsis-2.34-src-64bit-fixes/Source/DialogTemplate.cpp
---- nsis-2.34-src/Source/DialogTemplate.cpp	2007-11-30 10:54:13.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/DialogTemplate.cpp	2008-01-13 19:01:02.000000000 +0100
-@@ -74,7 +74,7 @@
-     if (IS_INTRESOURCE(x)) { \
-       *(WORD*)seeker = 0xFFFF; \
-       seeker += sizeof(WORD); \
--      *(WORD*)seeker = ConvertEndianness(WORD(DWORD(x))); \
-+      *(WORD*)seeker = ConvertEndianness(WORD(long(x))); \
-       seeker += sizeof(WORD); \
-     } \
-     else { \
-@@ -622,7 +622,7 @@
-     }
-   }
- 
--  assert((DWORD) seeker - (DWORD) pbDlg == dwSize);
-+  assert((long) seeker - (long) pbDlg == dwSize);
- 
-   // DONE!
-   return pbDlg;
-diff -ur nsis-2.34-src/Source/mmap.cpp nsis-2.34-src-64bit-fixes/Source/mmap.cpp
---- nsis-2.34-src/Source/mmap.cpp	2007-12-22 10:41:57.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/mmap.cpp	2008-01-13 19:01:59.000000000 +0100
-@@ -324,7 +324,7 @@
-   if (!pView)
-     return;
- 
--  unsigned int alignment = ((unsigned int)pView) % m_iAllocationGranularity;
-+  unsigned int alignment = ((unsigned long)pView) % m_iAllocationGranularity;
-   pView = (char *)pView - alignment;
-   size += alignment;
- #ifdef _WIN32
-diff -ur nsis-2.34-src/Source/Platform.h nsis-2.34-src-64bit-fixes/Source/Platform.h
---- nsis-2.34-src/Source/Platform.h	2007-12-22 10:41:57.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/Platform.h	2008-01-13 19:36:04.000000000 +0100
-@@ -185,7 +185,7 @@
- #    define MAKEINTRESOURCE MAKEINTRESOURCEA
- #  endif
- #  ifndef IMAGE_FIRST_SECTION
--#    define IMAGE_FIRST_SECTION(h) ( PIMAGE_SECTION_HEADER( (DWORD) h + \
-+#    define IMAGE_FIRST_SECTION(h) ( PIMAGE_SECTION_HEADER( (long) h + \
-                                      FIELD_OFFSET(IMAGE_NT_HEADERS, OptionalHeader) + \
-                                      FIX_ENDIAN_INT16(PIMAGE_NT_HEADERS(h)->FileHeader.SizeOfOptionalHeader) ) )
- #  endif
-@@ -217,7 +217,7 @@
- #endif
- 
- #ifndef ULONG_PTR
--#  define ULONG_PTR DWORD
-+#  define ULONG_PTR ULONG
- #endif
- 
- #ifndef IDC_HAND
-@@ -722,7 +722,7 @@
-   WORD e_oemid;
-   WORD e_oeminfo;
-   WORD e_res2[10];
--  LONG e_lfanew;
-+  DWORD e_lfanew;
- } IMAGE_DOS_HEADER,*PIMAGE_DOS_HEADER;
- #  pragma pack()
- #  pragma pack(4)
-diff -ur nsis-2.34-src/Source/Plugins.cpp nsis-2.34-src-64bit-fixes/Source/Plugins.cpp
---- nsis-2.34-src/Source/Plugins.cpp	2007-12-22 10:41:57.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/Plugins.cpp	2008-01-13 19:01:59.000000000 +0100
+--- ./Source/Plugins.cpp.lfarkas	2009-01-14 17:03:11.000000000 +0100
++++ ./Source/Plugins.cpp	2009-01-14 17:03:58.000000000 +0100
 @@ -136,7 +136,7 @@
          DWORD prd = FIX_ENDIAN_INT32(sections[i].PointerToRawData);
          PIMAGE_EXPORT_DIRECTORY exports = PIMAGE_EXPORT_DIRECTORY(&dlldata[0] + prd + ExportDirVA - va);
@@ -85,9 +9,8 @@ diff -ur nsis-2.34-src/Source/Plugins.cpp nsis-2.34-src-64bit-fixes/Source/Plugi
          for (unsigned long j = 0; j < FIX_ENDIAN_INT32(exports->NumberOfNames); j++)
          {
            const string name = string((char*)exports + FIX_ENDIAN_INT32(names[j]) - ExportDirVA);
-diff -ur nsis-2.34-src/Source/ResourceEditor.cpp nsis-2.34-src-64bit-fixes/Source/ResourceEditor.cpp
---- nsis-2.34-src/Source/ResourceEditor.cpp	2007-12-22 10:41:57.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/ResourceEditor.cpp	2008-01-13 19:40:29.000000000 +0100
+--- ./Source/ResourceEditor.cpp.lfarkas	2009-01-14 17:04:08.000000000 +0100
++++ ./Source/ResourceEditor.cpp	2009-01-14 17:07:47.000000000 +0100
 @@ -665,7 +665,7 @@
      rdDir.NumberOfIdEntries = ConvertEndianness(rdDir.NumberOfIdEntries);
  
@@ -160,9 +83,39 @@ diff -ur nsis-2.34-src/Source/ResourceEditor.cpp nsis-2.34-src-64bit-fixes/Sourc
    }
    else {
      m_bHasName = true;
-diff -ur nsis-2.34-src/Source/util.cpp nsis-2.34-src-64bit-fixes/Source/util.cpp
---- nsis-2.34-src/Source/util.cpp	2007-12-22 10:41:57.000000000 +0100
-+++ nsis-2.34-src-64bit-fixes/Source/util.cpp	2008-01-13 19:01:59.000000000 +0100
+--- ./Source/DialogTemplate.cpp.lfarkas	2009-01-14 16:56:31.000000000 +0100
++++ ./Source/DialogTemplate.cpp	2009-01-14 17:01:14.000000000 +0100
+@@ -74,7 +74,7 @@
+     if (IS_INTRESOURCE(x)) { \
+       *(WORD*)seeker = 0xFFFF; \
+       seeker += sizeof(WORD); \
+-      *(WORD*)seeker = ConvertEndianness(WORD(DWORD(x))); \
++      *(WORD*)seeker = ConvertEndianness(WORD(long(x))); \
+       seeker += sizeof(WORD); \
+     } \
+     else { \
+@@ -622,7 +622,7 @@
+     }
+   }
+ 
+-  assert((DWORD) seeker - (DWORD) pbDlg == dwSize);
++  assert((long) seeker - (long) pbDlg == dwSize);
+ 
+   // DONE!
+   return pbDlg;
+--- ./Source/mmap.cpp.lfarkas	2009-01-14 17:00:12.000000000 +0100
++++ ./Source/mmap.cpp	2009-01-14 17:01:36.000000000 +0100
+@@ -322,7 +322,7 @@
+   if (!pView)
+     return;
+ 
+-  unsigned int alignment = ((unsigned int)pView) % m_iAllocationGranularity;
++  unsigned int alignment = ((unsigned long)pView) % m_iAllocationGranularity;
+   pView = (char *)pView - alignment;
+   size += alignment;
+ #ifdef _WIN32
+--- ./Source/util.cpp.lfarkas	2009-01-14 17:07:59.000000000 +0100
++++ ./Source/util.cpp	2009-01-14 17:09:25.000000000 +0100
 @@ -75,9 +75,9 @@
    }
  
@@ -191,3 +144,43 @@ diff -ur nsis-2.34-src/Source/util.cpp nsis-2.34-src-64bit-fixes/Source/util.cpp
        fclose(f);
        return -3;
      }
+--- ./Source/Platform.h.lfarkas	2009-01-14 17:01:43.000000000 +0100
++++ ./Source/Platform.h	2009-01-14 17:03:03.000000000 +0100
+@@ -165,7 +165,7 @@
+ #    define MAKEINTRESOURCE MAKEINTRESOURCEA
+ #  endif
+ #  ifndef IMAGE_FIRST_SECTION
+-#    define IMAGE_FIRST_SECTION(h) ( PIMAGE_SECTION_HEADER( (DWORD) h + \
++#    define IMAGE_FIRST_SECTION(h) ( PIMAGE_SECTION_HEADER( (long) h + \
+                                      FIELD_OFFSET(IMAGE_NT_HEADERS, OptionalHeader) + \
+                                      FIX_ENDIAN_INT16(PIMAGE_NT_HEADERS(h)->FileHeader.SizeOfOptionalHeader) ) )
+ #  endif
+@@ -197,7 +197,7 @@
+ #endif
+ 
+ #ifndef ULONG_PTR
+-#  define ULONG_PTR DWORD
++#  define ULONG_PTR ULONG
+ #endif
+ 
+ #ifndef IDC_HAND
+@@ -702,7 +702,7 @@
+   WORD e_oemid;
+   WORD e_oeminfo;
+   WORD e_res2[10];
+-  LONG e_lfanew;
++  DWORD e_lfanew;
+ } IMAGE_DOS_HEADER,*PIMAGE_DOS_HEADER;
+ #  pragma pack()
+ #  pragma pack(4)
+--- ./SCons/Config/gnu.lfarkas	2009-01-14 16:55:33.000000000 +0100
++++ ./SCons/Config/gnu	2009-01-14 16:56:21.000000000 +0100
+@@ -90,8 +90,6 @@
+ makensis_env.Append(CXXFLAGS = ['-Wno-non-virtual-dtor']) # ignore virtual dtor warnings
+ 
+ conf = FlagsConfigure(makensis_env)
+-conf.CheckCompileFlag('-m32')                     #
+-conf.CheckLinkFlag('-m32')                        #
+ conf.CheckLinkFlag('$MAP_FLAG')                   # generate map file
+ if not defenv['DEBUG'] and defenv['STRIP'] and defenv['STRIP_CP']:
+ 	TestStrip(conf)                                 # strip
