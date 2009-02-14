@@ -34,38 +34,3 @@ Build everything
  * Run ./build-everything-in-mock.sh
 
  * Build logs are printed to the screen and saved in 'buildall.log'
-
-Package notes
-----------------------------------------------------------------------
-
- ( 1) mingw32-filesystem
-
-      This is the base package containing the filesystem, RPM macros
-      and other stuff that everything depends on.  This is a pure
-      Fedora RPM with no outside dependencies.
-
- ( 2) mingw32-binutils
-
-      This is just a straight cross-compile of binutils.  It has
-      no BuildRequires beyond what is in basic Fedora already.
-
- ( 3) mingw32-runtime-bootstrap
- ( 4) mingw32-w32api-bootstrap
-
-      These are NOT real Fedora packages.  Instead they are BINARY
-      packages which is just needed first time if you are building
-      from scratch.  It contains some Windows binaries and header
-      files which are needed to bootstrap everything, and which
-      would normally be built by the packages below (specifically
-      by mingw32-runtime and mingw32-w32api).
-
-      Note: If you already have MinGW packages installed then you
-      should not build this package.
-
- ( 5) mingw32-gcc
-
- ( 6) mingw32-runtime
- ( 7) mingw32-w32api
-
-      Note that once built and installed, these last two replace the
-      files built from binaries in mingw32-{runtime,w32api}-bootstrap.
