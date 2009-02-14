@@ -1,5 +1,6 @@
 # List of packages that are ignored when building, updating status, etc.
 example
+cross-zlib
 cyrus-sasl
 darwinx-gcc
 dbus

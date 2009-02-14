@@ -1,0 +1,6 @@
+This is an experimental package to look at our options for packaging
+libraries for Win32/Win64/Darwin in the Fedora 12 timeframe.
+
+Please see this thread for more information:
+
+http://lists.fedoraproject.org/pipermail/fedora-mingw/2009-February/thread.html#464
