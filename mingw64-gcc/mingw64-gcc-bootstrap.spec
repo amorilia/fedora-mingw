@@ -7,7 +7,7 @@
 
 Name:           mingw64-gcc-bootstrap
 Version:        4.4.0
-Release:        0.20090206.6%{?dist}
+Release:        0.20090206.7%{?dist}
 Summary:        MinGW Windows cross-compiler (GCC) for C
 
 License:        GPLv2+
@@ -26,6 +26,7 @@ BuildRequires:  gmp-devel
 BuildRequires:  mpfr-devel
 %endif
 BuildRequires:  libgomp
+BuildRequires:  flex
 
 # NB: Explicit mingw64-filesystem dependency is REQUIRED here.
 Requires:       mingw64-filesystem >= 6
@@ -135,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-0.20090206.6
+* Wed Feb 11 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-0.20090206.7
 - Started mingw64 development.
 
 * Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 4.3.2-12
