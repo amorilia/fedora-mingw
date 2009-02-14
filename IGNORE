@@ -4,6 +4,7 @@ cyrus-sasl
 darwinx-gcc
 dbus
 gdb
+mingw64-gcc-bootstrap
 pidgin
 python
 python3
