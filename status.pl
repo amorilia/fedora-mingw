@@ -82,6 +82,7 @@ my %ignore_fedora = (
     "openldap" => 1,
     "pixman" => 1,
     "python" => 1,
+    "qt" => 1,
     "xenwatch" => 1,
 );
 
