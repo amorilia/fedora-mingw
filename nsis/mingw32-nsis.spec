@@ -22,10 +22,16 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  python
 BuildRequires:  scons
-BuildRequires:  wxGTK-devel
 
 # since nsis a 32 bit only apps
-ExclusiveArch:  i386 ppc
+#ExclusiveArch:  %{ix86} ppc
+#BuildRequires:  wxGTK-devel
+# The above is only required for Koji.  In mock we _can_ build on
+# x86_64 provided we have the 32 bit libraries required by the next
+# two lines.
+BuildRequires:  /usr/include/gnu/stubs-32.h
+BuildRequires:  /usr/lib/libwx_baseu-2.8.so
+
 
 %description
 NSIS, the Nullsoft Scriptable Install System, is a script-driven
