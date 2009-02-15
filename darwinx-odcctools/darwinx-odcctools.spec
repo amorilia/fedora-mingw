@@ -6,22 +6,32 @@
 # but you will need an Apple ID (although it's still open source).
 #
 # These are the OpenDarwin odcctools, which are an enhanced version of
-# an older version of these tools.  However OpenDarwin and odcctools
-# appears to be dead, replaced first by DarwinPorts, but even that
-# hasn't seen a release for more than 2 years.
+# an older version of cctools.
 #
-# Nevertheless, this is odcctools, until I can work out what is the
-# right upstream we should be using.
+# OpenDarwin is dead.  It was replaced first by DarwinPorts, which has
+# not released anything for more than two years.
 #
-# The version number is based on the original cctools from which this
-# odcctools was derived.
+# There are various other potential upstreams for these tools.  Most
+# promising is: http://code.google.com/p/iphone-dev/
+#
+#   odcctools version    based on cctools    source
+#   -----------------------------------------------------------
+#   20060413             590.36              OpenDarwin (dead)
+#   20061117             ?                       ""
+#   20070629             ?                   Shipped by Gentoo
+#   up to 2008           622.3 or 667.8.0    Google code: iphone-dev
+#
+# odcctools DOES NOT compile on 64 bit platforms.  The code contains
+# fundamental 32 bit assumptions, for example that the return value
+# from calloc can fit into a 32 bit integer.  Therefore on 64 bit
+# platforms we have to compile with 'gcc -m32'.
 
 %define odcc_version 590.36
 %define odcc_stamp 20060413
 
 Name:           darwinx-odcctools
 Version:        %{odcc_version}
-Release:        0.%{odcc_stamp}.4%{?dist}
+Release:        0.%{odcc_stamp}.5%{?dist}
 Summary:        Darwin (Mac OS X) cross-compiler tools
 
 License:        APSL 2.0
@@ -31,9 +41,13 @@ URL:            http://odcctools.darwinports.com/
 Source0:        odcctools-%{odcc_stamp}.tar.bz2
 
 Patch1:         odcctools-headers.patch
-Patch2:         odcctools-lp64.patch
-Patch3:         odcctools-x86-64.patch
-Patch4:         odcctools-ofile.patch
+Patch2:         odcctools-ofile.patch
+
+# These two patches were an attempt to get the code to compile
+# on 64 bit architectures.  However the 32 bit assumptions in the
+# code run much deeper than this.
+#Patch3:         odcctools-lp64.patch
+#Patch4:         odcctools-x86-64.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -51,10 +65,12 @@ cctools build system and code base to support Darwin development.
 
 %prep
 %setup -q -n odcctools-%{odcc_stamp}
+
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+
+#%patch3 -p1
+#%patch4 -p1
 
 
 %build
@@ -62,6 +78,8 @@ for arch in powerpc i386; do
   mkdir build-$arch
   pushd build-$arch
 
+#%if %{__isa_bits} 64  <-- how to write this with RPM? XXX
+  CFLAGS="-m32" LDFLAGS="-m32" \
   ../configure \
     --target=$arch-apple-darwin8 \
     --prefix=%{_prefix} \
@@ -112,6 +130,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Feb 15 2009 Richard W.M. Jones <rjones@redhat.com> - 590.36-0.20060413.5
+- Build as a 32 bit binary.
+- Add note about upstream versions.
+
 * Sun Feb  8 2009 Richard W.M. Jones <rjones@redhat.com> - 590.36-0.20060413.4
 - Initial RPM release for Fedora.
 
