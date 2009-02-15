@@ -1,0 +1,20 @@
+--- gcc_42-5566/gcc/config/darwin-crt3.c.orig	2009-02-15 20:08:45.000000000 +0000
++++ gcc_42-5566/gcc/config/darwin-crt3.c	2009-02-15 20:16:16.000000000 +0000
+@@ -37,7 +37,17 @@
+ #include "tconfig.h"
+ #include "tsystem.h"
+ 
++/* RWMJ: The headers we use for cross-compilation don't have <dlfcn.h>
++ * even though this file exists on real Macs.  Hack around this for
++ * now.
++ */
++#if 0
+ #include <dlfcn.h>
++#else
++extern void *dlopen(const char *, int);
++#define RTLD_NOLOAD 0x10
++#endif
++
+ #include <stdbool.h>
+ #include <stdlib.h>
+ #include <string.h>

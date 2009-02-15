@@ -13,6 +13,8 @@ Group:          Development/Libraries
 URL:            http://www.opensource.apple.com/darwinsource/
 Source0:        http://www.opensource.apple.com/darwinsource/tarballs/other/gcc_%{gcc_major}%{gcc_minor}-%{apple_build}.tar.gz
 
+Patch0:         darwinx-gcc-42-dlfcn.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -30,14 +32,16 @@ programs.  This is a port of Apple's GCC %{gcc_major}.%{gcc_minor} from Xcode
 %prep
 %setup -q -n gcc_%{gcc_major}%{gcc_minor}-%{apple_build}
 
+%patch0 -p1
+
 
 %build
 
 languages="c,c++,objc,obj-c++"
 
 for arch in powerpc i386; do
-  mkdir build-${arch}
-  pushd build-${arch}
+  mkdir build-$arch
+  pushd build-$arch
 
   CC="%{__cc} ${RPM_OPT_FLAGS}" \
   ../configure \
@@ -49,7 +53,7 @@ for arch in powerpc i386; do
     --infodir=%{_infodir} \
     --datadir=%{_datadir} \
     --build=%_build --host=%_host \
-    --target=${arch}-apple-darwin8 \
+    --target=$arch-apple-darwin8 \
     --verbose \
     --without-newlib \
     --disable-multilib \
@@ -60,20 +64,28 @@ for arch in powerpc i386; do
 
 #    --with-sysroot=%{_prefix}/$arch-apple-darwin8
 
+#  make %{?_smp_mflags} configure-host maybe-all-gcc
+#  pushd gcc
+#  make cc1objplus
+#  popd
   make %{?_smp_mflags}
 
   popd
 done
 
-exit 1
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
 
-# Remove static libraries but DON'T remove *.dll.a files.
-rm $RPM_BUILD_ROOT%{_mingw32_libdir}/libfoo.a
+# This is crap ...  Should just do 'make install'.
+for arch in powerpc i386; do
+  for d in libiberty gcc; do
+    pushd build-$arch/$d
+    #mkdir -p $RPM_BUILD_ROOT%{_libdir}/gcc/$arch-apple-darwin8/%{version}/install-tools/include
+    make install DESTDIR=$RPM_BUILD_ROOT
+    popd
+  done
+done
 
 
 %clean
@@ -89,5 +101,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 23 2009 Your Name <you@example.com> - 1.2.3-1
+* Sun Feb 15 2009 Richard W.M. Jones <rjones@redhat.com> - 4.2-0.5566.1
 - Initial RPM release.
+
+* Mon Jan 08 2007 Benjamin Reed <rangerrick@befunk.com> - 1:4.0.1-5363.1
+- updated to xcode 2.4 GCC
+
+* Tue Mar 28 2006 Benjamin Reed <rangerrick@befunk.com> - 1:4.0.1-5250.1
+- initial release as a per-version package
