@@ -55,6 +55,10 @@ BuildRequires:  darwinx-filesystem >= 1
 
 BuildRequires:  elfutils, kernel-headers, libstdc++-devel
 
+# Temporary hack for smock on x86_64.
+BuildRequires:  /usr/include/gnu/stubs-32.h
+BuildRequires:  /usr/lib/gcc/i386-redhat-linux
+
 Requires:       darwinx-filesystem >= 1
 
 
