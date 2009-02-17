@@ -6,7 +6,7 @@
 
 Name:           mingw32-nspr
 Version:        4.7.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -91,7 +91,7 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
 install dist/bin/*.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
 install dist/lib/*.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
-cp -r dist/include/nspr $RPM_BUILD_ROOT%{_mingw32_includedir}/
+cp -rL dist/include/nspr $RPM_BUILD_ROOT%{_mingw32_includedir}/
 
 # Write an nspr pkgconfig file.
 
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 17 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-4
+- 'cp -L' to install header files, not symlinks to header files.
+
 * Tue Jan 13 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-3
 - Requires pkgconfig.
 
