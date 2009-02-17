@@ -1,0 +1,28 @@
+--- mozilla/security/nss/lib/ssl/Makefile.orig	2009-02-17 15:59:33.000000000 +0000
++++ mozilla/security/nss/lib/ssl/Makefile	2009-02-17 15:59:47.000000000 +0000
+@@ -60,16 +60,8 @@
+ 
+ include config.mk
+ 
+-ifeq (,$(filter-out WIN%,$(OS_TARGET)))
+ CSRCS	+= win32err.c
+ DEFINES += -DIN_LIBSSL
+-else
+-ifeq ($(OS_TARGET),OS2)
+-CSRCS	+= os2_err.c
+-else
+-CSRCS	+= unix_err.c
+-endif
+-endif
+ 
+ #######################################################################
+ # (5) Execute "global" rules. (OPTIONAL)                              #
+--- mozilla/security/nss/cmd/shlibsign/Makefile.orig	2009-02-17 16:28:06.000000000 +0000
++++ mozilla/security/nss/cmd/shlibsign/Makefile	2009-02-17 16:29:03.000000000 +0000
+@@ -99,5 +99,5 @@
+ 	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
+ endif
+ 
+-libs install :: $(CHECKLOC)
++#libs install :: $(CHECKLOC)
+ 
