@@ -12,7 +12,7 @@
 
 Name:           mingw32-nss
 Version:        3.12.2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows port of NSS (Network Security Services)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -80,6 +80,11 @@ v3 certificates, and other security standards.
 #     also by NSS Makefiles.
 # (2) OS_TARGET must be set to the basename (w/o 2.6).
 cp %{SOURCE1000} mozilla/security/coreconf/FedoraCross2.6.mk
+
+# This fixes a build failure in mock (not rpmbuild).
+# This fix is not well-understood.
+touch mozilla/security/nss/cmd/signtool/-lz
+touch mozilla/security/nss/cmd/modutil/-lz
 
 
 %build
@@ -311,6 +316,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-5
+- Fix to build in mock.
+
 * Tue Feb 17 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-4
 - Now builds.
 
