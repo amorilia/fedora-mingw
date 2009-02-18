@@ -6,7 +6,7 @@
 
 Name:           mingw32-nspr
 Version:        4.7.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -22,12 +22,27 @@ Source2:        nspr-config-vars.in
 
 Patch1:         nspr-config-pc.patch
 
-# MinGW-specific build patch.
-Patch1000:      mingw32-nspr-4.7.2-build.patch
+# MinGW-specific build patches.
+#Patch1000:      mingw32-nspr-4.7.2-build.patch
+#Patch1001:      nspr-configure-remove-crack.patch
 
 BuildRequires:  mingw32-filesystem >= 33
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
+
+## Ugh ugh ugh, multi-layered bug workaround:
+## (1) configure script tries to test if this is a cross-compiler
+## (2) it does this by running a test program
+## (3) if the test program doesn't run, it must be a cross-compiler
+##     ... right?
+## (4) WRONG! - wine is installed and runs the test program fine
+## (5) NSPR has an additional bug where it REQUIRES the test to fail
+##     (ie. cross-compiler = no) otherwise it builds libnspr4.a instead
+##     of libnspr4.dll.a (we don't know why this is)
+## (6) we cannot override this by setting $ac_* variables (why?)
+#BuildRequires:  /usr/bin/wine
+
+BuildRequires:  autoconf, automake
 
 Requires:       pkgconfig
 
@@ -48,9 +63,15 @@ cp ./mozilla/nsprpub/config/nspr-config.in \
 
 cp %{SOURCE2} ./mozilla/nsprpub/config/
 
-pushd mozilla/nsprpub
-%patch1000 -p0
-popd
+#pushd mozilla/nsprpub
+#%patch1000 -p0
+#popd
+#%patch1001 -p0
+
+# Rebuild with a non-archaic autoconf.
+#pushd mozilla/nsprpub
+#autoreconf
+#popd
 
 
 %build
@@ -90,7 +111,7 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_libdir}
 mkdir -p $RPM_BUILD_ROOT%{_mingw32_includedir}
 install dist/bin/*.dll $RPM_BUILD_ROOT%{_mingw32_bindir}
-install dist/lib/*.dll.a $RPM_BUILD_ROOT%{_mingw32_libdir}
+install dist/lib/*.a $RPM_BUILD_ROOT%{_mingw32_libdir}
 cp -rL dist/include/nspr $RPM_BUILD_ROOT%{_mingw32_includedir}/
 
 # Write an nspr pkgconfig file.
@@ -124,13 +145,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_bindir}/libnspr4.dll
 %{_mingw32_bindir}/libplc4.dll
 %{_mingw32_bindir}/libplds4.dll
-%{_mingw32_libdir}/libnspr4.dll.a
-%{_mingw32_libdir}/libplc4.dll.a
+%{_mingw32_libdir}/libnspr4.a
+%{_mingw32_libdir}/libplc4.a
+%{_mingw32_libdir}/libnspr4_s.a
+%{_mingw32_libdir}/libplc4_s.a
+%{_mingw32_libdir}/libplds4.a
+%{_mingw32_libdir}/libplds4_s.a
 %{_mingw32_libdir}/pkgconfig/nspr.pc
 %{_mingw32_includedir}/nspr
 
 
 %changelog
+* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-5
+- Fix build inside mock.
+
 * Tue Feb 17 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-4
 - 'cp -L' to install header files, not symlinks to header files.
 

@@ -1,0 +1,49 @@
+Remove some of the more egregious crack in the configure.in script.
+
+--- mozilla/nsprpub/configure.in.orig	2009-02-18 13:12:46.000000000 +0000
++++ mozilla/nsprpub/configure.in	2009-02-18 13:39:28.000000000 +0000
+@@ -42,7 +42,7 @@
+ AC_PREREQ(2.12)
+ AC_INIT(config/libc_r.h)
+ 
+-AC_CONFIG_AUX_DIR(${srcdir}/build/autoconf)
++AC_CONFIG_AUX_DIR(build/autoconf)
+ AC_CANONICAL_SYSTEM
+ 
+ dnl ========================================================
+@@ -427,7 +427,7 @@
+ 
+     AC_MSG_CHECKING([whether the $host compiler ($HOST_CC $HOST_CFLAGS $HOST_LDFLAGS) works])
+     AC_TRY_COMPILE([], [return(0);], 
+-        [ac_cv_prog_host_cc_works=1 AC_MSG_RESULT([yes])],
++        [ac_cv_prog_host_cc_works=1; AC_MSG_RESULT([yes])],
+         AC_MSG_ERROR([installation or configuration problem: $host compiler $HOST_CC cannot create executables.]) )
+ 
+     CC=$_SAVE_CC
+@@ -509,6 +509,11 @@
+ fi
+ rm -f a.out
+ 
++# RWMJ: Just force the above:
++GNU_CC=1
++GNU_CXX=1
++GNU_AS=1
++
+ case "$build:$target" in
+     i?86-apple-darwin*:powerpc-apple-darwin*)
+         dnl cross_compiling will have erroneously been set to "no" in this
+@@ -2212,9 +2217,11 @@
+ *-darwin*|*-beos*)
+     ;;
+ *)
+-    AC_CHECK_LIB(dl, dlopen,
+-        AC_CHECK_HEADER(dlfcn.h,
+-            OS_LIBS="-ldl $OS_LIBS"))
++    AC_CHECK_LIB([dl], [dlopen], [have_dl=yes])
++    AC_CHECK_HEADER([dlfcn.h], [have_dlfcn=yes])
++    if test -n "$have_dl" -a -n "$have_dlfcn"; then
++      OS_LIBS="-ldl $OS_LIBS"
++    fi
+     ;;
+ esac
+ 
