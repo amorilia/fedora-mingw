@@ -6,7 +6,7 @@
 
 Name:           mingw32-xerces-c
 Version:        2.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Validating XML parser
 
 License:        ASL 2.0
@@ -44,7 +44,6 @@ faithful to the XML 1.0 recommendation and associated standards (DOM
 rm -rf doc/html/resources/.svn
 find ./doc -type f -perm 755 -exec chmod 644 {} \;
 find ./samples -type f -perm 755 -exec chmod 644 {} \;
-%{__perl} -pi.orig -e 's|(PREFIX.)/lib\b|$1/%{_lib}|g' src/xercesc/configure */Makefile.in
 rm doc/html/apiDocs/XMLRegisterCleanup_8hpp__incl.map
 rm doc/html/apiDocs/XSConstants_8hpp__incl.map
 
@@ -118,5 +117,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-2
+* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-3
 - Initial RPM release.
