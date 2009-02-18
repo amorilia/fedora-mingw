@@ -1,0 +1,16 @@
+--- xerces-c-src_2_8_0/src/xercesc/Makefile.incl.orig	2009-02-18 15:47:24.000000000 +0000
++++ xerces-c-src_2_8_0/src/xercesc/Makefile.incl	2009-02-18 15:47:45.000000000 +0000
+@@ -459,11 +459,12 @@
+ endif
+ 
+ #=============== MINGW SPECIFIC OPTIONS =========================
++DLLWRAP = dllwrap
+ ifeq (${PLATFORM}, MINGW)
+   PLATFORM_COMPILE_OPTIONS = -D${PLATFORM} -fexceptions -D__GNUWIN32__ -DWIN32 -D_WINDOWS -DNDEBUG -DPLATFORM_WIN32
+ 
+   ifeq (${LIBTYPE},shared)
+-    MAKE_SHARED = dllwrap --export-all-symbols --driver-name ${CXX} ${LDFLAGS}
++    MAKE_SHARED = $(DLLWRAP) --export-all-symbols --driver-name ${CXX} ${LDFLAGS}
+     MAKE_SHARED_C = ${CC} -D${PLATFORM} ${LDFLAGS}
+   else
+     PLATFORM_COMPILE_OPTIONS += -DXML_LIBRARY # switch off import/export
