@@ -6,7 +6,7 @@
 
 Name:           mingw32-nspr
 Version:        4.7.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -22,27 +22,9 @@ Source2:        nspr-config-vars.in
 
 Patch1:         nspr-config-pc.patch
 
-# MinGW-specific build patches.
-#Patch1000:      mingw32-nspr-4.7.2-build.patch
-#Patch1001:      nspr-configure-remove-crack.patch
-
 BuildRequires:  mingw32-filesystem >= 33
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-
-## Ugh ugh ugh, multi-layered bug workaround:
-## (1) configure script tries to test if this is a cross-compiler
-## (2) it does this by running a test program
-## (3) if the test program doesn't run, it must be a cross-compiler
-##     ... right?
-## (4) WRONG! - wine is installed and runs the test program fine
-## (5) NSPR has an additional bug where it REQUIRES the test to fail
-##     (ie. cross-compiler = no) otherwise it builds libnspr4.a instead
-##     of libnspr4.dll.a (we don't know why this is)
-## (6) we cannot override this by setting $ac_* variables (why?)
-#BuildRequires:  /usr/bin/wine
-
-BuildRequires:  autoconf, automake
 
 Requires:       pkgconfig
 
@@ -63,24 +45,12 @@ cp ./mozilla/nsprpub/config/nspr-config.in \
 
 cp %{SOURCE2} ./mozilla/nsprpub/config/
 
-#pushd mozilla/nsprpub
-#%patch1000 -p0
-#popd
-#%patch1001 -p0
-
-# Rebuild with a non-archaic autoconf.
-#pushd mozilla/nsprpub
-#autoreconf
-#popd
-
 
 %build
 pushd mozilla/nsprpub
 
 # Configure for Windows cross-compiling.
 %{_mingw32_configure} \
-  --prefix=%{_mingw32_prefix} \
-  --libdir=%{_mingw32_libdir} \
   --includedir=%{_mingw32_includedir}/nspr4 \
   --enable-optimize="%{_mingw32_cflags}" \
   --disable-debug \
@@ -156,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-5
+* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-6
 - Fix build inside mock.
 
 * Tue Feb 17 2009 Richard W.M. Jones <rjones@redhat.com> - 4.7.2-4
