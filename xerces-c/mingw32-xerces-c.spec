@@ -6,7 +6,7 @@
 
 Name:           mingw32-xerces-c
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Validating XML parser
 
 License:        ASL 2.0
@@ -97,6 +97,7 @@ export XERCESCROOT="$PWD"
 %{__make} install -C src/xercesc DESTDIR="$RPM_BUILD_ROOT"
 
 # Move the DLLs into the bindir.
+mkdir -p $RPM_BUILD_ROOT%{_mingw32_bindir}
 mv $RPM_BUILD_ROOT%{_mingw32_libdir}/*.dll $RPM_BUILD_ROOT%{_mingw32_bindir}/
 
 
@@ -113,5 +114,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-1
+* Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-2
 - Initial RPM release.
