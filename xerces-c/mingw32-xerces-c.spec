@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc LICENSE
-%{_mingw32_include}/xercesc/
+%{_mingw32_includedir}/xercesc/
 %{_mingw32_bindir}/libxerces-c2_8_0.dll
 %{_mingw32_bindir}/libxerces-depdom2_8_0.dll
 
