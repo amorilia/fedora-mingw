@@ -1,0 +1,18 @@
+--- ./configure.in	2008-08-29 13:44:16.000000000 +0200
++++ ./configure.in	2008-08-29 13:45:53.000000000 +0200
+@@ -71,11 +71,11 @@ AC_MSG_RESULT($with_xerces)
+ if test "$with_xerces" = "no"; then
+         with_xerces="/usr/local"
+ fi
+-if test `ls $with_xerces/lib/libxerces-c.*2[[6-8]].* 2>/dev/null | wc -l` -gt 0 ; then
+-        AC_MSG_CHECKING([for Xerces C++ version from source tree])
+-        xerces_version=`ls "$with_xerces"/lib/libxerces-c.*[[0-9]][[0-9]].* | tail -1 | sed 's/.*xerces-c.*\([[0-9]]\)\([[0-9]]\).*/\1.\2/'`
++if test `ls $libdir/libxerces-c.*2[[6-8]].* 2>/dev/null | wc -l` -gt 0 ; then
++        AC_MSG_CHECKING([for Xerces C++ version from installed library])
++        xerces_version=`ls "$libdir"/libxerces-c.*[[0-9]][[0-9]].* | tail -1 | sed 's/.*xerces-c.*\([[0-9]]\)\([[0-9]]\).*/\1.\2/'`
+         AC_MSG_RESULT([$xerces_version])
+-        xerces_lib="$with_xerces/lib"
++        xerces_lib="$libdir"
+         xerces_include_dir="$with_xerces/src"
+         xerces_include="-I$with_xerces/src"
+ elif test `ls $with_xerces/lib/libxerces-c*2[[6-8]].* 2>/dev/null | wc -l` -gt 0 ; then
