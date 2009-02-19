@@ -1,0 +1,32 @@
+--- XQilla-2.2.0/Makefile.am	2008-12-03 18:19:55.000000000 +0000
++++ XQilla-2.2.0.mingw/Makefile.am	2009-02-19 15:16:31.000000000 +0000
+@@ -6,7 +6,7 @@
+ LDADD = libxqilla.la
+ 
+ bin_PROGRAMS = xqilla
+-noinst_PROGRAMS = xqtsRunner xmarkRunner simple-basic simple-context-item xqc-basic xqc-context-item
++noinst_PROGRAMS = xqtsRunner xmarkRunner simple-basic simple-context-item
+ 
+ if BUILD_DOM_SAMPLES
+ noinst_PROGRAMS += dom-basic dom-context-item dom-resolver
+@@ -622,14 +622,14 @@
+ src/samples/dom-api/dom-resolver.cpp
+ 
+ # Dummy C++ source to cause C++ linking.
+-nodist_EXTRA_xqc_basic_SOURCES = dummy.cpp
+-xqc_basic_SOURCES = \
+-src/samples/xqc-api/xqc-basic.c
++#nodist_EXTRA_xqc_basic_SOURCES = dummy.cpp
++#xqc_basic_SOURCES = \
++#src/samples/xqc-api/xqc-basic.c
+ 
+ # Dummy C++ source to cause C++ linking.
+-nodist_EXTRA_xqc_context_item_SOURCES = dummy.cpp
+-xqc_context_item_SOURCES = \
+-src/samples/xqc-api/xqc-context-item.c
++#nodist_EXTRA_xqc_context_item_SOURCES = dummy.cpp
++#xqc_context_item_SOURCES = \
++#src/samples/xqc-api/xqc-context-item.c
+ 
+ LEXERFILE   = $(top_srcdir)/src/lexer/XQLexer.cpp
+ LEXTEMPLATE = $(top_srcdir)/src/lexer/XQLexer.l

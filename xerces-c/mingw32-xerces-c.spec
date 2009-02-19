@@ -71,6 +71,7 @@ find -name runConfigure | while read f; do
         sed -i -e 's/-w -O -DNDEBUG/-DNDEBUG/g' $f
 done
 
+# NB: This is duplicated in 'mingw32-xqilla.spec'.
 cd $XERCESCROOT/src/xercesc
 CXXFLAGS="%{_mingw32_cflags}" \
 CFLAGS="%{_mingw32_cflags}" \

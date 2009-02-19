@@ -1,0 +1,11 @@
+--- XQilla-2.2.0/tests/xmark/xmark.cpp	2008-12-08 15:46:05.000000000 +0000
++++ XQilla-2.2.0.mingw/tests/xmark/xmark.cpp	2009-02-19 14:29:55.000000000 +0000
+@@ -68,7 +68,7 @@
+   time(&tt);
+ 
+   struct tm *tm_p;
+-#ifdef _MSC_VER   
++#ifdef WIN32
+   tm_p = localtime(&tt);
+ #else
+   struct tm tm;
