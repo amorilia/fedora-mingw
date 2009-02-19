@@ -6,7 +6,7 @@
 
 Name:           mingw32-gnutls
 Version:        2.6.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
@@ -24,8 +24,9 @@ Patch1:         gnutls-2.6.2-nosrp.patch
 # MinGW-specific patches.
 Patch1000:      mingw32-gnutls-2.6.3-certtool-build.patch
 
-BuildRequires:  mingw32-filesystem >= 25
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-libgpg-error
@@ -127,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 19 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-4
+- +BR mingw32-gcc-c++
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-3
 - Include license.
 
