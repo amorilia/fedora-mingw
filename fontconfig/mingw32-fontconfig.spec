@@ -19,7 +19,7 @@ Patch0:         mingw32-fontconfig-2.6.0-remove-logfile.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 43-6
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-dlfcn

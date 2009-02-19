@@ -33,7 +33,7 @@ Patch1000:      mingw32-gmp-4.2.4-sscanf-test.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 41
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils

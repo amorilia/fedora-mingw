@@ -34,7 +34,7 @@ Patch2:         mingw32-inkscape-20081027-unhinted-fonts-for-wine.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 43
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils

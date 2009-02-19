@@ -22,7 +22,7 @@ Source0:        http://www.mpfr.org/mpfr-current/mpfr-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 41
+BuildRequires:  mingw32-filesystem >= 40
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
