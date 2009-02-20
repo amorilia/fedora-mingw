@@ -6,7 +6,7 @@
 
 Name:           mingw32-pango
 Version:        1.22.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -26,6 +26,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # wine %{_mingw32_bindir}/pango-querymodules.exe > pango.modules
 Source1:        pango.modules
 
+Patch1000:      pango_enable_static_build.patch
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 23
@@ -39,6 +41,9 @@ BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-glib2
 BuildRequires:  pkgconfig
 
+# These are required for the patch
+BuildRequires:  autoconf, automake, libtool
+
 Requires:       pkgconfig
 
 
@@ -46,13 +51,27 @@ Requires:       pkgconfig
 MinGW Windows Pango library.
 
 
+%package static
+Summary:        Static version of the MinGW Windows Pango library
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+Static version of the MinGW Windows Pango library.
+
+
 %prep
 %setup -q -n pango-%{version}
+%patch1000
+
+# Regenerate the configure script
+autoreconf --install --force
+libtoolize --install --force
 
 %build
 # Need to run the correct version of glib-mkenums.
 PATH=%{_mingw32_bindir}:$PATH \
-%{_mingw32_configure} --disable-static
+%{_mingw32_configure} --enable-static --enable-shared
 make %{?_smp_mflags}
 
 
@@ -71,7 +90,7 @@ rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc COPYING
 %{_mingw32_bindir}/libpango-1.0-0.dll
 %{_mingw32_bindir}/libpangocairo-1.0-0.dll
@@ -91,7 +110,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/pangocairo-1.0.def
 %{_mingw32_libdir}/pangoft2-1.0.def
 %{_mingw32_libdir}/pangowin32-1.0.def
-%{_mingw32_libdir}/pango/
+%dir %{_mingw32_libdir}/pango
+%dir %{_mingw32_libdir}/pango/1.6.0
+%dir %{_mingw32_libdir}/pango/1.6.0/modules
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-basic-win32.dll
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-basic-win32.dll.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-basic-win32.la
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-arabic-lang.dll
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-arabic-lang.dll.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-arabic-lang.la
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-indic-lang.dll
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-indic-lang.dll.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-indic-lang.la
 %{_mingw32_libdir}/pkgconfig/pango.pc
 %{_mingw32_libdir}/pkgconfig/pangocairo.pc
 %{_mingw32_libdir}/pkgconfig/pangoft2.pc
@@ -101,7 +131,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_sysconfdir}/pango/
 
 
+%files static
+%defattr(-,root,root,-)
+%{_mingw32_libdir}/libpango-1.0.a
+%{_mingw32_libdir}/libpangocairo-1.0.a
+%{_mingw32_libdir}/libpangoft2-1.0.a
+%{_mingw32_libdir}/libpangowin32-1.0.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-basic-win32.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-arabic-lang.a
+%{_mingw32_libdir}/pango/1.6.0/modules/pango-indic-lang.a
+  
+
 %changelog
+* Fri Feb 20 2009 Erik van Pienbroek <info@nntpgrab.nl> - 1.22.1-6
+- Added -static subpackage
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-5
 - Rebuild for mingw32-gcc 4.4
 
