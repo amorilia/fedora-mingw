@@ -12,7 +12,7 @@
 
 Name:           mingw32-popt
 Version:        1.14
-Release:        0.2.cvs%{cvsdate}%{?dist}
+Release:        0.3.cvs%{cvsdate}%{?dist}
 Summary:        MinGW Windows C library for parsing command line parameters
 
 License:        MIT
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-0.3.cvs20081025
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.14-0.2.cvs20081025
 - Include license file.
 

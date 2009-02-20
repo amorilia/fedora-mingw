@@ -6,7 +6,7 @@
 
 Name:           mingw32-xerces-c
 Version:        2.8.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Validating XML parser
 
 License:        ASL 2.0
@@ -118,5 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-4
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8.0-3
 - Initial RPM release.

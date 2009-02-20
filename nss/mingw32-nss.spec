@@ -12,7 +12,7 @@
 
 Name:           mingw32-nss
 Version:        3.12.2.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows port of NSS (Network Security Services)
 
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -316,6 +316,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-6
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 3.12.2.0-5
 - Fix to build in mock.
 

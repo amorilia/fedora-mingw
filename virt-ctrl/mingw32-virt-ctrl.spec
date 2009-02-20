@@ -6,7 +6,7 @@
 
 Name:           mingw32-virt-ctrl
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of virt-ctrl
 
 License:        GPLv2+
@@ -78,5 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-2
+- Rebuild for mingw32-gcc 4.4
+
 * Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 1.0.1-1
 - Initial RPM release.

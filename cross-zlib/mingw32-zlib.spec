@@ -6,7 +6,7 @@
 
 Name:           mingw32-zlib
 Version:        1.2.3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Cross-compiled zlib compression library
 
 License:        zlib
@@ -165,6 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-14
+- Rebuild for mingw32-gcc 4.4
+
 * Mon Jan 19 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-12
 - Force rebuild to test maintenance account.
 

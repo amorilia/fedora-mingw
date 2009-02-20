@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-xml-light
 Version:        2.2.cvs20070817
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows minimal XML parser and printer for OCaml
 
 License:        LGPLv2+
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.cvs20070817-4
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 2.2cvs20070817-3
 - Rebuild against latest OCaml cross-compiler.
 

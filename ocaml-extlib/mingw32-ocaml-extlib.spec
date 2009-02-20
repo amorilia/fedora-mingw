@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-extlib
 Version:        1.5.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of OCaml ExtLib
 
 License:        LGPLv2+ with exceptions
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.5.1-4
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.5.1-3
 - Rebuild with latest OCaml cross-compiler.
 

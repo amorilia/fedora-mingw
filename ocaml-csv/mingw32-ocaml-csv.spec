@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-csv
 Version:        1.1.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows OCaml library for reading and writing CSV files
 
 License:        LGPLv2+
@@ -79,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.1.7-4
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.1.7-3
 - Rebuild with latest OCaml cross-compiler.
 

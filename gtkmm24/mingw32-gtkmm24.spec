@@ -6,7 +6,7 @@
 
 Name:           mingw32-gtkmm24
 Version:        2.14.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows C++ interface for GTK2 (a GUI library for X)
 
 License:        LGPLv2+
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-5
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.14.1-4
 - Include license file.
 

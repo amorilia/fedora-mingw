@@ -11,7 +11,7 @@
 
 Name:           mingw32-inkscape
 Version:        0.47
-Release:        0.1.svn%{svnrev}%{?dist}
+Release:        0.2.svn%{svnrev}%{?dist}
 Summary:        MinGW Windows port of Inkscape vector graphics editor
 
 License:        LGPLv2+
@@ -110,5 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.47-0.2.svn20568
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Jan 25 2009 Richard W.M. Jones <rjones@redhat.com> - 0.47-0.1.svn20568
 - Initial RPM release.

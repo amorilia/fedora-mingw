@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-lablgtk
 Version:        2.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of LablGTK, OCaml interface to Gtk+
 
 License:        LGPLv2 with exceptions
@@ -126,5 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.10.1-2
+- Rebuild for mingw32-gcc 4.4
+
 * Mon Nov 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.10.1-1
 - Initial RPM release.

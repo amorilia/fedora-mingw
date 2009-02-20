@@ -6,7 +6,7 @@
 
 Name:           mingw32-curl
 Version:        7.18.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows port of curl and libcurl
 
 License:        MIT
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-6
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-5
 - Include license.
 

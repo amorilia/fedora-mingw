@@ -11,7 +11,7 @@
 
 Name:           mingw32-flexdll
 Version:        0.11
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        FlexDLL Windows DLL plugin API which is like dlopen
 
 License:        zlib
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.11-9
+- Rebuild for mingw32-gcc 4.4
+
 * Mon Nov 17 2008 Richard W.M. Jones <rjones@redhat.com> - 0.11-8
 - Apply real-objdump patch.
 

@@ -15,7 +15,7 @@
 
 Name:           mingw32-python3
 Version:        3.1
-Release:        0.1.svn%{py3kdate}.%{?dist}
+Release:        0.2.svn%{py3kdate}.%{?dist}
 Summary:        MinGW Windows port of Python 3 programming language
 
 License:        Python
@@ -170,5 +170,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 3.1-0.2.svn20081210.
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Oct 24 2008 Richard W.M. Jones <rjones@redhat.com> - 2.5.2-1
 - Initial RPM release.

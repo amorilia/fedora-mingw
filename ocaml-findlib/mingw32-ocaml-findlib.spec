@@ -18,7 +18,7 @@
 
 Name:           mingw32-ocaml-findlib
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Objective CAML package manager and build helper
 
 License:        BSD
@@ -136,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-2
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 1.2.3-1
 - New upstream release 1.2.3.
 - Rebuild against the latest OCaml cross-compiler.

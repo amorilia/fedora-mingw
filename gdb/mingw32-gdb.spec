@@ -6,7 +6,7 @@
 
 Name:           mingw32-gdb
 Version:        6.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW port of the GNU debugger (gdb)
 
 License:        GPLv2+
@@ -72,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 6.8-4
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Sep 24 2008 Richard W.M. Jones <rjones@redhat.com> - 6.8-3
 - Rename mingw -> mingw32.
 

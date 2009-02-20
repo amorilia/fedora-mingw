@@ -6,7 +6,7 @@
 
 Name:           mingw32-xqilla
 Version:        2.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XQilla is an XQuery and XPath 2.0 library, built on top of Xerces-C
 
 License:        ASL 2.0
@@ -127,5 +127,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-2
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-1
 - Initial RPM release.

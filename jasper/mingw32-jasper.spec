@@ -6,7 +6,7 @@
 
 Name:           mingw32-jasper
 Version:        1.900.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-7
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-6
 - Use _smp_mflags.
 - Disable static libraries.

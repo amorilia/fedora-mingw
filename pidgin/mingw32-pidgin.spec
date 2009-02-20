@@ -6,7 +6,7 @@
 
 Name:           mingw32-pidgin
 Version:        2.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows port of Pidgin (ne Gaim)
 
 License:        GPLv2+
@@ -64,5 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.5.2-2
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Sep 24 2008 Your Name <you@example.com> - 1.2.3-1
 - Initial RPM release.

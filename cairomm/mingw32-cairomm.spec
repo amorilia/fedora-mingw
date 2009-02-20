@@ -6,7 +6,7 @@
 
 Name:           mingw32-cairomm
 Version:        1.6.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows C++ API for the cairo graphics library
 
 License:        LGPLv2+
@@ -62,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.6.2-5
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.6.2-4
 - Include license.
 

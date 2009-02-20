@@ -6,7 +6,7 @@
 
 Name:           mingw32-fontconfig
 Version:        2.6.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/doc/fontconfig
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-9
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-8
 - Include license.
 

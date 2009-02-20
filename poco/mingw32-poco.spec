@@ -6,7 +6,7 @@
 
 Name:           mingw32-poco
 Version:        1.3.3p1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows C++ libraries for network-centric applications
 
 License:        Boost
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-3
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-2
 - Include license.
 

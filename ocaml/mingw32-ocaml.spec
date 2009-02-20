@@ -8,7 +8,7 @@
 
 Name:           mingw32-ocaml
 Version:        3.11.0
-Release:        0.15.beta1%{?dist}
+Release:        0.16.beta1%{?dist}
 Summary:        Objective Caml MinGW cross-compiler and programming environment
 
 License:        QPL and (LGPLv2+ with exceptions)
@@ -223,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 3.11.0-0.16.beta1
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 3.11.0-0.15.beta1
 - Use the proper package naming convention, since '+' etc shouldn't be
   in the name, as per Fedora packaging guidelines.  Note that this won't

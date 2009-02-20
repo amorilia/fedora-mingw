@@ -10,7 +10,7 @@
 
 Name:           mingw32-mpfr
 Version:        2.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Windows port of multiple-precision floating-point computations
 
 License:        LGPLv2+ and GPLv2+ and GFDL
@@ -96,5 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.3.2-2
+- Rebuild for mingw32-gcc 4.4
+
 * Wed Jan 28 2009 Richard W.M. Jones <rjones@redhat.com> - 2.3.2-1
 - Initial RPM release (on behalf of Ralf Corsepius).

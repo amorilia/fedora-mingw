@@ -6,7 +6,7 @@
 
 Name:           mingw32-gsl
 Version:        1.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of the GNU Scientific Library
 
 License:        LGPLv2+
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.11-4
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.11-3
 - Include license.
 

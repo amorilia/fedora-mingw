@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-calendar
 Version:        2.0.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows OCaml library for managing dates and times
 
 License:        LGPLv2+
@@ -67,6 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-5
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-4
 - Rebuild with newly named mingw32-ocaml cross-compiler.
 

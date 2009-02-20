@@ -1,6 +1,6 @@
 Name:           mingw32-nsiswrapper
 Version:        3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Helper program for making NSIS Windows installers
 
 License:        GPLv2+
@@ -65,5 +65,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 3-3
+- Rebuild for mingw32-gcc 4.4
+
 * Thu Oct 16 2008 Richard W.M. Jones <rjones@redhat.com> - 3-2
 - Initial RPM release.

@@ -6,7 +6,7 @@
 
 Name:           mingw32-libvirt
 Version:        0.5.1
-Release:        3%{?dist}%{?extra_release}
+Release:        4%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -96,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.5.1-4
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Jan 30 2009 Richard Jones <rjones@redhat.com> - 0.5.1-3
 - Include license file.
 

@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-libvirt
 Version:        0.4.4.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of OCaml binding for libvirt
 
 License:        LGPLv2+
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.4.4.2-4
+- Rebuild for mingw32-gcc 4.4
+
 * Sun Nov 23 2008 Richard W.M. Jones <rjones@redhat.com> - 0.4.4.2-3
 - Rebuild against latest OCaml cross-compiler.
 

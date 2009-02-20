@@ -6,7 +6,7 @@
 
 Name:           mingw32-virt-top
 Version:        1.0.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows port of top(1) for virtualization stats
 
 License:        GPLv2+
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.0.3-5
+- Rebuild for mingw32-gcc 4.4
+
 * Tue Jan 27 2009 Levente Farkas <lfarkas@lfarkas.org> - 1.0.3-4
 - Rename win32 binaries.
 

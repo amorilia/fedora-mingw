@@ -3,7 +3,7 @@
 
 Name:           mingw32-nsis
 Version:        2.43
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Nullsoft Scriptable Install System
 
 License:        zlib and CPL
@@ -77,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.43-2
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb 13 2009 Levente Farkas <lfarkas@lfarkas.org> - 2.43-1
 - update to the latest upstream
 

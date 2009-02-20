@@ -6,7 +6,7 @@
 
 Name:           mingw32-pango
 Version:        1.22.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-5
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Jan 30 2009 Richard W.M. Jones <rjones@redhat.com> - 1.22.1-4
 - Requires pkgconfig.
 

@@ -17,7 +17,7 @@
 
 Name:           mingw32-qt-win
 Version:        4.4.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Qt for Windows
 
 License:        GPLv2+
@@ -184,6 +184,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-4
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-3
 - Fix required for older W32API in Fedora 10.
 

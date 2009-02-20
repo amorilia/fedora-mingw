@@ -6,7 +6,7 @@
 
 Name:           mingw32-portablexdr
 Version:        4.0.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows PortableXDR XDR / RPC library
 
 License:        LGPLv2+
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 4.0.11-4
+- Rebuild for mingw32-gcc 4.4
+
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 4.0.11-3
 - Include license file.
 

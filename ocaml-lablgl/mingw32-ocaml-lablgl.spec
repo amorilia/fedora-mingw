@@ -6,7 +6,7 @@
 
 Name:           mingw32-ocaml-lablgl
 Version:        1.03
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows port of LablGL is an OpenGL interface
 
 License:        BSD
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.03-5
+- Rebuild for mingw32-gcc 4.4
+
 * Sat Jan 24 2009 Richard W.M. Jones <rjones@redhat.com> - 1.03-4
 - Disable GLUT since the library has been dropped from w32api.
 
