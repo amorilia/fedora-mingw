@@ -140,6 +140,7 @@ pthreads/pthreads-w32-2-8-0-release.tar.gz
 python/Python-2.5.2.tar.bz2
 qpidc/qpidc-0.4.738618.tar.gz
 qt-win/qt-win-opensource-src-4.4.3.zip
+qt-win/qt-win-opensource-src-4.5.0-rc1.zip
 qt-win/Makefile
 qt-win/Makefile.Debug
 qt-win/Makefile.Release
