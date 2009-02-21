@@ -32,6 +32,9 @@ Patch1:         mingw32-inkscape-20081027-paths.patch
 # supported getting the outline of unhinted fonts.
 Patch2:         mingw32-inkscape-20081027-unhinted-fonts-for-wine.patch
 
+# Fixes for gcc 4.4
+Patch3:         mingw32-inkscape-20568-gcc44.patch
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 40
@@ -76,6 +79,7 @@ community-oriented development.
 #%patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p1
 
 ./autogen.sh
 
