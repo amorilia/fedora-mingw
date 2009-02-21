@@ -17,7 +17,7 @@
 
 Name:           mingw32-qt-win
 Version:        4.5.0
-Release:        0.1.rc1.%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        Qt for Windows
 
 License:        GPLv2+
@@ -176,7 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 4.5.0-0.1.rc1
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 4.5.0-0.2.rc1
 - Update to Qt 4.5.0-rc1.
 
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-4
