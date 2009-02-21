@@ -6,7 +6,7 @@
 
 Name:           mingw32-boost
 Version:        1.34.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows port of Boost C++ Libraries
 
 License:        Boost
@@ -21,6 +21,9 @@ Patch1:         boost-gcc-soname.patch
 Patch3:         boost-run-tests.patch
 Patch4:         boost-regex.patch
 Patch5:         boost-gcc43.patch
+
+# For GCC 4.4, https://svn.boost.org/trac/boost/ticket/2069
+Patch1000:      svn-r48960.diff
 
 BuildArch:      noarch
 
@@ -54,6 +57,8 @@ Standards Committee's upcoming C++ Standard Library Technical Report.)
 %patch3 -p0
 %patch4 -p0
 %patch5 -p1
+
+%patch1000 -p2
 
 
 %build
@@ -186,7 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-5
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-6
 - Rebuild for mingw32-gcc 4.4
 
 * Fri Jan 23 2009 Richard W.M. Jones <rjones@redhat.com> - 1.34.1-4
