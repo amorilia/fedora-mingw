@@ -6,7 +6,7 @@
 
 Name:           mingw32-xqilla
 Version:        2.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        XQilla is an XQuery and XPath 2.0 library, built on top of Xerces-C
 
 License:        ASL 2.0
@@ -26,6 +26,9 @@ Patch1001:      xqilla-xmark-test-win32.patch
 # reasons unknown the symbols never get added to the libxqilla.dll.a
 # implib.  The patch disables those sample programs.
 Patch1002:      xqilla-no-xqc-tests.patch
+
+# XQLexer uses EOF symbol from stdio.
+Patch1003:      xqilla-lexer-cstdio.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -57,6 +60,7 @@ popd
 
 %patch1001 -p1
 %patch1002 -p1
+%patch1003 -p1
 
 
 %build
@@ -127,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-2
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-3
 - Rebuild for mingw32-gcc 4.4
 
 * Wed Feb 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-1
