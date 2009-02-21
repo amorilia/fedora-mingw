@@ -33,13 +33,20 @@ BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-iconv
-BuildRequires:  mingw32-gettext
+
 BuildRequires:  mingw32-cairo >= 1.8.0
-BuildRequires:  mingw32-freetype
+BuildRequires:  mingw32-expat
 BuildRequires:  mingw32-fontconfig
+BuildRequires:  mingw32-freetype
+BuildRequires:  mingw32-gettext
 BuildRequires:  mingw32-glib2
+BuildRequires:  mingw32-iconv
+BuildRequires:  mingw32-libpng
+BuildRequires:  mingw32-pixman
 BuildRequires:  pkgconfig
+
+# Required in order to rebuild the configure script.
+BuildRequires:  gtk-doc
 
 # These are required for the patch
 BuildRequires:  autoconf, automake, libtool
@@ -65,8 +72,10 @@ Static version of the MinGW Windows Pango library.
 %patch1000
 
 # Regenerate the configure script
-autoreconf --install --force
-libtoolize --install --force
+aclocal
+autoreconf
+libtoolize
+
 
 %build
 # Need to run the correct version of glib-mkenums.
@@ -88,6 +97,7 @@ rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
 
 %files
 %defattr(-,root,root,-)
