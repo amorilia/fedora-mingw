@@ -31,7 +31,7 @@
 
 Name:           darwinx-odcctools
 Version:        %{odcc_version}
-Release:        0.%{odcc_stamp}.5%{?dist}
+Release:        0.%{odcc_stamp}.6%{?dist}
 Summary:        Darwin (Mac OS X) cross-compiler tools
 
 License:        APSL 2.0
@@ -57,7 +57,7 @@ BuildRequires:  elfutils, kernel-headers, libstdc++-devel
 
 # Temporary hack for smock on x86_64.
 BuildRequires:  /usr/include/gnu/stubs-32.h
-BuildRequires:  /usr/lib/gcc/i386-redhat-linux
+BuildRequires:  /usr/lib/gcc/i586-redhat-linux
 
 Requires:       darwinx-filesystem >= 1
 
@@ -134,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 590.36-0.20060413.6
+- Fedora Rawhide now uses 'i586' as arch for 32-bit gcc.
+
 * Sun Feb 15 2009 Richard W.M. Jones <rjones@redhat.com> - 590.36-0.20060413.5
 - Build as a 32 bit binary.
 - Add note about upstream versions.
