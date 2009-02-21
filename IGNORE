@@ -4,6 +4,7 @@ cross-zlib
 darwinx-gcc
 dbus
 gdb
+libuuid
 mingw64-gcc-bootstrap
 pidgin
 python
