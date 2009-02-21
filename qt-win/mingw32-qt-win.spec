@@ -16,15 +16,15 @@
 %define subdirs src/corelib src/xml src/network src/gui src/winmain
 
 Name:           mingw32-qt-win
-Version:        4.4.3
-Release:        4%{?dist}
+Version:        4.5.0
+Release:        0.1.rc1.%{?dist}
 Summary:        Qt for Windows
 
 License:        GPLv2+
 Group:          Development/Libraries
 
 URL:            http://www.qtsoftware.com/
-Source0:        ftp://ftp.trolltech.no/qt/source/qt-win-opensource-src-%{version}.zip
+Source0:        ftp://ftp.trolltech.no/qt/source/qt-win-opensource-src-%{version}-rc1.zip
 
 # To make the configure patch - see below.
 Source1:        qt-win-configure.sh
@@ -44,15 +44,7 @@ Source4:        qplatformdefs.h
 # Generate this patch using "qt-win-configure.sh".
 Patch0:         qt-win-configure.patch
 
-# The released source contains multiple, blatant build bugs which have
-# been fixed (further) upstream months ago.  Urgghhh.  These patches
-# fix them.
-Patch10:        mingw32-qt-4.4.3-atomic-volatile.patch
 Patch11:        mingw32-qt-4.4.3-no-fpu-functions.patch
-Patch12:        mingw32-qt-4.4.3-wininput.patch
-
-# http://lists-archives.org/mingw-users/11845-problem-compile-qt-4-4-2-with-latest-w32api.html
-Patch20:        mingw32-qt-4.4.3-subauth.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -63,7 +55,11 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
 
 # For the native qmake, moc programs.
+# Note that the precise same native version is required - eg. moc will
+# not work unless it's the same version.
+#BuildRequires:  qt-devel = %{version}  Stupid, can't write this ...
 BuildRequires:  qt-devel
+
 BuildRequires:  zip
 BuildRequires:  dos2unix
 
@@ -82,17 +78,13 @@ Fedora Windows cross-compiler.
 
 
 %prep
-%setup -q -n qt-win-opensource-src-%{version}
+%setup -q -n qt-win-opensource-src-%{version}-rc1
 
 %patch0 -p1
 
-%patch10 -p1
 %patch11 -p1
-%patch12 -p1
 
-%patch20 -p1
-
-for f in changes-%{version} LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT OPENSOURCE-NOTICE.TXT README; do
+for f in LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT OPENSOURCE-NOTICE.TXT README; do
   dos2unix --keepdate $f
 done
 
@@ -163,7 +155,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc changes-%{version} configure.output
+%doc configure.output
 %doc LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT
 %doc OPENSOURCE-NOTICE.TXT README
 %{_mingw32_bindir}/QtCore4.dll
@@ -184,6 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 4.5.0-0.1.rc1
+- Update to Qt 4.5.0-rc1.
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 4.4.3-4
 - Rebuild for mingw32-gcc 4.4
 

@@ -1,6 +1,6 @@
-diff -urN qt-win-opensource-src-4.4.3.orig/configure.cache qt-win-opensource-src-4.4.3/configure.cache
---- qt-win-opensource-src-4.4.3.orig/configure.cache	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/configure.cache	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/configure.cache qt-win-opensource-src-4.5.0-rc1/configure.cache
+--- qt-win-opensource-src-4.5.0-rc1.orig/configure.cache	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/configure.cache	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1,30 @@
 +-platform 
 +fedora-win32-cross 
@@ -32,11 +32,11 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.cache qt-win-opensource-src
 +-no-sse2 
 +-release 
 +-shared 
-diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-src-4.4.3/configure.output
---- qt-win-opensource-src-4.4.3.orig/configure.output	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/configure.output	2009-02-02 14:39:05.000000000 +0000
-@@ -0,0 +1,119 @@
-+Xlib:  extension "Generic Event Extension" missing on display "localhost:10.0".
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/configure.output qt-win-opensource-src-4.5.0-rc1/configure.output
+--- qt-win-opensource-src-4.5.0-rc1.orig/configure.output	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/configure.output	2009-02-21 11:25:13.000000000 +0000
+@@ -0,0 +1,122 @@
++Xlib:  extension "Generic Event Extension" missing on display "localhost:13.0".
 +
 +This is the Qt for Windows Open Source Edition.
 +
@@ -60,8 +60,8 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-sr
 +      C:\windows
 +      Z:\usr\i686-pc-mingw32\sys-root\mingw\bin
 +You are licensed to use this software under the terms of the GNU GPL version 2 or 3.
-+See Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.4.3/LICENSE.GPL2
-+ or Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.4.3/LICENSE.GPL3
++See Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.5.0-rc1/LICENSE.GPL2
++ or Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.5.0-rc1/LICENSE.GPL3
 +
 +Configuration:
 +    dist-config
@@ -79,6 +79,7 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-sr
 +    qt3support
 +    opengl
 +    ipv6
++    scripttools
 +    xmlpatterns
 +    svg
 +    minimal-config
@@ -107,6 +108,8 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-sr
 +QtXmlPatterns support.......yes
 +Phonon support..............no
 +WebKit support..............no
++QtScriptTools support.......yes
++Graphics System.............raster
 +Qt3 compatibility...........yes
 +
 +Third Party Libraries:
@@ -139,8 +142,8 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-sr
 +    SQLite2.................no
 +    InterBase...............no
 +
-+Sources are in..............Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.4.3
-+Build is done in............Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.4.3
++Sources are in..............Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.5.0-rc1
++Build is done in............Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.5.0-rc1
 +Install prefix............../usr/i686-pc-mingw32/sys-root/mingw
 +Headers installed to......../usr/i686-pc-mingw32/sys-root/mingw/include
 +Libraries installed to....../usr/i686-pc-mingw32/sys-root/mingw/lib
@@ -155,19 +158,19 @@ diff -urN qt-win-opensource-src-4.4.3.orig/configure.output qt-win-opensource-sr
 +Processing of project files have been disabled.
 +Only use this option if you really know what you're doing.
 +
-diff -urN qt-win-opensource-src-4.4.3.orig/include/Qt/qconfig.h qt-win-opensource-src-4.4.3/include/Qt/qconfig.h
---- qt-win-opensource-src-4.4.3.orig/include/Qt/qconfig.h	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/include/Qt/qconfig.h	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/include/Qt/qconfig.h qt-win-opensource-src-4.5.0-rc1/include/Qt/qconfig.h
+--- qt-win-opensource-src-4.5.0-rc1.orig/include/Qt/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/include/Qt/qconfig.h	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1 @@
 +#include "../../src/corelib/global/qconfig.h"
-diff -urN qt-win-opensource-src-4.4.3.orig/include/QtCore/qconfig.h qt-win-opensource-src-4.4.3/include/QtCore/qconfig.h
---- qt-win-opensource-src-4.4.3.orig/include/QtCore/qconfig.h	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/include/QtCore/qconfig.h	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/include/QtCore/qconfig.h qt-win-opensource-src-4.5.0-rc1/include/QtCore/qconfig.h
+--- qt-win-opensource-src-4.5.0-rc1.orig/include/QtCore/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/include/QtCore/qconfig.h	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1 @@
 +#include "../../src/corelib/global/qconfig.h"
-diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qmake.conf qt-win-opensource-src-4.4.3/mkspecs/default/qmake.conf
---- qt-win-opensource-src-4.4.3.orig/mkspecs/default/qmake.conf	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/mkspecs/default/qmake.conf	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/default/qmake.conf qt-win-opensource-src-4.5.0-rc1/mkspecs/default/qmake.conf
+--- qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/default/qmake.conf	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/mkspecs/default/qmake.conf	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1,109 @@
 +#
 +# qmake configuration for fedora-win32-cross
@@ -277,10 +280,10 @@ diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qmake.conf qt-win-ope
 +QMAKE_STRIPFLAGS_LIB 	+= --strip-unneeded
 +load(qt_config)
 +
-+QMAKESPEC_ORIGINAL=Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.4.3/mkspecs/fedora-win32-cross
-diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qplatformdefs.h qt-win-opensource-src-4.4.3/mkspecs/default/qplatformdefs.h
---- qt-win-opensource-src-4.4.3.orig/mkspecs/default/qplatformdefs.h	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/mkspecs/default/qplatformdefs.h	2009-02-02 14:39:01.000000000 +0000
++QMAKESPEC_ORIGINAL=Z:/home/rjones/d/fedora-mingw--devel/qt-win/qt-win-opensource-src-4.5.0-rc1/mkspecs/fedora-win32-cross
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/default/qplatformdefs.h qt-win-opensource-src-4.5.0-rc1/mkspecs/default/qplatformdefs.h
+--- qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/default/qplatformdefs.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/mkspecs/default/qplatformdefs.h	2009-02-21 11:25:06.000000000 +0000
 @@ -0,0 +1,160 @@
 +/****************************************************************************
 +**
@@ -442,24 +445,24 @@ diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/default/qplatformdefs.h qt-wi
 +
 +
 +#endif // QPLATFORMDEFS_H
-diff -urN qt-win-opensource-src-4.4.3.orig/mkspecs/qconfig.pri qt-win-opensource-src-4.4.3/mkspecs/qconfig.pri
---- qt-win-opensource-src-4.4.3.orig/mkspecs/qconfig.pri	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/mkspecs/qconfig.pri	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/qconfig.pri qt-win-opensource-src-4.5.0-rc1/mkspecs/qconfig.pri
+--- qt-win-opensource-src-4.5.0-rc1.orig/mkspecs/qconfig.pri	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/mkspecs/qconfig.pri	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1,11 @@
 +CONFIG+= release shared stl exceptions rtti
 +QT_ARCH = windows
 +QT_EDITION = OpenSource
-+QT_CONFIG += release zlib png accessibility qt3support opengl ipv6 xmlpatterns svg minimal-config small-config medium-config large-config full-config
++QT_CONFIG += release zlib png accessibility qt3support opengl ipv6 scripttools xmlpatterns svg minimal-config small-config medium-config large-config full-config
 +#versioning 
-+QT_VERSION = 4.4.3
++QT_VERSION = 4.5.0-rc1
 +QT_MAJOR_VERSION = 4
-+QT_MINOR_VERSION = 4
-+QT_PATCH_VERSION = 3
++QT_MINOR_VERSION = 5
++QT_PATCH_VERSION = 0
 +#Qt for Windows CE c-runtime deployment
 +QT_CE_C_RUNTIME = no
-diff -urN qt-win-opensource-src-4.4.3.orig/.qmake.cache qt-win-opensource-src-4.4.3/.qmake.cache
---- qt-win-opensource-src-4.4.3.orig/.qmake.cache	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/.qmake.cache	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/.qmake.cache qt-win-opensource-src-4.5.0-rc1/.qmake.cache
+--- qt-win-opensource-src-4.5.0-rc1.orig/.qmake.cache	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/.qmake.cache	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1,20 @@
 +QMAKE_QT_VERSION_OVERRIDE = 4
 +OBJECTS_DIR     = tmp\obj\release_shared
@@ -470,10 +473,10 @@ diff -urN qt-win-opensource-src-4.4.3.orig/.qmake.cache qt-win-opensource-src-4.
 +imageformat-plugins += gif tiff jpeg
 +CONFIG         += dist-config large-config medium-config minimal-config small-config full-config release incremental create_prl link_prl depend_includepath QTDIR_build
 +QT_BUILD_PARTS  = libs tools examples demos docs translations
-+QMAKESPEC       = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.4.3\mkspecs\fedora-win32-cross
++QMAKESPEC       = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.5.0-rc1\mkspecs\fedora-win32-cross
 +ARCH            = windows
-+QT_BUILD_TREE   = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.4.3
-+QT_SOURCE_TREE  = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.4.3
++QT_BUILD_TREE   = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.5.0-rc1
++QT_SOURCE_TREE  = Z:\home\rjones\d\fedora-mingw--devel\qt-win\qt-win-opensource-src-4.5.0-rc1
 +QMAKE_MOC       = $$QT_BUILD_TREE\bin\moc.exe
 +QMAKE_UIC       = $$QT_BUILD_TREE\bin\uic.exe
 +QMAKE_UIC3      = $$QT_BUILD_TREE\bin\uic3.exe
@@ -481,9 +484,9 @@ diff -urN qt-win-opensource-src-4.4.3.orig/.qmake.cache qt-win-opensource-src-4.
 +QMAKE_DUMPCPP   = $$QT_BUILD_TREE\bin\dumpcpp.exe
 +QMAKE_INCDIR_QT = $$QT_BUILD_TREE\include
 +QMAKE_LIBDIR_QT = $$QT_BUILD_TREE\lib
-diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.cpp qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.cpp
---- qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.cpp	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.cpp	2009-02-02 14:39:05.000000000 +0000
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/src/corelib/global/qconfig.cpp qt-win-opensource-src-4.5.0-rc1/src/corelib/global/qconfig.cpp
+--- qt-win-opensource-src-4.5.0-rc1.orig/src/corelib/global/qconfig.cpp	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/src/corelib/global/qconfig.cpp	2009-02-21 11:25:13.000000000 +0000
 @@ -0,0 +1,27 @@
 +/* Licensed */
 +static const char qt_configure_licensee_str          [512 + 12] = "qt_lcnsuser=Open Source";
@@ -512,10 +515,10 @@ diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.cpp qt-win
 +#define QT_CONFIGURE_EXAMPLES_PATH qt_configure_examples_path_str + 12;
 +#define QT_CONFIGURE_DEMOS_PATH qt_configure_demos_path_str + 12;
 +
-diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.h
---- qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h	1970-01-01 01:00:00.000000000 +0100
-+++ qt-win-opensource-src-4.4.3/src/corelib/global/qconfig.h	2009-02-02 14:39:05.000000000 +0000
-@@ -0,0 +1,90 @@
+diff -urN qt-win-opensource-src-4.5.0-rc1.orig/src/corelib/global/qconfig.h qt-win-opensource-src-4.5.0-rc1/src/corelib/global/qconfig.h
+--- qt-win-opensource-src-4.5.0-rc1.orig/src/corelib/global/qconfig.h	1970-01-01 01:00:00.000000000 +0100
++++ qt-win-opensource-src-4.5.0-rc1/src/corelib/global/qconfig.h	2009-02-21 11:25:13.000000000 +0000
+@@ -0,0 +1,102 @@
 +/* Everything */
 +
 +#ifndef QT_DLL
@@ -552,6 +555,12 @@ diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h qt-win-o
 +
 +// Compile time features
 +#define QT_ARCH_WINDOWS
++#if defined(QT_GRAPHICSSYSTEM_RASTER) && defined(QT_NO_GRAPHICSSYSTEM_RASTER)
++# undef QT_GRAPHICSSYSTEM_RASTER
++#elif !defined(QT_GRAPHICSSYSTEM_RASTER)
++# define QT_GRAPHICSSYSTEM_RASTER
++#endif
++
 +#if defined(QT_NO_DBUS) && defined(QT_DBUS)
 +# undef QT_NO_DBUS
 +#elif !defined(QT_NO_DBUS)
@@ -574,6 +583,12 @@ diff -urN qt-win-opensource-src-4.4.3.orig/src/corelib/global/qconfig.h qt-win-o
 +# undef QT_NO_PHONON
 +#elif !defined(QT_NO_PHONON)
 +# define QT_NO_PHONON
++#endif
++
++#if defined(QT_NO_STYLE_GTK) && defined(QT_STYLE_GTK)
++# undef QT_NO_STYLE_GTK
++#elif !defined(QT_NO_STYLE_GTK)
++# define QT_NO_STYLE_GTK
 +#endif
 +
 +#if defined(QT_NO_STYLE_WINDOWSCE) && defined(QT_STYLE_WINDOWSCE)

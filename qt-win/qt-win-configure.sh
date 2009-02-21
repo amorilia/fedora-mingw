@@ -15,7 +15,7 @@
 #     error: #error "MMX instruction set not enabled"
 #   . Same as above for -no-sse and -no-sse2
 
-version=4.4.3
+version=4.5.0-rc1
 platform=fedora-win32-cross
 
 set -e
