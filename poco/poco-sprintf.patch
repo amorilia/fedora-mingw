@@ -1,0 +1,19 @@
+--- poco-1.3.3p1/Foundation/src/Environment.cpp	2008-10-09 17:11:22.000000000 +0100
++++ poco-1.3.3p1.mingw/Foundation/src/Environment.cpp	2009-02-21 10:28:33.000000000 +0000
+@@ -35,6 +35,7 @@
+ 
+ 
+ #include "Poco/Environment.h"
++#include <cstdio>
+ #include <cstdlib>
+ 
+ 
+@@ -108,7 +109,7 @@
+ 	NodeId id;
+ 	nodeId(id);
+ 	char result[18];
+-	std::sprintf(result, "%02x:%02x:%02x:%02x:%02x:%02x",
++	sprintf(result, "%02x:%02x:%02x:%02x:%02x:%02x",
+ 		id[0],
+ 		id[1],
+ 		id[2],

@@ -6,7 +6,7 @@
 
 Name:           mingw32-poco
 Version:        1.3.3p1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows C++ libraries for network-centric applications
 
 License:        Boost
@@ -18,6 +18,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Patch1001:      poco-01-buildsystem.patch
 Patch1002:      poco-02-makefiles.patch
 Patch1003:      poco-03-memcpy.patch
+Patch1004:      poco-sprintf.patch
 
 BuildArch:      noarch
 
@@ -54,6 +55,7 @@ cp build/config/MinGW build/config/MinGW-cross
 %patch1001 -p0
 %patch1002 -p0
 %patch1003 -p0
+%patch1004 -p1
 
 
 %build
@@ -99,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-3
+* Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-4
 - Rebuild for mingw32-gcc 4.4
 
 * Fri Feb  6 2009 Richard W.M. Jones <rjones@redhat.com> - 1.3.3p1-2
