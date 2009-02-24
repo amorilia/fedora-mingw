@@ -68,8 +68,12 @@ my %ignore_pending = ();
 open IGNORE, "IGNORE" or die "IGNORE: $!\n";
 while (<IGNORE>) {
     next if /^\#/ || /^$/;
-    m/(.*)/; # untaint
-    $ignore_pending{"mingw32-$1"} = 1;
+    if (/^cross-(.*)/) {
+	$ignore_pending{"mingw32-$1"} = 1;
+    } else {
+	m/(.*)/; # untaint
+	$ignore_pending{"mingw32-$1"} = 1;
+    }
 }
 close IGNORE;
 
