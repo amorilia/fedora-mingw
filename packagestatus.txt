@@ -1,4 +1,4 @@
-Status of packages in Fedora, EPEL and RHEL, last updated on 2009-02-09.
+Status of packages in Fedora, EPEL and RHEL, last updated on 2009-02-24.
 
 <html>
 <table class="top_table fedoratbl">
@@ -24,7 +24,7 @@ understand Windows executables and DLLs.
 " href="http://www.mingw.org/">mingw32-binutils</a><br/><small>MinGW Windows binutils</small></td>
 <td class="epelbg released">2.19</td>
 <td class="fedorabg released">2.19</td>
-<td class="develbg devel">2.19</td>
+<td class="develbg devel">2.19.1</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="Boost provides free peer-reviewed portable C++ source libraries.  The
@@ -80,6 +80,29 @@ Standard Template Library where it makes sense.
 <td class="develbg">&nbsp;</td>
 <td class="pendingbg pending">1.6.2</td>
 </tr>
+<tr><td><a title="CrossReport is a tool to help you analyze the APIs used by a compiled
+Linux program, in order to work out the effort required to
+cross-compile that program for Windows, using the Fedora MinGW
+cross-compiler.
+
+The simplest way to use it is to point it at an existing Linux binary,
+and then read the generated report.
+
+What it does in more detail: It looks at the libraries and API calls
+used by the Linux binary, and compares them to the libraries and API
+calls that we currently support under the Fedora MinGW cross-compiler.
+It then works out what is missing, and produces a report suggesting
+the amount of work that needs to be done to port the program.  For
+example, whether whole libraries need to be ported first, and/or how
+to substitute individual calls to work on Windows.
+
+
+" href="http://fedoraproject.org/wiki/MinGW">mingw32-crossreport</a><br/><small>Analysis tool to help cross-compilation to Windows</small></td>
+<td class="epelbg released">6</td>
+<td class="fedorabg released">6</td>
+<td class="develbg devel">6</td>
+<td class="pendingbg">&nbsp;</td>
+</tr>
 <tr><td><a title="cURL is a tool for getting files from HTTP, FTP, FILE, LDAP, LDAPS,
 DICT, TELNET and TFTP servers, using any of the supported protocols.
 cURL is designed to work without user interaction or any kind of
@@ -131,7 +154,7 @@ This environment is maintained by the Fedora MinGW SIG at:
 " href="http://hg.et.redhat.com/misc/fedora-mingw--devel/">mingw32-filesystem</a><br/><small>MinGW base filesystem and environment</small></td>
 <td class="epelbg filesystem">40</td>
 <td class="fedorabg filesystem">40</td>
-<td class="develbg filesystem">46</td>
+<td class="develbg filesystem">49</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="Under Windows, DLL (Dynamically-Linked Libraries) are generally used
@@ -201,13 +224,13 @@ used as a garbage collecting replacement for C malloc or C++ new.
 <td class="develbg">&nbsp;</td>
 <td class="pendingbg pending">7.1</td>
 </tr>
-<tr><td><a title="MinGW Windows cross-compiler (GCC) for C
+<tr><td><a title="MinGW Windows cross-compiler (GCC) for C.
 
 
-" href="http://www.mingw.org/">mingw32-gcc</a><br/><small>MinGW Windows cross-compiler (GCC) for C</small></td>
+" href="http://gcc.gnu.org">mingw32-gcc</a><br/><small>MinGW Windows cross-compiler (GCC) for C</small></td>
 <td class="epelbg released">4.3.2</td>
 <td class="fedorabg released">4.3.2</td>
-<td class="develbg devel">4.3.2</td>
+<td class="develbg devel">4.4.0</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="Gdbm is a GNU database indexing library, including routines which use
@@ -235,7 +258,6 @@ This is the MinGW Windows port of the libraries and development tools.
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="MinGW Windows Glib2 library.
-
 
 " href="http://www.gtk.org">mingw32-glib2</a><br/><small>MinGW Windows GLib2 library</small></td>
 <td class="epelbg released">2.19.5</td>
@@ -299,19 +321,19 @@ allowing it to be completely asynchronous while remaining single threaded.
 
 
 " href="http://sourceforge.net/projects/gtk-vnc">mingw32-gtk-vnc</a><br/><small>MinGW Windows port of VNC client GTK widget</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">0.3.8</td>
+<td class="epelbg released">0.3.8</td>
+<td class="fedorabg released">0.3.8</td>
+<td class="develbg devel">0.3.8</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="MinGW Windows Gtk2 library.
 
 
 " href="http://www.gtk.org">mingw32-gtk2</a><br/><small>MinGW Windows Gtk2 library</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">2.15.0</td>
+<td class="epelbg released">2.15.0</td>
+<td class="fedorabg released">2.15.0</td>
+<td class="develbg devel">2.15.0</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="gtkmm provides a C++ interface to the GTK+ GUI library. gtkmm2 wraps
 GTK+ 2.  Highlights include typesafe callbacks, widgets extensible via
@@ -501,10 +523,10 @@ assembler code.
 
 
 " href="http://nsis.sourceforge.net/">mingw32-nsis</a><br/><small>Nullsoft Scriptable Install System</small></td>
-<td class="epelbg">&nbsp;</td>
-<td class="fedorabg">&nbsp;</td>
-<td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">2.39</td>
+<td class="epelbg released">2.43</td>
+<td class="fedorabg released">2.43</td>
+<td class="develbg devel">2.43</td>
+<td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="NSISWrapper is a helper program for making Windows installers,
 particularly when you are cross-compiling from Unix.
@@ -515,10 +537,35 @@ installer script that NSIS needs.
 
 
 " href="http://fedoraproject.org/wiki/MinGW">mingw32-nsiswrapper</a><br/><small>Helper program for making NSIS Windows installers</small></td>
+<td class="epelbg released">3</td>
+<td class="fedorabg released">3</td>
+<td class="develbg devel">3</td>
+<td class="pendingbg">&nbsp;</td>
+</tr>
+<tr><td><a title="NSPR provides platform independence for non-GUI operating system
+facilities. These facilities include threads, thread synchronization,
+normal file and network I/O, interval timing and calendar time, basic
+memory management (malloc and free) and shared library linking.
+
+
+" href="http://www.mozilla.org/projects/nspr/">mingw32-nspr</a><br/><small>MinGW Windows port of the Netscape Portable Runtime (NSPR)</small></td>
 <td class="epelbg">&nbsp;</td>
 <td class="fedorabg">&nbsp;</td>
 <td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">3</td>
+<td class="pendingbg pending">4.7.2</td>
+</tr>
+<tr><td><a title="Network Security Services (NSS) is a set of libraries designed to
+support cross-platform development of security-enabled client and
+server applications. Applications built with NSS can support SSL v2
+and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509
+v3 certificates, and other security standards.
+
+
+" href="http://www.mozilla.org/projects/security/pki/nss/">mingw32-nss</a><br/><small>MinGW Windows port of NSS (Network Security Services)</small></td>
+<td class="epelbg">&nbsp;</td>
+<td class="fedorabg">&nbsp;</td>
+<td class="develbg">&nbsp;</td>
+<td class="pendingbg pending">3.12.2.0</td>
 </tr>
 <tr><td><a title="Objective Caml is a high-level, strongly-typed, functional and
 object-oriented programming language from the ML family of languages.
@@ -784,7 +831,7 @@ Fedora Windows cross-compiler.
 <td class="epelbg">&nbsp;</td>
 <td class="fedorabg">&nbsp;</td>
 <td class="develbg">&nbsp;</td>
-<td class="pendingbg pending">4.4.3</td>
+<td class="pendingbg pending">4.5.0</td>
 </tr>
 <tr><td><a title="The Readline library provides a set of functions that allow users to
 edit command lines. Both Emacs and vi editing modes are available. The
@@ -808,7 +855,7 @@ This is a port of the library and development tools to Windows.
 " href="http://www.mingw.org/">mingw32-runtime</a><br/><small>MinGW Windows cross-compiler runtime</small></td>
 <td class="epelbg released">3.15.1</td>
 <td class="fedorabg released">3.15.1</td>
-<td class="develbg devel">3.15.1</td>
+<td class="develbg devel">3.15.2</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
 <tr><td><a title="Simple DirectMedia Layer (SDL) is a cross-platform multimedia library
@@ -865,6 +912,32 @@ cross-compiled version.
 <td class="develbg devel">3.13</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
+<tr><td><a title="Xerces-C is a validating XML parser written in a portable subset of
+C++. Xerces-C makes it easy to give your application the ability to
+read and write XML data. A shared library is provided for parsing,
+generating, manipulating, and validating XML documents. Xerces-C is
+faithful to the XML 1.0 recommendation and associated standards (DOM
+1.0, DOM 2.0. SAX 1.0, SAX 2.0, Namespaces).
+
+
+" href="http://xml.apache.org/xerces-c/">mingw32-xerces-c</a><br/><small>Validating XML parser</small></td>
+<td class="epelbg">&nbsp;</td>
+<td class="fedorabg">&nbsp;</td>
+<td class="develbg">&nbsp;</td>
+<td class="pendingbg pending">2.8.0</td>
+</tr>
+<tr><td><a title="XQilla is an XQuery and XPath 2.0 implementation written in C++ and based
+on Xerces-C. It implements the DOM 3 XPath API, as well as having it&#39;s own
+more powerful API. It conforms to the W3C proposed recomendation of XQuery
+and XPath 2.0.
+
+
+" href="http://xqilla.sourceforge.net/HomePage">mingw32-xqilla</a><br/><small>XQilla is an XQuery and XPath 2.0 library, built on top of Xerces-C</small></td>
+<td class="epelbg">&nbsp;</td>
+<td class="fedorabg">&nbsp;</td>
+<td class="develbg">&nbsp;</td>
+<td class="pendingbg pending">2.2.0</td>
+</tr>
 <tr><td><a title="MinGW Windows zlib compression library.
 
 
@@ -874,6 +947,6 @@ cross-compiled version.
 <td class="develbg devel">1.2.3</td>
 <td class="pendingbg">&nbsp;</td>
 </tr>
-<tr><td>Totals</td><td>28</td><td>28</td><td>28</td><td>41</td></tr>
+<tr><td>Totals</td><td>33</td><td>33</td><td>33</td><td>41</td></tr>
 </table>
 </html>
