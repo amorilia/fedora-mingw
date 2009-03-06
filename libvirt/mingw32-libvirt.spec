@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-libvirt
-Version:        0.5.1
-Release:        4%{?dist}%{?extra_release}
+Version:        0.6.1
+Release:        1%{?dist}%{?extra_release}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -55,8 +55,8 @@ MinGW Windows libvirt virtualization library.
   --without-xen \
   --without-qemu \
   --without-lxc \
-  --without-openvz \
   --without-uml \
+  --without-openvz \
   --without-libvirtd \
   --disable-static
 make %{?_smp_mflags}
@@ -87,6 +87,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/libvirt.dll.a
 %{_mingw32_libdir}/libvirt.la
 %{_mingw32_libdir}/pkgconfig/libvirt.pc
+
+%dir %{_mingw32_datadir}/libvirt/
+%dir %{_mingw32_datadir}/libvirt/schemas/
+%{_mingw32_datadir}/libvirt/schemas/domain.rng
+%{_mingw32_datadir}/libvirt/schemas/network.rng
+%{_mingw32_datadir}/libvirt/schemas/storagepool.rng
+%{_mingw32_datadir}/libvirt/schemas/storagevol.rng
+%{_mingw32_datadir}/libvirt/schemas/nodedev.rng
+%{_mingw32_datadir}/libvirt/schemas/capability.rng
 
 %dir %{_mingw32_includedir}/libvirt
 %{_mingw32_includedir}/libvirt/libvirt.h
