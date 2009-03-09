@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar  9 2009 Daniel Berrange <berrange@redhat.com> - 0.6.1-1
+- Rebase to Fedora native version 0.6.1.
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.5.1-4
 - Rebuild for mingw32-gcc 4.4
 
