@@ -6,7 +6,7 @@
 
 Name:           mingw32-jasper
 Version:        1.900.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -16,15 +16,17 @@ URL:            http://www.ece.uvic.ca/~mdadams/jasper/
 Source0:        http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-%{version}.zip
 
 # Patches from Fedora native package.
-Patch1:         jasper-1.701.0-GL.patch
+# OpenGL is disabled in this build, so we don't need this patch:
+#Patch1:         jasper-1.701.0-GL.patch
 # Note patch2 appears in native package, but is not applied:
 #Patch2:         jasper-1.701.0-GL-ac.patch
 Patch3:         patch-libjasper-stepsizes-overflow.diff
 
 # MinGW-specific patches.
+# This patch adds '-no-undefined' flag to libtool line:
 Patch1000:      jasper-1.900.1-mingw32.patch
+# This patch is a bit of a hack, but it's just there to fix a demo program:
 Patch1001:      jasper-1.900.1-sleep.patch
-Patch1002:      jasper-1.900.1-enable-shared.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -34,7 +36,6 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-libjpeg
 BuildRequires:  mingw32-dlfcn
-BuildRequires:  autoconf
 
 
 %description
@@ -43,17 +44,15 @@ MinGW Windows Jasper library.
 
 %prep
 %setup -q -n jasper-%{version}
-%patch1 -p1 -b .GL
 %patch3 -p1 -b .CVE-2007-2721
 
 %patch1000 -p1 -b .mingw32
 %patch1001 -p1 -b .sleep
-%patch1002 -p1 -b .shared
 
 
 %build
-autoconf
-%{_mingw32_configure} --disable-opengl --enable-libjpeg --disable-static
+%{_mingw32_configure} \
+  --disable-opengl --enable-libjpeg --disable-static --enable-shared
 make %{?_smp_mflags}
 
 
@@ -72,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc COPYRIGHT LICENSE NEWS README
 %{_mingw32_bindir}/i686-pc-mingw32-imgcmp.exe
 %{_mingw32_bindir}/i686-pc-mingw32-imginfo.exe
@@ -85,6 +84,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar  9 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-8
+- Fix defattr line.
+- Remove the enable-shared patch, and just use --enable-shared on
+  the configure line.
+- Disable the GL patch since OpenGL is disabled.
+- Document what the patches are for in the spec file.
+- Only patch Makefile.in so we don't have to rerun autotools, and
+  remove autotools dependency.
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.900.1-7
 - Rebuild for mingw32-gcc 4.4
 
