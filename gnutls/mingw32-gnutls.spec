@@ -5,15 +5,16 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-gnutls
-Version:        2.6.3
-Release:        5%{?dist}
-Summary:        MinGW Windows GnuTLS TLS/SSL encryption library
+Version:        2.6.4
+Release:        1%{?dist}
+Summary:        MinGW GnuTLS TLS/SSL encryption library
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gnutls.org/
 #Source0:        ftp://ftp.gnutls.org/pub/gnutls/gnutls-%{version}.tar.bz2
-# XXX patent tainted SRP code removed.
+# We use the same source tarball as Fedora native package, which
+# has the patent tainted SRP code removed.
 Source0:        gnutls-%{version}-nosrp.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -50,7 +51,8 @@ Requires:       pkgconfig
 
 
 %description
-MinGW Windows GnuTLS TLS/SSL encryption library.
+GnuTLS TLS/SSL encryption library.  This library is cross-compiled
+for MinGW.
 
 
 %prep
@@ -128,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar  9 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.4-1
+- New Fedora native version 2.6.4.
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.6.3-5
 - Rebuild for mingw32-gcc 4.4
 
