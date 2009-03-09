@@ -6,7 +6,7 @@
 
 Name:           mingw32-expat
 Version:        2.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of expat XML parser library
 
 License:        MIT
@@ -38,6 +38,8 @@ register handlers.
 rm -rf autom4te*.cache
 cp `aclocal --print-ac-dir`/libtool.m4 conftools || exit 1
 libtoolize --copy --force --automake && aclocal && autoheader && autoconf
+
+chmod -x COPYING
 
 
 %build
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar  9 2009 Richard W.M. Jones <rjones@redhat.com> - 2.0.1-4
+- Remove +x permissions on COPYING file.
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 2.0.1-3
 - Rebuild for mingw32-gcc 4.4
 
