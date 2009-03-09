@@ -1,2 +1,0 @@
-missing source: 'libgnutls-config'
-extra patch 'gnutls-certtool-build.patch'
