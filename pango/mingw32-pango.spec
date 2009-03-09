@@ -5,14 +5,14 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-pango
-Version:        1.22.1
-Release:        6%{?dist}
+Version:        1.23.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
-Source0:        http://download.gnome.org/sources/pango/1.21/pango-%{version}.tar.bz2
+Source0:        http://download.gnome.org/sources/pango/1.23/pango-%{version}.tar.bz2
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -35,6 +35,7 @@ BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 
 BuildRequires:  mingw32-cairo >= 1.8.0
+BuildRequires:  mingw32-dlfcn
 BuildRequires:  mingw32-expat
 BuildRequires:  mingw32-fontconfig
 BuildRequires:  mingw32-freetype
@@ -93,6 +94,8 @@ mkdir -p $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pango/
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_mingw32_sysconfdir}/pango/
 
 rm -f $RPM_BUILD_ROOT/%{_mingw32_libdir}/charset.alias
+
+rm $RPM_BUILD_ROOT/%{_mingw32_mandir}/man1/*.1
 
 
 %clean
@@ -164,7 +167,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_libdir}/pkgconfig/pangoft2.pc
 %{_mingw32_libdir}/pkgconfig/pangowin32.pc
 %{_mingw32_datadir}/gtk-doc/html/pango/
-%{_mingw32_mandir}/man1/pango-querymodules.1*
 %{_mingw32_sysconfdir}/pango/
 
 
@@ -189,6 +191,11 @@ rm -rf $RPM_BUILD_ROOT
   
 
 %changelog
+* Mon Mar  9 2009 Richard W.M. Jones <rjones@redhat.com> - 1.23.0-1
+- Remove man page which duplicates what is in base Fedora.
+- Rebase to 1.23.0 to match Fedora.
+- +BR mingw32-dlfcn.
+
 * Fri Feb 20 2009 Erik van Pienbroek <info@nntpgrab.nl> - 1.22.1-6
 - Added -static subpackage
 
