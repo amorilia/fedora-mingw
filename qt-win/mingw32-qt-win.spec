@@ -13,18 +13,18 @@
 #   from the native Fedora package.  The reason is so that we can
 #   set the default include and library paths correctly.
 
-%define subdirs src/corelib src/xml src/network src/gui src/winmain
+%define subdirs src/corelib src/xml src/network src/gui src/winmain src/svg src/sql src/qt3support
 
 Name:           mingw32-qt-win
 Version:        4.5.0
-Release:        0.2.rc1%{?dist}
+Release:        1%{?dist}
 Summary:        Qt for Windows
 
-License:        GPLv2+
+License:        GPLv3 with exceptions or LGPLv2 with exceptions
 Group:          Development/Libraries
 
 URL:            http://www.qtsoftware.com/
-Source0:        ftp://ftp.trolltech.no/qt/source/qt-win-opensource-src-%{version}-rc1.zip
+Source0:        ftp://ftp.trolltech.no/qt/source/qt-win-opensource-src-%{version}.zip
 
 # To make the configure patch - see below.
 Source1:        qt-win-configure.sh
@@ -78,13 +78,13 @@ Fedora Windows cross-compiler.
 
 
 %prep
-%setup -q -n qt-win-opensource-src-%{version}-rc1
+%setup -q -n qt-win-opensource-src-%{version}
 
 %patch0 -p1
 
 %patch11 -p1
 
-for f in LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT OPENSOURCE-NOTICE.TXT README; do
+for f in LICENSE.GPL3 LICENSE.LGPL LGPL_EXCEPTION.txt KNOWN.ISSUES README; do
   dos2unix --keepdate $f
 done
 
@@ -156,26 +156,38 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc configure.output
-%doc LICENSE.GPL2 LICENSE.GPL3 GPL_EXCEPTION_ADDENDUM.TXT GPL_EXCEPTION.TXT
-%doc OPENSOURCE-NOTICE.TXT README
+%doc LICENSE.GPL3 LICENSE.LGPL LGPL_EXCEPTION.txt KNOWN.ISSUES README
 %{_mingw32_bindir}/QtCore4.dll
 %{_mingw32_bindir}/QtGui4.dll
 %{_mingw32_bindir}/QtNetwork4.dll
 %{_mingw32_bindir}/QtXml4.dll
+%{_mingw32_bindir}/QtSvg4.dll
+%{_mingw32_bindir}/QtSql4.dll
+%{_mingw32_bindir}/Qt3Support4.dll
 %{_mingw32_libdir}/libQtCore4.a
 %{_mingw32_libdir}/libQtGui4.a
 %{_mingw32_libdir}/libQtNetwork4.a
 %{_mingw32_libdir}/libQtXml4.a
+%{_mingw32_libdir}/libQtSvg4.a
+%{_mingw32_libdir}/libQtSql4.a
+%{_mingw32_libdir}/libQt3Support4.a
 %{_mingw32_libdir}/libqtmain.a
 %{_mingw32_includedir}/Qt/
 %{_mingw32_includedir}/QtCore/
 %{_mingw32_includedir}/QtGui/
 %{_mingw32_includedir}/QtNetwork/
 %{_mingw32_includedir}/QtXml/
+%{_mingw32_includedir}/QtSvg/
+%{_mingw32_includedir}/QtSql/
+%{_mingw32_includedir}/Qt3Support/
 %{_libdir}/qt4/mkspecs/fedora-win32-cross
 
 
 %changelog
+* Thu Mar 12 2009 Thomas Sailer <t.sailer@alumni.ethz.ch> - 4.5.0-1
+- update to Qt 4.5.0 (release)
+- also build QtSvg, QtSql, Qt3Support
+
 * Sat Feb 21 2009 Richard W.M. Jones <rjones@redhat.com> - 4.5.0-0.2.rc1
 - Update to Qt 4.5.0-rc1.
 
