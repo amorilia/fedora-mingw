@@ -23,6 +23,7 @@ cairo/svgspacewar
 cairomm/cairomm-1.6.2.tar.gz
 cross-zlib/zlib-1.2.3.tar.gz
 curl/curl-7.18.2.tar.bz2
+curl/curl-7.19.4.tar.bz2
 curl/test1
 darwinx-gcc/gcc_42-5566.tar.gz
 dlfcn/dlfcn-win32-r11.tar.bz2
