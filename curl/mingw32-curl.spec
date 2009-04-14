@@ -5,8 +5,8 @@
 %define __find_provides %{_mingw32_findprovides}
 
 Name:           mingw32-curl
-Version:        7.18.2
-Release:        6%{?dist}
+Version:        7.19.4
+Release:        1%{?dist}
 Summary:        MinGW Windows port of curl and libcurl
 
 License:        MIT
@@ -21,8 +21,8 @@ BuildArch:      noarch
 Patch1:         curl-7.15.3-multilib.patch
 Patch2:         curl-7.16.0-privlibs.patch
 Patch3:         curl-7.17.1-badsocket.patch
-Patch4:         curl-7.18.2-nssproxy.patch
-Patch5:         curl-7.18.2-nss-thread-safety.patch
+Patch4:         curl-7.19.4-tool-leak.patch
+Patch5:         curl-7.19.4-enable-aes.patch
 
 # MinGW-specific patches.
 Patch1000:      mingw-curl-7.18.2-getaddrinfo.patch
@@ -62,14 +62,23 @@ resume.
 This is the MinGW cross-compiled Windows library.
 
 
+%package static
+Summary:        Static version of the MinGW Windows Curl library
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+Static version of the MinGW Windows Curl library.
+
+
 %prep
 %setup -q -n curl-%{version}
 
 %patch1 -p1 -b .multilib
 %patch2 -p1 -b .privlibs
 %patch3 -p1 -b .badsocket
-%patch4 -p1 -b .nssproxy
-%patch5 -p1 -b .nssthreadsafety
+%patch4 -p1 -b .toolleak
+%patch5 -p1 -b .enableaes
 
 %patch1000 -p1 -b .getaddrinfo
 
@@ -79,7 +88,7 @@ This is the MinGW cross-compiled Windows library.
   --with-ssl --enable-ipv6 \
   --with-ca-bundle=%{_mingw32_sysconfdir}/pki/tls/certs/ca-bundle.crt \
   --with-libidn \
-  --disable-static --with-libssh2 \
+  --enable-static --with-libssh2 \
   --without-random
 
 # It's not clear where to set the --with-ca-bundle path.  This is the
@@ -116,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc COPYING
 %{_mingw32_bindir}/curl-config
 %{_mingw32_bindir}/curl.exe
@@ -127,7 +136,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_includedir}/curl/
 
 
+%files static
+%defattr(-,root,root,-)
+%{_mingw32_libdir}/libcurl.a
+
 %changelog
+* Fri Apr  3 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 7.19.4-1
+- Update to version 7.19.4
+- Fixed %%defattr line
+- Added -static subpackage. Applications which want to use this
+  static library need to add -DCURL_STATICLIB to the CFLAGS
+- Merged the patches of the native .spec file (7.19.4-5)
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 7.18.2-6
 - Rebuild for mingw32-gcc 4.4
 

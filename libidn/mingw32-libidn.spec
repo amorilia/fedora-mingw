@@ -10,7 +10,7 @@
 
 Name:           mingw32-libidn
 Version:        1.9
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Internationalized Domain Name support library
 
 License:        LGPLv2+
@@ -41,6 +41,15 @@ Names (IDN) working group, used for internationalized domain
 names.
 
 
+%package static
+Summary:        Static version of the MinGW Windows IDN library
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+Static version of the MinGW Windows IDN library.
+
+
 %prep
 %setup -q -n libidn-%{version}
 #%patch0 -p1 -b .aconf262
@@ -48,7 +57,7 @@ names.
 
 
 %build
-%{_mingw32_configure} --disable-csharp --disable-static
+%{_mingw32_configure} --disable-csharp --enable-static --enable-shared
 make %{?_smp_mflags}
 
 
@@ -67,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc COPYING COPYING.LIB
 %{_mingw32_bindir}/idn.exe
 %{_mingw32_bindir}/libidn-11.dll
@@ -78,7 +87,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_datadir}/locale/*/LC_MESSAGES/libidn.mo
 
 
+%files static
+%defattr(-,root,root,-)
+%{_mingw32_libdir}/libidn.a
+
 %changelog
+* Fri Apr  3 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 1.9-5
+- Added -static subpackage
+- Fixed %%defattr line
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 1.9-4
 - Rebuild for mingw32-gcc 4.4
 

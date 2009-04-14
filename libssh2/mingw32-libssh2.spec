@@ -6,7 +6,7 @@
 
 Name:           mingw32-libssh2
 Version:        0.18
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows library implementing the SSH2 protocol
 
 License:        BSD
@@ -41,6 +41,15 @@ SECSH-CONNECTION(23), SECSH-ARCH(20), SECSH-FILEXFER(06)*,
 SECSH-DHGEX(04), and SECSH-NUMBERS(10).
 
 
+%package static
+Summary:        Static version of the MinGW Windows SSH2 library
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+Static version of the MinGW Windows SSH2 library.
+
+
 %prep
 %setup -q -n libssh2-%{version}
 
@@ -55,7 +64,7 @@ autoreconf
 
 
 %build
-%{_mingw32_configure} --disable-static --enable-shared
+%{_mingw32_configure} --enable-static --enable-shared
 make %{?_smp_mflags}
 
 
@@ -72,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc COPYING
 %{_mingw32_bindir}/libssh2-1.dll
 %{_mingw32_libdir}/libssh2.dll.a
@@ -82,7 +91,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mingw32_includedir}/libssh2_sftp.h
 
 
+%files static
+%defattr(-,root,root,-)
+%{_mingw32_libdir}/libssh2.a
+
 %changelog
+* Fri Apr  3 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 0.18-6
+- Added -static subpackage
+- Fixed %%defattr line
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 0.18-5
 - Rebuild for mingw32-gcc 4.4
 
