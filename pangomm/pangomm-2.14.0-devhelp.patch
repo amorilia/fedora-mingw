@@ -1,9 +1,0 @@
---- pangomm-2.14.0/docs/reference/pangomm-1.4.devhelp~	2008-08-02 12:02:10.000000000 +0200
-+++ pangomm-2.14.0/docs/reference/pangomm-1.4.devhelp	2008-10-12 11:54:51.000000000 +0200
-@@ -1,5 +1,5 @@
- <?xml version="1.0"?>
--<book xmlns:fo="http://www.w3.org/1999/XSL/Format" title="gtkmm 2.4 library Reference Manual" name="gtkmm 2.4" link="../../../doc/gtkmm-2.4/docs/reference/html/../../index.html">
-+<book xmlns:fo="http://www.w3.org/1999/XSL/Format" title="pangomm 1.4 library Reference Manual" name="pangomm 1.4" link="docs/reference/html/index.html">
-   <chapters>
-     <sub name="Classes" link="../../../doc/gtkmm-2.4/docs/reference/html/classes.html">
-       <sub name="Pango::Analysis" link="../../../doc/gtkmm-2.4/docs/reference/html/classPango_1_1Analysis.html">
