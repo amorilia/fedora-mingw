@@ -26,6 +26,7 @@ use File::Temp qw(tempfile);
 
 my @arches = ();
 my @distros = ();
+my $suffix = "";
 my $localrepo = $ENV{HOME} . "/public_html/smock/yum";
 my $dryrun = 0;
 my $keepgoing = 0;
@@ -36,6 +37,7 @@ my $man = 0;
 GetOptions (
     "arch=s" => \@arches,
     "distro=s" => \@distros,
+    "suffix=s" => \$suffix,
     "localrepo=s" => \$localrepo,
     "dryrun" => \$dryrun,
     "keepgoing" => \$keepgoing,
@@ -113,6 +115,11 @@ However, it is very useful.
 Don't run any commands, just print the packages in the correct
 format for chain building.  See:
 L<http://fedoraproject.org/wiki/Koji/UsingKoji#Chained_builds>
+
+=item B<--suffix>
+
+Append a suffix to the mock configuration file in order to use
+a custom one.
 
 =back
 
@@ -353,7 +360,7 @@ foreach my $arch (@arches) {
 		my $scratchdir = "$localrepo/scratch/$name-$distro-$arch";
 		mkdir $scratchdir;
 
-		if (system ("mock -r $distro-$arch --resultdir $scratchdir $srpm_filename") == 0) {
+		if (system ("mock -r $distro-$arch$suffix --resultdir $scratchdir $srpm_filename") == 0) {
 		    # Build was a success so move the final RPMs into the
 		    # mock repo for next time.
 		    system ("mv $scratchdir/*.src.rpm $localrepo/$distro/src/SRPMS") == 0 or die "mv";
@@ -366,7 +373,7 @@ foreach my $arch (@arches) {
 
 		}
 		else {
-		    push @errors, "$name-$distro-$arch";
+		    push @errors, "$name-$distro-$arch$suffix";
 		    print STDERR "Build failed, return code $?\nLeaving the logs in $scratchdir\n";
 		    exit 1 unless $keepgoing;
 		}
