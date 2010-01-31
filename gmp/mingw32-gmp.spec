@@ -9,8 +9,8 @@
 %define run_tests 0
 
 Name:           mingw32-gmp
-Version:        4.2.4
-Release:        2%{?dist}
+Version:        4.3.1
+Release:        1%{?dist}
 Summary:        Windows port of GNU arbitrary precision library
 
 License:        LGPLv3+
@@ -113,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 26 2009 Keiichi Takahashi <bitwalk@users.sourceforge.net> -   4.3.1-1
+- update 4.3.1
+
 * Fri Feb 20 2009 Richard W.M. Jones <rjones@redhat.com> - 4.2.4-2
 - Rebuild for mingw32-gcc 4.4
 
