@@ -1,0 +1,16 @@
+--- lib/ds/Makefile.in.orig	2009-10-09 23:53:03.034630801 +0100
++++ lib/ds/Makefile.in	2009-10-09 23:53:30.545755685 +0100
+@@ -121,10 +121,11 @@
+ endif
+ 
+ LIBRARY_NAME	= plds
+-IMPORT_LIBRARY  = libplds.dll.a
++IMPORT_LIBRARY  = libplds4.dll.a
++TARGETS        += libplds4.dll.a
+ OS_LIBS         = -ladvapi32 -lwsock32 -lwinmm
+ LIBRARY_VERSION	= $(MOD_MAJOR_VERSION)
+-libplds.dll.a: libplds.dll
++libplds4.dll.a: libplds4.dll
+ 
+ RELEASE_HEADERS = $(HEADERS)
+ RELEASE_HEADERS_DEST = $(RELEASE_INCLUDE_DIR)
