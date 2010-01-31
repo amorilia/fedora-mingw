@@ -7,7 +7,7 @@
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 Name:           mingw32-nspr
 Version:        4.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 URL:            http://www.mozilla.org/projects/nspr/
 Group:          System Environment/Libraries
@@ -25,10 +25,14 @@ Source2:        nspr-config-vars.in
 Patch1:         nspr-config-pc.patch
 Patch1000:      mingw32-nspr-4.7.2-build.patch
 Patch1001:      mingw32-nspr-4.7.2-extra-build.patch
+Patch1002:      nspr-configure-fedora-cross.patch
 
 BuildRequires:  mingw32-filesystem >= 33
 BuildRequires:  mingw32-gcc
+BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-binutils
+# XXX not sure if this is really required
+BuildRequires:  mingw32-dlfcn
 
 Requires:       pkgconfig
 
@@ -62,6 +66,7 @@ cp ./mozilla/nsprpub/config/nspr-config.in ./mozilla/nsprpub/config/nspr-config-
 pushd ./mozilla/nsprpub
 %patch1000 -p0
 %patch1001 -p0
+%patch1002 -p4
 popd
 
 cp %{SOURCE2} ./mozilla/nsprpub/config/
@@ -159,6 +164,9 @@ popd
 #%{_mingw32_libdir}/libplds4_s.a
 
 %changelog
+* Sun Jan 31 2010 Amorilia <amorilia@users.sourceforge.net> - 4.8-2
+- Another fix for build inside mock.
+
 * Fri Oct 9 2009 Amorilia <amorilia@users.sourceforge.net> - 4.8-1
 - Update to 4.8
 - Fix for libplds4.dll.a import library

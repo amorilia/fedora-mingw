@@ -1,0 +1,28 @@
+diff --git a/nspr-4.8/mozilla/nsprpub/configure b/nspr-4.8/mozilla/nsprpub/configure
+index 542542d..7512a24 100755
+--- a/nspr-4.8/mozilla/nsprpub/configure
++++ b/nspr-4.8/mozilla/nsprpub/configure
+@@ -2599,6 +2599,9 @@ else
+     CROSS_COMPILE=
+ fi
+ 
++# amorilia: this hack fixes the fedora build in mock (don't ask why)
++CROSS_COMPILE=
++
+ echo $ac_n "checking for gcc -pipe support""... $ac_c" 1>&6
+ echo "configure:2604: checking for gcc -pipe support" >&5
+ if test -n "$GNU_CC" && test -n "$GNU_CXX" && test -n "$GNU_AS"; then
+diff --git a/nspr-4.8/mozilla/nsprpub/configure.in b/nspr-4.8/mozilla/nsprpub/configure.in
+index 40310c0..0004251 100644
+--- a/nspr-4.8/mozilla/nsprpub/configure.in
++++ b/nspr-4.8/mozilla/nsprpub/configure.in
+@@ -525,6 +525,9 @@ else
+     CROSS_COMPILE=
+ fi
+ 
++# amorilia: this hack fixes the fedora build in mock (don't ask why)
++CROSS_COMPILE=
++
+ dnl ========================================================
+ dnl Check for gcc -pipe support
+ dnl ========================================================
