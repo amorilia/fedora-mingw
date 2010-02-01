@@ -26,6 +26,7 @@ Patch1:         nspr-config-pc.patch
 Patch1000:      mingw32-nspr-4.7.2-build.patch
 Patch1001:      mingw32-nspr-4.7.2-extra-build.patch
 Patch1002:      nspr-configure-fedora-cross.patch
+Patch1003:      mingw32-nspr-4.8.2-test.patch
 
 BuildRequires:  mingw32-filesystem >= 33
 BuildRequires:  mingw32-gcc
@@ -67,6 +68,7 @@ pushd ./mozilla/nsprpub
 %patch1000 -p0
 %patch1001 -p0
 %patch1002 -p4
+%patch1003 -p4
 popd
 
 cp %{SOURCE2} ./mozilla/nsprpub/config/
@@ -92,6 +94,11 @@ make \
   RANLIB=i686-pc-mingw32-ranlib \
   RC=i686-pc-mingw32-windres \
   %{?_smp_mflags}
+
+# build the test suite
+make -C pr/tests
+# XXX this doesn't really work yet
+#pr/tests/runtests.sh
 
 popd
 
@@ -166,6 +173,7 @@ popd
 %changelog
 * Mon Feb 1 2010 Amorilia <amorilia@users.sourceforge.net> - 4.8.2-1
 - Update to 4.8.2
+- Fix for building tests
 
 * Sun Jan 31 2010 Amorilia <amorilia@users.sourceforge.net> - 4.8-2
 - Another fix for build inside mock.

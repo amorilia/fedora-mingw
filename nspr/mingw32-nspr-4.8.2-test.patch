@@ -1,0 +1,26 @@
+diff --git a/nspr-4.8.2/mozilla/nsprpub/pr/tests/Makefile.in b/nspr-4.8.2/mozilla/nsprpub/pr/tests/Makefile.in
+index b27e9e5..12418e8 100644
+--- a/nspr-4.8.2/mozilla/nsprpub/pr/tests/Makefile.in
++++ b/nspr-4.8.2/mozilla/nsprpub/pr/tests/Makefile.in
+@@ -238,7 +238,7 @@ TARGETS = $(PROGS)
+ 
+ INCLUDES = -I$(dist_includedir) -I$(topsrcdir)/pr/include -I$(topsrcdir)/pr/include/private
+ 
+-ifeq ($(OS_ARCH), WINNT)
++ifeq ($(OS_TARGET), WINNT)
+ ifdef NS_USE_GCC
+   EXTRA_LIBS += -lwsock32
+ else
+diff --git a/nspr-4.8.2/mozilla/nsprpub/pr/tests/dll/Makefile.in b/nspr-4.8.2/mozilla/nsprpub/pr/tests/dll/Makefile.in
+index da2ae5a..3457493 100644
+--- a/nspr-4.8.2/mozilla/nsprpub/pr/tests/dll/Makefile.in
++++ b/nspr-4.8.2/mozilla/nsprpub/pr/tests/dll/Makefile.in
+@@ -73,7 +73,7 @@ RESNAME=../../../pr/src/nspr.rc
+ endif
+ endif
+ 
+-ifeq (,$(filter-out WINNT OS2,$(OS_ARCH)))
++ifeq (,$(filter-out WINNT OS2,$(OS_TARGET)))
+ IMPORT_LIBRARY	= $(OBJDIR)/my.$(LIB_SUFFIX)
+ SHARED_LIBRARY	= $(OBJDIR)/my.dll
+ ifeq ($(OS_ARCH), OS2)
