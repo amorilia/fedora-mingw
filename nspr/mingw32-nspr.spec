@@ -6,8 +6,8 @@
 
 Summary:        MinGW Windows port of the Netscape Portable Runtime (NSPR)
 Name:           mingw32-nspr
-Version:        4.8
-Release:        2%{?dist}
+Version:        4.8.2
+Release:        1%{?dist}
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 URL:            http://www.mozilla.org/projects/nspr/
 Group:          System Environment/Libraries
@@ -18,7 +18,7 @@ BuildArch:      noarch
 # Sources available at ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/
 # When CVS tag based snapshots are being used, refer to CVS documentation on
 # mozilla.org and check out subdirectory mozilla/nsprpub.
-Source0:        nspr-%{version}.tar.bz2
+Source0:        nspr-%{version}.tar.gz
 Source1:        nspr.pc.in
 Source2:        nspr-config-vars.in
 
@@ -164,6 +164,9 @@ popd
 #%{_mingw32_libdir}/libplds4_s.a
 
 %changelog
+* Mon Feb 1 2010 Amorilia <amorilia@users.sourceforge.net> - 4.8.2-1
+- Update to 4.8.2
+
 * Sun Jan 31 2010 Amorilia <amorilia@users.sourceforge.net> - 4.8-2
 - Another fix for build inside mock.
 
